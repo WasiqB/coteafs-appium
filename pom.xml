@@ -1,0 +1,124 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.github.wasiqb.coteafs</groupId>
+	<artifactId>appium</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>${project.groupId}:${project.artifactId}</name>
+	<url>https://github.com/WasiqB/coteafs-appium</url>
+
+	<organization>
+		<name>Wasiq Bhamla</name>
+		<url>https://github.com/WasiqB</url>
+	</organization>
+
+	<licenses>
+		<license>
+			<name>The Apache License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+
+	<developers>
+		<developer>
+			<name>Wasiq Bhamla</name>
+			<email>wasbhamla2005@gmail.com</email>
+			<roles>
+				<role>Admin</role>
+				<role>Developer</role>
+			</roles>
+			<organization>Wasiq Bhamla</organization>
+			<organizationUrl>https://github.com/WasiqB</organizationUrl>
+			<timezone>+5</timezone>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:git:https://github.com/wizonsoft/coteafs-appium.git</connection>
+		<developerConnection>scm:git:https://github.com/wizonsoft/coteafs-appium.git</developerConnection>
+		<url>https://github.com/wizonsoft/coteafs-appium.git</url>
+	</scm>
+
+	<ciManagement>
+		<system>travis</system>
+		<url>https://travis-ci.org/WasiqB/coteafs-appium</url>
+	</ciManagement>
+
+	<repositories>
+		<repository>
+			<id>jcenter</id>
+			<name>bintray</name>
+			<url>http://jcenter.bintray.com</url>
+		</repository>
+	</repositories>
+
+	<properties>
+		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.source.version>3.0.1</maven.source.version>
+		<maven.javadoc.version>2.10.4</maven.javadoc.version>
+		<maven.gpg.version>1.6</maven.gpg.version>
+		<surefire-version>2.19.1</surefire-version>
+		<version.version>2.3</version.version>
+		<testng.version>6.9.13.6</testng.version>
+		<log4j.version>2.6.2</log4j.version>
+		<truth.version>0.30</truth.version>
+		<yaml-version>1.16</yaml-version>
+		<selenium-version>3.0.1</selenium-version>
+		<appium-version>4.1.2</appium-version>
+		<commons.version>3.4</commons.version>
+		<nexus.version>1.6.7</nexus.version>
+		<jacoco.version>0.7.7.201606060606</jacoco.version>
+		<suite-xml>testng.xml</suite-xml>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.testng</groupId>
+			<artifactId>testng</artifactId>
+			<version>${testng.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>${commons.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.truth</groupId>
+			<artifactId>truth</artifactId>
+			<version>${truth.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+			<version>${selenium-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.appium</groupId>
+			<artifactId>java-client</artifactId>
+			<version>${appium-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>${yaml-version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+			<version>${selenium-version}</version>
+		</dependency>
+	</dependencies>
+
+</project>

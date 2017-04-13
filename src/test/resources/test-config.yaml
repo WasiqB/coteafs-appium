@@ -1,0 +1,28 @@
+server:
+  android:
+    ip: 127.0.0.1
+    port: 4723
+    start_up_time_out_seconds: 60
+    no_reset: true
+  ipad:
+    ip: 127.0.0.1
+    port: 4724
+    start_up_time_out_seconds: 60
+    no_reset: true
+
+device:
+  android:
+    device_type: ANDROID
+    device_name: Mi4
+    device_version: 6.0.1
+    app_type: HYBRID
+    app_location: /apps/android/nelnet_1_0_7_dev.apk
+    app_package: com.corfire.cwp.app
+    app_activity: com.corfire.cwp.app.activity.general.TaskActivity
+  ipad:
+    device_type: IOS
+    device_name: iPad Mini
+    device_version: 6.0.1
+    udid: xxxxx
+    app_type: HYBRID
+    app_location: /apps/ios/nelnet_1_0_7_dev.app
