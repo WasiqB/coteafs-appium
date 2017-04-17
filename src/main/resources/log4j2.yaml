@@ -1,0 +1,84 @@
+Configuration:
+  monitorInterval: 30
+  status: warn
+  name: Default
+
+  Properties:
+    Property:
+      name: log-path
+      value: "logs"
+    Property:
+      name: error-log
+      value: "test-log-error"
+    Property:
+      name: all-log
+      value: "test-log-all"
+    Property:
+      name: test-log
+      value: "test-log-main"
+    Property:
+      name: log-pattern
+      value: "[%d{HH:mm:ss.SSS}] [%-5level] - %msg (%logger{1}:%L) %throwable{short.message}%n"
+
+  Appenders:
+    Console:
+      name: console-log
+      target: SYSTEM_OUT
+      PatternLayout:
+        pattern: ${log-pattern}
+    RollingFile:
+    - name: all-log-appender
+      fileName: ${log-path}/${all-log}.log
+      filePattern: ${log-path}/${all-log}-%d{yyyy-MM-dd}.log
+      append: false
+      immediateFlush: true
+      PatternLayout:
+        pattern: ${log-pattern}
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+        SizeBasedTriggeringPolicy:
+          size: "50 MB"
+    - name: test-log-appender
+      fileName: ${log-path}/${test-log}.log
+      filePattern: ${log-path}/${test-log}-%d{yyyy-MM-dd}.log
+      append: false
+      immediateFlush: true
+      PatternLayout:
+        pattern: ${log-pattern}
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+        SizeBasedTriggeringPolicy:
+          size: "50 MB"
+    - name: error-log-appender
+      fileName: ${log-path}/${error-log}.log
+      filePattern: ${log-path}/${error-log}-%d{yyyy-MM-dd}.log
+      append: false
+      immediateFlush: true
+      PatternLayout:
+        pattern: ${log-pattern}
+      Policies:
+        TimeBasedTriggeringPolicy:
+          interval: 1
+          modulate: true
+        SizeBasedTriggeringPolicy:
+          size: "50 MB"
+    Async:
+      name: async
+      AppenderRef:
+        ref: test-log-appender
+  Loggers:
+    Root:
+      level: all
+      AppenderRef:
+      - ref: console-log
+        level: debug
+      - ref: async
+        level: info
+      - ref: all-log-appender
+        level: trace
+      - ref: error-log-appender
+        level: error

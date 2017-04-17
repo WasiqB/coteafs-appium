@@ -49,7 +49,7 @@ public final class AppiumServer {
 	 * @return url
 	 */
 	public URL getServiceUrl () {
-		AppiumServer.log.trace ("Fetching Appium Service URL...");
+		log.trace ("Fetching Appium Service URL...");
 		return this.service.getUrl ();
 	}
 
@@ -59,7 +59,7 @@ public final class AppiumServer {
 	 * @return isRunning
 	 */
 	public boolean isRunning () {
-		AppiumServer.log.trace ("Checking if Appium Service is running...");
+		log.trace ("Checking if Appium Service is running...");
 		return this.service.isRunning ();
 	}
 
@@ -68,10 +68,11 @@ public final class AppiumServer {
 	 * @since 12-Apr-2017 5:23:19 PM
 	 */
 	public void start () {
-		AppiumServer.log.trace ("Starting Appium Service...");
+		log.trace ("Starting Appium Service...");
 		this.service = AppiumDriverLocalService.buildService (this.builder);
+		this.service.addOutPutStream (System.err);
 		this.service.start ();
-		AppiumServer.log.trace ("Appium Service Started...");
+		log.trace ("Appium Service Started...");
 	}
 
 	/**
@@ -79,9 +80,9 @@ public final class AppiumServer {
 	 * @since 12-Apr-2017 5:23:39 PM
 	 */
 	public void stop () {
-		AppiumServer.log.trace ("Stopping Appium Service...");
+		log.trace ("Stopping Appium Service...");
 		this.service.stop ();
-		AppiumServer.log.trace ("Appium Service Stopped...");
+		log.trace ("Appium Service Stopped...");
 	}
 
 	/**
@@ -89,27 +90,27 @@ public final class AppiumServer {
 	 * @since 12-Apr-2017 9:29:17 PM
 	 */
 	private void buildCapabilities () {
-		AppiumServer.log.trace ("Building Appium Capabilities started...");
+		log.trace ("Building Appium Capabilities started...");
 		this.capabilites.setCapability ("noReset", Boolean.toString (this.setting.isNoReset ()));
-		AppiumServer.log.trace ("Building Appium Capabilities completed...");
+		log.trace ("Building Appium Capabilities completed...");
 	}
 
 	private void buildService () {
-		AppiumServer.log.trace ("Building Appium Service started...");
+		log.trace ("Building Appium Service started...");
 		this.builder.withIPAddress (this.setting.getIp ())
 			.usingPort (this.setting.getPort ())
 			.withCapabilities (this.capabilites)
 			.withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS)
 			.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
 			.withArgument (GeneralServerFlag.LOG_LEVEL, "error");
-		AppiumServer.log.debug (this.builder.toString ());
-		AppiumServer.log.trace ("Building Appium Service done...");
+		log.debug (this.builder.toString ());
+		log.trace ("Building Appium Service done...");
 	}
 
 	private void initService () {
-		AppiumServer.log.trace ("Initializing Appium Service started...");
+		log.trace ("Initializing Appium Service started...");
 		this.builder = new AppiumServiceBuilder ();
 		this.capabilites = new DesiredCapabilities ();
-		AppiumServer.log.trace ("Initializing Appium Service done...");
+		log.trace ("Initializing Appium Service done...");
 	}
 }

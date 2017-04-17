@@ -38,21 +38,29 @@ public class IosDevice extends Device {
 	 * @return iOS Device
 	 */
 	public IOSDriver <IOSElement> getIosDevice () {
-		if (this.driver == null) {
-			log.trace ("Preparing iOS device driver...");
-			this.driver = new IOSDriver <IOSElement> (this.server.getServiceUrl (), this.capabilities);
-		}
-		else {
-			log.trace ("Getting iOS device driver...");
-		}
+		log.trace ("Getting iOS device driver...");
 		return this.driver;
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 13-Apr-2017 5:37:34 PM
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.service.Device#start()
 	 */
-	public void quit () {
+	@Override
+	public void start () {
+		log.trace ("Starting iOS device driver...");
+		this.driver = new IOSDriver <IOSElement> (this.server.getServiceUrl (), this.capabilities);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.service.Device#stop()
+	 */
+	@Override
+	public void stop () {
+		log.trace ("Closign app on iOS device...");
+		this.driver.closeApp ();
+
 		log.trace ("Quitting iOS device driver...");
 		this.driver.quit ();
 	}

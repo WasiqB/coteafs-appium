@@ -9,6 +9,7 @@ public class DeviceSetting {
 	private String			appLocation;
 	private String			appPackage;
 	private ApplicationType	appType;
+	private String			appWaitActivity;
 	private String			deviceName;
 	private DeviceType		deviceType;
 	private String			deviceVersion;
@@ -48,6 +49,15 @@ public class DeviceSetting {
 	 */
 	public ApplicationType getAppType () {
 		return this.appType;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 17-Apr-2017 9:23:00 PM
+	 * @return the appWaitActivity
+	 */
+	public String getAppWaitActivity () {
+		return this.appWaitActivity;
 	}
 
 	/**
@@ -124,6 +134,16 @@ public class DeviceSetting {
 	 */
 	public void setAppType (final ApplicationType appType) {
 		this.appType = appType;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 17-Apr-2017 9:23:00 PM
+	 * @param appWaitActivity
+	 *            the appWaitActivity to set
+	 */
+	public void setAppWaitActivity (final String appWaitActivity) {
+		this.appWaitActivity = appWaitActivity;
 	}
 
 	/**

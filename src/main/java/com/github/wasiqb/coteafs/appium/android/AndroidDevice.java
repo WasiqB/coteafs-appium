@@ -38,22 +38,35 @@ public class AndroidDevice extends Device {
 	 * @return Android Device
 	 */
 	public AndroidDriver <AndroidElement> getAndroidDevice () {
-		if (this.driver == null) {
-			log.trace ("Preparing Android device driver...");
-			this.driver = new AndroidDriver <AndroidElement> (this.server.getServiceUrl (), this.capabilities);
-		}
-		else {
-			log.trace ("Getting Android device driver...");
-		}
+		log.trace ("Getting Android device driver...");
 		return this.driver;
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 13-Apr-2017 5:52:13 PM
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.service.Device#start()
 	 */
-	public void quit () {
-		log.trace ("Quitting Android device driver...");
-		this.driver.quit ();
+	@Override
+	public void start () {
+		log.trace ("Starting Android device driver...");
+		this.driver = new AndroidDriver <AndroidElement> (this.server.getServiceUrl (), this.capabilities);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.service.Device#stop()
+	 */
+	@Override
+	public void stop () {
+		if (this.driver != null) {
+			log.trace ("Closign app on Android device...");
+			this.driver.closeApp ();
+
+			log.trace ("Quitting Android device driver...");
+			this.driver.quit ();
+		}
+		else {
+			log.trace ("Android device driver already stopped...");
+		}
 	}
 }
