@@ -5,6 +5,7 @@ package com.github.wasiqb.coteafs.appium.config;
  * @since 12-Apr-2017 8:43:22 PM
  */
 public class ServerSetting {
+	private boolean	external;
 	private String	ip;
 	private boolean	noReset;
 	private int		port;
@@ -39,11 +40,30 @@ public class ServerSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 21-Apr-2017 5:06:22 PM
+	 * @return the external
+	 */
+	public boolean isExternal () {
+		return this.external;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:51:26 PM
 	 * @return the noReset
 	 */
 	public boolean isNoReset () {
 		return this.noReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 21-Apr-2017 5:06:22 PM
+	 * @param external
+	 *            the external to set
+	 */
+	public void setExternal (final boolean external) {
+		this.external = external;
 	}
 
 	/**

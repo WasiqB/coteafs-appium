@@ -5,15 +5,39 @@ package com.github.wasiqb.coteafs.appium.config;
  * @since 12-Apr-2017 8:34:28 PM
  */
 public class DeviceSetting {
+	private String			agentPath;
 	private String			appActivity;
 	private String			appLocation;
+	private String			appName;
 	private String			appPackage;
 	private ApplicationType	appType;
 	private String			appWaitActivity;
+	private AutomationName	automationName;
+	private String			bootstrapPath;
+	private String			bundleId;
 	private String			deviceName;
 	private DeviceType		deviceType;
 	private String			deviceVersion;
 	private String			udid;
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:21:26 PM
+	 */
+	public DeviceSetting () {
+		this.automationName = AutomationName.APPIUM;
+		this.deviceType = DeviceType.ANDROID;
+		this.appType = ApplicationType.NATIVE;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:15:54 PM
+	 * @return the agentPath
+	 */
+	public String getAgentPath () {
+		return this.agentPath;
+	}
 
 	/**
 	 * @author wasiq.bhamla
@@ -31,6 +55,15 @@ public class DeviceSetting {
 	 */
 	public String getAppLocation () {
 		return this.appLocation;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:29:30 PM
+	 * @return the appName
+	 */
+	public String getAppName () {
+		return this.appName;
 	}
 
 	/**
@@ -58,6 +91,33 @@ public class DeviceSetting {
 	 */
 	public String getAppWaitActivity () {
 		return this.appWaitActivity;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:15:54 PM
+	 * @return the automationName
+	 */
+	public AutomationName getAutomationName () {
+		return this.automationName;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:15:54 PM
+	 * @return the bootstrapPath
+	 */
+	public String getBootstrapPath () {
+		return this.bootstrapPath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:15:54 PM
+	 * @return the bundleId
+	 */
+	public String getBundleId () {
+		return this.bundleId;
 	}
 
 	/**
@@ -98,6 +158,16 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:15:54 PM
+	 * @param agentPath
+	 *            the agentPath to set
+	 */
+	public void setAgentPath (final String agentPath) {
+		this.agentPath = agentPath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:42:48 PM
 	 * @param appActivity
 	 *            the appActivity to set
@@ -114,6 +184,16 @@ public class DeviceSetting {
 	 */
 	public void setAppLocation (final String appLocation) {
 		this.appLocation = appLocation;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:29:30 PM
+	 * @param appName
+	 *            the appName to set
+	 */
+	public void setAppName (final String appName) {
+		this.appName = appName;
 	}
 
 	/**
@@ -144,6 +224,36 @@ public class DeviceSetting {
 	 */
 	public void setAppWaitActivity (final String appWaitActivity) {
 		this.appWaitActivity = appWaitActivity;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:15:54 PM
+	 * @param automationName
+	 *            the automationName to set
+	 */
+	public void setAutomationName (final AutomationName automationName) {
+		this.automationName = automationName;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:15:54 PM
+	 * @param bootstrapPath
+	 *            the bootstrapPath to set
+	 */
+	public void setBootstrapPath (final String bootstrapPath) {
+		this.bootstrapPath = bootstrapPath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 24-Apr-2017 9:15:54 PM
+	 * @param bundleId
+	 *            the bundleId to set
+	 */
+	public void setBundleId (final String bundleId) {
+		this.bundleId = bundleId;
 	}
 
 	/**

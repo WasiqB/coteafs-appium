@@ -64,6 +64,7 @@ public class AndroidDevice extends Device {
 
 			log.trace ("Quitting Android device driver...");
 			this.driver.quit ();
+			this.driver = null;
 		}
 		else {
 			log.trace ("Android device driver already stopped...");

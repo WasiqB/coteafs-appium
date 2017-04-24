@@ -1,10 +1,11 @@
 servers:
-  android:
+  default:
     ip: 127.0.0.1
     port: 4723
     start_up_time_out_seconds: 60
     no_reset: true
-  ipad:
+    external: true
+  other:
     ip: 127.0.0.1
     port: 4724
     start_up_time_out_seconds: 60
@@ -16,14 +17,20 @@ devices:
     device_name: Mi4
     device_version: 6.0.1
     app_type: HYBRID
-    app_location: src\test\resources\apps\android\nelnet_1_0_7_dev.apk
+    automation_name: Appium
+    app_location: src\test\resources\apps\android\nelnet_1_0_12_dev.apk
     app_package: com.corfire.cwp.app
     app_activity: com.corfire.cwp.app.activity.nelnet.MainActivity
     app_wait_activity: com.corfire.cwp.app.activity.nelnet.WalkthroughActivity
-  ipad:
+  iphone:
     device_type: IOS
-    device_name: iPad Mini
-    device_version: 6.0.1
-    udid: xxxxx
+    device_name: iPhone 6
+    device_version: 10.0.2
+    udid: 2b2619cad6db2e465828fbf3064addc1d8303ee2
+    bundle_id: com.talosdigital.NelnetClient
     app_type: HYBRID
-    app_location: /apps/ios/nelnet_1_0_7_dev.app
+    app_location: /Users/wasiq.bhamla/Downloads/Payload/Nelnet.app
+    automation_name: XCUITest
+    app_name: Campus Key
+    bootstrap_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent
+    agent_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent/WebDriverAgent.xcodeproj

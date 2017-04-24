@@ -58,10 +58,16 @@ public class IosDevice extends Device {
 	 */
 	@Override
 	public void stop () {
-		log.trace ("Closign app on iOS device...");
-		this.driver.closeApp ();
+		if (this.driver != null) {
+			log.trace ("Closign app on iOS device...");
+			this.driver.closeApp ();
 
-		log.trace ("Quitting iOS device driver...");
-		this.driver.quit ();
+			log.trace ("Quitting iOS device driver...");
+			this.driver.quit ();
+			this.driver = null;
+		}
+		else {
+			log.trace ("iOS device driver already stopped...");
+		}
 	}
 }

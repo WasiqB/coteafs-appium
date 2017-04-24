@@ -1,5 +1,7 @@
 package com.github.wasiqb.coteafs.appium.service;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -8,9 +10,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
 
-import io.appium.java_client.remote.AutomationName;
+import io.appium.java_client.remote.AndroidMobileCapabilityType;
+import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
-import io.appium.java_client.remote.MobilePlatform;
 
 /**
  * @author wasiq.bhamla
@@ -58,29 +60,41 @@ public abstract class Device {
 	 */
 	private void buildCapabilities () {
 		log.trace ("Building Device capabilities...");
+		Objects.requireNonNull (this.setting.getDeviceName ());
+		Objects.requireNonNull (this.setting.getDeviceType ());
+		Objects.requireNonNull (this.setting.getAppLocation ());
 		this.capabilities = new DesiredCapabilities ();
-		if (!StringUtils.isEmpty (this.setting.getDeviceName ())) {
-			this.capabilities.setCapability (MobileCapabilityType.DEVICE_NAME, this.setting.getDeviceName ());
-		}
-		this.capabilities.setCapability (MobileCapabilityType.PLATFORM_NAME, this.setting.getDeviceType ());
-		this.capabilities.setCapability (MobileCapabilityType.PLATFORM_VERSION, this.setting.getDeviceVersion ());
-		this.capabilities.setCapability (MobileCapabilityType.BROWSER_NAME, MobilePlatform.ANDROID);
+
+		setCapability (MobileCapabilityType.DEVICE_NAME, this.setting.getDeviceName ());
+		setCapability (MobileCapabilityType.PLATFORM_NAME, this.setting.getDeviceType ()
+			.name ());
+		setCapability (MobileCapabilityType.PLATFORM_VERSION, this.setting.getDeviceVersion ());
+		setCapability (MobileCapabilityType.BROWSER_NAME, this.setting.getDeviceType ()
+			.name ());
 
 		final StringBuilder path = new StringBuilder (System.getProperty ("user.dir"));
 		path.append (System.getProperty ("file.separator"))
 			.append (this.setting.getAppLocation ());
 
-		this.capabilities.setCapability (MobileCapabilityType.APP, path.toString ());
-		this.capabilities.setCapability (MobileCapabilityType.AUTOMATION_NAME, AutomationName.APPIUM);
-		if (!StringUtils.isEmpty (this.setting.getAppActivity ())) {
-			this.capabilities.setCapability ("appActivity", this.setting.getAppActivity ());
-		}
-		if (!StringUtils.isEmpty (this.setting.getAppPackage ())) {
-			this.capabilities.setCapability ("appPackage", this.setting.getAppPackage ());
-		}
-		if (!StringUtils.isEmpty (this.setting.getAppWaitActivity ())) {
-			this.capabilities.setCapability ("appWaitActivity", this.setting.getAppWaitActivity ());
-		}
+		setCapability (MobileCapabilityType.APP, path.toString ());
+		setCapability (MobileCapabilityType.AUTOMATION_NAME, this.setting.getAutomationName ()
+			.name ());
+		setCapability (AndroidMobileCapabilityType.APP_ACTIVITY, this.setting.getAppActivity ());
+		setCapability (AndroidMobileCapabilityType.APP_PACKAGE, this.setting.getAppPackage ());
+		setCapability (AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity ());
+
+		setCapability (IOSMobileCapabilityType.APP_NAME, this.setting.getAppName ());
+		setCapability (IOSMobileCapabilityType.BUNDLE_ID, this.setting.getBundleId ());
+		setCapability ("udid", this.setting.getUdid ());
+		setCapability ("bootstrapPath", this.setting.getBootstrapPath ());
+		setCapability ("agentPath", this.setting.getAgentPath ());
+
 		log.trace ("Building Device capabilities completed...");
+	}
+
+	private void setCapability (final String key, final String value) {
+		if (!StringUtils.isEmpty (value)) {
+			this.capabilities.setCapability (key, value);
+		}
 	}
 }

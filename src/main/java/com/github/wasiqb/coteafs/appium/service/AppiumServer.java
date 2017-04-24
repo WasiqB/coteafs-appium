@@ -1,5 +1,9 @@
 package com.github.wasiqb.coteafs.appium.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -38,9 +42,11 @@ public final class AppiumServer {
 	public AppiumServer (final String name) {
 		this.setting = ConfigLoader.settings ()
 			.getServer (name);
-		initService ();
-		buildCapabilities ();
-		buildService ();
+		if (!this.setting.isExternal ()) {
+			initService ();
+			buildCapabilities ();
+			buildService ();
+		}
 	}
 
 	/**
@@ -50,7 +56,17 @@ public final class AppiumServer {
 	 */
 	public URL getServiceUrl () {
 		log.trace ("Fetching Appium Service URL...");
-		return this.service.getUrl ();
+		if (!this.setting.isExternal ()) {
+			return this.service.getUrl ();
+		}
+		final String url = String.format ("http://%s:%d/wd/hub", this.setting.getIp (), this.setting.getPort ());
+		try {
+			return new URL (url);
+		}
+		catch (final MalformedURLException e) {
+			log.catching (e);
+		}
+		return null;
 	}
 
 	/**
@@ -59,8 +75,11 @@ public final class AppiumServer {
 	 * @return isRunning
 	 */
 	public boolean isRunning () {
-		log.trace ("Checking if Appium Service is running...");
-		return this.service.isRunning ();
+		if (!this.setting.isExternal ()) {
+			log.trace ("Checking if Appium Service is running...");
+			return this.service.isRunning ();
+		}
+		return true;
 	}
 
 	/**
@@ -69,10 +88,27 @@ public final class AppiumServer {
 	 */
 	public void start () {
 		log.trace ("Starting Appium Service...");
-		this.service = AppiumDriverLocalService.buildService (this.builder);
-		this.service.addOutPutStream (System.err);
-		this.service.start ();
-		log.trace ("Appium Service Started...");
+		if (!this.setting.isExternal ()) {
+			this.service = AppiumDriverLocalService.buildService (this.builder);
+			final File out = new File ("logs/server.log");
+			if (out.exists ()) {
+				log.trace ("Deleting previous log file...");
+				out.delete ();
+			}
+			try (FileOutputStream outStream = new FileOutputStream (out)) {
+				log.trace ("Creating new log file...");
+				out.createNewFile ();
+				this.service.addOutPutStream (outStream);
+			}
+			catch (final IOException e) {
+				log.catching (e);
+			}
+			this.service.start ();
+			log.trace ("Appium Service Started...");
+		}
+		else {
+			log.trace ("Appium Service is already running...");
+		}
 	}
 
 	/**
@@ -80,9 +116,15 @@ public final class AppiumServer {
 	 * @since 12-Apr-2017 5:23:39 PM
 	 */
 	public void stop () {
-		log.trace ("Stopping Appium Service...");
-		this.service.stop ();
-		log.trace ("Appium Service Stopped...");
+		if (!this.setting.isExternal ()) {
+			log.trace ("Stopping Appium Service...");
+			this.service.stop ();
+			this.service = null;
+			log.trace ("Appium Service Stopped...");
+		}
+		else {
+			log.trace ("Appium Service can only be stopped from the tool you started with...");
+		}
 	}
 
 	/**
