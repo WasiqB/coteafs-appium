@@ -33,6 +33,7 @@ public final class ConfigLoader {
 	 * @param path
 	 */
 	public static void load (final String path) {
+		log.trace ("Loading settings from Config file...");
 		if (settings == null) {
 			settings = loadSettings (path);
 		}
@@ -73,7 +74,7 @@ public final class ConfigLoader {
 			return (AppiumSetting) yaml.load (in);
 		}
 		catch (final IOException e) {
-			log.trace ("Appium Settings loading failed...");
+			log.error ("Appium Settings loading failed...");
 			log.catching (e);
 		}
 		log.trace ("Appium settings loaded successfully...");

@@ -17,7 +17,7 @@ devices:
     device_name: Mi4
     device_version: 6.0.1
     app_type: HYBRID
-    automation_name: Appium
+    automation_name: APPIUM
     app_location: src\test\resources\apps\android\nelnet_1_0_12_dev.apk
     app_package: com.corfire.cwp.app
     app_activity: com.corfire.cwp.app.activity.nelnet.MainActivity
@@ -30,7 +30,7 @@ devices:
     bundle_id: com.talosdigital.NelnetClient
     app_type: HYBRID
     app_location: /Users/wasiq.bhamla/Downloads/Payload/Nelnet.app
-    automation_name: XCUITest
+    automation_name: XCUI
     app_name: Campus Key
     bootstrap_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent
     agent_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent/WebDriverAgent.xcodeproj

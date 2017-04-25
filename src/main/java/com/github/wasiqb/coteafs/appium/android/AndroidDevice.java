@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import com.github.wasiqb.coteafs.appium.service.Device;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 
 /**
  * @author wasiq.bhamla
@@ -20,7 +20,7 @@ public class AndroidDevice extends Device {
 		log = LogManager.getLogger (AndroidDevice.class);
 	}
 
-	private AndroidDriver <AndroidElement> driver;
+	private AndroidDriver <MobileElement> driver;
 
 	/**
 	 * @author wasiq.bhamla
@@ -34,10 +34,10 @@ public class AndroidDevice extends Device {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 13-Apr-2017 3:33:10 PM
-	 * @return Android Device
+	 * @since 25-Apr-2017 4:44:19 PM
+	 * @return Android Driver
 	 */
-	public AndroidDriver <AndroidElement> getAndroidDevice () {
+	public AndroidDriver <MobileElement> getAndroidDriver () {
 		log.trace ("Getting Android device driver...");
 		return this.driver;
 	}
@@ -49,7 +49,7 @@ public class AndroidDevice extends Device {
 	@Override
 	public void start () {
 		log.trace ("Starting Android device driver...");
-		this.driver = new AndroidDriver <AndroidElement> (this.server.getServiceUrl (), this.capabilities);
+		this.driver = new AndroidDriver <MobileElement> (this.server.getServiceUrl (), this.capabilities);
 	}
 
 	/*

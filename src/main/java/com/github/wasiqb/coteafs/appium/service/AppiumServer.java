@@ -3,7 +3,10 @@ package com.github.wasiqb.coteafs.appium.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
+import java.net.Socket;
+import java.net.SocketAddress;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -79,6 +82,16 @@ public final class AppiumServer {
 			log.trace ("Checking if Appium Service is running...");
 			return this.service.isRunning ();
 		}
+		final SocketAddress addr = new InetSocketAddress (this.setting.getIp (), this.setting.getPort ());
+		try (Socket socket = new Socket ()) {
+			socket.connect (addr, 2000);
+			socket.close ();
+		}
+		catch (final IOException e) {
+			log.error ("The External server is not running...");
+			log.catching (e);
+			return false;
+		}
 		return true;
 	}
 
@@ -116,8 +129,8 @@ public final class AppiumServer {
 	 * @since 12-Apr-2017 5:23:39 PM
 	 */
 	public void stop () {
+		log.trace ("Trying to stop Appium Service...");
 		if (!this.setting.isExternal ()) {
-			log.trace ("Stopping Appium Service...");
 			this.service.stop ();
 			this.service = null;
 			log.trace ("Appium Service Stopped...");
@@ -145,7 +158,6 @@ public final class AppiumServer {
 			.withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS)
 			.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
 			.withArgument (GeneralServerFlag.LOG_LEVEL, "error");
-		log.debug (this.builder.toString ());
 		log.trace ("Building Appium Service done...");
 	}
 

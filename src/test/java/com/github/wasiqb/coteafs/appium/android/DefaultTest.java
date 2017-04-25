@@ -7,12 +7,13 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import com.github.wasiqb.coteafs.appium.android.controls.AndroidElement;
+import com.github.wasiqb.coteafs.appium.android.controls.FindBy;
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
 
 /**
  * @author wasiq.bhamla
@@ -21,7 +22,7 @@ import io.appium.java_client.android.AndroidElement;
 public class DefaultTest {
 	private AndroidDevice					androidDevice;
 	private AppiumServer					androidServer;
-	private AndroidDriver <AndroidElement>	driver;
+	private AndroidDriver <MobileElement>	driver;
 	private WebDriverWait					wait;
 
 	/**
@@ -46,7 +47,7 @@ public class DefaultTest {
 
 		this.androidDevice = new AndroidDevice (this.androidServer, "android");
 		this.androidDevice.start ();
-		this.driver = this.androidDevice.getAndroidDevice ();
+		this.driver = this.androidDevice.getAndroidDriver ();
 
 		this.wait = new WebDriverWait (this.driver, 60);
 	}
@@ -65,11 +66,36 @@ public class DefaultTest {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 25-Apr-2017 7:58:40 PM
+	 */
+	@Test
+	public void test0 () {
+		final AndroidElement walk = AndroidElement.create ("Container")
+			.using (FindBy.ID)
+			.withLocator ("com.corfire.cwp.app:id/pageContainer");
+		final AndroidElement frame = AndroidElement.create ("FrameLayout")
+			.using (FindBy.CLASS_NAME)
+			.withLocator ("android.widget.FrameLayout")
+			.parent (walk);
+		final AndroidElement linear = AndroidElement.create ("LinearLayout")
+			.using (FindBy.CLASS_NAME)
+			.withLocator ("android.widget.LinearLayout")
+			.index (2)
+			.parent (frame);
+		AndroidElement.create ("Next")
+			.using (FindBy.CLASS_NAME)
+			.withLocator ("android.widget.ImageView")
+			.parent (linear);
+		System.out.println (walk);
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 17-Apr-2017 8:09:21 PM
 	 */
 	@Test (description = "Click next")
 	public void test1 () {
-		final AndroidElement container = this.driver.findElement (By.id ("com.corfire.cwp.app:id/pageContainer"));
+		final MobileElement container = this.driver.findElement (By.id ("com.corfire.cwp.app:id/pageContainer"));
 		final MobileElement frame = container.findElement (By.className ("android.widget.FrameLayout"));
 		final MobileElement linear = frame.findElements (By.className ("android.widget.LinearLayout"))
 			.get (2);
@@ -83,7 +109,7 @@ public class DefaultTest {
 	 */
 	@Test (description = "Click on Skip")
 	public void test2 () {
-		final AndroidElement container = this.driver.findElement (By.id ("com.corfire.cwp.app:id/pageContainer"));
+		final MobileElement container = this.driver.findElement (By.id ("com.corfire.cwp.app:id/pageContainer"));
 		final MobileElement frame = container.findElement (By.className ("android.widget.FrameLayout"));
 		final MobileElement linear = frame.findElements (By.className ("android.widget.LinearLayout"))
 			.get (0);
@@ -100,7 +126,7 @@ public class DefaultTest {
 	public void test3 () {
 		this.wait.until (ExpectedConditions.visibilityOfElementLocated (By.id ("email-username")));
 
-		final AndroidElement webkit = this.driver.findElement (By.className ("android.webkit.WebView"));
+		final MobileElement webkit = this.driver.findElement (By.className ("android.webkit.WebView"));
 		final MobileElement loginView = webkit.findElements (By.className ("android.view.View"))
 			.get (0);
 
@@ -127,7 +153,7 @@ public class DefaultTest {
 	@Test
 	public void test4 () {
 		this.wait.until (ExpectedConditions.visibilityOfElementLocated (By.id ("com.corfire.cwp.app:id/frmActionBar")));
-		final AndroidElement studentId = this.driver.findElement (By.id ("com.corfire.cwp.app:id/btnStudentId"));
+		final MobileElement studentId = this.driver.findElement (By.id ("com.corfire.cwp.app:id/btnStudentId"));
 		studentId.tap (1, 100);
 	}
 }

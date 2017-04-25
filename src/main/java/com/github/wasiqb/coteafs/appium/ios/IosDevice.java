@@ -34,10 +34,10 @@ public class IosDevice extends Device {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 13-Apr-2017 3:34:29 PM
-	 * @return iOS Device
+	 * @since 25-Apr-2017 4:47:04 PM
+	 * @return iOS Driver
 	 */
-	public IOSDriver <IOSElement> getIosDevice () {
+	public IOSDriver <IOSElement> getIOSDriver () {
 		log.trace ("Getting iOS device driver...");
 		return this.driver;
 	}
