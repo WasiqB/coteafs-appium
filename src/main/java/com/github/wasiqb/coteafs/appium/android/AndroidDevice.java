@@ -3,8 +3,8 @@ package com.github.wasiqb.coteafs.appium.android;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
-import com.github.wasiqb.coteafs.appium.service.Device;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;

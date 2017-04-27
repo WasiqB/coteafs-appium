@@ -7,8 +7,10 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import com.github.wasiqb.coteafs.appium.android.controls.AndroidElement;
-import com.github.wasiqb.coteafs.appium.android.controls.FindBy;
+import com.github.wasiqb.coteafs.appium.android.activities.LoginActivity;
+import com.github.wasiqb.coteafs.appium.android.activities.PermissionActivity;
+import com.github.wasiqb.coteafs.appium.android.activities.WalkThruActivity2;
+import com.github.wasiqb.coteafs.appium.android.activities.WalkthruActivity1;
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
@@ -66,41 +68,14 @@ public class DefaultTest {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 25-Apr-2017 7:58:40 PM
-	 */
-	@Test
-	public void test0 () {
-		final AndroidElement walk = AndroidElement.create ("Container")
-			.using (FindBy.ID)
-			.withLocator ("com.corfire.cwp.app:id/pageContainer");
-		final AndroidElement frame = AndroidElement.create ("FrameLayout")
-			.using (FindBy.CLASS_NAME)
-			.withLocator ("android.widget.FrameLayout")
-			.parent (walk);
-		final AndroidElement linear = AndroidElement.create ("LinearLayout")
-			.using (FindBy.CLASS_NAME)
-			.withLocator ("android.widget.LinearLayout")
-			.index (2)
-			.parent (frame);
-		AndroidElement.create ("Next")
-			.using (FindBy.CLASS_NAME)
-			.withLocator ("android.widget.ImageView")
-			.parent (linear);
-		System.out.println (walk);
-	}
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since 17-Apr-2017 8:09:21 PM
 	 */
 	@Test (description = "Click next")
 	public void test1 () {
-		final MobileElement container = this.driver.findElement (By.id ("com.corfire.cwp.app:id/pageContainer"));
-		final MobileElement frame = container.findElement (By.className ("android.widget.FrameLayout"));
-		final MobileElement linear = frame.findElements (By.className ("android.widget.LinearLayout"))
-			.get (2);
-		final MobileElement next = linear.findElement (By.className ("android.widget.ImageView"));
-		next.tap (1, 100);
+		final WalkthruActivity1 walk = new WalkthruActivity1 (this.driver);
+		walk.build ();
+		walk.onElement ("Next")
+			.tap (100);
 	}
 
 	/**
@@ -109,13 +84,23 @@ public class DefaultTest {
 	 */
 	@Test (description = "Click on Skip")
 	public void test2 () {
-		final MobileElement container = this.driver.findElement (By.id ("com.corfire.cwp.app:id/pageContainer"));
-		final MobileElement frame = container.findElement (By.className ("android.widget.FrameLayout"));
-		final MobileElement linear = frame.findElements (By.className ("android.widget.LinearLayout"))
-			.get (0);
-		final MobileElement skip = linear.findElements (By.className ("android.widget.TextView"))
-			.get (2);
-		skip.tap (1, 100);
+		final WalkThruActivity2 walk = new WalkThruActivity2 (this.driver);
+		walk.build ();
+		walk.onElement ("Skip")
+			.tap (100);
+
+		try {
+			final PermissionActivity perm = new PermissionActivity (this.driver);
+			perm.build ();
+			final String msg = perm.onElement ("Message")
+				.text ();
+			System.out.println (msg);
+			perm.onElement ("Allow")
+				.tap (100);
+		}
+		catch (final Exception e) {
+			System.err.println (e);
+		}
 	}
 
 	/**
@@ -124,26 +109,16 @@ public class DefaultTest {
 	 */
 	@Test (description = "Login to App")
 	public void test3 () {
-		this.wait.until (ExpectedConditions.visibilityOfElementLocated (By.id ("email-username")));
-
-		final MobileElement webkit = this.driver.findElement (By.className ("android.webkit.WebView"));
-		final MobileElement loginView = webkit.findElements (By.className ("android.view.View"))
-			.get (0);
-
-		final MobileElement userId = loginView.findElement (By.id ("email-username"));
-		userId.tap (1, 100);
-		userId.clear ();
-		userId.sendKeys ("mozido4");
-
-		final MobileElement password = loginView.findElement (By.id ("password"));
-		password.tap (1, 100);
-		password.clear ();
-		password.sendKeys ("password1");
-
-		loginView.tap (1, 100);
-
-		final MobileElement signIn = loginView.findElement (By.id ("login-button"));
-		signIn.tap (1, 100);
+		final LoginActivity login = new LoginActivity (this.driver);
+		login.build ();
+		login.onElement ("userName")
+			.enterText ("mozido4");
+		login.onElement ("password")
+			.enterText ("password1");
+		login.onDevice ()
+			.hideKeyboard ();
+		login.onElement ("login")
+			.tap (100);
 	}
 
 	/**

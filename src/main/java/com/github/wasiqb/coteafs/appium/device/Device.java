@@ -1,4 +1,4 @@
-package com.github.wasiqb.coteafs.appium.service;
+package com.github.wasiqb.coteafs.appium.device;
 
 import java.util.Objects;
 
@@ -9,6 +9,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
+import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.IOSMobileCapabilityType;

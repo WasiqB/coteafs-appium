@@ -1,31 +1,32 @@
-package com.github.wasiqb.coteafs.appium.android.controls;
+package com.github.wasiqb.coteafs.appium.device;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.openqa.selenium.By;
 
 /**
  * @author wasiq.bhamla
  * @since 25-Apr-2017 7:29:23 PM
  */
-public class AndroidElement {
+public class DeviceElement {
 	/**
 	 * @author wasiq.bhamla
 	 * @since 25-Apr-2017 7:34:42 PM
 	 * @param name
 	 * @return instance
 	 */
-	public static AndroidElement create (final String name) {
-		return new AndroidElement (name);
+	public static DeviceElement create (final String name) {
+		return new DeviceElement (name);
 	}
 
-	private FindBy						by;
-	private final List <AndroidElement>	childs;
+	private By							by;
+	private final List <DeviceElement>	childs;
 	private int							index;
-	private String						locator;
 	private final String				name;
-	private AndroidElement				parent;
+	private DeviceElement				parent;
 
-	private AndroidElement (final String name) {
+	private DeviceElement (final String name) {
 		this.childs = new ArrayList <> ();
 		this.name = name;
 	}
@@ -35,7 +36,7 @@ public class AndroidElement {
 	 * @since 25-Apr-2017 7:49:17 PM
 	 * @return childs
 	 */
-	public List <AndroidElement> childs () {
+	public List <DeviceElement> childs () {
 		return this.childs;
 	}
 
@@ -54,7 +55,7 @@ public class AndroidElement {
 	 * @param location
 	 * @return instance
 	 */
-	public AndroidElement index (final int location) {
+	public DeviceElement index (final int location) {
 		this.index = location;
 		return this;
 	}
@@ -64,8 +65,8 @@ public class AndroidElement {
 	 * @since 25-Apr-2017 7:40:30 PM
 	 * @return locator
 	 */
-	public LocatorStrategy locator () {
-		return new LocatorStrategy (this.by, this.locator);
+	public By locator () {
+		return this.by;
 	}
 
 	/**
@@ -82,7 +83,7 @@ public class AndroidElement {
 	 * @since 25-Apr-2017 7:50:29 PM
 	 * @return parent
 	 */
-	public AndroidElement parent () {
+	public DeviceElement parent () {
 		return this.parent;
 	}
 
@@ -92,7 +93,7 @@ public class AndroidElement {
 	 * @param elementParent
 	 * @return instance
 	 */
-	public AndroidElement parent (final AndroidElement elementParent) {
+	public DeviceElement parent (final DeviceElement elementParent) {
 		if (this.parent == null) {
 			this.parent = elementParent;
 		}
@@ -110,11 +111,11 @@ public class AndroidElement {
 	@Override
 	public String toString () {
 		final String line1 = "Name: %s";
-		final String line2 = "By: %s, Locator: %s";
+		final String line2 = "By: %s";
 		final String line4 = "Index: %d";
 		final String line3 = "Childs: %s";
 		final StringBuilder sb = new StringBuilder (String.format (line1, this.name)).append ("\n");
-		sb.append (String.format (line2, this.by, this.locator))
+		sb.append (String.format (line2, this.by))
 			.append ("\n");
 		sb.append (String.format (line4, this.index))
 			.append ("\n");
@@ -129,19 +130,8 @@ public class AndroidElement {
 	 * @param findBy
 	 * @return instance
 	 */
-	public AndroidElement using (final FindBy findBy) {
+	public DeviceElement using (final By findBy) {
 		this.by = findBy;
-		return this;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 25-Apr-2017 7:39:32 PM
-	 * @param value
-	 * @return instance
-	 */
-	public AndroidElement withLocator (final String value) {
-		this.locator = value;
 		return this;
 	}
 
@@ -150,7 +140,7 @@ public class AndroidElement {
 	 * @since 25-Apr-2017 7:48:31 PM
 	 * @param androidElement
 	 */
-	private void addChild (final AndroidElement child) {
+	private void addChild (final DeviceElement child) {
 		this.childs.add (child);
 		if (child.parent () == null || !child.parent ()
 			.equals (this)) {
