@@ -33,17 +33,7 @@ public class DefaultTest {
 	 */
 	@BeforeSuite (alwaysRun = true)
 	public void setupTestSuite () {
-		final StringBuilder path = new StringBuilder (System.getProperty ("user.dir"));
-		path.append (System.getProperty ("file.separator"))
-			.append ("src")
-			.append (System.getProperty ("file.separator"))
-			.append ("test")
-			.append (System.getProperty ("file.separator"))
-			.append ("resources")
-			.append (System.getProperty ("file.separator"))
-			.append (System.getProperty ("coteafs.appium.config", "test-config.yaml"));
-
-		ConfigLoader.load (path.toString ());
+		ConfigLoader.load (System.getProperty ("coteafs.appium.config", "test-config.yaml"));
 		this.androidServer = new AppiumServer ("default");
 		this.androidServer.start ();
 

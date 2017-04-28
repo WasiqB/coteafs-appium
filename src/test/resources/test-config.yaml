@@ -25,8 +25,20 @@ devices:
   iphone:
     device_type: IOS
     device_name: iPhone 6
-    device_version: 10.0.2
+    device_version: 10.3.1
     udid: 2b2619cad6db2e465828fbf3064addc1d8303ee2
+    bundle_id: com.talosdigital.NelnetClient
+    app_type: HYBRID
+    app_location: /Users/wasiq.bhamla/Downloads/Payload/Nelnet.app
+    automation_name: XCUI
+    app_name: Campus Key
+    bootstrap_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent
+    agent_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent/WebDriverAgent.xcodeproj
+  iphone_simulator:
+    device_type: IOS
+    device_name: iPhone 6
+    device_version: 10.3.1
+    udid: 7F601BB1-C1DE-49F5-A3C5-32849082E664
     bundle_id: com.talosdigital.NelnetClient
     app_type: HYBRID
     app_location: /Users/wasiq.bhamla/Downloads/Payload/Nelnet.app

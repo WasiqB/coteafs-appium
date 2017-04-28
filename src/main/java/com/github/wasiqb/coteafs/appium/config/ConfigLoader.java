@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -70,7 +71,9 @@ public final class ConfigLoader {
 		};
 		ctor.setPropertyUtils (propertyUtils);
 		final Yaml yaml = new Yaml (ctor);
-		try (final InputStream in = new FileInputStream (new File (path))) {
+		final URL url = ConfigLoader.class.getClassLoader ()
+			.getResource (path);
+		try (final InputStream in = new FileInputStream (new File (url.getPath ()))) {
 			return (AppiumSetting) yaml.load (in);
 		}
 		catch (final IOException e) {

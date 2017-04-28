@@ -18,6 +18,7 @@ import io.appium.java_client.MobileElement;
  */
 public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElement>> {
 	protected final TDriver						driver;
+	private boolean								activityLoaded;
 	private final Map <String, MobileElement>	elements;
 	private final WebDriverWait					wait;
 
@@ -30,6 +31,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		this.driver = driver;
 		this.elements = new HashMap <> ();
 		this.wait = new WebDriverWait (driver, 60);
+		this.activityLoaded = false;
 	}
 
 	/**
@@ -40,30 +42,11 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 26-Apr-2017 4:34:30 PM
-	 * @param rootElement
-	 * @return activity is loaded.
+	 * @since Apr 27, 2017 5:12:51 PM
+	 * @return the activityLoaded
 	 */
-	public boolean loadElements (final DeviceElement rootElement) {
-		try {
-			this.wait.until (ExpectedConditions.visibilityOfElementLocated (rootElement.locator ()));
-			MobileElement element = null;
-			if (rootElement.parent () == null) {
-				element = find (this.driver, rootElement.locator (), rootElement.index ());
-			}
-			else {
-				element = find (rootElement.parent (), rootElement.locator (), rootElement.index ());
-			}
-			this.elements.put (rootElement.name (), element);
-			final List <DeviceElement> childs = rootElement.childs ();
-			for (final DeviceElement child : childs) {
-				loadElements (child);
-			}
-			return true;
-		}
-		catch (final Exception e) {
-			return false;
-		}
+	public boolean isActivityLoaded () {
+		return this.activityLoaded;
 	}
 
 	/**
@@ -83,6 +66,33 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 */
 	public DeviceElementActions <TDriver> onElement (final String name) {
 		return new DeviceElementActions <TDriver> (this.driver, name, getElement (name));
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 26-Apr-2017 4:34:30 PM
+	 * @param rootElement
+	 */
+	protected void loadElements (final DeviceElement rootElement) {
+		try {
+			this.wait.until (ExpectedConditions.visibilityOfElementLocated (rootElement.locator ()));
+			MobileElement element = null;
+			if (rootElement.parent () == null) {
+				element = find (this.driver, rootElement.locator (), rootElement.index ());
+			}
+			else {
+				element = find (rootElement.parent (), rootElement.locator (), rootElement.index ());
+			}
+			this.elements.put (rootElement.name (), element);
+			final List <DeviceElement> childs = rootElement.childs ();
+			for (final DeviceElement child : childs) {
+				loadElements (child);
+			}
+			this.activityLoaded = true;
+		}
+		catch (final Exception e) {
+			this.activityLoaded = false;
+		}
 	}
 
 	private MobileElement find (final DeviceElement deviceElement, final By locator, final int index) {
