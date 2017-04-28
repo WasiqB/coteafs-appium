@@ -6,8 +6,8 @@ import org.apache.logging.log4j.Logger;
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
-import io.appium.java_client.ios.IOSElement;
 
 /**
  * @author wasiq.bhamla
@@ -20,7 +20,7 @@ public class IosDevice extends Device {
 		log = LogManager.getLogger (IosDevice.class);
 	}
 
-	private IOSDriver <IOSElement> driver;
+	private IOSDriver <MobileElement> driver;
 
 	/**
 	 * @author wasiq.bhamla
@@ -37,7 +37,7 @@ public class IosDevice extends Device {
 	 * @since 25-Apr-2017 4:47:04 PM
 	 * @return iOS Driver
 	 */
-	public IOSDriver <IOSElement> getIOSDriver () {
+	public IOSDriver <MobileElement> getIOSDriver () {
 		log.trace ("Getting iOS device driver...");
 		return this.driver;
 	}
@@ -49,7 +49,7 @@ public class IosDevice extends Device {
 	@Override
 	public void start () {
 		log.trace ("Starting iOS device driver...");
-		this.driver = new IOSDriver <IOSElement> (this.server.getServiceUrl (), this.capabilities);
+		this.driver = new IOSDriver <MobileElement> (this.server.getServiceUrl (), this.capabilities);
 	}
 
 	/*

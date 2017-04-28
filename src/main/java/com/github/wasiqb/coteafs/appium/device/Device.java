@@ -68,10 +68,10 @@ public abstract class Device {
 
 		setCapability (MobileCapabilityType.DEVICE_NAME, this.setting.getDeviceName ());
 		setCapability (MobileCapabilityType.PLATFORM_NAME, this.setting.getDeviceType ()
-			.name ());
+			.getName ());
 		setCapability (MobileCapabilityType.PLATFORM_VERSION, this.setting.getDeviceVersion ());
 		setCapability (MobileCapabilityType.BROWSER_NAME, this.setting.getDeviceType ()
-			.name ());
+			.getName ());
 
 		final StringBuilder path = new StringBuilder (System.getProperty ("user.dir"));
 		path.append (System.getProperty ("file.separator"))
@@ -79,7 +79,7 @@ public abstract class Device {
 
 		setCapability (MobileCapabilityType.APP, path.toString ());
 		setCapability (MobileCapabilityType.AUTOMATION_NAME, this.setting.getAutomationName ()
-			.name ());
+			.getName ());
 		setCapability (AndroidMobileCapabilityType.APP_ACTIVITY, this.setting.getAppActivity ());
 		setCapability (AndroidMobileCapabilityType.APP_PACKAGE, this.setting.getAppPackage ());
 		setCapability (AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity ());
