@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import io.appium.java_client.AppiumDriver;
@@ -75,7 +74,8 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 */
 	protected void loadElements (final DeviceElement rootElement) {
 		try {
-			this.wait.until (ExpectedConditions.visibilityOfElementLocated (rootElement.locator ()));
+			this.wait.until (d -> d.findElement (rootElement.locator ())
+				.isDisplayed ());
 			MobileElement element = null;
 			if (rootElement.parent () == null) {
 				element = find (this.driver, rootElement.locator (), rootElement.index ());

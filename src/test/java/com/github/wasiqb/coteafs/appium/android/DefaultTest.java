@@ -1,7 +1,6 @@
 package com.github.wasiqb.coteafs.appium.android;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -117,7 +116,8 @@ public class DefaultTest {
 	 */
 	@Test
 	public void test4 () {
-		this.wait.until (ExpectedConditions.visibilityOfElementLocated (By.id ("com.corfire.cwp.app:id/frmActionBar")));
+		this.wait.until (d -> d.findElement (By.id ("com.corfire.cwp.app:id/frmActionBar"))
+			.isDisplayed ());
 		final MobileElement studentId = this.driver.findElement (By.id ("com.corfire.cwp.app:id/btnStudentId"));
 		studentId.tap (1, 100);
 	}
