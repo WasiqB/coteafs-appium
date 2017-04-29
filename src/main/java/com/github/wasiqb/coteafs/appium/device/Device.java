@@ -1,5 +1,6 @@
 package com.github.wasiqb.coteafs.appium.device;
 
+import java.net.URL;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -73,11 +74,10 @@ public abstract class Device {
 		setCapability (MobileCapabilityType.BROWSER_NAME, this.setting.getDeviceType ()
 			.getName ());
 
-		final StringBuilder path = new StringBuilder (System.getProperty ("user.dir"));
-		path.append (System.getProperty ("file.separator"))
-			.append (this.setting.getAppLocation ());
+		final URL url = Device.class.getClassLoader ()
+			.getResource (this.setting.getAppLocation ());
 
-		setCapability (MobileCapabilityType.APP, path.toString ());
+		setCapability (MobileCapabilityType.APP, url.getPath ());
 		setCapability (MobileCapabilityType.AUTOMATION_NAME, this.setting.getAutomationName ()
 			.getName ());
 		setCapability (AndroidMobileCapabilityType.APP_ACTIVITY, this.setting.getAppActivity ());
