@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration monitorInterval="30" status="warn">
+	<Properties>
+		<Property name="log-path">logs</Property>
+		<Property name="error-log">test-log-error</Property>
+		<Property name="all-log">test-log-all</Property>
+		<Property name="test-log">test-log-main</Property>
+		<Property name="log-pattern">[%d{HH:mm:ss.SSS}] [%-5level] - %msg (%logger{1}:%L) %throwable{short.message}%n</Property>
+	</Properties>
+	<Appenders>
+		<Console name="console-log" target="SYSTEM_OUT">
+			<PatternLayout
+				pattern="${log-pattern}" />
+		</Console>
+		<RollingFile name="all-log-appender" fileName="${log-path}/${all-log}.log"
+			filePattern="${log-path}/${all-log}-%d{yyyy-MM-dd}.log" append="false"
+			immediateFlush="true">
+			<PatternLayout>
+				<pattern>${log-pattern}</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+		</RollingFile>
+		<RollingFile name="test-log-appender" fileName="${log-path}/${test-log}.log"
+			filePattern="${log-path}/${test-log}-%d{yyyy-MM-dd}.log" append="false"
+			immediateFlush="true">
+			<PatternLayout>
+				<pattern>${log-pattern}</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+		</RollingFile>
+		<RollingFile name="error-log-appender" fileName="${log-path}/${error-log}.log"
+			filePattern="${log-path}/${error-log}-%d{yyyy-MM-dd}.log" append="false"
+			immediateFlush="true">
+			<PatternLayout>
+				<pattern>${log-pattern}</pattern>
+			</PatternLayout>
+			<Policies>
+				<TimeBasedTriggeringPolicy interval="1"
+					modulate="true" />
+				<SizeBasedTriggeringPolicy size="50 MB" />
+			</Policies>
+		</RollingFile>
+		<Async name="async">
+			<AppenderRef ref="test-log-appender" />
+		</Async>
+	</Appenders>
+	<Loggers>
+		<root level="all">
+			<appender-ref ref="console-log" level="debug"/>
+			<appender-ref ref="async" level="info" />
+			<appender-ref ref="all-log-appender" level="trace" />
+			<appender-ref ref="error-log-appender" level="error" />
+		</root>
+	</Loggers>
+</Configuration>
