@@ -64,7 +64,7 @@
 		<testng.version>6.11</testng.version>
 		<log4j.version>2.6.2</log4j.version>
 		<truth.version>0.30</truth.version>
-		<yaml-version>1.16</yaml-version>
+		<yaml-version>1.17</yaml-version>
 		<selenium-version>3.0.1</selenium-version>
 		<appium-version>4.1.2</appium-version>
 		<commons.version>3.4</commons.version>
