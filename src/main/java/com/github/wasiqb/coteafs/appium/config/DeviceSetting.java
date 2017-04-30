@@ -18,6 +18,7 @@ public class DeviceSetting {
 	private String			deviceName;
 	private DeviceType		deviceType;
 	private String			deviceVersion;
+	private boolean			externalApp;
 	private String			udid;
 
 	/**
@@ -158,6 +159,15 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 30-Apr-2017 8:00:43 PM
+	 * @return the externalApp
+	 */
+	public boolean isExternalApp () {
+		return this.externalApp;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @param agentPath
 	 *            the agentPath to set
@@ -284,6 +294,16 @@ public class DeviceSetting {
 	 */
 	public void setDeviceVersion (final String deviceVersion) {
 		this.deviceVersion = deviceVersion;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 30-Apr-2017 8:00:43 PM
+	 * @param externalApp
+	 *            the externalApp to set
+	 */
+	public void setExternalApp (final boolean externalApp) {
+		this.externalApp = externalApp;
 	}
 
 	/**
