@@ -3,10 +3,8 @@ package com.github.wasiqb.coteafs.appium.android.activities;
 import org.openqa.selenium.By;
 
 import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
+import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
 
 /**
  * @author wasiq.bhamla
@@ -16,10 +14,10 @@ public class WalkThruActivity2 extends AndroidActivity {
 	/**
 	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:19:07 PM
-	 * @param driver
+	 * @param device
 	 */
-	public WalkThruActivity2 (final AndroidDriver <MobileElement> driver) {
-		super (driver);
+	public WalkThruActivity2 (final AndroidDevice device) {
+		super (device);
 	}
 
 	/*
@@ -27,7 +25,7 @@ public class WalkThruActivity2 extends AndroidActivity {
 	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#build()
 	 */
 	@Override
-	public void build () {
+	public void load () {
 		final DeviceElement walk2 = DeviceElement.create ("Container")
 			.using (By.id ("com.corfire.cwp.app:id/pageContainer"));
 		final DeviceElement frame = DeviceElement.create ("FrameLayout")

@@ -1,7 +1,5 @@
 package com.github.wasiqb.coteafs.appium.service;
 
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -67,6 +65,7 @@ public final class AppiumServer {
 			return new URL (url);
 		}
 		catch (final MalformedURLException e) {
+			log.error ("Error occurred while getting service url...");
 			log.catching (e);
 		}
 		return null;
@@ -103,19 +102,6 @@ public final class AppiumServer {
 		log.trace ("Starting Appium Service...");
 		if (!this.setting.isExternal ()) {
 			this.service = AppiumDriverLocalService.buildService (this.builder);
-			final File out = new File ("logs/server.log");
-			if (out.exists ()) {
-				log.trace ("Deleting previous log file...");
-				out.delete ();
-			}
-			try (FileOutputStream outStream = new FileOutputStream (out)) {
-				log.trace ("Creating new log file...");
-				out.createNewFile ();
-				this.service.addOutPutStream (outStream);
-			}
-			catch (final IOException e) {
-				log.catching (e);
-			}
 			this.service.start ();
 			log.trace ("Appium Service Started...");
 		}

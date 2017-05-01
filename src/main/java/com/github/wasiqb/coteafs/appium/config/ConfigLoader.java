@@ -56,7 +56,8 @@ public final class ConfigLoader {
 	 * @return
 	 */
 	private static AppiumSetting loadSettings (final String path) {
-		log.trace ("Started Loading Appium Settings from location [" + path + "]...");
+		final String msg = "Started Loading Appium Settings from location [%s]...";
+		log.trace (String.format (msg, path));
 		final Constructor ctor = new Constructor (AppiumSetting.class);
 		final PropertyUtils propertyUtils = new PropertyUtils () {
 			@Override

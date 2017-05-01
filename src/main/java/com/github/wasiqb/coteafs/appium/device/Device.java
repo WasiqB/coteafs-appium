@@ -1,25 +1,36 @@
 package com.github.wasiqb.coteafs.appium.device;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+import java.net.URL;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
+import com.google.common.reflect.TypeToken;
 
+import io.appium.java_client.AppiumDriver;
+import io.appium.java_client.MobileElement;
 import io.appium.java_client.remote.AndroidMobileCapabilityType;
 import io.appium.java_client.remote.IOSMobileCapabilityType;
 import io.appium.java_client.remote.MobileCapabilityType;
 
 /**
  * @author wasiq.bhamla
+ * @param <TDriver>
  * @since 12-Apr-2017 9:38:38 PM
  */
-public abstract class Device {
+public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	private static final Logger log;
 
 	static {
@@ -27,8 +38,10 @@ public abstract class Device {
 	}
 
 	protected DesiredCapabilities	capabilities;
-	protected AppiumServer			server;
-	protected DeviceSetting			setting;
+	protected TDriver				driver;
+	protected final AppiumServer	server;
+	protected final DeviceSetting	setting;
+	private TypeToken <TDriver>		token;
 
 	/**
 	 * @author wasiq.bhamla
@@ -40,26 +53,70 @@ public abstract class Device {
 		this.server = server;
 		this.setting = ConfigLoader.settings ()
 			.getDevice (name);
-		buildCapabilities ();
+		try {
+			buildCapabilities ();
+		}
+		catch (final FileNotFoundException e) {
+			log.error ("Error occurred while building capabilities...");
+			log.catching (e);
+		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 01-May-2017 7:08:10 PM
+	 * @return driver
+	 */
+	public TDriver getDriver () {
+		final String platform = this.setting.getDeviceType ()
+			.getName ();
+		final String msg = "Getting %s device driver...";
+		log.trace (String.format (msg, platform));
+		return this.driver;
 	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since 17-Apr-2017 4:46:12 PM
 	 */
-	public abstract void start ();
+	public void start () {
+		final String platform = this.setting.getDeviceType ()
+			.getName ();
+		final String msg = "Starting %s device driver...";
+		log.trace (String.format (msg, platform));
+		this.driver = init (this.server.getServiceUrl (), this.capabilities);
+	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since 17-Apr-2017 4:46:02 PM
 	 */
-	public abstract void stop ();
+	public void stop () {
+		String msg = null;
+		final String platform = this.setting.getDeviceType ()
+			.getName ();
+		if (this.driver != null) {
+			msg = "Closign app on %s device...";
+			log.trace (String.format (msg, platform));
+			this.driver.closeApp ();
+
+			msg = "Quitting %s device driver...";
+			log.trace (String.format (msg, platform));
+			this.driver.quit ();
+			this.driver = null;
+		}
+		else {
+			msg = "%s device driver already stopped...";
+			log.trace (String.format (msg, platform));
+		}
+	}
 
 	/**
 	 * @author wasiq.bhamla
+	 * @throws FileNotFoundException
 	 * @since 13-Apr-2017 3:38:32 PM
 	 */
-	private void buildCapabilities () {
+	private void buildCapabilities () throws FileNotFoundException {
 		log.trace ("Building Device capabilities...");
 		Objects.requireNonNull (this.setting.getDeviceName ());
 		Objects.requireNonNull (this.setting.getDeviceType ());
@@ -79,6 +136,13 @@ public abstract class Device {
 			path = this.setting.getAppLocation ();
 		}
 
+		final File file = new File (path);
+		if (!file.exists ()) {
+			final String msg = "App not found on mentioned location [%s]...";
+			log.error (String.format (msg, path));
+			throw new FileNotFoundException (String.format (msg, path));
+		}
+
 		setCapability (MobileCapabilityType.APP, path);
 		setCapability (MobileCapabilityType.AUTOMATION_NAME, this.setting.getAutomationName ()
 			.getName ());
@@ -95,8 +159,32 @@ public abstract class Device {
 		log.trace ("Building Device capabilities completed...");
 	}
 
+	@SuppressWarnings ("unchecked")
+	private <E> TDriver init (final E... args) {
+		log.trace ("Initializing driver...");
+		this.token = new TypeToken <TDriver> (getClass ()) {
+			private static final long serialVersionUID = 1562415938665085306L;
+		};
+		final Class <TDriver> cls = (Class <TDriver>) this.token.getRawType ();
+		final Class <?> [] argTypes = new Class <?> [] { URL.class, Capabilities.class };
+		try {
+			final Constructor <TDriver> ctor = cls.getDeclaredConstructor (argTypes);
+			if (ctor == null) {
+				throw new InvalidArgumentException ("Constructor not found.");
+			}
+			return ctor.newInstance (args);
+		}
+		catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException e) {
+			log.catching (e);
+		}
+		return null;
+	}
+
 	private void setCapability (final String key, final String value) {
 		if (!StringUtils.isEmpty (value)) {
+			final String msg = "Setting capability [key: %s, value: %s]...";
+			log.trace (String.format (msg, key, value));
 			this.capabilities.setCapability (key, value);
 		}
 	}

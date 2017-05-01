@@ -1,7 +1,5 @@
 package com.github.wasiqb.coteafs.appium.android;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
@@ -13,18 +11,13 @@ import com.github.wasiqb.coteafs.appium.android.activities.WalkthruActivity1;
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
-import io.appium.java_client.MobileElement;
-import io.appium.java_client.android.AndroidDriver;
-
 /**
  * @author wasiq.bhamla
  * @since 13-Apr-2017 10:09:49 PM
  */
 public class DefaultTest {
-	private AndroidDevice					androidDevice;
-	private AppiumServer					androidServer;
-	private AndroidDriver <MobileElement>	driver;
-	private WebDriverWait					wait;
+	private AndroidDevice	androidDevice;
+	private AppiumServer	androidServer;
 
 	/**
 	 * @author wasiq.bhamla
@@ -38,9 +31,6 @@ public class DefaultTest {
 
 		this.androidDevice = new AndroidDevice (this.androidServer, "android");
 		this.androidDevice.start ();
-		this.driver = this.androidDevice.getAndroidDriver ();
-
-		this.wait = new WebDriverWait (this.driver, 60);
 	}
 
 	/**
@@ -61,8 +51,8 @@ public class DefaultTest {
 	 */
 	@Test (description = "Click next")
 	public void test1 () {
-		final WalkthruActivity1 walk = new WalkthruActivity1 (this.driver);
-		walk.build ();
+		final WalkthruActivity1 walk = new WalkthruActivity1 (this.androidDevice);
+		walk.load ();
 		walk.onElement ("Next")
 			.tap (100);
 	}
@@ -73,14 +63,14 @@ public class DefaultTest {
 	 */
 	@Test (description = "Click on Skip")
 	public void test2 () {
-		final WalkThruActivity2 walk = new WalkThruActivity2 (this.driver);
-		walk.build ();
+		final WalkThruActivity2 walk = new WalkThruActivity2 (this.androidDevice);
+		walk.load ();
 		walk.onElement ("Skip")
 			.tap (100);
 
 		try {
-			final PermissionActivity perm = new PermissionActivity (this.driver);
-			perm.build ();
+			final PermissionActivity perm = new PermissionActivity (this.androidDevice);
+			perm.load ();
 			final String msg = perm.onElement ("Message")
 				.text ();
 			System.out.println (msg);
@@ -98,8 +88,8 @@ public class DefaultTest {
 	 */
 	@Test (description = "Login to App")
 	public void test3 () {
-		final LoginActivity login = new LoginActivity (this.driver);
-		login.build ();
+		final LoginActivity login = new LoginActivity (this.androidDevice);
+		login.load ();
 		login.onElement ("userName")
 			.enterText ("mozido4");
 		login.onElement ("password")
@@ -108,17 +98,5 @@ public class DefaultTest {
 			.hideKeyboard ();
 		login.onElement ("login")
 			.tap (100);
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 20-Apr-2017 11:15:28 PM
-	 */
-	@Test
-	public void test4 () {
-		this.wait.until (d -> d.findElement (By.id ("com.corfire.cwp.app:id/frmActionBar"))
-			.isDisplayed ());
-		final MobileElement studentId = this.driver.findElement (By.id ("com.corfire.cwp.app:id/btnStudentId"));
-		studentId.tap (1, 100);
 	}
 }
