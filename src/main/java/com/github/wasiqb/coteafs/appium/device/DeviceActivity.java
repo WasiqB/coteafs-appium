@@ -87,6 +87,12 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 */
 	public abstract DeviceElement prepare ();
 
+	protected MobileElement getElement (final String name) {
+		final String msg = "Getting element with name %s...";
+		log.trace (String.format (msg, name));
+		return this.elements.get (name);
+	}
+
 	/**
 	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 4:34:30 PM
@@ -131,11 +137,5 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		log.trace (String.format (msg, locator, index));
 		final List <MobileElement> result = deviceDriver.findElements (locator);
 		return result.get (index);
-	}
-
-	private MobileElement getElement (final String name) {
-		final String msg = "Getting element with name %s...";
-		log.trace (String.format (msg, name));
-		return this.elements.get (name);
 	}
 }

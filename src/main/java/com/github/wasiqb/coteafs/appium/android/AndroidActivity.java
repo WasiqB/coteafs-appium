@@ -49,4 +49,15 @@ public abstract class AndroidActivity extends DeviceActivity <AndroidDriver <Mob
 		log.info ("Preparing to perform actions on Android device...");
 		return new AndroidDeviceActions (this.device.getDriver ());
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#onElement(java.lang.String)
+	 */
+	@Override
+	public AndroidDeviceElementActions onElement (final String name) {
+		final String msg = "Preparing to perform actions on Android device element %s...";
+		log.info (String.format (msg, name));
+		return new AndroidDeviceElementActions (this.device.getDriver (), name, getElement (name));
+	}
 }
