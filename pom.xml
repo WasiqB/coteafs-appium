@@ -72,6 +72,7 @@
 		<jacoco.version>0.7.7.201606060606</jacoco.version>
 		<suite-xml>testng.xml</suite-xml>
 		<jackson.version>2.8.8</jackson.version>
+		<guava.version>21.0</guava.version>
 	</properties>
 
 	<dependencies>
@@ -83,6 +84,10 @@
 				<exclusion>
 					<groupId>org.yaml</groupId>
 					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.google.guava</groupId>
+					<artifactId>guava</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
@@ -105,6 +110,12 @@
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-yaml</artifactId>
 			<version>${jackson.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
@@ -130,7 +141,7 @@
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
-			<version>21.0</version>
+			<version>${guava.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>io.appium</groupId>
@@ -151,7 +162,7 @@
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-server</artifactId>
-			<version>3.4.0</version>
+			<version>${selenium-version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.yaml</groupId>
