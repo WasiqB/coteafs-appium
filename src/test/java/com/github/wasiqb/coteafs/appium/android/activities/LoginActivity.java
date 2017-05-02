@@ -22,10 +22,10 @@ public class LoginActivity extends AndroidActivity {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#build()
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
 	 */
 	@Override
-	public void load () {
+	public DeviceElement prepare () {
 		final DeviceElement webkit = DeviceElement.create ("WebView")
 			.using (By.className ("android.webkit.WebView"));
 		DeviceElement.create ("userName")
@@ -37,6 +37,6 @@ public class LoginActivity extends AndroidActivity {
 		DeviceElement.create ("login")
 			.using (By.id ("login-button"))
 			.parent (webkit);
-		loadElements (webkit);
+		return webkit;
 	}
 }

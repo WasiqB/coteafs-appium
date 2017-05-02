@@ -30,6 +30,16 @@ public abstract class IOSActivity extends DeviceActivity <IOSDriver <MobileEleme
 
 	/*
 	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#load()
+	 */
+	@Override
+	public void load () {
+		log.info ("Loading elements on current activity...");
+		loadElements (prepare ());
+	}
+
+	/*
+	 * (non-Javadoc)
 	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#onDevice()
 	 */
 	@Override

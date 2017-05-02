@@ -22,10 +22,10 @@ public class PermissionActivity extends AndroidActivity {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#build()
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
 	 */
 	@Override
-	public void load () {
+	public DeviceElement prepare () {
 		final DeviceElement container = DeviceElement.create ("Permission Window")
 			.using (By.id ("com.android.packageinstaller:id/dialog_container"));
 		DeviceElement.create ("Message")
@@ -37,6 +37,6 @@ public class PermissionActivity extends AndroidActivity {
 		DeviceElement.create ("Deny")
 			.parent (container)
 			.using (By.id ("com.android.packageinstaller:id/permission_deny_button"));
-		loadElements (container);
+		return container;
 	}
 }

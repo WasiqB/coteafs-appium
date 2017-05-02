@@ -82,6 +82,13 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 
 	/**
 	 * @author wasiq.bhamla
+	 * @return element
+	 * @since 02-May-2017 4:38:00 PM
+	 */
+	public abstract DeviceElement prepare ();
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 4:34:30 PM
 	 * @param rootElement
 	 */

@@ -22,10 +22,10 @@ public class WalkThruActivity2 extends AndroidActivity {
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#build()
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
 	 */
 	@Override
-	public void load () {
+	public DeviceElement prepare () {
 		final DeviceElement walk2 = DeviceElement.create ("Container")
 			.using (By.id ("com.corfire.cwp.app:id/pageContainer"));
 		final DeviceElement frame = DeviceElement.create ("FrameLayout")
@@ -38,6 +38,6 @@ public class WalkThruActivity2 extends AndroidActivity {
 			.using (By.className ("android.widget.TextView"))
 			.index (2)
 			.parent (linear);
-		loadElements (walk2);
+		return walk2;
 	}
 }
