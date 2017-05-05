@@ -58,7 +58,9 @@ public final class ConfigLoader {
 	 * @return
 	 */
 	private static AppiumSetting loadSettings (final String path) {
-		final File file = new File (path);
+		final URL url = ConfigLoader.class.getClassLoader ()
+			.getResource (path);
+		final File file = new File (url.getPath ());
 		if (!file.exists ()) {
 			final String msg = "%s not found.";
 			throw new AppiumConfigFileNotFoundException (String.format (msg, path));
@@ -79,10 +81,8 @@ public final class ConfigLoader {
 		};
 		ctor.setPropertyUtils (propertyUtils);
 		final Yaml yaml = new Yaml (ctor);
-		final URL url = ConfigLoader.class.getClassLoader ()
-			.getResource (path);
 		AppiumSetting result = null;
-		try (final InputStream in = new FileInputStream (new File (url.getPath ()))) {
+		try (final InputStream in = new FileInputStream (file)) {
 			result = (AppiumSetting) yaml.load (in);
 		}
 		catch (final IOException e) {
