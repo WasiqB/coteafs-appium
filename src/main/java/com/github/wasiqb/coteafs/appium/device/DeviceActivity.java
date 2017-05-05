@@ -29,7 +29,8 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	}
 
 	protected final TDevice						device;
-	private boolean								activityLoaded;
+	private final boolean						activityLoaded;
+	private final Map <String, DeviceElement>	deviceElements;
 	private final Map <String, MobileElement>	elements;
 	private final WebDriverWait					wait;
 
@@ -41,6 +42,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	public DeviceActivity (final TDevice device) {
 		this.device = device;
 		this.elements = new HashMap <> ();
+		this.deviceElements = new HashMap <> ();
 		this.wait = new WebDriverWait (device.getDriver (), 60);
 		this.activityLoaded = false;
 	}
@@ -95,6 +97,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	protected MobileElement getElement (final String name) {
 		final String msg = "Getting element with name %s...";
 		log.trace (String.format (msg, name));
+		findElements (this.deviceElements.get (name));
 		return this.elements.get (name);
 	}
 
@@ -105,22 +108,13 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 */
 	protected void loadElements (final DeviceElement rootElement) {
 		DeviceChecker.checkServerRunning (this.device.server);
-		this.wait.until (d -> d.findElement (rootElement.locator ())
-			.isDisplayed ());
-		MobileElement element = null;
-		if (rootElement.parent () == null) {
-			log.trace ("Loading elements...");
-			element = find (this.device.getDriver (), rootElement.locator (), rootElement.index ());
+		if (!this.deviceElements.containsKey (rootElement.name ())) {
+			this.deviceElements.put (rootElement.name (), rootElement);
 		}
-		else {
-			element = find (rootElement.parent (), rootElement.locator (), rootElement.index ());
-		}
-		this.elements.put (rootElement.name (), element);
 		final List <DeviceElement> childs = rootElement.childs ();
 		for (final DeviceElement child : childs) {
 			loadElements (child);
 		}
-		this.activityLoaded = true;
 	}
 
 	private MobileElement find (final DeviceElement deviceElement, final By locator, final int index) {
@@ -147,6 +141,28 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		catch (final Exception e) {
 			msg = "Error occured while finding device element with locator [%s].";
 			throw new DeviceElementNotFoundException (String.format (msg, locator), e);
+		}
+	}
+
+	private void findElements (final DeviceElement rootElement) {
+		if (!this.elements.containsKey (rootElement.name ())) {
+			final By locator = rootElement.locator ();
+			final int index = rootElement.index ();
+			this.wait.until (d -> d.findElement (locator)
+				.isDisplayed ());
+			MobileElement element = null;
+			if (rootElement.parent () == null) {
+				log.trace ("Finding elements...");
+				element = find (this.device.getDriver (), locator, index);
+			}
+			else {
+				element = find (rootElement.parent (), locator, index);
+			}
+			this.elements.put (rootElement.name (), element);
+			final List <DeviceElement> childs = rootElement.childs ();
+			for (final DeviceElement child : childs) {
+				findElements (child);
+			}
 		}
 	}
 }
