@@ -16,6 +16,9 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
+import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotClosingException;
+import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStartingException;
+import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStoppingException;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import com.google.common.reflect.TypeToken;
 
@@ -84,7 +87,12 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 			.getName ();
 		final String msg = "Starting %s device driver...";
 		log.trace (String.format (msg, platform));
-		this.driver = init (this.server.getServiceUrl (), this.capabilities);
+		try {
+			this.driver = init (this.server.getServiceUrl (), this.capabilities);
+		}
+		catch (final Exception e) {
+			throw new DeviceDriverNotStartingException ("Error occured starting device driver", e);
+		}
 	}
 
 	/**
@@ -98,11 +106,21 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		if (this.driver != null) {
 			msg = "Closign app on %s device...";
 			log.trace (String.format (msg, platform));
-			this.driver.closeApp ();
+			try {
+				this.driver.closeApp ();
+			}
+			catch (final Exception e) {
+				throw new DeviceAppNotClosingException ("Error occured while closing app.", e);
+			}
 
 			msg = "Quitting %s device driver...";
 			log.trace (String.format (msg, platform));
-			this.driver.quit ();
+			try {
+				this.driver.quit ();
+			}
+			catch (final Exception e) {
+				throw new DeviceDriverNotStoppingException ("Error occured while stopping device driver.", e);
+			}
 			this.driver = null;
 		}
 		else {
@@ -160,7 +178,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	}
 
 	@SuppressWarnings ("unchecked")
-	private <E> TDriver init (final E... args) {
+	private <E> TDriver init (final E... args) throws Exception {
 		log.trace ("Initializing driver...");
 		this.token = new TypeToken <TDriver> (getClass ()) {
 			private static final long serialVersionUID = 1562415938665085306L;
@@ -177,8 +195,8 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
 			log.catching (e);
+			throw e;
 		}
-		return null;
 	}
 
 	private void setCapability (final String key, final String value) {

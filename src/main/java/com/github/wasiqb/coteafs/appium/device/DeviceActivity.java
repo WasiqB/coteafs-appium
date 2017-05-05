@@ -9,6 +9,9 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
+import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotFoundException;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 
@@ -64,6 +67,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @return device actions
 	 */
 	public DeviceActions <TDriver> onDevice () {
+		DeviceChecker.checkServerRunning (this.device.server);
 		log.info ("Preparing to perform actions on device...");
 		return new DeviceActions <TDriver> (this.device.getDriver ());
 	}
@@ -75,6 +79,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @return element actions
 	 */
 	public DeviceElementActions <TDriver> onElement (final String name) {
+		DeviceChecker.checkServerRunning (this.device.server);
 		final String msg = "Preparing to perform actions on device element %s...";
 		log.info (String.format (msg, name));
 		return new DeviceElementActions <TDriver> (this.device.getDriver (), name, getElement (name));
@@ -99,43 +104,49 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @param rootElement
 	 */
 	protected void loadElements (final DeviceElement rootElement) {
-		try {
-			this.wait.until (d -> d.findElement (rootElement.locator ())
-				.isDisplayed ());
-			MobileElement element = null;
-			if (rootElement.parent () == null) {
-				log.trace ("Loading elements...");
-				element = find (this.device.getDriver (), rootElement.locator (), rootElement.index ());
-			}
-			else {
-				element = find (rootElement.parent (), rootElement.locator (), rootElement.index ());
-			}
-			this.elements.put (rootElement.name (), element);
-			final List <DeviceElement> childs = rootElement.childs ();
-			for (final DeviceElement child : childs) {
-				loadElements (child);
-			}
-			this.activityLoaded = true;
+		DeviceChecker.checkServerRunning (this.device.server);
+		this.wait.until (d -> d.findElement (rootElement.locator ())
+			.isDisplayed ());
+		MobileElement element = null;
+		if (rootElement.parent () == null) {
+			log.trace ("Loading elements...");
+			element = find (this.device.getDriver (), rootElement.locator (), rootElement.index ());
 		}
-		catch (final Exception e) {
-			log.error ("Error occurred while loading elements...");
-			log.catching (e);
-			this.activityLoaded = false;
+		else {
+			element = find (rootElement.parent (), rootElement.locator (), rootElement.index ());
 		}
+		this.elements.put (rootElement.name (), element);
+		final List <DeviceElement> childs = rootElement.childs ();
+		for (final DeviceElement child : childs) {
+			loadElements (child);
+		}
+		this.activityLoaded = true;
 	}
 
 	private MobileElement find (final DeviceElement deviceElement, final By locator, final int index) {
-		final String msg = "Finding element using %s at index %d...";
+		String msg = "Finding element using %s at index %d...";
 		log.trace (String.format (msg, locator, index));
 		final MobileElement mobileElement = getElement (deviceElement.name ());
-		final List <MobileElement> result = mobileElement.findElements (locator);
-		return result.get (index);
+		try {
+			final List <MobileElement> result = mobileElement.findElements (locator);
+			return result.get (index);
+		}
+		catch (final Exception e) {
+			msg = "Error occured while finding device element %s with locator [%s].";
+			throw new DeviceElementNotFoundException (String.format (msg, deviceElement.name (), locator), e);
+		}
 	}
 
 	private MobileElement find (final TDriver deviceDriver, final By locator, final int index) {
-		final String msg = "Finding element using %s at index %d...";
+		String msg = "Finding element using %s at index %d...";
 		log.trace (String.format (msg, locator, index));
-		final List <MobileElement> result = deviceDriver.findElements (locator);
-		return result.get (index);
+		try {
+			final List <MobileElement> result = deviceDriver.findElements (locator);
+			return result.get (index);
+		}
+		catch (final Exception e) {
+			msg = "Error occured while finding device element with locator [%s].";
+			throw new DeviceElementNotFoundException (String.format (msg, locator), e);
+		}
 	}
 }

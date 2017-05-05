@@ -14,8 +14,13 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerAlreadyRunningException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotRunningException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStartingException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStoppingException;
 
 import io.appium.java_client.service.local.AppiumDriverLocalService;
+import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
 
@@ -87,9 +92,7 @@ public final class AppiumServer {
 			socket.close ();
 		}
 		catch (final IOException e) {
-			log.error ("The External server is not running...");
-			log.catching (e);
-			return false;
+			throw new AppiumServerNotRunningException ("Error connecting to Server...", e);
 		}
 		return true;
 	}
@@ -102,7 +105,15 @@ public final class AppiumServer {
 		log.trace ("Starting Appium Service...");
 		if (!this.setting.isExternal ()) {
 			this.service = AppiumDriverLocalService.buildService (this.builder);
-			this.service.start ();
+			try {
+				this.service.start ();
+			}
+			catch (final AppiumServerHasNotBeenStartedLocallyException e) {
+				throw new AppiumServerNotStartingException ("Error occured while starting Appium server", e);
+			}
+			catch (final Exception e) {
+				throw new AppiumServerAlreadyRunningException ("Appium server is running already.", e);
+			}
 			log.trace ("Appium Service Started...");
 		}
 		else {
@@ -117,7 +128,12 @@ public final class AppiumServer {
 	public void stop () {
 		log.trace ("Trying to stop Appium Service...");
 		if (!this.setting.isExternal ()) {
-			this.service.stop ();
+			try {
+				this.service.stop ();
+			}
+			catch (final Exception e) {
+				throw new AppiumServerNotStoppingException ("Error occured while stopping the server.", e);
+			}
 			this.service = null;
 			log.trace ("Appium Service Stopped...");
 		}

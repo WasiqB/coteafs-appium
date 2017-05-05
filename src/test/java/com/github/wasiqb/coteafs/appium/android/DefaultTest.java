@@ -91,9 +91,9 @@ public class DefaultTest {
 		final LoginActivity login = new LoginActivity (this.androidDevice);
 		login.load ();
 		login.onElement ("userName")
-			.enterText ("mozido4");
+			.enterText ("user_id_1");
 		login.onElement ("password")
-			.enterText ("password1");
+			.enterText ("password_1");
 		login.onDevice ()
 			.hideKeyboard ();
 		login.onElement ("login")

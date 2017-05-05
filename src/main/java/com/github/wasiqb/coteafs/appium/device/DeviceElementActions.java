@@ -3,6 +3,8 @@ package com.github.wasiqb.coteafs.appium.device;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
+
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.SwipeElementDirection;
@@ -37,6 +39,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 		this.name = name;
 		this.element = element;
 		this.touch = new TouchAction (this.driver);
+		DeviceChecker.checkDeviceElementDisplayed (element, name);
 	}
 
 	/**
@@ -44,6 +47,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 	 * @since 26-Apr-2017 8:49:52 PM
 	 */
 	public void clear () {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Clearing element %s...", this.name));
 		this.element.clear ();
 	}
@@ -64,6 +68,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 	 * @param text
 	 */
 	public void enterText (final String text) {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		clear ();
 		log.info (String.format ("Entering text [%s] in element %s...", text, this.name));
 		this.element.sendKeys (text);
@@ -74,6 +79,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 	 * @since 26-Apr-2017 8:54:58 PM
 	 */
 	public void longPress () {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Performing long press on element %s...", this.name));
 		this.touch.longPress (this.element)
 			.perform ();
@@ -85,6 +91,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 	 * @param duration
 	 */
 	public void longPress (final int duration) {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Performing long press on element %s till %d ms...", this.name, duration));
 		this.touch.longPress (this.element, duration)
 			.perform ();
@@ -95,6 +102,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 	 * @since 26-Apr-2017 8:49:08 PM
 	 */
 	public void pinch () {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Pinching on element %s...", this.name));
 		this.element.pinch ();
 	}
@@ -115,6 +123,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 	 * @param direction
 	 */
 	public void swipe (final SwipeElementDirection direction) {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Swiping to %s on element %s...", direction, this.name));
 		this.element.swipe (direction, 100);
 	}
@@ -125,6 +134,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 	 * @param delay
 	 */
 	public void tap (final int delay) {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Tapping on element %s till %d ms...", this.name, delay));
 		this.element.tap (1, delay);
 	}
@@ -154,6 +164,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 	 * @since 26-Apr-2017 8:48:10 PM
 	 */
 	public void zoom () {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Zooming on element %s...", this.name));
 		this.element.zoom ();
 	}

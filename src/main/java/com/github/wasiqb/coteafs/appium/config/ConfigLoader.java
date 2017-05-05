@@ -14,6 +14,8 @@ import org.yaml.snakeyaml.constructor.Constructor;
 import org.yaml.snakeyaml.introspector.Property;
 import org.yaml.snakeyaml.introspector.PropertyUtils;
 
+import com.github.wasiqb.coteafs.appium.exception.AppiumConfigFileNotFoundException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumConfigNotLoadedException;
 import com.google.common.base.CaseFormat;
 
 /**
@@ -56,6 +58,11 @@ public final class ConfigLoader {
 	 * @return
 	 */
 	private static AppiumSetting loadSettings (final String path) {
+		final File file = new File (path);
+		if (!file.exists ()) {
+			final String msg = "%s not found.";
+			throw new AppiumConfigFileNotFoundException (String.format (msg, path));
+		}
 		final String msg = "Started Loading Appium Settings from location [%s]...";
 		log.trace (String.format (msg, path));
 		final Constructor ctor = new Constructor (AppiumSetting.class);
@@ -74,14 +81,14 @@ public final class ConfigLoader {
 		final Yaml yaml = new Yaml (ctor);
 		final URL url = ConfigLoader.class.getClassLoader ()
 			.getResource (path);
+		AppiumSetting result = null;
 		try (final InputStream in = new FileInputStream (new File (url.getPath ()))) {
-			return (AppiumSetting) yaml.load (in);
+			result = (AppiumSetting) yaml.load (in);
 		}
 		catch (final IOException e) {
-			log.error ("Appium Settings loading failed...");
-			log.catching (e);
+			throw new AppiumConfigNotLoadedException ("Error loading config file.", e);
 		}
 		log.trace ("Appium settings loaded successfully...");
-		return null;
+		return result;
 	}
 }
