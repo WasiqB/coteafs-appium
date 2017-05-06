@@ -119,6 +119,16 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 06-May-2017 4:56:42 PM
+	 */
+	public void submit () {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		log.info (String.format ("Performing submit on element %s...", this.name));
+		this.element.submit ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:47:41 PM
 	 * @param direction
 	 */
