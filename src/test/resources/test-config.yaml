@@ -11,6 +11,10 @@ servers:
     start_up_time_out_seconds: 60
     no_reset: true
 
+user_interactions:
+  default_wait: 60
+  wait_for_element_until: 60
+
 devices:
   android:
     device_type: ANDROID

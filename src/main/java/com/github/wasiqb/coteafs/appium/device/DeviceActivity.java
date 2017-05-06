@@ -7,9 +7,11 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
+import com.github.wasiqb.coteafs.appium.exception.DeviceElementFindTimedOutException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotFoundException;
 
 import io.appium.java_client.AppiumDriver;
@@ -43,7 +45,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		this.device = device;
 		this.elements = new HashMap <> ();
 		this.deviceElements = new HashMap <> ();
-		this.wait = new WebDriverWait (device.getDriver (), 60);
+		this.wait = new WebDriverWait (device.getDriver (), device.userInteractions.getWaitForElementUntil ());
 		this.activityLoaded = false;
 	}
 
@@ -148,8 +150,14 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		if (!this.elements.containsKey (rootElement.name ())) {
 			final By locator = rootElement.locator ();
 			final int index = rootElement.index ();
-			this.wait.until (d -> d.findElement (locator)
-				.isDisplayed ());
+			try {
+				this.wait.until (d -> d.findElement (locator)
+					.isDisplayed ());
+			}
+			catch (final TimeoutException e) {
+				final String msg = "[%s] locator timed out.";
+				throw new DeviceElementFindTimedOutException (String.format (msg, locator), e);
+			}
 			MobileElement element = null;
 			if (rootElement.parent () == null) {
 				log.trace ("Finding elements...");

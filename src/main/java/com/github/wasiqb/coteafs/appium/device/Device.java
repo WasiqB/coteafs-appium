@@ -1,22 +1,25 @@
 package com.github.wasiqb.coteafs.appium.device;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.InvalidArgumentException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.UserInteractionSetting;
 import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotClosingException;
+import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotFoundException;
+import com.github.wasiqb.coteafs.appium.exception.DeviceDriverDefaultWaitException;
+import com.github.wasiqb.coteafs.appium.exception.DeviceDriverInitializationFailedException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStartingException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStoppingException;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
@@ -40,11 +43,12 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		log = LogManager.getLogger (Device.class);
 	}
 
-	protected DesiredCapabilities	capabilities;
-	protected TDriver				driver;
-	protected final AppiumServer	server;
-	protected final DeviceSetting	setting;
-	private TypeToken <TDriver>		token;
+	protected DesiredCapabilities		capabilities;
+	protected TDriver					driver;
+	protected final AppiumServer		server;
+	protected final DeviceSetting		setting;
+	protected UserInteractionSetting	userInteractions;
+	private TypeToken <TDriver>			token;
 
 	/**
 	 * @author wasiq.bhamla
@@ -56,13 +60,9 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		this.server = server;
 		this.setting = ConfigLoader.settings ()
 			.getDevice (name);
-		try {
-			buildCapabilities ();
-		}
-		catch (final FileNotFoundException e) {
-			log.error ("Error occurred while building capabilities...");
-			log.catching (e);
-		}
+		this.userInteractions = ConfigLoader.settings ()
+			.getUserInteractions ();
+		buildCapabilities ();
 	}
 
 	/**
@@ -92,6 +92,14 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		}
 		catch (final Exception e) {
 			throw new DeviceDriverNotStartingException ("Error occured starting device driver", e);
+		}
+		try {
+			this.driver.manage ()
+				.timeouts ()
+				.implicitlyWait (this.userInteractions.getDefaultWait (), TimeUnit.SECONDS);
+		}
+		catch (final Exception e) {
+			throw new DeviceDriverDefaultWaitException ("Error occured while setting device driver default wait.", e);
 		}
 	}
 
@@ -131,10 +139,9 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @throws FileNotFoundException
 	 * @since 13-Apr-2017 3:38:32 PM
 	 */
-	private void buildCapabilities () throws FileNotFoundException {
+	private void buildCapabilities () {
 		log.trace ("Building Device capabilities...");
 		Objects.requireNonNull (this.setting.getDeviceName ());
 		Objects.requireNonNull (this.setting.getDeviceType ());
@@ -158,7 +165,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		if (!file.exists ()) {
 			final String msg = "App not found on mentioned location [%s]...";
 			log.error (String.format (msg, path));
-			throw new FileNotFoundException (String.format (msg, path));
+			throw new DeviceAppNotFoundException (String.format (msg, path));
 		}
 
 		setCapability (MobileCapabilityType.APP, path);
@@ -178,7 +185,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	}
 
 	@SuppressWarnings ("unchecked")
-	private <E> TDriver init (final E... args) throws Exception {
+	private TDriver init (final URL url, final Capabilities capability) {
 		log.trace ("Initializing driver...");
 		this.token = new TypeToken <TDriver> (getClass ()) {
 			private static final long serialVersionUID = 1562415938665085306L;
@@ -187,15 +194,11 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		final Class <?> [] argTypes = new Class <?> [] { URL.class, Capabilities.class };
 		try {
 			final Constructor <TDriver> ctor = cls.getDeclaredConstructor (argTypes);
-			if (ctor == null) {
-				throw new InvalidArgumentException ("Constructor not found.");
-			}
-			return ctor.newInstance (args);
+			return ctor.newInstance (url, capability);
 		}
 		catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
-			log.catching (e);
-			throw e;
+			throw new DeviceDriverInitializationFailedException ("Error occured while initializing device driver.", e);
 		}
 	}
 
