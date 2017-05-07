@@ -15,7 +15,6 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
-import com.github.wasiqb.coteafs.appium.config.UserInteractionSetting;
 import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotClosingException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotFoundException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceDriverDefaultWaitException;
@@ -43,12 +42,11 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		log = LogManager.getLogger (Device.class);
 	}
 
-	protected DesiredCapabilities		capabilities;
-	protected TDriver					driver;
-	protected final AppiumServer		server;
-	protected final DeviceSetting		setting;
-	protected UserInteractionSetting	userInteractions;
-	private TypeToken <TDriver>			token;
+	protected DesiredCapabilities	capabilities;
+	protected TDriver				driver;
+	protected final AppiumServer	server;
+	protected final DeviceSetting	setting;
+	private TypeToken <TDriver>		token;
 
 	/**
 	 * @author wasiq.bhamla
@@ -60,8 +58,6 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		this.server = server;
 		this.setting = ConfigLoader.settings ()
 			.getDevice (name);
-		this.userInteractions = ConfigLoader.settings ()
-			.getUserInteractions ();
 		buildCapabilities ();
 	}
 
@@ -96,7 +92,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		try {
 			this.driver.manage ()
 				.timeouts ()
-				.implicitlyWait (this.userInteractions.getDefaultWait (), TimeUnit.SECONDS);
+				.implicitlyWait (this.setting.getDefaultWait (), TimeUnit.SECONDS);
 		}
 		catch (final Exception e) {
 			throw new DeviceDriverDefaultWaitException ("Error occured while setting device driver default wait.", e);

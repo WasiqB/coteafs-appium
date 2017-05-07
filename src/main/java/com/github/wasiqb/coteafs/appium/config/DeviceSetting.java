@@ -15,11 +15,13 @@ public class DeviceSetting {
 	private AutomationName	automationName;
 	private String			bootstrapPath;
 	private String			bundleId;
+	private int				defaultWait;
 	private String			deviceName;
 	private DeviceType		deviceType;
 	private String			deviceVersion;
 	private boolean			externalApp;
 	private String			udid;
+	private int				waitForElementUntil;
 
 	/**
 	 * @author wasiq.bhamla
@@ -29,6 +31,8 @@ public class DeviceSetting {
 		this.automationName = AutomationName.APPIUM;
 		this.deviceType = DeviceType.ANDROID;
 		this.appType = ApplicationType.NATIVE;
+		this.defaultWait = 30;
+		this.waitForElementUntil = 30;
 	}
 
 	/**
@@ -123,6 +127,15 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 07-May-2017 4:23:27 PM
+	 * @return the defaultWait
+	 */
+	public int getDefaultWait () {
+		return this.defaultWait;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:42:49 PM
 	 * @return the deviceName
 	 */
@@ -155,6 +168,15 @@ public class DeviceSetting {
 	 */
 	public String getUdid () {
 		return this.udid;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 07-May-2017 4:23:27 PM
+	 * @return the waitForElementUntil
+	 */
+	public int getWaitForElementUntil () {
+		return this.waitForElementUntil;
 	}
 
 	/**
@@ -268,6 +290,16 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 07-May-2017 4:23:27 PM
+	 * @param defaultWait
+	 *            the defaultWait to set
+	 */
+	public void setDefaultWait (final int defaultWait) {
+		this.defaultWait = defaultWait;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:42:49 PM
 	 * @param deviceName
 	 *            the deviceName to set
@@ -314,5 +346,15 @@ public class DeviceSetting {
 	 */
 	public void setUdid (final String udid) {
 		this.udid = udid;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 07-May-2017 4:23:28 PM
+	 * @param waitForElementUntil
+	 *            the waitForElementUntil to set
+	 */
+	public void setWaitForElementUntil (final int waitForElementUntil) {
+		this.waitForElementUntil = waitForElementUntil;
 	}
 }

@@ -45,7 +45,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		this.device = device;
 		this.elements = new HashMap <> ();
 		this.deviceElements = new HashMap <> ();
-		this.wait = new WebDriverWait (device.getDriver (), device.userInteractions.getWaitForElementUntil ());
+		this.wait = new WebDriverWait (device.getDriver (), device.setting.getWaitForElementUntil ());
 		this.activityLoaded = false;
 	}
 
@@ -128,8 +128,8 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 			return result.get (index);
 		}
 		catch (final Exception e) {
-			msg = "Error occured while finding device element %s with locator [%s].";
-			throw new DeviceElementNotFoundException (String.format (msg, deviceElement.name (), locator), e);
+			msg = "Error occured while finding device element with locator [%s].";
+			throw new DeviceElementNotFoundException (String.format (msg, locator), e);
 		}
 	}
 

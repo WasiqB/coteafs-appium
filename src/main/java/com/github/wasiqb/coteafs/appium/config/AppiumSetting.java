@@ -9,15 +9,6 @@ import java.util.Map;
 public class AppiumSetting {
 	private Map <String, DeviceSetting>	devices;
 	private Map <String, ServerSetting>	servers;
-	private UserInteractionSetting		userInteractions;
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 06-May-2017 3:59:19 PM
-	 */
-	public AppiumSetting () {
-		this.userInteractions = new UserInteractionSetting ();
-	}
 
 	/**
 	 * @author wasiq.bhamla
@@ -59,15 +50,6 @@ public class AppiumSetting {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 06-May-2017 3:59:48 PM
-	 * @return the userInteractions
-	 */
-	public UserInteractionSetting getUserInteractions () {
-		return this.userInteractions;
-	}
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since 13-Apr-2017 9:59:40 PM
 	 * @param devices
 	 *            the devices to set
@@ -84,15 +66,5 @@ public class AppiumSetting {
 	 */
 	public void setServers (final Map <String, ServerSetting> servers) {
 		this.servers = servers;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 06-May-2017 3:59:48 PM
-	 * @param userInteractions
-	 *            the userInteractions to set
-	 */
-	public void setUserInteractions (final UserInteractionSetting userInteractions) {
-		this.userInteractions = userInteractions;
 	}
 }

@@ -26,6 +26,8 @@ devices:
     app_package: com.company.cwp.app
     app_activity: com.company.cwp.app.activity.xxxx.MainActivity
     app_wait_activity: com.company.cwp.app.activity.xxxx.WalkthroughActivity
+    default_wait: 60
+    wait_for_element_until: 60
   iphone:
     device_type: IOS
     device_name: iPhone 6
