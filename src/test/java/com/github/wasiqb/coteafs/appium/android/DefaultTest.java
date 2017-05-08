@@ -8,7 +8,6 @@ import com.github.wasiqb.coteafs.appium.android.activities.LoginActivity;
 import com.github.wasiqb.coteafs.appium.android.activities.PermissionActivity;
 import com.github.wasiqb.coteafs.appium.android.activities.WalkThruActivity2;
 import com.github.wasiqb.coteafs.appium.android.activities.WalkthruActivity1;
-import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 /**
@@ -25,7 +24,6 @@ public class DefaultTest {
 	 */
 	@BeforeSuite (alwaysRun = true)
 	public void setupTestSuite () {
-		ConfigLoader.load (System.getProperty ("coteafs.appium.config", "test-config.yaml"));
 		this.androidServer = new AppiumServer ("default");
 		this.androidServer.start ();
 

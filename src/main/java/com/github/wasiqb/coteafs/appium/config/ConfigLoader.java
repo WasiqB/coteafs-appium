@@ -28,17 +28,7 @@ public final class ConfigLoader {
 
 	static {
 		log = LogManager.getLogger (ConfigLoader.class);
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 12-Apr-2017 9:05:18 PM
-	 */
-	public static void load () {
-		log.trace ("Loading settings from Config file...");
-		if (settings == null) {
-			settings = loadSettings (System.getProperty ("coteafs.appium.config", "test-config.yaml"));
-		}
+		load ();
 	}
 
 	/**
@@ -48,6 +38,17 @@ public final class ConfigLoader {
 	 */
 	public static AppiumSetting settings () {
 		return settings;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 12-Apr-2017 9:05:18 PM
+	 */
+	private static void load () {
+		log.trace ("Loading settings from Config file...");
+		if (settings == null) {
+			settings = loadSettings (System.getProperty ("coteafs.appium.config", "test-config.yaml"));
+		}
 	}
 
 	/**

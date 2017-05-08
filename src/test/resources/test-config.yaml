@@ -11,10 +11,6 @@ servers:
     start_up_time_out_seconds: 60
     no_reset: true
 
-user_interactions:
-  default_wait: 60
-  wait_for_element_until: 60
-
 devices:
   android:
     device_type: ANDROID
@@ -28,6 +24,8 @@ devices:
     app_wait_activity: com.company.cwp.app.activity.xxxx.WalkthroughActivity
     default_wait: 60
     wait_for_element_until: 60
+    no_reset: true
+    full_reset: true
   iphone:
     device_type: IOS
     device_name: iPhone 6
