@@ -164,6 +164,8 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 			throw new DeviceAppNotFoundException (String.format (msg, path));
 		}
 
+		setCapability (MobileCapabilityType.NO_RESET, Boolean.toString (this.setting.isNoReset ()));
+		setCapability (MobileCapabilityType.FULL_RESET, Boolean.toString (this.setting.isFullReset ()));
 		setCapability (MobileCapabilityType.APP, path);
 		setCapability (MobileCapabilityType.AUTOMATION_NAME, this.setting.getAutomationName ()
 			.getName ());

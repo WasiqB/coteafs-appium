@@ -20,6 +20,8 @@ public class DeviceSetting {
 	private DeviceType		deviceType;
 	private String			deviceVersion;
 	private boolean			externalApp;
+	private boolean			fullReset;
+	private boolean			noReset;
 	private String			udid;
 	private int				waitForElementUntil;
 
@@ -33,6 +35,8 @@ public class DeviceSetting {
 		this.appType = ApplicationType.NATIVE;
 		this.defaultWait = 30;
 		this.waitForElementUntil = 30;
+		this.noReset = false;
+		this.fullReset = false;
 	}
 
 	/**
@@ -190,6 +194,24 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 08-May-2017 3:16:16 PM
+	 * @return the fullReset
+	 */
+	public boolean isFullReset () {
+		return this.fullReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 08-May-2017 3:16:16 PM
+	 * @return the noReset
+	 */
+	public boolean isNoReset () {
+		return this.noReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @param agentPath
 	 *            the agentPath to set
@@ -336,6 +358,26 @@ public class DeviceSetting {
 	 */
 	public void setExternalApp (final boolean externalApp) {
 		this.externalApp = externalApp;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 08-May-2017 3:16:16 PM
+	 * @param fullReset
+	 *            the fullReset to set
+	 */
+	public void setFullReset (final boolean fullReset) {
+		this.fullReset = fullReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 08-May-2017 3:16:16 PM
+	 * @param noReset
+	 *            the noReset to set
+	 */
+	public void setNoReset (final boolean noReset) {
+		this.noReset = noReset;
 	}
 
 	/**

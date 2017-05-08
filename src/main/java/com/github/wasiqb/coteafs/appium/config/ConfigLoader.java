@@ -33,12 +33,11 @@ public final class ConfigLoader {
 	/**
 	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 9:05:18 PM
-	 * @param path
 	 */
-	public static void load (final String path) {
+	public static void load () {
 		log.trace ("Loading settings from Config file...");
 		if (settings == null) {
-			settings = loadSettings (path);
+			settings = loadSettings (System.getProperty ("coteafs.appium.config", "test-config.yaml"));
 		}
 	}
 

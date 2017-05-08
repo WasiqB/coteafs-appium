@@ -30,6 +30,18 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>> 
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 08-May-2017 3:21:20 PM
+	 * @param strategy
+	 * @param keyName
+	 */
+	public void hideKeyboard (final String strategy, final String keyName) {
+		final String msg = "Hiding keyboard on device using %s strategy for key %s...";
+		log.info (String.format (msg, strategy, keyName));
+		this.driver.hideKeyboard (strategy, keyName);
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 11:37:04 PM
 	 */
 	public void shake () {
