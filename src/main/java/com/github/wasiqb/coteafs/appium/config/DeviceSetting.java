@@ -22,6 +22,7 @@ public class DeviceSetting {
 	private boolean			externalApp;
 	private boolean			fullReset;
 	private boolean			noReset;
+	private int				sessionTimeout;
 	private String			udid;
 	private int				waitForElementUntil;
 
@@ -37,6 +38,7 @@ public class DeviceSetting {
 		this.waitForElementUntil = 30;
 		this.noReset = false;
 		this.fullReset = false;
+		this.sessionTimeout = 120;
 	}
 
 	/**
@@ -163,6 +165,15 @@ public class DeviceSetting {
 	 */
 	public String getDeviceVersion () {
 		return this.deviceVersion;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 08-May-2017 7:59:42 PM
+	 * @return the sessionTimeout
+	 */
+	public int getSessionTimeout () {
+		return this.sessionTimeout;
 	}
 
 	/**
@@ -378,6 +389,16 @@ public class DeviceSetting {
 	 */
 	public void setNoReset (final boolean noReset) {
 		this.noReset = noReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 08-May-2017 7:59:42 PM
+	 * @param sessionTimeout
+	 *            the sessionTimeout to set
+	 */
+	public void setSessionTimeout (final int sessionTimeout) {
+		this.sessionTimeout = sessionTimeout;
 	}
 
 	/**

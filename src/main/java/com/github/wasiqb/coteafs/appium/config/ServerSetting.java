@@ -6,10 +6,24 @@ package com.github.wasiqb.coteafs.appium.config;
  */
 public class ServerSetting {
 	private boolean	external;
+	private boolean	fullReset;
 	private String	ip;
 	private boolean	noReset;
 	private int		port;
+	private int		sessionTimeout;
 	private long	startUpTimeOutSeconds;
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 08-May-2017 7:49:49 PM
+	 */
+	public ServerSetting () {
+		this.external = false;
+		this.noReset = false;
+		this.fullReset = false;
+		this.sessionTimeout = 120;
+		this.startUpTimeOutSeconds = 60;
+	}
 
 	/**
 	 * @author wasiq.bhamla
@@ -27,6 +41,15 @@ public class ServerSetting {
 	 */
 	public int getPort () {
 		return this.port;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 08-May-2017 7:49:31 PM
+	 * @return the sessionTimeout
+	 */
+	public int getSessionTimeout () {
+		return this.sessionTimeout;
 	}
 
 	/**
@@ -49,6 +72,15 @@ public class ServerSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 08-May-2017 7:56:41 PM
+	 * @return the fullReset
+	 */
+	public boolean isFullReset () {
+		return this.fullReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:51:26 PM
 	 * @return the noReset
 	 */
@@ -64,6 +96,16 @@ public class ServerSetting {
 	 */
 	public void setExternal (final boolean external) {
 		this.external = external;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 08-May-2017 7:56:52 PM
+	 * @param fullReset
+	 *            the fullReset to set
+	 */
+	public void setFullReset (final boolean fullReset) {
+		this.fullReset = fullReset;
 	}
 
 	/**
@@ -94,6 +136,16 @@ public class ServerSetting {
 	 */
 	public void setPort (final int port) {
 		this.port = port;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 08-May-2017 7:49:31 PM
+	 * @param sessionTimeout
+	 *            the sessionTimeout to set
+	 */
+	public void setSessionTimeout (final int sessionTimeout) {
+		this.sessionTimeout = sessionTimeout;
 	}
 
 	/**

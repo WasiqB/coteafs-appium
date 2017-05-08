@@ -1,5 +1,7 @@
 package com.github.wasiqb.coteafs.appium.device;
 
+import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
+
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -7,7 +9,6 @@ import java.net.URL;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Capabilities;
@@ -144,12 +145,12 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		Objects.requireNonNull (this.setting.getAppLocation ());
 		this.capabilities = new DesiredCapabilities ();
 
-		setCapability (MobileCapabilityType.DEVICE_NAME, this.setting.getDeviceName ());
+		setCapability (MobileCapabilityType.DEVICE_NAME, this.setting.getDeviceName (), this.capabilities);
 		setCapability (MobileCapabilityType.PLATFORM_NAME, this.setting.getDeviceType ()
-			.getName ());
-		setCapability (MobileCapabilityType.PLATFORM_VERSION, this.setting.getDeviceVersion ());
+			.getName (), this.capabilities);
+		setCapability (MobileCapabilityType.PLATFORM_VERSION, this.setting.getDeviceVersion (), this.capabilities);
 		setCapability (MobileCapabilityType.BROWSER_NAME, this.setting.getDeviceType ()
-			.getName ());
+			.getName (), this.capabilities);
 
 		String path = System.getProperty ("user.dir") + "/src/test/resources/" + this.setting.getAppLocation ();
 
@@ -164,20 +165,24 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 			throw new DeviceAppNotFoundException (String.format (msg, path));
 		}
 
-		setCapability (MobileCapabilityType.NO_RESET, Boolean.toString (this.setting.isNoReset ()));
-		setCapability (MobileCapabilityType.FULL_RESET, Boolean.toString (this.setting.isFullReset ()));
-		setCapability (MobileCapabilityType.APP, path);
+		setCapability (MobileCapabilityType.NO_RESET, Boolean.toString (this.setting.isNoReset ()), this.capabilities);
+		setCapability (MobileCapabilityType.FULL_RESET, Boolean.toString (this.setting.isFullReset ()),
+				this.capabilities);
+		setCapability (MobileCapabilityType.NEW_COMMAND_TIMEOUT, Integer.toString (this.setting.getSessionTimeout ()),
+				this.capabilities);
+		setCapability (MobileCapabilityType.APP, path, this.capabilities);
 		setCapability (MobileCapabilityType.AUTOMATION_NAME, this.setting.getAutomationName ()
-			.getName ());
-		setCapability (AndroidMobileCapabilityType.APP_ACTIVITY, this.setting.getAppActivity ());
-		setCapability (AndroidMobileCapabilityType.APP_PACKAGE, this.setting.getAppPackage ());
-		setCapability (AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity ());
+			.getName (), this.capabilities);
+		setCapability (AndroidMobileCapabilityType.APP_ACTIVITY, this.setting.getAppActivity (), this.capabilities);
+		setCapability (AndroidMobileCapabilityType.APP_PACKAGE, this.setting.getAppPackage (), this.capabilities);
+		setCapability (AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity (),
+				this.capabilities);
 
-		setCapability (IOSMobileCapabilityType.APP_NAME, this.setting.getAppName ());
-		setCapability (IOSMobileCapabilityType.BUNDLE_ID, this.setting.getBundleId ());
-		setCapability ("udid", this.setting.getUdid ());
-		setCapability ("bootstrapPath", this.setting.getBootstrapPath ());
-		setCapability ("agentPath", this.setting.getAgentPath ());
+		setCapability (IOSMobileCapabilityType.APP_NAME, this.setting.getAppName (), this.capabilities);
+		setCapability (IOSMobileCapabilityType.BUNDLE_ID, this.setting.getBundleId (), this.capabilities);
+		setCapability ("udid", this.setting.getUdid (), this.capabilities);
+		setCapability ("bootstrapPath", this.setting.getBootstrapPath (), this.capabilities);
+		setCapability ("agentPath", this.setting.getAgentPath (), this.capabilities);
 
 		log.trace ("Building Device capabilities completed...");
 	}
@@ -197,14 +202,6 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
 			throw new DeviceDriverInitializationFailedException ("Error occured while initializing device driver.", e);
-		}
-	}
-
-	private void setCapability (final String key, final String value) {
-		if (!StringUtils.isEmpty (value)) {
-			final String msg = "Setting capability [key: %s, value: %s]...";
-			log.trace (String.format (msg, key, value));
-			this.capabilities.setCapability (key, value);
 		}
 	}
 }

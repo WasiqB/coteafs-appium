@@ -1,5 +1,7 @@
 package com.github.wasiqb.coteafs.appium.service;
 
+import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -19,6 +21,7 @@ import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotRunningExceptio
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStartingException;
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStoppingException;
 
+import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
@@ -36,7 +39,7 @@ public final class AppiumServer {
 	}
 
 	private AppiumServiceBuilder		builder;
-	private DesiredCapabilities			capabilites;
+	private DesiredCapabilities			capabilities;
 	private AppiumDriverLocalService	service;
 	private final ServerSetting			setting;
 
@@ -148,7 +151,11 @@ public final class AppiumServer {
 	 */
 	private void buildCapabilities () {
 		log.trace ("Building Appium Capabilities started...");
-		this.capabilites.setCapability ("noReset", Boolean.toString (this.setting.isNoReset ()));
+		setCapability (MobileCapabilityType.NO_RESET, Boolean.toString (this.setting.isNoReset ()), this.capabilities);
+		setCapability (MobileCapabilityType.FULL_RESET, Boolean.toString (this.setting.isFullReset ()),
+				this.capabilities);
+		setCapability (MobileCapabilityType.NEW_COMMAND_TIMEOUT, Integer.toString (this.setting.getSessionTimeout ()),
+				this.capabilities);
 		log.trace ("Building Appium Capabilities completed...");
 	}
 
@@ -156,7 +163,7 @@ public final class AppiumServer {
 		log.trace ("Building Appium Service started...");
 		this.builder.withIPAddress (this.setting.getIp ())
 			.usingPort (this.setting.getPort ())
-			.withCapabilities (this.capabilites)
+			.withCapabilities (this.capabilities)
 			.withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS)
 			.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
 			.withArgument (GeneralServerFlag.LOG_LEVEL, "error");
@@ -166,7 +173,7 @@ public final class AppiumServer {
 	private void initService () {
 		log.trace ("Initializing Appium Service started...");
 		this.builder = new AppiumServiceBuilder ();
-		this.capabilites = new DesiredCapabilities ();
+		this.capabilities = new DesiredCapabilities ();
 		log.trace ("Initializing Appium Service done...");
 	}
 }
