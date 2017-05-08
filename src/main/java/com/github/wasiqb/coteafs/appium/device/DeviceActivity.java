@@ -33,7 +33,6 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	protected final TDevice						device;
 	private final boolean						activityLoaded;
 	private final Map <String, DeviceElement>	deviceElements;
-	private final Map <String, MobileElement>	elements;
 	private final WebDriverWait					wait;
 
 	/**
@@ -43,7 +42,6 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 */
 	public DeviceActivity (final TDevice device) {
 		this.device = device;
-		this.elements = new HashMap <> ();
 		this.deviceElements = new HashMap <> ();
 		this.wait = new WebDriverWait (device.getDriver (), device.setting.getWaitForElementUntil ());
 		this.activityLoaded = false;
@@ -99,8 +97,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	protected MobileElement getElement (final String name) {
 		final String msg = "Getting element with name %s...";
 		log.trace (String.format (msg, name));
-		findElements (this.deviceElements.get (name));
-		return this.elements.get (name);
+		return findElements (this.deviceElements.get (name));
 	}
 
 	/**
@@ -146,31 +143,29 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		}
 	}
 
-	private void findElements (final DeviceElement rootElement) {
-		if (!this.elements.containsKey (rootElement.name ())) {
-			final By locator = rootElement.locator ();
-			final int index = rootElement.index ();
-			try {
-				this.wait.until (d -> d.findElement (locator)
-					.isDisplayed ());
-			}
-			catch (final TimeoutException e) {
-				final String msg = "[%s] locator timed out.";
-				throw new DeviceElementFindTimedOutException (String.format (msg, locator), e);
-			}
-			MobileElement element = null;
-			if (rootElement.parent () == null) {
-				log.trace ("Finding elements...");
-				element = find (this.device.getDriver (), locator, index);
-			}
-			else {
-				element = find (rootElement.parent (), locator, index);
-			}
-			this.elements.put (rootElement.name (), element);
-			final List <DeviceElement> childs = rootElement.childs ();
-			for (final DeviceElement child : childs) {
-				findElements (child);
-			}
+	private MobileElement findElements (final DeviceElement element) {
+		final DeviceElement parent = element.parent ();
+		final By locator = element.locator ();
+		final int index = element.index ();
+		waitForElement (locator);
+		MobileElement elem = null;
+		if (parent != null) {
+			elem = find (parent, locator, index);
+		}
+		else {
+			elem = find (this.device.getDriver (), locator, index);
+		}
+		return elem;
+	}
+
+	private void waitForElement (final By locator) {
+		try {
+			this.wait.until (d -> d.findElement (locator)
+				.isDisplayed ());
+		}
+		catch (final TimeoutException e) {
+			final String msg = "[%s] locator timed out.";
+			throw new DeviceElementFindTimedOutException (String.format (msg, locator), e);
 		}
 	}
 }
