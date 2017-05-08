@@ -128,8 +128,8 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 			return result.get (index);
 		}
 		catch (final Exception e) {
-			msg = "Error occured while finding device element with locator [%s].";
-			throw new DeviceElementNotFoundException (String.format (msg, locator), e);
+			msg = "Error occured while finding device element with locator [%s] under parent %s.";
+			throw new DeviceElementNotFoundException (String.format (msg, locator, deviceElement.name ()), e);
 		}
 	}
 
@@ -141,7 +141,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 			return result.get (index);
 		}
 		catch (final Exception e) {
-			msg = "Error occured while finding device element with locator [%s].";
+			msg = "Error occured while finding root device element with locator [%s].";
 			throw new DeviceElementNotFoundException (String.format (msg, locator), e);
 		}
 	}
