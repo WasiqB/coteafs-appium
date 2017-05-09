@@ -1,9 +1,7 @@
 package com.github.wasiqb.coteafs.appium.checker;
 
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotRunningException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceElementDisabledException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotDisplayedException;
-import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 import io.appium.java_client.MobileElement;
 
@@ -35,17 +33,6 @@ public final class DeviceChecker {
 		if (!element.isEnabled ()) {
 			final String msg = "Device element %s is disabled.";
 			throw new DeviceElementDisabledException (String.format (msg, name));
-		}
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 4:36:57 PM
-	 * @param server
-	 */
-	public static void checkServerRunning (final AppiumServer server) {
-		if (!server.isRunning ()) {
-			throw new AppiumServerNotRunningException ("Server not started yet.");
 		}
 	}
 }

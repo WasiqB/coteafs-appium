@@ -5,6 +5,7 @@ package com.github.wasiqb.coteafs.appium.config;
  * @since 12-Apr-2017 8:43:22 PM
  */
 public class ServerSetting {
+	private String	appiumJsPath;
 	private boolean	external;
 	private boolean	fullReset;
 	private String	ip;
@@ -23,6 +24,15 @@ public class ServerSetting {
 		this.fullReset = false;
 		this.sessionTimeout = 120;
 		this.startUpTimeOutSeconds = 60;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 09-May-2017 3:46:11 PM
+	 * @return the appiumJsPath
+	 */
+	public String getAppiumJsPath () {
+		return this.appiumJsPath;
 	}
 
 	/**
@@ -86,6 +96,16 @@ public class ServerSetting {
 	 */
 	public boolean isNoReset () {
 		return this.noReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 09-May-2017 3:46:11 PM
+	 * @param appiumJsPath
+	 *            the appiumJsPath to set
+	 */
+	public void setAppiumJsPath (final String appiumJsPath) {
+		this.appiumJsPath = appiumJsPath;
 	}
 
 	/**

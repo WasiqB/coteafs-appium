@@ -2,6 +2,7 @@ package com.github.wasiqb.coteafs.appium.service;
 
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.MalformedURLException;
@@ -14,6 +15,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerAlreadyRunningException;
@@ -161,8 +163,13 @@ public final class AppiumServer {
 
 	private void buildService () {
 		log.trace ("Building Appium Service started...");
+		ServerChecker.checkServerConfigParams ("IP Address", this.setting.getIp ());
+		ServerChecker.checkServerConfigParams ("Port", this.setting.getPort ());
+		ServerChecker.checkServerConfigParams ("AppiumJS Path", this.setting.getAppiumJsPath ());
+		final File appJs = new File (this.setting.getAppiumJsPath ());
 		this.builder.withIPAddress (this.setting.getIp ())
 			.usingPort (this.setting.getPort ())
+			.withAppiumJS (appJs)
 			.withCapabilities (this.capabilities)
 			.withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS)
 			.withArgument (GeneralServerFlag.SESSION_OVERRIDE)

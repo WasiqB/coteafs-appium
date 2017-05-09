@@ -10,7 +10,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
+import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.exception.DeviceElementFindTimedOutException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotFoundException;
 
@@ -69,7 +69,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @return device actions
 	 */
 	public DeviceActions <TDriver> onDevice () {
-		DeviceChecker.checkServerRunning (this.device.server);
+		ServerChecker.checkServerRunning (this.device.server);
 		log.info ("Preparing to perform actions on device...");
 		return new DeviceActions <TDriver> (this.device.getDriver ());
 	}
@@ -81,7 +81,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @return element actions
 	 */
 	public DeviceElementActions <TDriver> onElement (final String name) {
-		DeviceChecker.checkServerRunning (this.device.server);
+		ServerChecker.checkServerRunning (this.device.server);
 		final String msg = "Preparing to perform actions on device element %s...";
 		log.info (String.format (msg, name));
 		return new DeviceElementActions <TDriver> (this.device.getDriver (), name, getElement (name));
@@ -111,7 +111,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @param rootElement
 	 */
 	protected void loadElements (final DeviceElement rootElement) {
-		DeviceChecker.checkServerRunning (this.device.server);
+		ServerChecker.checkServerRunning (this.device.server);
 		if (!this.deviceElements.containsKey (rootElement.name ())) {
 			this.deviceElements.put (rootElement.name (), rootElement);
 		}
