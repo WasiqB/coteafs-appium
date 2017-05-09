@@ -31,7 +31,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	}
 
 	protected final TDevice						device;
-	private final boolean						activityLoaded;
+	private boolean								activityLoaded;
 	private final Map <String, DeviceElement>	deviceElements;
 	private final WebDriverWait					wait;
 
@@ -95,9 +95,14 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	public abstract DeviceElement prepare ();
 
 	protected MobileElement getElement (final String name) {
-		final String msg = "Getting element with name %s...";
-		log.trace (String.format (msg, name));
-		return findElements (this.deviceElements.get (name));
+		try {
+			final String msg = "Getting element with name %s...";
+			log.trace (String.format (msg, name));
+			return findElements (this.deviceElements.get (name));
+		}
+		finally {
+			this.activityLoaded = true;
+		}
 	}
 
 	/**
@@ -116,22 +121,22 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		}
 	}
 
-	private MobileElement find (final DeviceElement deviceElement, final By locator, final int index) {
-		String msg = "Finding element using %s at index %d...";
-		log.trace (String.format (msg, locator, index));
-		final MobileElement mobileElement = getElement (deviceElement.name ());
+	private MobileElement find (final DeviceElement parent, final By locator, final int index) {
+		String msg = "Finding child element of %s parent using [%s] at index [%d]...";
+		log.trace (String.format (msg, parent.name (), locator, index));
+		final MobileElement mobileElement = getElement (parent.name ());
 		try {
 			final List <MobileElement> result = mobileElement.findElements (locator);
 			return result.get (index);
 		}
 		catch (final Exception e) {
 			msg = "Error occured while finding device element with locator [%s] under parent %s.";
-			throw new DeviceElementNotFoundException (String.format (msg, locator, deviceElement.name ()), e);
+			throw new DeviceElementNotFoundException (String.format (msg, locator, parent.name ()), e);
 		}
 	}
 
 	private MobileElement find (final TDriver deviceDriver, final By locator, final int index) {
-		String msg = "Finding element using %s at index %d...";
+		String msg = "Finding root element using [%s] at index [%d]...";
 		log.trace (String.format (msg, locator, index));
 		try {
 			final List <MobileElement> result = deviceDriver.findElements (locator);
