@@ -14,7 +14,7 @@ import io.appium.java_client.ios.IOSDriver;
  * @author wasiq.bhamla
  * @since 26-Apr-2017 11:34:39 PM
  */
-public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>> {
+public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, IOSDevice> {
 	private static final Logger log;
 
 	static {
@@ -24,10 +24,10 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>> 
 	/**
 	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 11:34:58 PM
-	 * @param driver
+	 * @param device
 	 */
-	public IOSDeviceActions (final IOSDriver <MobileElement> driver) {
-		super (driver);
+	public IOSDeviceActions (final IOSDevice device) {
+		super (device);
 	}
 
 	/**

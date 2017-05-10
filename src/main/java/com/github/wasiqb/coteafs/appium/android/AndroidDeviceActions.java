@@ -2,10 +2,9 @@ package com.github.wasiqb.coteafs.appium.android;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
-import org.openqa.selenium.WebElement;
 
+import com.github.wasiqb.coteafs.appium.android.system.PermissionActivity;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
 
 import io.appium.java_client.MobileElement;
@@ -15,7 +14,7 @@ import io.appium.java_client.android.AndroidDriver;
  * @author wasiq.bhamla
  * @since 26-Apr-2017 9:05:27 PM
  */
-public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileElement>> {
+public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileElement>, AndroidDevice> {
 	private static final Logger log;
 
 	static {
@@ -25,10 +24,10 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	/**
 	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 9:05:43 PM
-	 * @param driver
+	 * @param device
 	 */
-	public AndroidDeviceActions (final AndroidDriver <MobileElement> driver) {
-		super (driver);
+	public AndroidDeviceActions (final AndroidDevice device) {
+		super (device);
 	}
 
 	/**
@@ -46,18 +45,17 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @since 09-May-2017 9:14:16 PM
 	 * @param buttonText
 	 */
-	public void handleAlert (final String buttonText) {
+	public void handlePermissionAlert (final String buttonText) {
 		log.trace ("Handling iOS Alert pop-up...");
-		final By dialog = By.id ("com.android.packageinstaller:id/dialog_container");
-		final By desc = By.className ("android.widget.TextView");
-		final By button = By.name (buttonText);
+		final PermissionActivity perm = new PermissionActivity (this.device);
+		perm.load ();
 		try {
-			final WebElement alert = this.wait.until (d -> d.findElement (dialog));
-			final WebElement description = alert.findElement (desc);
 			final String msg = "Alert Text: %s";
-			log.trace (String.format (msg, description.getText ()));
-			final WebElement btn = alert.findElement (button);
-			btn.click ();
+			final String description = perm.onElement ("Message")
+				.text ();
+			log.trace (String.format (msg, description));
+			perm.onElement (buttonText)
+				.tap (100);
 		}
 		catch (final TimeoutException e) {
 			log.warn ("Expecting Alert not displayed...");

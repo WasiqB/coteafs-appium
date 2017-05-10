@@ -68,10 +68,10 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @since 26-Apr-2017 8:41:07 PM
 	 * @return device actions
 	 */
-	public DeviceActions <TDriver> onDevice () {
+	public DeviceActions <TDriver, TDevice> onDevice () {
 		ServerChecker.checkServerRunning (this.device.server);
 		log.info ("Preparing to perform actions on device...");
-		return new DeviceActions <TDriver> (this.device.getDriver ());
+		return new DeviceActions <TDriver, TDevice> (this.device);
 	}
 
 	/**
@@ -80,11 +80,11 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @param name
 	 * @return element actions
 	 */
-	public DeviceElementActions <TDriver> onElement (final String name) {
+	public DeviceElementActions <TDriver, TDevice> onElement (final String name) {
 		ServerChecker.checkServerRunning (this.device.server);
 		final String msg = "Preparing to perform actions on device element %s...";
 		log.info (String.format (msg, name));
-		return new DeviceElementActions <TDriver> (this.device.getDriver (), name, getElement (name));
+		return new DeviceElementActions <TDriver, TDevice> (this.device, name, getElement (name));
 	}
 
 	/**

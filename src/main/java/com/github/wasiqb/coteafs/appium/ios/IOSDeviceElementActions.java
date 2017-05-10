@@ -9,16 +9,15 @@ import io.appium.java_client.ios.IOSDriver;
  * @author wasiq.bhamla
  * @since 02-May-2017 6:37:57 PM
  */
-public class IOSDeviceElementActions extends DeviceElementActions <IOSDriver <MobileElement>> {
+public class IOSDeviceElementActions extends DeviceElementActions <IOSDriver <MobileElement>, IOSDevice> {
 	/**
 	 * @author wasiq.bhamla
 	 * @since 02-May-2017 6:38:12 PM
-	 * @param driver
+	 * @param device
 	 * @param name
 	 * @param element
 	 */
-	public IOSDeviceElementActions (final IOSDriver <MobileElement> driver, final String name,
-			final MobileElement element) {
-		super (driver, name, element);
+	public IOSDeviceElementActions (final IOSDevice device, final String name, final MobileElement element) {
+		super (device, name, element);
 	}
 }

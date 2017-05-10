@@ -13,15 +13,17 @@ import io.appium.java_client.TouchAction;
 /**
  * @author wasiq.bhamla
  * @param <TDriver>
+ * @param <TDevice>
  * @since 26-Apr-2017 6:39:03 PM
  */
-public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>> {
+public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>, TDevice extends Device <TDriver>> {
 	private static final Logger log;
 
 	static {
 		log = LogManager.getLogger (DeviceElementActions.class);
 	}
 
+	private final TDevice		device;
 	private final TDriver		driver;
 	private final MobileElement	element;
 	private final String		name;
@@ -29,15 +31,16 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>>
 
 	/**
 	 * @author wasiq.bhamla
-	 * @param driver
+	 * @param device
 	 * @param name
 	 * @param element
 	 * @since 26-Apr-2017 6:39:03 PM
 	 */
-	public DeviceElementActions (final TDriver driver, final String name, final MobileElement element) {
-		this.driver = driver;
+	public DeviceElementActions (final TDevice device, final String name, final MobileElement element) {
+		this.device = device;
 		this.name = name;
 		this.element = element;
+		this.driver = this.device.getDriver ();
 		this.touch = new TouchAction (this.driver);
 		DeviceChecker.checkDeviceElementDisplayed (element, name);
 	}

@@ -16,26 +16,29 @@ import io.appium.java_client.MobileElement;
 /**
  * @author wasiq.bhamla
  * @param <TDriver>
+ * @param <TDevice>
  * @since 26-Apr-2017 8:39:17 PM
  */
-public class DeviceActions <TDriver extends AppiumDriver <MobileElement>> {
+public class DeviceActions <TDriver extends AppiumDriver <MobileElement>, TDevice extends Device <TDriver>> {
 	private static final Logger log;
 
 	static {
 		log = LogManager.getLogger (DeviceActions.class);
 	}
 
+	protected final TDevice			device;
 	protected final TDriver			driver;
 	protected final WebDriverWait	wait;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @param driver
+	 * @param device
 	 * @since 26-Apr-2017 8:39:17 PM
 	 */
-	public DeviceActions (final TDriver driver) {
-		this.driver = driver;
-		this.wait = new WebDriverWait (driver, 30);
+	public DeviceActions (final TDevice device) {
+		this.device = device;
+		this.driver = this.device.getDriver ();
+		this.wait = new WebDriverWait (this.driver, device.setting.getWaitForElementUntil ());
 	}
 
 	/**
