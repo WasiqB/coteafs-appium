@@ -2,6 +2,9 @@ package com.github.wasiqb.coteafs.appium.android;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebElement;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
 
@@ -36,6 +39,30 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	public String currentActivity () {
 		log.info ("Getting current activity name...");
 		return this.driver.currentActivity ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 09-May-2017 9:14:16 PM
+	 * @param buttonText
+	 */
+	public void handleAlert (final String buttonText) {
+		log.trace ("Handling iOS Alert pop-up...");
+		final By dialog = By.id ("com.android.packageinstaller:id/dialog_container");
+		final By desc = By.className ("android.widget.TextView");
+		final By button = By.name (buttonText);
+		try {
+			final WebElement alert = this.wait.until (d -> d.findElement (dialog));
+			final WebElement description = alert.findElement (desc);
+			final String msg = "Alert Text: %s";
+			log.trace (String.format (msg, description.getText ()));
+			final WebElement btn = alert.findElement (button);
+			btn.click ();
+		}
+		catch (final TimeoutException e) {
+			log.warn ("Expecting Alert not displayed...");
+			log.warn (e.getMessage ());
+		}
 	}
 
 	/**

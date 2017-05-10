@@ -2,6 +2,8 @@ package com.github.wasiqb.coteafs.appium.ios;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Alert;
+import org.openqa.selenium.TimeoutException;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
 
@@ -26,6 +28,25 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>> 
 	 */
 	public IOSDeviceActions (final IOSDriver <MobileElement> driver) {
 		super (driver);
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 09-May-2017 8:46:51 PM
+	 */
+	public void handleAlert () {
+		log.trace ("Handling iOS Alert pop-up...");
+		try {
+			final Alert alert = this.wait.until (d -> d.switchTo ()
+				.alert ());
+			final String msg = "Alert Text: %s";
+			log.trace (String.format (msg, alert.getText ()));
+			alert.accept ();
+		}
+		catch (final TimeoutException e) {
+			log.warn ("Expecting Alert not displayed...");
+			log.warn (e.getMessage ());
+		}
 	}
 
 	/**
