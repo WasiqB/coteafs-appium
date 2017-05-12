@@ -23,6 +23,8 @@ public class DeviceSetting {
 	private boolean			fullReset;
 	private boolean			noReset;
 	private int				sessionTimeout;
+	private String			signingId;
+	private String			teamId;
 	private String			udid;
 	private int				waitForElementUntil;
 
@@ -174,6 +176,24 @@ public class DeviceSetting {
 	 */
 	public int getSessionTimeout () {
 		return this.sessionTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 12-May-2017 7:08:19 PM
+	 * @return the signingId
+	 */
+	public String getSigningId () {
+		return this.signingId;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 12-May-2017 7:08:19 PM
+	 * @return the teamId
+	 */
+	public String getTeamId () {
+		return this.teamId;
 	}
 
 	/**
@@ -399,6 +419,26 @@ public class DeviceSetting {
 	 */
 	public void setSessionTimeout (final int sessionTimeout) {
 		this.sessionTimeout = sessionTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 12-May-2017 7:08:19 PM
+	 * @param signingId
+	 *            the signingId to set
+	 */
+	public void setSigningId (final String signingId) {
+		this.signingId = signingId;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 12-May-2017 7:08:19 PM
+	 * @param teamId
+	 *            the teamId to set
+	 */
+	public void setTeamId (final String teamId) {
+		this.teamId = teamId;
 	}
 
 	/**

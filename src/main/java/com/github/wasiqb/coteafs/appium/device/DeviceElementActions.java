@@ -2,8 +2,10 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.NoSuchSessionException;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -52,7 +54,12 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	public void clear () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Clearing element %s...", this.name));
-		this.element.clear ();
+		try {
+			this.element.clear ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -62,7 +69,12 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public boolean enabled () {
 		log.info (String.format ("Checking if element %s is enabled...", this.name));
-		return this.element.isEnabled ();
+		try {
+			return this.element.isEnabled ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -74,7 +86,12 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		clear ();
 		log.info (String.format ("Entering text [%s] in element %s...", text, this.name));
-		this.element.sendKeys (text);
+		try {
+			this.element.sendKeys (text);
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -84,8 +101,13 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	public void longPress () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Performing long press on element %s...", this.name));
-		this.touch.longPress (this.element)
-			.perform ();
+		try {
+			this.touch.longPress (this.element)
+				.perform ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -96,8 +118,13 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	public void longPress (final int duration) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Performing long press on element %s till %d ms...", this.name, duration));
-		this.touch.longPress (this.element, duration)
-			.perform ();
+		try {
+			this.touch.longPress (this.element, duration)
+				.perform ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -107,7 +134,12 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	public void pinch () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Pinching on element %s...", this.name));
-		this.element.pinch ();
+		try {
+			this.element.pinch ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -117,7 +149,12 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public boolean selected () {
 		log.info (String.format ("Checking if element %s is selected...", this.name));
-		return this.element.isSelected ();
+		try {
+			return this.element.isSelected ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -127,7 +164,12 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	public void submit () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Performing submit on element %s...", this.name));
-		this.element.submit ();
+		try {
+			this.element.submit ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -136,9 +178,24 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @param direction
 	 */
 	public void swipe (final SwipeElementDirection direction) {
+		swipe (direction, 100);
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 12-May-2017 10:07:14 PM
+	 * @param direction
+	 * @param delay
+	 */
+	public void swipe (final SwipeElementDirection direction, final int delay) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Swiping to %s on element %s...", direction, this.name));
-		this.element.swipe (direction, 100);
+		log.info (String.format ("Swiping [%s] on element [%s] with [%d] ms delay...", direction, this.name, delay));
+		try {
+			this.element.swipe (direction, delay);
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -147,9 +204,25 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @param delay
 	 */
 	public void tap (final int delay) {
+		tap (1, delay);
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 12-May-2017 10:08:55 PM
+	 * @param fingers
+	 * @param delay
+	 */
+	public void tap (final int fingers, final int delay) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Tapping on element %s till %d ms...", this.name, delay));
-		this.element.tap (1, delay);
+		log.info (String.format ("Tapping on element [%s] using [%d] finger(s) with [%d] ms delay...", this.name,
+				fingers, delay));
+		try {
+			this.element.tap (fingers, delay);
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -159,7 +232,12 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public String text () {
 		log.info (String.format ("Getting text on element %s...", this.name));
-		return this.element.getText ();
+		try {
+			return this.element.getText ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -169,7 +247,12 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public boolean visible () {
 		log.info (String.format ("Checking if element %s is visible...", this.name));
-		return this.element.isDisplayed ();
+		try {
+			return this.element.isDisplayed ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -179,6 +262,11 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	public void zoom () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Zooming on element %s...", this.name));
-		this.element.zoom ();
+		try {
+			this.element.zoom ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 }

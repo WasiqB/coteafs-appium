@@ -7,10 +7,12 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceElementFindTimedOutException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotFoundException;
 
@@ -95,14 +97,9 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	public abstract DeviceElement prepare ();
 
 	protected MobileElement getElement (final String name) {
-		try {
-			final String msg = "Getting element with name %s...";
-			log.trace (String.format (msg, name));
-			return findElements (this.deviceElements.get (name));
-		}
-		finally {
-			this.activityLoaded = true;
-		}
+		final String msg = "Getting element with name %s...";
+		log.trace (String.format (msg, name));
+		return findElements (this.deviceElements.get (name));
 	}
 
 	/**
@@ -129,6 +126,9 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 			final List <MobileElement> result = mobileElement.findElements (locator);
 			return result.get (index);
 		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 		catch (final Exception e) {
 			msg = "Error occured while finding device element with locator [%s] under parent %s.";
 			throw new DeviceElementNotFoundException (String.format (msg, locator, parent.name ()), e);
@@ -141,6 +141,9 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		try {
 			final List <MobileElement> result = deviceDriver.findElements (locator);
 			return result.get (index);
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
 		}
 		catch (final Exception e) {
 			msg = "Error occured while finding root device element with locator [%s].";
@@ -160,6 +163,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		else {
 			elem = find (this.device.getDriver (), locator, index);
 		}
+		this.activityLoaded = true;
 		return elem;
 	}
 
@@ -171,6 +175,9 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		catch (final TimeoutException e) {
 			final String msg = "[%s] locator timed out.";
 			throw new DeviceElementFindTimedOutException (String.format (msg, locator), e);
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
 		}
 	}
 }

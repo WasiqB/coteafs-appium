@@ -2,10 +2,12 @@ package com.github.wasiqb.coteafs.appium.android;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.TimeoutException;
 
 import com.github.wasiqb.coteafs.appium.android.system.PermissionActivity;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -37,15 +39,21 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 */
 	public String currentActivity () {
 		log.info ("Getting current activity name...");
-		return this.driver.currentActivity ();
+		try {
+			return this.driver.currentActivity ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since 09-May-2017 9:14:16 PM
 	 * @param buttonText
+	 * @return message
 	 */
-	public void handlePermissionAlert (final String buttonText) {
+	public String handlePermissionAlert (final String buttonText) {
 		log.trace ("Handling iOS Alert pop-up...");
 		final PermissionActivity perm = new PermissionActivity (this.device);
 		perm.load ();
@@ -56,11 +64,16 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 			log.trace (String.format (msg, description));
 			perm.onElement (buttonText)
 				.tap (100);
+			return description;
 		}
 		catch (final TimeoutException e) {
 			log.warn ("Expecting Alert not displayed...");
 			log.warn (e.getMessage ());
 		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
+		return null;
 	}
 
 	/**
@@ -70,7 +83,12 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 */
 	public boolean isLocked () {
 		log.info ("Checking if device is locked...");
-		return this.driver.isLocked ();
+		try {
+			return this.driver.isLocked ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -79,7 +97,12 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 */
 	public void lock () {
 		log.info ("Locking the Android device...");
-		this.driver.lockDevice ();
+		try {
+			this.driver.lockDevice ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 
 	/**
@@ -88,6 +111,11 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 */
 	public void unlock () {
 		log.info ("Unlocking the Android device...");
-		this.driver.unlockDevice ();
+		try {
+			this.driver.unlockDevice ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 }

@@ -6,9 +6,12 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -49,13 +52,18 @@ public class DeviceActions <TDriver extends AppiumDriver <MobileElement>, TDevic
 	public void captureScreenshot (final String path) {
 		final String msg = "Capturing screenshot and saving at [%s]...";
 		log.info (String.format (msg, path));
-		final File srcFiler = ((TakesScreenshot) this.driver).getScreenshotAs (OutputType.FILE);
 		try {
-			FileUtils.copyFile (srcFiler, new File (path));
+			final File srcFiler = ((TakesScreenshot) this.driver).getScreenshotAs (OutputType.FILE);
+			try {
+				FileUtils.copyFile (srcFiler, new File (path));
+			}
+			catch (final IOException e) {
+				log.error ("Error occurred while capturing screensshot...");
+				log.catching (e);
+			}
 		}
-		catch (final IOException e) {
-			log.error ("Error occurred while capturing screensshot...");
-			log.catching (e);
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
 		}
 	}
 
@@ -65,6 +73,11 @@ public class DeviceActions <TDriver extends AppiumDriver <MobileElement>, TDevic
 	 */
 	public void hideKeyboard () {
 		log.info ("Hiding the keyboard...");
-		this.driver.hideKeyboard ();
+		try {
+			this.driver.hideKeyboard ();
+		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 	}
 }

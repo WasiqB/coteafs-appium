@@ -6,16 +6,19 @@ import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Capabilities;
+import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.github.wasiqb.coteafs.appium.config.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.DeviceType;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotClosingException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotFoundException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceDriverDefaultWaitException;
@@ -95,6 +98,9 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 				.timeouts ()
 				.implicitlyWait (this.setting.getDefaultWait (), TimeUnit.SECONDS);
 		}
+		catch (final NoSuchSessionException e) {
+			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+		}
 		catch (final Exception e) {
 			throw new DeviceDriverDefaultWaitException ("Error occured while setting device driver default wait.", e);
 		}
@@ -114,6 +120,9 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 			try {
 				this.driver.closeApp ();
 			}
+			catch (final NoSuchSessionException e) {
+				throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			}
 			catch (final Exception e) {
 				throw new DeviceAppNotClosingException ("Error occured while closing app.", e);
 			}
@@ -122,6 +131,9 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 			log.trace (String.format (msg, platform));
 			try {
 				this.driver.quit ();
+			}
+			catch (final NoSuchSessionException e) {
+				throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
 			}
 			catch (final Exception e) {
 				throw new DeviceDriverNotStoppingException ("Error occured while stopping device driver.", e);
@@ -140,50 +152,57 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	 */
 	private void buildCapabilities () {
 		log.trace ("Building Device capabilities...");
-		Objects.requireNonNull (this.setting.getDeviceName ());
-		Objects.requireNonNull (this.setting.getDeviceType ());
-		Objects.requireNonNull (this.setting.getAppLocation ());
 		this.capabilities = new DesiredCapabilities ();
 
-		setCapability (MobileCapabilityType.DEVICE_NAME, this.setting.getDeviceName (), this.capabilities);
+		setCapability (MobileCapabilityType.DEVICE_NAME, this.setting.getDeviceName (), this.capabilities, true);
 		setCapability (MobileCapabilityType.PLATFORM_NAME, this.setting.getDeviceType ()
-			.getName (), this.capabilities);
+			.getName (), this.capabilities, true);
 		setCapability (MobileCapabilityType.PLATFORM_VERSION, this.setting.getDeviceVersion (), this.capabilities);
-		setCapability (MobileCapabilityType.BROWSER_NAME, this.setting.getDeviceType ()
-			.getName (), this.capabilities);
 
-		String path = System.getProperty ("user.dir") + "/src/test/resources/" + this.setting.getAppLocation ();
+		if (this.setting.getAppType () == ApplicationType.WEB) {
+			setCapability (MobileCapabilityType.BROWSER_NAME, this.setting.getDeviceType ()
+				.getName (), this.capabilities, true);
+		}
+		else {
+			String path = System.getProperty ("user.dir") + "/src/test/resources/" + this.setting.getAppLocation ();
 
-		if (this.setting.isExternalApp ()) {
-			path = this.setting.getAppLocation ();
+			if (this.setting.isExternalApp ()) {
+				path = this.setting.getAppLocation ();
+			}
+
+			final File file = new File (path);
+			if (!file.exists ()) {
+				final String msg = "App not found on mentioned location [%s]...";
+				log.error (String.format (msg, path));
+				throw new DeviceAppNotFoundException (String.format (msg, path));
+			}
+			setCapability (MobileCapabilityType.APP, path, this.capabilities, true);
 		}
 
-		final File file = new File (path);
-		if (!file.exists ()) {
-			final String msg = "App not found on mentioned location [%s]...";
-			log.error (String.format (msg, path));
-			throw new DeviceAppNotFoundException (String.format (msg, path));
+		if (this.setting.getDeviceType () == DeviceType.IOS) {
+			setCapability ("xcodeOrgId", this.setting.getTeamId (), this.capabilities, true);
+			setCapability ("xcodeSigningId", this.setting.getSigningId (), this.capabilities, true);
+			setCapability (IOSMobileCapabilityType.APP_NAME, this.setting.getAppName (), this.capabilities, true);
+			setCapability (IOSMobileCapabilityType.BUNDLE_ID, this.setting.getBundleId (), this.capabilities, true);
+			setCapability ("udid", this.setting.getUdid (), this.capabilities, true);
+			setCapability ("bootstrapPath", this.setting.getBootstrapPath (), this.capabilities);
+			setCapability ("agentPath", this.setting.getAgentPath (), this.capabilities);
 		}
-
+		else {
+			setCapability (AndroidMobileCapabilityType.APP_ACTIVITY, this.setting.getAppActivity (), this.capabilities,
+					true);
+			setCapability (AndroidMobileCapabilityType.APP_PACKAGE, this.setting.getAppPackage (), this.capabilities,
+					true);
+			setCapability (AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity (),
+					this.capabilities);
+		}
 		setCapability (MobileCapabilityType.NO_RESET, Boolean.toString (this.setting.isNoReset ()), this.capabilities);
 		setCapability (MobileCapabilityType.FULL_RESET, Boolean.toString (this.setting.isFullReset ()),
 				this.capabilities);
 		setCapability (MobileCapabilityType.NEW_COMMAND_TIMEOUT, Integer.toString (this.setting.getSessionTimeout ()),
 				this.capabilities);
-		setCapability (MobileCapabilityType.APP, path, this.capabilities);
 		setCapability (MobileCapabilityType.AUTOMATION_NAME, this.setting.getAutomationName ()
-			.getName (), this.capabilities);
-		setCapability (AndroidMobileCapabilityType.APP_ACTIVITY, this.setting.getAppActivity (), this.capabilities);
-		setCapability (AndroidMobileCapabilityType.APP_PACKAGE, this.setting.getAppPackage (), this.capabilities);
-		setCapability (AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity (),
-				this.capabilities);
-
-		setCapability (IOSMobileCapabilityType.APP_NAME, this.setting.getAppName (), this.capabilities);
-		setCapability (IOSMobileCapabilityType.BUNDLE_ID, this.setting.getBundleId (), this.capabilities);
-		setCapability ("udid", this.setting.getUdid (), this.capabilities);
-		setCapability ("bootstrapPath", this.setting.getBootstrapPath (), this.capabilities);
-		setCapability ("agentPath", this.setting.getAgentPath (), this.capabilities);
-
+			.getName (), this.capabilities, true);
 		log.trace ("Building Device capabilities completed...");
 	}
 

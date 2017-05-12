@@ -11,24 +11,11 @@ import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 public final class ServerChecker {
 	/**
 	 * @author wasiq.bhamla
-	 * @since 09-May-2017 3:54:48 PM
-	 * @param key
-	 * @param value
-	 */
-	public static void checkServerConfigParams (final String key, final int value) {
-		if (value == 0) {
-			final String msg = "Server Config value for %s key not set.";
-			throw new AppiumConfigParameterNotFoundException (String.format (msg, key));
-		}
-	}
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since 09-May-2017 3:52:30 PM
 	 * @param key
 	 * @param value
 	 */
-	public static void checkServerConfigParams (final String key, final String value) {
+	public static void checkServerConfigParams (final String key, final Object value) {
 		if (value == null) {
 			final String msg = "Server Config value for %s key not set.";
 			throw new AppiumConfigParameterNotFoundException (String.format (msg, key));
