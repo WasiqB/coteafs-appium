@@ -27,6 +27,7 @@ public class DeviceSetting {
 	private String			teamId;
 	private String			udid;
 	private int				waitForElementUntil;
+	private long			wdaConnectionTimeout;
 
 	/**
 	 * @author wasiq.bhamla
@@ -212,6 +213,15 @@ public class DeviceSetting {
 	 */
 	public int getWaitForElementUntil () {
 		return this.waitForElementUntil;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 16-May-2017 6:10:56 PM
+	 * @return the wdaConnectionTimeout
+	 */
+	public long getWdaConnectionTimeout () {
+		return this.wdaConnectionTimeout;
 	}
 
 	/**
@@ -459,5 +469,15 @@ public class DeviceSetting {
 	 */
 	public void setWaitForElementUntil (final int waitForElementUntil) {
 		this.waitForElementUntil = waitForElementUntil;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 16-May-2017 6:10:56 PM
+	 * @param wdaConnectionTimeout
+	 *            the wdaConnectionTimeout to set
+	 */
+	public void setWdaConnectionTimeout (final long wdaConnectionTimeout) {
+		this.wdaConnectionTimeout = wdaConnectionTimeout;
 	}
 }

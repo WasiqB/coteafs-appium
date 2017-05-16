@@ -185,6 +185,8 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 			setCapability (IOSMobileCapabilityType.APP_NAME, this.setting.getAppName (), this.capabilities, true);
 			setCapability (IOSMobileCapabilityType.BUNDLE_ID, this.setting.getBundleId (), this.capabilities, true);
 			setCapability ("udid", this.setting.getUdid (), this.capabilities, true);
+			setCapability ("wdaConnectionTimeout", Long.toString (this.setting.getWdaConnectionTimeout ()),
+					this.capabilities, true);
 			setCapability ("bootstrapPath", this.setting.getBootstrapPath (), this.capabilities);
 			setCapability ("agentPath", this.setting.getAgentPath (), this.capabilities);
 		}
