@@ -1,6 +1,5 @@
 package com.github.wasiqb.coteafs.appium.utils;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
@@ -25,7 +24,7 @@ public final class CapabilityUtils {
 	 * @param value
 	 * @param capabilities
 	 */
-	public static void setCapability (final String key, final String value, final DesiredCapabilities capabilities) {
+	public static <T> void setCapability (final String key, final T value, final DesiredCapabilities capabilities) {
 		setCapability (key, value, capabilities, false);
 	}
 
@@ -37,12 +36,12 @@ public final class CapabilityUtils {
 	 * @param capabilities
 	 * @param mandatory
 	 */
-	public static void setCapability (final String key, final String value, final DesiredCapabilities capabilities,
+	public static <T> void setCapability (final String key, final T value, final DesiredCapabilities capabilities,
 			final boolean mandatory) {
 		if (mandatory) {
 			DeviceChecker.checkCapabilitiesParams (key, value);
 		}
-		if (!StringUtils.isEmpty (value)) {
+		if (value != null) {
 			final String msg = "Setting capability [key: %s, value: %s]...";
 			log.trace (String.format (msg, key, value));
 			capabilities.setCapability (key, value);

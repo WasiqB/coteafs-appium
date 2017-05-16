@@ -185,8 +185,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 			setCapability (IOSMobileCapabilityType.APP_NAME, this.setting.getAppName (), this.capabilities, true);
 			setCapability (IOSMobileCapabilityType.BUNDLE_ID, this.setting.getBundleId (), this.capabilities, true);
 			setCapability ("udid", this.setting.getUdid (), this.capabilities, true);
-			setCapability ("wdaConnectionTimeout", Long.toString (this.setting.getWdaConnectionTimeout ()),
-					this.capabilities, true);
+			setCapability ("wdaConnectionTimeout", this.setting.getWdaConnectionTimeout (), this.capabilities, true);
 			setCapability ("bootstrapPath", this.setting.getBootstrapPath (), this.capabilities);
 			setCapability ("agentPath", this.setting.getAgentPath (), this.capabilities);
 		}
@@ -198,11 +197,9 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 			setCapability (AndroidMobileCapabilityType.APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity (),
 					this.capabilities);
 		}
-		setCapability (MobileCapabilityType.NO_RESET, Boolean.toString (this.setting.isNoReset ()), this.capabilities);
-		setCapability (MobileCapabilityType.FULL_RESET, Boolean.toString (this.setting.isFullReset ()),
-				this.capabilities);
-		setCapability (MobileCapabilityType.NEW_COMMAND_TIMEOUT, Integer.toString (this.setting.getSessionTimeout ()),
-				this.capabilities);
+		setCapability (MobileCapabilityType.NO_RESET, this.setting.isNoReset (), this.capabilities);
+		setCapability (MobileCapabilityType.FULL_RESET, this.setting.isFullReset (), this.capabilities);
+		setCapability (MobileCapabilityType.NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
 		setCapability (MobileCapabilityType.AUTOMATION_NAME, this.setting.getAutomationName ()
 			.getName (), this.capabilities, true);
 		log.trace ("Building Device capabilities completed...");
