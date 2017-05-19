@@ -14,7 +14,11 @@ public enum DeviceType {
 	/**
 	 * iOS Device.
 	 */
-	IOS (MobilePlatform.IOS);
+	IOS (MobilePlatform.IOS),
+	/**
+	 * Windows Device.
+	 */
+	WINDOWS (MobilePlatform.WINDOWS);
 
 	private final String name;
 

@@ -66,7 +66,7 @@
 		<truth.version>0.32</truth.version>
 		<yaml-version>1.18</yaml-version>
 		<selenium-version>3.4.0</selenium-version>
-		<appium-version>5.0.0-BETA8</appium-version>
+		<appium-version>4.1.2</appium-version>
 		<commons.version>3.5</commons.version>
 		<nexus.version>1.6.7</nexus.version>
 		<jacoco.version>0.7.7.201606060606</jacoco.version>
@@ -152,23 +152,16 @@
 					<groupId>com.google.guava</groupId>
 					<artifactId>guava</artifactId>
 				</exclusion>
+				<exclusion>
+					<groupId>org.seleniumhq.selenium</groupId>
+					<artifactId>selenium-java</artifactId>
+				</exclusion>
 			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.yaml</groupId>
 			<artifactId>snakeyaml</artifactId>
 			<version>${yaml-version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-server</artifactId>
-			<version>${selenium-version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.yaml</groupId>
-					<artifactId>snakeyaml</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 	</dependencies>
 
