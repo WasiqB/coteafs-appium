@@ -20,4 +20,13 @@ public class IOSDeviceElementActions extends DeviceElementActions <IOSDriver <Mo
 	public IOSDeviceElementActions (final IOSDevice device, final String name, final MobileElement element) {
 		super (device, name, element);
 	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceElementActions#verifyThat()
+	 */
+	@Override
+	public IOSElementVerify verifyThat () {
+		return new IOSElementVerify (this);
+	}
 }

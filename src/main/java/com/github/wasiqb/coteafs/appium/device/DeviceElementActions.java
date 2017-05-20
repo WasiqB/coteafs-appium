@@ -96,6 +96,24 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 19-May-2017 10:03:16 PM
+	 * @return the device
+	 */
+	public TDevice getDevice () {
+		return this.device;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 19-May-2017 10:03:16 PM
+	 * @return the driver
+	 */
+	public TDriver getDriver () {
+		return this.driver;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:54:58 PM
 	 */
 	public void longPress () {
@@ -238,6 +256,15 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 		catch (final NoSuchSessionException e) {
 			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
 		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 19-May-2017 10:09:58 PM
+	 * @return verify
+	 */
+	public DeviceElementVerify <TDriver, TDevice> verifyThat () {
+		return new DeviceElementVerify <> (this);
 	}
 
 	/**
