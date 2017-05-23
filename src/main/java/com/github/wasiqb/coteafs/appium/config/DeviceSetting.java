@@ -29,6 +29,7 @@ public class DeviceSetting {
 	private String			udid;
 	private String			updatedWdaBundleId;
 	private boolean			useNewWda;
+	private boolean			usePrebuiltWda;
 	private int				waitForElementUntil;
 	private long			wdaConnectionTimeout;
 
@@ -47,7 +48,8 @@ public class DeviceSetting {
 		this.externalApp = false;
 		this.clearSystemFiles = false;
 		this.sessionTimeout = 120;
-		this.useNewWda = true;
+		this.useNewWda = false;
+		this.usePrebuiltWda = false;
 	}
 
 	/**
@@ -282,6 +284,15 @@ public class DeviceSetting {
 	 */
 	public boolean isUseNewWda () {
 		return this.useNewWda;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 23-May-2017 6:54:33 PM
+	 * @return the usePrebuiltWda
+	 */
+	public boolean isUsePrebuiltWda () {
+		return this.usePrebuiltWda;
 	}
 
 	/**
@@ -522,6 +533,16 @@ public class DeviceSetting {
 	 */
 	public void setUseNewWda (final boolean useNewWda) {
 		this.useNewWda = useNewWda;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 23-May-2017 6:54:33 PM
+	 * @param usePrebuiltWda
+	 *            the usePrebuiltWda to set
+	 */
+	public void setUsePrebuiltWda (final boolean usePrebuiltWda) {
+		this.usePrebuiltWda = usePrebuiltWda;
 	}
 
 	/**
