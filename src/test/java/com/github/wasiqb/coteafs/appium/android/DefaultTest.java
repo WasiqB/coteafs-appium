@@ -5,7 +5,6 @@ import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 import com.github.wasiqb.coteafs.appium.android.activities.LoginActivity;
-import com.github.wasiqb.coteafs.appium.android.activities.PermissionActivity;
 import com.github.wasiqb.coteafs.appium.android.activities.WalkThruActivity2;
 import com.github.wasiqb.coteafs.appium.android.activities.WalkthruActivity1;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
@@ -50,7 +49,6 @@ public class DefaultTest {
 	@Test (description = "Click next")
 	public void test1 () {
 		final WalkthruActivity1 walk = new WalkthruActivity1 (this.androidDevice);
-		walk.load ();
 		walk.onElement ("Next")
 			.tap (100);
 	}
@@ -62,22 +60,10 @@ public class DefaultTest {
 	@Test (description = "Click on Skip")
 	public void test2 () {
 		final WalkThruActivity2 walk = new WalkThruActivity2 (this.androidDevice);
-		walk.load ();
 		walk.onElement ("Skip")
 			.tap (100);
-
-		try {
-			final PermissionActivity perm = new PermissionActivity (this.androidDevice);
-			perm.load ();
-			final String msg = perm.onElement ("Message")
-				.text ();
-			System.out.println (msg);
-			perm.onElement ("Allow")
-				.tap (100);
-		}
-		catch (final Exception e) {
-			System.err.println (e);
-		}
+		walk.onDevice ()
+			.handlePermissionAlert ("Allow");
 	}
 
 	/**
@@ -87,7 +73,6 @@ public class DefaultTest {
 	@Test (description = "Login to App")
 	public void test3 () {
 		final LoginActivity login = new LoginActivity (this.androidDevice);
-		login.load ();
 		login.onElement ("userName")
 			.enterText ("user_id_1");
 		login.onElement ("password")

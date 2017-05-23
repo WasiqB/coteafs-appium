@@ -53,7 +53,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public void clear () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Clearing element %s...", this.name));
+		log.info (String.format ("Clearing element [%s]...", this.name));
 		try {
 			this.element.clear ();
 		}
@@ -68,7 +68,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @return enabled
 	 */
 	public boolean enabled () {
-		log.info (String.format ("Checking if element %s is enabled...", this.name));
+		log.info (String.format ("Checking if element [%s] is enabled...", this.name));
 		try {
 			return this.element.isEnabled ();
 		}
@@ -85,7 +85,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	public void enterText (final String text) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		clear ();
-		log.info (String.format ("Entering text [%s] in element %s...", text, this.name));
+		log.info (String.format ("Entering text [%s] in element [%s]...", text, this.name));
 		try {
 			this.element.sendKeys (text);
 		}
@@ -118,7 +118,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public void longPress () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Performing long press on element %s...", this.name));
+		log.info (String.format ("Performing long press on element [%s]...", this.name));
 		try {
 			this.touch.longPress (this.element)
 				.perform ();
@@ -135,7 +135,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public void longPress (final int duration) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Performing long press on element %s till %d ms...", this.name, duration));
+		log.info (String.format ("Performing long press on element [%s] till [%d] ms...", this.name, duration));
 		try {
 			this.touch.longPress (this.element, duration)
 				.perform ();
@@ -151,7 +151,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public void pinch () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Pinching on element %s...", this.name));
+		log.info (String.format ("Pinching on element [%s]...", this.name));
 		try {
 			this.element.pinch ();
 		}
@@ -166,7 +166,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @return selected
 	 */
 	public boolean selected () {
-		log.info (String.format ("Checking if element %s is selected...", this.name));
+		log.info (String.format ("Checking if element [%s] is selected...", this.name));
 		try {
 			return this.element.isSelected ();
 		}
@@ -181,7 +181,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public void submit () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Performing submit on element %s...", this.name));
+		log.info (String.format ("Performing submit on element [%s]...", this.name));
 		try {
 			this.element.submit ();
 		}
@@ -249,7 +249,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @return text
 	 */
 	public String text () {
-		log.info (String.format ("Getting text on element %s...", this.name));
+		log.info (String.format ("Getting text on element [%s]...", this.name));
 		try {
 			return this.element.getText ();
 		}
@@ -273,7 +273,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @return visible
 	 */
 	public boolean visible () {
-		log.info (String.format ("Checking if element %s is visible...", this.name));
+		log.info (String.format ("Checking if element [%s] is visible...", this.name));
 		try {
 			return this.element.isDisplayed ();
 		}
@@ -288,7 +288,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 */
 	public void zoom () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Zooming on element %s...", this.name));
+		log.info (String.format ("Zooming on element [%s]...", this.name));
 		try {
 			this.element.zoom ();
 		}

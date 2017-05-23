@@ -2,9 +2,12 @@ servers:
   default:
     ip: 127.0.0.1
     port: 4723
-    start_up_time_out_seconds: 60
+    timeouts_seconds:
+      start_up: 60
+    log_file: logs/android-server.log
     no_reset: true
     external: true
+    session_override: true
   other:
     ip: 127.0.0.1
     port: 4724
@@ -13,32 +16,69 @@ servers:
 
 devices:
   android:
-    device_type: ANDROID
-    device_name: Mi4
-    device_version: 6.0.1
-    app_type: HYBRID
-    automation_name: APPIUM
-    app_location: apps/android/xxxx.apk
-    app_package: com.company.cwp.app
-    app_activity: com.company.cwp.app.activity.xxxx.MainActivity
-    app_wait_activity: com.company.cwp.app.activity.xxxx.WalkthroughActivity
-    default_wait: 60
-    wait_for_element_until: 60
-    no_reset: true
-    full_reset: true
+    app:
+      location: apps/android/xxxx.apk
+      external: false
+      package: com.company.cwp.app
+      activity: com.company.cwp.app.activity.xxxx.MainActivity
+      wait_activity: com.company.cwp.app.activity.xxxx.WalkthroughActivity
+      type: HYBRID
+    device:
+      type: ANDROID
+      name: Mi4
+      version: 6.0.1
+      automation_name: APPIUM
+      no_reset: true
+      full_reset: true
+      screenshot_path: /snaps
+      alert:
+        auto_grant_permissions: true
+    waits:
+      implicit: 60
+      explicit: 60
+    timeouts:
+      session: 60
+      install: 60
+      device_ready: 60
+      duration: 60ms
+    
   iphone:
-    device_type: IOS
-    device_name: iPhone 6
-    device_version: 10.3.1
-    udid: <Device UID>
-    bundle_id: com.company.xxxx
-    app_type: HYBRID
-    app_location: /Users/wasiq.bhamla/Downloads/xxxx.ipa
-    external_app: true
-    automation_name: XCUI
-    app_name: App Name
-    bootstrap_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent
-    agent_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent/WebDriverAgent.xcodeproj
+    app:
+      location: /Users/wasiq.bhamla/Downloads/xxxx.ipa
+      external: true
+      type: HYBRID
+      name: App Name
+      bundle_id: com.company.xxxx
+    device:
+      type: IOS
+      name: iPhone 6
+      version: 10.3.1
+      udid: <Device UID>
+      automation_name: XCUI
+      max_typing_frequency: 100 words per min
+      send_key_strategy: one by one
+      alert:
+        auto_accept: true
+        auto_dismiss: false
+    wda:
+      use_new: true
+      local_port: 8100
+      retries: 2
+      retry_interval: 10000
+      update_bundle_id: com.facebook.MyWebDriverAgentRunner
+      team_id: <10 char Team ID>
+      signing_id: iPhone Developer
+      bootstrap_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent
+      agent_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent/WebDriverAgent.xcodeproj
+    timeouts:
+      wda_connection: 600
+      wda_launch: 600
+      wda_command: 600
+      launch: 10000
+      screenshot: 10
+    waits:
+      inter_key: 100
+      ios_install: 500
   iphone_simulator:
     device_type: IOS
     device_name: iPhone 6

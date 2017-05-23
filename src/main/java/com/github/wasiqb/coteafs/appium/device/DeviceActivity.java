@@ -33,8 +33,8 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	}
 
 	protected final TDevice						device;
+	protected final Map <String, DeviceElement>	deviceElements;
 	private boolean								activityLoaded;
-	private final Map <String, DeviceElement>	deviceElements;
 	private final WebDriverWait					wait;
 
 	/**
@@ -61,12 +61,6 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 26-Apr-2017 11:31:02 PM
-	 */
-	public abstract void load ();
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:41:07 PM
 	 * @return device actions
 	 */
@@ -84,7 +78,8 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 */
 	public DeviceElementActions <TDriver, TDevice> onElement (final String name) {
 		ServerChecker.checkServerRunning (this.device.server);
-		final String msg = "Preparing to perform actions on device element %s...";
+		load ();
+		final String msg = "Preparing to perform actions on device element [%s]...";
 		log.info (String.format (msg, name));
 		return new DeviceElementActions <TDriver, TDevice> (this.device, name, getElement (name));
 	}
@@ -97,29 +92,13 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	public abstract DeviceElement prepare ();
 
 	protected MobileElement getElement (final String name) {
-		final String msg = "Getting element with name %s...";
+		final String msg = "Getting element with name [%s]...";
 		log.trace (String.format (msg, name));
 		return findElements (this.deviceElements.get (name));
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 26-Apr-2017 4:34:30 PM
-	 * @param rootElement
-	 */
-	protected void loadElements (final DeviceElement rootElement) {
-		ServerChecker.checkServerRunning (this.device.server);
-		if (!this.deviceElements.containsKey (rootElement.name ())) {
-			this.deviceElements.put (rootElement.name (), rootElement);
-		}
-		final List <DeviceElement> childs = rootElement.childs ();
-		for (final DeviceElement child : childs) {
-			loadElements (child);
-		}
-	}
-
 	private MobileElement find (final DeviceElement parent, final By locator, final int index) {
-		String msg = "Finding child element of %s parent using [%s] at index [%d]...";
+		String msg = "Finding child element of [%s] parent using [%s] at index [%d]...";
 		log.trace (String.format (msg, parent.name (), locator, index));
 		final MobileElement mobileElement = getElement (parent.name ());
 		try {
@@ -165,6 +144,27 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		}
 		this.activityLoaded = true;
 		return elem;
+	}
+
+	private void load () {
+		if (this.deviceElements.size () == 0) {
+			final String platform = this.device.setting.getDeviceType ()
+				.getName ();
+			final String msg = "Loading elements on %s activity...";
+			log.info (String.format (msg, platform));
+			loadElements (prepare ());
+		}
+	}
+
+	private void loadElements (final DeviceElement rootElement) {
+		ServerChecker.checkServerRunning (this.device.server);
+		if (!this.deviceElements.containsKey (rootElement.name ())) {
+			this.deviceElements.put (rootElement.name (), rootElement);
+		}
+		final List <DeviceElement> childs = rootElement.childs ();
+		for (final DeviceElement child : childs) {
+			loadElements (child);
+		}
 	}
 
 	private void waitForElement (final By locator) {

@@ -30,18 +30,6 @@ public abstract class AndroidActivity extends DeviceActivity <AndroidDriver <Mob
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#load()
-	 */
-	@Override
-	public void load () {
-		final String activity = onDevice ().currentActivity ();
-		final String msg = "Loading elements on %s activity...";
-		log.info (String.format (msg, activity));
-		loadElements (prepare ());
-	}
-
-	/*
-	 * (non-Javadoc)
 	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#onDevice()
 	 */
 	@Override

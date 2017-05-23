@@ -42,6 +42,12 @@ public final class CapabilityUtils {
 			DeviceChecker.checkCapabilitiesParams (key, value);
 		}
 		if (value != null) {
+			if (value instanceof Boolean && ! ((Boolean) value)) {
+				return;
+			}
+			else if (value instanceof Integer && (Integer) value == 0) {
+				return;
+			}
 			final String msg = "Setting capability [key: %s, value: %s]...";
 			log.trace (String.format (msg, key, value));
 			capabilities.setCapability (key, value);

@@ -56,7 +56,6 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	public String handlePermissionAlert (final String buttonText) {
 		log.trace ("Handling iOS Alert pop-up...");
 		final PermissionActivity perm = new PermissionActivity (this.device);
-		perm.load ();
 		try {
 			final String msg = "Alert Text: %s";
 			final String description = perm.onElement ("Message")
@@ -67,7 +66,7 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 			return description;
 		}
 		catch (final TimeoutException e) {
-			log.warn ("Expecting Alert not displayed...");
+			log.warn ("Expected Alert not displayed...");
 			log.warn (e.getMessage ());
 		}
 		catch (final NoSuchSessionException e) {
