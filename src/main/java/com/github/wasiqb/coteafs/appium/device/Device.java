@@ -258,6 +258,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		setCapability ("bootstrapPath", this.setting.getBootstrapPath (), this.capabilities);
 		setCapability ("agentPath", this.setting.getAgentPath (), this.capabilities);
 		setCapability ("updatedWDABundleId", this.setting.getUpdatedWdaBundleId (), this.capabilities);
+		setCapability ("useNewWDA", this.setting.isUseNewWda (), this.capabilities);
 	}
 
 	private void startDriver (final String platform) {

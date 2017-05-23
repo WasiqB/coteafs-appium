@@ -28,6 +28,7 @@ public class DeviceSetting {
 	private String			teamId;
 	private String			udid;
 	private String			updatedWdaBundleId;
+	private boolean			useNewWda;
 	private int				waitForElementUntil;
 	private long			wdaConnectionTimeout;
 
@@ -46,6 +47,7 @@ public class DeviceSetting {
 		this.externalApp = false;
 		this.clearSystemFiles = false;
 		this.sessionTimeout = 120;
+		this.useNewWda = true;
 	}
 
 	/**
@@ -271,6 +273,15 @@ public class DeviceSetting {
 	 */
 	public boolean isNoReset () {
 		return this.noReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 23-May-2017 6:33:48 PM
+	 * @return the useNewWda
+	 */
+	public boolean isUseNewWda () {
+		return this.useNewWda;
 	}
 
 	/**
@@ -501,6 +512,16 @@ public class DeviceSetting {
 	 */
 	public void setUpdatedWdaBundleId (final String updatedWdaBundleId) {
 		this.updatedWdaBundleId = updatedWdaBundleId;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 23-May-2017 6:33:48 PM
+	 * @param useNewWda
+	 *            the useNewWda to set
+	 */
+	public void setUseNewWda (final boolean useNewWda) {
+		this.useNewWda = useNewWda;
 	}
 
 	/**
