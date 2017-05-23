@@ -15,6 +15,7 @@ public class DeviceSetting {
 	private AutomationName	automationName;
 	private String			bootstrapPath;
 	private String			bundleId;
+	private boolean			clearSystemFiles;
 	private int				defaultWait;
 	private String			deviceName;
 	private DeviceType		deviceType;
@@ -42,6 +43,8 @@ public class DeviceSetting {
 		this.waitForElementUntil = 30;
 		this.noReset = false;
 		this.fullReset = false;
+		this.externalApp = false;
+		this.clearSystemFiles = false;
 		this.sessionTimeout = 120;
 	}
 
@@ -236,6 +239,15 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 23-May-2017 4:45:23 PM
+	 * @return the clearSystemFiles
+	 */
+	public boolean isClearSystemFiles () {
+		return this.clearSystemFiles;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 30-Apr-2017 8:00:43 PM
 	 * @return the externalApp
 	 */
@@ -359,6 +371,16 @@ public class DeviceSetting {
 	 */
 	public void setBundleId (final String bundleId) {
 		this.bundleId = bundleId;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 23-May-2017 4:45:23 PM
+	 * @param clearSystemFiles
+	 *            the clearSystemFiles to set
+	 */
+	public void setClearSystemFiles (final boolean clearSystemFiles) {
+		this.clearSystemFiles = clearSystemFiles;
 	}
 
 	/**

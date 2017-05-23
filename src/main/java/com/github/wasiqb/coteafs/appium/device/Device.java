@@ -179,6 +179,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		setCapability (NO_RESET, this.setting.isNoReset (), this.capabilities);
 		setCapability (FULL_RESET, this.setting.isFullReset (), this.capabilities);
 		setCapability (NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
+		setCapability ("clearSystemFiles", this.setting.isClearSystemFiles (), this.capabilities);
 		setCapability (AUTOMATION_NAME, this.setting.getAutomationName ()
 			.getName (), this.capabilities, true);
 		log.trace ("Building Device capabilities completed...");
