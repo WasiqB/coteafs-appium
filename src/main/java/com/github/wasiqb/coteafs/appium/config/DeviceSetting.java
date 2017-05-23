@@ -26,6 +26,7 @@ public class DeviceSetting {
 	private String			signingId;
 	private String			teamId;
 	private String			udid;
+	private String			updatedWdaBundleId;
 	private int				waitForElementUntil;
 	private long			wdaConnectionTimeout;
 
@@ -204,6 +205,15 @@ public class DeviceSetting {
 	 */
 	public String getUdid () {
 		return this.udid;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 23-May-2017 4:02:32 PM
+	 * @return the updatedWdaBundleId
+	 */
+	public String getUpdatedWdaBundleId () {
+		return this.updatedWdaBundleId;
 	}
 
 	/**
@@ -459,6 +469,16 @@ public class DeviceSetting {
 	 */
 	public void setUdid (final String udid) {
 		this.udid = udid;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 23-May-2017 4:02:32 PM
+	 * @param updatedWdaBundleId
+	 *            the updatedWdaBundleId to set
+	 */
+	public void setUpdatedWdaBundleId (final String updatedWdaBundleId) {
+		this.updatedWdaBundleId = updatedWdaBundleId;
 	}
 
 	/**

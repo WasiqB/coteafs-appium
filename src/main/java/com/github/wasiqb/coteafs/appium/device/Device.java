@@ -256,6 +256,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		setCapability ("wdaConnectionTimeout", this.setting.getWdaConnectionTimeout (), this.capabilities, true);
 		setCapability ("bootstrapPath", this.setting.getBootstrapPath (), this.capabilities);
 		setCapability ("agentPath", this.setting.getAgentPath (), this.capabilities);
+		setCapability ("updatedWDABundleId", this.setting.getUpdatedWdaBundleId (), this.capabilities);
 	}
 
 	private void startDriver (final String platform) {
