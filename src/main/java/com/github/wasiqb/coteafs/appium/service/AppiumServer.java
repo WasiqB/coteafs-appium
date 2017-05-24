@@ -122,7 +122,9 @@ public final class AppiumServer {
 			log.trace ("Appium Service Started...");
 		}
 		else {
-			log.trace ("Appium Service is already running...");
+			if (isRunning ()) {
+				log.trace ("Appium Service is already running...");
+			}
 		}
 	}
 

@@ -78,10 +78,16 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 */
 	public DeviceElementActions <TDriver, TDevice> onElement (final String name) {
 		ServerChecker.checkServerRunning (this.device.server);
-		load ();
 		final String msg = "Preparing to perform actions on device element [%s]...";
 		log.info (String.format (msg, name));
 		return new DeviceElementActions <TDriver, TDevice> (this.device, name, getElement (name));
+	}
+
+	protected MobileElement getElement (final String name) {
+		load ();
+		final String msg = "Getting element with name [%s]...";
+		log.trace (String.format (msg, name));
+		return findElements (this.deviceElements.get (name));
 	}
 
 	/**
@@ -89,13 +95,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @return element
 	 * @since 02-May-2017 4:38:00 PM
 	 */
-	public abstract DeviceElement prepare ();
-
-	protected MobileElement getElement (final String name) {
-		final String msg = "Getting element with name [%s]...";
-		log.trace (String.format (msg, name));
-		return findElements (this.deviceElements.get (name));
-	}
+	protected abstract DeviceElement prepare ();
 
 	private MobileElement find (final DeviceElement parent, final By locator, final int index) {
 		String msg = "Finding child element of [%s] parent using [%s] at index [%d]...";

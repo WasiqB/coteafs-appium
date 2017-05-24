@@ -25,7 +25,7 @@ public class PermissionActivity extends AndroidActivity {
 	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#build()
 	 */
 	@Override
-	public DeviceElement prepare () {
+	protected DeviceElement prepare () {
 		final DeviceElement container = DeviceElement.create ("Permission Window")
 			.using (By.id ("com.android.packageinstaller:id/dialog_container"));
 		DeviceElement.create ("Message")
