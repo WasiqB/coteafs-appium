@@ -1,3 +1,8 @@
 /target/
 /test-output/
 /logs/
+/settings/
+/pubring.gpg
+/secring.gpg
+/trustdb.gpg
+/trustdb.gpg.lock
