@@ -270,3 +270,10 @@ Windows platform is not yet supported which will be done later.
 Area | Status
 -----|-------
 Dependencies | [![Dependency Status](https://www.versioneye.com/user/projects/59269e4925feb9004d428b76/badge.svg)](https://www.versioneye.com/user/projects/59269e4925feb9004d428b76)
+Issues | [![Github Issues](http://githubbadges.herokuapp.com/wasiqb/coteafs-appium/issues.svg)](https://github.com/wasiqb/coteafs-appium/issues)
+Pull Requests | [![Pending Pull-Requests](http://githubbadges.herokuapp.com/wasiqb/coteafs-appium/pulls.svg)](https://github.com/wasiqb/coteafs-appium/pulls)
+Release | [![Github Releases](https://img.shields.io/github/downloads/wasiqb/coteafs-appium/latest/total.svg)](https://github.com/wasiqb/coteafs-appium/releases)
+Stars | [![GitHub stars](https://img.shields.io/github/stars/wasiqb/coteafs-appium.svg?style=social&label=Star)](https://github.com/wasiqb/coteafs-appium)
+Forks | [![GitHub forks](https://img.shields.io/github/forks/wasiqb/coteafs-appium.svg?style=social&label=Fork)](https://github.com/wasiqb/coteafs-appium)
+License | [![GitHub license](https://img.shields.io/github/license/wasiqb/coteafs-appium.svg)](http://www.apache.org/licenses/LICENSE-2.0)
+Maven Central | [![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium)
