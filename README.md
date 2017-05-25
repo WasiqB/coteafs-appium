@@ -199,22 +199,21 @@ import org.testng.annotations.Test;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
-import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 import io.appium.java_client.SwipeElementDirection;
 
-public class AndroidHappyPathDemo {
-	protected AndroidDevice	device;
+public class IOSHappyPathDemo {
+	protected IOSDevice	device;
 	protected AppiumServer	server;
   
   @BeforeSuite (alwaysRun = true)
 	public void setupTestSuite () {
-		this.server = new AppiumServer ("android");
+		this.server = new AppiumServer ("ipad");
 		this.server.start ();
 
-		this.device = new AndroidDevice (this.studentServer, "android");
+		this.device = new IOSDevice (this.server, "ipad");
 		this.device.start ();
 	}
   
@@ -226,15 +225,13 @@ public class AndroidHappyPathDemo {
 		}
 	}
 
-  @Test (description = "Student Login.")
-	public void test4 () {
+  @Test
+	public void test1 () {
 		final LoginActivity login = new LoginActivity (this.device);
 		login.onElement ("UserName")
 			.enterText ("UserID_1");
 		login.onElement ("Password")
 			.enterText ("Password1");
-		login.onDevice ()
-			.hideKeyboard ();
 		login.onElement ("Login")
 			.tap (100);
 	}
@@ -242,7 +239,8 @@ public class AndroidHappyPathDemo {
 ```
 
 # Known issues.
-1. Sometimes it is observed that due some conflicting dependencies for **SnakeYaml** and **Google's Guava**, you need to make sure you add exclusion in other library dependenceis (__which is internally using an old version of the above mentioned library__) which you may use in your pom along with this framework. This is how you do this:```xml
+1. Sometimes it is observed that due some conflicting dependencies for **SnakeYaml** and **Google's Guava**, you need to make sure you add exclusion in other library dependenceis (__which is internally using an old version of the above mentioned library__) which you may use in your pom along with this framework. This is how you do this:
+```xml
 <dependency>
   <groupId>org.testng</groupId>
   <artifactId>testng</artifactId>
@@ -257,7 +255,10 @@ public class AndroidHappyPathDemo {
       <artifactId>guava</artifactId>
     </exclusion>
   </exclusions>
-</dependency>```If this won't solve the issues, than you need to remove old versions from your **.m2** repository from your local machine for both **SnakeYaml** and **Google's Guava**.
+</dependency>
+```
+If this won't solve the issues, than you need to remove old versions from your **.m2** repository from your local machine for both **SnakeYaml** and **Google's Guava**.
+
 2. For now, you must use external server as server started from Framework is causing problem for IOS. For Android it works.
 
 ## Following not yet supported
