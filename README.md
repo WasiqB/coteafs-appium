@@ -1,5 +1,5 @@
 # coteafs-appium
-This is an easy to use Mobile Automation Framework build on top of Appium. It is completely configurable thru the config file. It can be used to test native Mobile app for iOS and Android platform. This framework introduces AOM (Activity Object Model) concept similar to Page Object Model and promotes fluent coding style. Main aim behind this framework is to minimize the line of codes needed to write tests as all the heavy weight lifting is done by the framework itself.
+This is an easy to use Mobile Automation Framework build on top of Appium. It is completely configurable thru the config file. It can be used to test native Mobile app for iOS and Android platform. This framework introduces AOM (Activity Object Model) concept similar to Page Object Model and promotes fluent coding style. Main aim behind this framework is to minimize the line of codes that is needed to write tests as all of the heavy weight lifting is done by the framework itself. Also, it is possible to do Automation with multiple devices in a single test if needed.
 
 # Usage
 You need to use following in your pom.xml in order to use this framework.
@@ -39,7 +39,7 @@ You will also need following supporting dependencies which is also required to b
 ## Config file:
 This the heart of this framework. It is a yaml file which will have all the settings needed for your tests. The framework will try to find System property `coteafs.appium.config` which will have the path of the config file. If it is not specified, by default, it will search the file at `src/test/resources/test-config.yaml`. If this file is not found, then it will throw `AppiumConfigFileNotFoundException`.
 
-## Supported Server Config List:
+### Supported Server Config List:
 Following is the server config list:
 
 Key | Sample Value | Default Value | Description
@@ -53,7 +53,7 @@ Key | Sample Value | Default Value | Description
 `no_reset` | true | false | true, if app reset is not required, else, can be omitted.
 `full_reset` | true | false | true, if full reset of app is required, else, can be omitted.
 
-## Supported Device Config List:
+### Supported Device Config List:
 Following is the device config list:
 
 Key | Platform | Allowed Values | Description
@@ -85,6 +85,69 @@ Key | Platform | Allowed Values | Description
 `session_timeout` | Both | Int | New command timeout value.
 `no_reset` | Both | false | true, if app reset is not required, else, can be omitted.
 `full_reset` | Both | false | true, if full reset of app is required, else, can be omitted.
+
+## Exceptions:
+Framework handles all the events and throws a meaningful exception which is easy to identify the cause of failure.
+Following is the list of exception and their events of occurring:
+
+Exception | Events
+----------|-------
+`AppiumConfigFileNotFoundException` | When Config file is not found.
+`AppiumConfigNotLoadedException` | When some error occurs while loading the config file.
+`AppiumConfigParameterNotFoundException` | When the config file is missing mandatory params.
+`AppiumServerAlreadyRunningException` | When Appium server is already running.
+`AppiumServerNotRunningException` | When Appium server is not running.
+`AppiumServerNotStartingException` | When there is Error while starting the server.
+`AppiumServerNotStoppingException` | When there is Error while stopping the server.
+`AppiumServerStoppedException` | When trying to interact with device while Appium server is stopped.
+`DeviceAppNotClosingException` | When there is Error while closing Device app.
+`DeviceAppNotFoundException` | When device app is not found on local machine.
+`DeviceDesiredCapabilitiesNotSetException` | When device mandatory desired capabilities is not set.
+`DeviceDriverDefaultWaitException` | When there is Error while setting implicit waits.
+`DeviceDriverInitializationFailedException` | When there is Error while initializing device driver.
+`DeviceDriverNotStartingException` | When there is Error while starting device driver.
+`DeviceDriverNotStoppingException` | When there is Error while quitting device driver.
+`DeviceElementDisabledException` | When you are trying to interact with disabled element.
+`DeviceElementFindTimedOutException` | When element is not ready within specified explicit delay given in config file.
+`DeviceElementNotDisplayedException` | When you are trying to interact with element which is not yet displayed.
+`DeviceElementNotFoundException` | When device element cannot be found.
+`DeviceTypeNotSupportedException` | When the mentioned device type is not supported by the framework.
+
+## Logging:
+By default, framework create 3 types of log files under `/logs` folder as specified below:
+
+Log File Name | Description
+--------------|-------------
+`test-log-all.log` | Logs all the events in this file.
+`test-log-error.log` | Logs only the errors encountered in this file.
+`test-log-main.log` | Logs only the info events in this file.
+
+The name of the file cannot be changed. If it is requested by many, then it can be done.
+Following is the sample content of the logs which is generated by the framework.
+```
+[21:25:58.889] [INFO ] - Preparing to perform actions on iOS device element UserName... (IOSActivity:) 
+[21:25:58.903] [INFO ] - Loading elements on iOS activity... (DeviceActivity:) 
+[21:26:03.472] [INFO ] - Clearing element [UserName]... (DeviceElementActions:) 
+[21:26:05.509] [INFO ] - Entering text [User1] in element [UserName]... (DeviceElementActions:) 
+[21:26:07.148] [INFO ] - Preparing to perform actions on iOS device element Password... (IOSActivity:) 
+[21:26:12.372] [INFO ] - Clearing element [Password]... (DeviceElementActions:) 
+[21:26:14.491] [INFO ] - Entering text [Pass@123] in element [Password]... (DeviceElementActions:) 
+[21:26:15.985] [INFO ] - Preparing to perform actions on iOS device element Go... (IOSActivity:) 
+[21:26:23.432] [INFO ] - Tapping on element [Go] using [1] finger(s) with [100] ms delay... (DeviceElementActions:) 
+```
+
+## Verification of Elements:
+It is possible to do assertion on any device element without writing any assertion ourself. This is handled in the framework where you can do assertion on any Element inline. Following is an example on how to do it.
+
+```java
+	. . .
+	final DashboardActivity main = new DashboardActivity (this.device);
+	main.onElement ("TypedAmt")
+		.verifyThat ()
+		.textShouldBeEqualTo ("$0.1");
+	. . .
+```
+**Neat and clean, is'nt it??**
 
 # Sample Test
 Let's demonstrate basic example of how to use this framework.
@@ -155,7 +218,7 @@ devices:
 ```
 
 ## Sample Activity
-For each activity, we need to create an Activity class extending **AndroidActivity** class if working on Android, or **IOSActivity** if working on IOS.
+For each activity, we need to create an Activity class by extending **AndroidActivity** class if working on Android, or **IOSActivity** if working on IOS device.
 ```java
 import org.openqa.selenium.By;
 
@@ -261,7 +324,7 @@ If this won't solve the issues, than you need to remove old versions from your *
 
 2. For now, you must use external server as server started from Framework is causing problem for IOS. For Android it works.
 
-## Following not yet supported
+# Following not yet supported
 Windows platform is not yet supported which will be done later.
 * Windows Platform
 * Mobile web apps
