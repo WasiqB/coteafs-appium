@@ -332,6 +332,7 @@ Windows platform is not yet supported which will be done later.
 # Framework Status
 Area | Status
 -----|-------
+Gitter IM | [![Join the chat at https://gitter.im/wasiqb/coteafs-appium](https://badges.gitter.im/wasiqb/coteafs-appium.svg)](https://gitter.im/wasiqb/coteafs-appium?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 Dependencies | [![Dependency Status](https://www.versioneye.com/user/projects/59269e4925feb9004d428b76/badge.svg)](https://www.versioneye.com/user/projects/59269e4925feb9004d428b76)
 Issues | [![Github Issues](http://githubbadges.herokuapp.com/wasiqb/coteafs-appium/issues.svg)](https://github.com/wasiqb/coteafs-appium/issues)
 Pull Requests | [![Pending Pull-Requests](http://githubbadges.herokuapp.com/wasiqb/coteafs-appium/pulls.svg)](https://github.com/wasiqb/coteafs-appium/pulls)
