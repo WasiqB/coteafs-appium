@@ -337,7 +337,7 @@ public class IOSHappyPathDemo {
 	public void setupTestSuite () {
 		// Initializing the server for the device by specifying the name given in config file.
 		this.server = new AppiumServer ("ipad");
-		// If external = true, will checkif external server is running or no, if not running
+		// If external = true, will check if external server is running or no, if not running
 		// will throw an exception.
 		// If external = false, it will start the server on runtime.
 		this.server.start ();
@@ -397,8 +397,7 @@ public class IOSHappyPathDemo {
 ```
 If this won't solve the issues, than you need to remove old versions from your **.m2** repository from your local machine for both **SnakeYaml** and **Google's Guava**.
 
-# Following not yet supported
-Windows platform is not yet supported which will be done later. We will decide the priority and release it in new releases.
+# Following not yet supported:
 * Windows Devices.
 * Simulators / Emulators.
 * Starting of Appium server from script for iOS devices.
