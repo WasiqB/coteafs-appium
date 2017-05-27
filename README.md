@@ -1,5 +1,16 @@
 # coteafs-appium
-This is an easy to use Mobile Automation Framework build on top of Appium. It is completely configurable thru the config file. It can be used to test native Mobile app for iOS and Android platform. This framework introduces AOM (Activity Object Model) concept similar to Page Object Model and promotes fluent coding style. Main aim behind this framework is to minimize the line of codes that is needed to write tests as all of the heavy weight lifting is done by the framework itself. Also, it is possible to do Automation with multiple devices in a single test if needed.
+# Introduction
+This is a very easy to use Mobile Automation Framework which can be used to test multiple devices of different platforms in a single test. This is a one of it's kind framework with unique coding standards defined by the framework. Writing tests for Mobile devices was never so easy before, but by using this framework, the scripting time will be reduce by more than 50%. To know more about the framework let's see it's advantages now.
+
+## Advantages:
+* Supports Android and iOS devices.
+* Enforces Page object model style of coding.
+* Easily configureable with config file.
+* Allows you to concentrate more on tests then other repeated codings.
+* Promotes fluent style coding.
+* Has inbuilt assertions to verify the device elements.
+* Has pre-defined exceptions which wraps the Selenium and Appium exceptions in a meaningful way.
+* Supports testing multiple devices of different platforms to be tested together.
 
 # Usage
 You need to use following in your pom.xml in order to use this framework.
@@ -149,28 +160,38 @@ It is possible to do assertion on any device element without writing any asserti
 ```
 **Neat and clean, is'nt it??**
 
+Following is the list of verification methods available:
+
+Name | Description
+-----|------------
+`shouldBeDisabled` | Verifies if the element is disabled or not.
+`shouldBeDisplayed` | Verifies if the element is displayed or not.
+`shouldBeEnabled` | Verifies if the element is enabled or not.
+`shouldNotBeDisplayed` | Verifies if the element is hidden or not.
+`textShouldBeEqualTo` | Verifies if element text is equal to gievn string or not.
+
 # Sample Test
 Let's demonstrate basic example of how to use this framework.
 
 ## Sample Config file.
 Here we can configure all the required servers and devices.
 ```yaml
-servers:
-  android:  // Used to refer config in tests.
+servers:	# should not be changed.
+  android:  	# Can be any text, it will be used to refer configs in tests.
     ip: 127.0.0.1
     port: 4723
     external: true
-  iphone:
+  iphone:	# Can be any text, it will be used to refer configs in tests.
     ip: 127.0.0.1
     port: 4724
     external: true
-  ipad:
+  ipad:		# Can be any text, it will be used to refer configs in tests.
     ip: 127.0.0.1
     port: 4725
     external: true
 
-devices:
-  android:
+devices:	# Should not change.
+  android:	# Can be any text, it will be used to refer configs in tests.
     device_type: ANDROID
     device_name: Mi4
     device_version: 6.0.1
@@ -182,7 +203,7 @@ devices:
     app_wait_activity: com.company.activity.SplashActivity
     session_timeout: 6000
     clear_system_files: true
-  iphone:
+  iphone:	# Can be any text, it will be used to refer configs in tests.
     device_type: IOS
     device_name: iPhone 6
     device_version: 10.3.1
@@ -197,7 +218,7 @@ devices:
     bootstrap_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent
     agent_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent/WebDriverAgent.xcodeproj
     session_timeout: 6000
-  ipad:
+  ipad:		# Can be any text, it will be used to refer configs in tests.
     device_type: IOS
     device_name: iPad Mini 4
     device_version: 10.3.1
@@ -231,21 +252,21 @@ public class LoginActivity extends IOSActivity {
 		super (device);
 	}
 
-  // You need to implement this protected method.
+  	// You need to implement this protected method.
 	@Override
 	protected DeviceElement prepare () {
-    // This the root element as seen in Inspector.
+    		// This the root element as seen in Inspector.
 		final DeviceElement login = DeviceElement.create ("Login")
 			.using (By.className ("UIAApplication"));
-    // This is the child element of login created above.
+    		// This is the child element of login created above.
 		DeviceElement.create ("UserName")
 			.parent (login)
 			.using (By.className ("UIATextField"));
-    // This is also the child element of login created above.
+    		// This is also the child element of login created above.
 		DeviceElement.create ("Password")
 			.parent (login)
 			.using (By.className ("UIASecureTextField"));
-    // This is also the child element of login created above.
+    		// This is also the child element of login created above.
 		DeviceElement.create ("Login")
 			.parent (login)
 			.using (By.name ("Sign In"));
@@ -271,7 +292,7 @@ public class IOSHappyPathDemo {
 	protected IOSDevice	device;
 	protected AppiumServer	server;
   
-  @BeforeSuite (alwaysRun = true)
+  	@BeforeSuite (alwaysRun = true)
 	public void setupTestSuite () {
 		this.server = new AppiumServer ("ipad");
 		this.server.start ();
@@ -288,7 +309,7 @@ public class IOSHappyPathDemo {
 		}
 	}
 
-  @Test
+  	@Test
 	public void test1 () {
 		final LoginActivity login = new LoginActivity (this.device);
 		login.onElement ("UserName")
