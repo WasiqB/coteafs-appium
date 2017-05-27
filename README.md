@@ -48,7 +48,7 @@ You will also need following supporting dependencies which is also required to b
 
 # Getting started with the Framework.
 ## Config file:
-This the heart of this framework. It is a yaml file which will have all the settings needed for your tests. The framework will try to find System property `coteafs.appium.config` which will have the path of the config file. If it is not specified, by default, it will search the file at `src/test/resources/test-config.yaml`. If this file is not found, then it will throw `AppiumConfigFileNotFoundException`.
+This the heart of this framework. It is a yaml file which will have all the settings needed for your tests. The framework will try to find System property `coteafs.appium.config` which will have the path of the config file. If it is not specified, by default, it will search the file at `test-config.yaml` under `src/test/resources` directory. If this file is not found in that location as well, then it will throw `AppiumConfigFileNotFoundException`.
 
 ### Supported Server Config List:
 Following is the server config list:
@@ -98,7 +98,7 @@ Key | Platform | Allowed Values | Description
 `full_reset` | Both | false | true, if full reset of app is required, else, can be omitted.
 
 ## Exceptions:
-Framework handles all the events and throws a meaningful exception which is easy to identify the cause of failure.
+Sometimes it is very difficult to identify what went wrong when we run tests using Appium or Selenium. To handle this, framework handles all the events and throws a meaningful exception which is easy to identify the cause of failure.
 Following is the list of exception and their events of occurring:
 
 Exception | Events
@@ -170,11 +170,50 @@ Name | Description
 `shouldNotBeDisplayed` | Verifies if the element is hidden or not.
 `textShouldBeEqualTo` | Verifies if element text is equal to gievn string or not.
 
+## Handling of Alerts in iOS or Permission Alerts in Android:
+This is very commonly encountered when we test Mobile or Tablet devices of Android and iOS platform. It is very elegantly handled in the framework. Following is the code snippet to use it:
+
+**Android Permission Alert**
+```java
+	. . .
+	final LoginActivity login = new LoginActivity (this.androidDevice);
+	String message = login.onDevice ().handlePermissionAlert("Allow");
+	System.out.println (message);
+	. . .
+```
+
+**iOS pop-up Alert**
+```java
+	. . .
+	final LoginActivity login = new LoginActivity (this.iosDevice);
+	String message = login.onDevice ().handleAlert();
+	System.out.println (message);
+	. . .
+```
+
+## Taking screenshots:
+Framework allows you to take screenshots of any Activity which you are working on whenever you need. Following is the code snippet for the same.
+```java
+	. . .
+	final LoginActivity login = new LoginActivity (this.iosDevice);
+	login.onDevice ().captureScreenshot ("path/to/file/with/name.extension")
+	. . .
+```
+
+## Hiding keyboard:
+This is also another feature where you can just hide the keyboard when you are done with typing. Following is the code snippet for the same.
+```java
+	. . .
+	final LoginActivity login = new LoginActivity (this.iosDevice);
+	login.onDevice ().hideKeyboard ();
+	. . .
+```
+
 # Sample Test
 Let's demonstrate basic example of how to use this framework.
 
 ## Sample Config file.
-Here we can configure all the required servers and devices.
+Here we can configure all the required servers and devices. For naming the file, refer the details about this mentioned above.
 ```yaml
 servers:	# should not be changed.
   android:  	# Can be any text, it will be used to refer configs in tests.
@@ -252,15 +291,16 @@ public class LoginActivity extends IOSActivity {
 		super (device);
 	}
 
-  	// You need to implement this protected method.
+  	// You need to implement this protected method and return the root element.
 	@Override
 	protected DeviceElement prepare () {
     		// This the root element as seen in Inspector.
-		final DeviceElement login = DeviceElement.create ("Login")
-			.using (By.className ("UIAApplication"));
+		final DeviceElement login = DeviceElement.create ("Login")	// <- You can specify any name you want. This will be refered from our tests. It is case sensitive.
+			.using (By.className ("UIAApplication"));	// <- Specify the locator you identified using the inspector.
     		// This is the child element of login created above.
 		DeviceElement.create ("UserName")
-			.parent (login)
+			.parent (login)		// <- Specify the parent of this element.
+			.index (1)		// <- Specify the index where this element will be found. can be skipped if there is only 1 element with the specified locator.
 			.using (By.className ("UIATextField"));
     		// This is also the child element of login created above.
 		DeviceElement.create ("Password")
@@ -270,15 +310,15 @@ public class LoginActivity extends IOSActivity {
 		DeviceElement.create ("Login")
 			.parent (login)
 			.using (By.name ("Sign In"));
+		// returning the root element.
 		return login;
 	}
 }
 ```
 
 ## Sample Test
-After creating the activity above, you now will move straight to writing tests. Below is a sample test.
+After creating the activity above, you can use it in any testing framework, be it **TestNG**, **JUnit** or **Cucumber**. Following is a sample test written in **TestNG**.
 ```java
-import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
@@ -292,30 +332,44 @@ public class IOSHappyPathDemo {
 	protected IOSDevice	device;
 	protected AppiumServer	server;
   
+  	// This is how you can setup the test.
   	@BeforeSuite (alwaysRun = true)
 	public void setupTestSuite () {
+		// Initializing the server for the device by specifying the name given in config file.
 		this.server = new AppiumServer ("ipad");
+		// If external = true, will checkif external server is running or no, if not running
+		// will throw an exception.
+		// If external = false, it will start the server on runtime.
 		this.server.start ();
 
+		// This will initialize the device only.
 		this.device = new IOSDevice (this.server, "ipad");
+		// This will connect to the server and launch the app on connected device.
 		this.device.start ();
 	}
   
+  	// This is how you will teardown the test.
 	@AfterSuite (alwaysRun = true)
 	public void tearDownTestSuite () {
 		if (this.server != null && this.device != null) {
+			// Thsi will close the app and quit the device.
 			this.device.stop ();
+			// If external = false, this will stop the server, else will do nothing.
 			this.server.stop ();
 		}
 	}
 
   	@Test
 	public void test1 () {
+		// Initialize the login activity.
 		final LoginActivity login = new LoginActivity (this.device);
-		login.onElement ("UserName")
+		// Find and enter text in UserName element.
+		login.onElement ("UserName")	// <- Remember, this is the name given while creating the device element in activity?
 			.enterText ("UserID_1");
+		// Find and enter text in Password element.
 		login.onElement ("Password")
 			.enterText ("Password1");
+		// Find and tap on login button.
 		login.onElement ("Login")
 			.tap (100);
 	}
@@ -343,12 +397,13 @@ public class IOSHappyPathDemo {
 ```
 If this won't solve the issues, than you need to remove old versions from your **.m2** repository from your local machine for both **SnakeYaml** and **Google's Guava**.
 
-2. For now, you must use external server as server started from Framework is causing problem for IOS. For Android it works.
-
 # Following not yet supported
-Windows platform is not yet supported which will be done later.
-* Windows Platform
-* Mobile web apps
+Windows platform is not yet supported which will be done later. We will decide the priority and release it in new releases.
+* Windows Devices.
+* Simulators / Emulators.
+* Starting of Appium server from script for iOS devices.
+* Mobile web apps testing on device browsers.
+* Parallel execution is not tested, that's why mentioned here. It may work.
 
 # Framework Status
 Area | Status
