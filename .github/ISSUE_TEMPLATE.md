@@ -21,16 +21,16 @@ Please remember that, with sample code; it's easier to reproduce bug and much fa
 Also you can create a [gist](https://gist.github.com) with pasted java code sample or put it here using markdown. About markdown please read [Mastering markdown](https://guides.github.com/features/mastering-markdown/) and 
 [Writing on GitHub](https://help.github.com/categories/writing-on-github/)
 
-## Ecxeption stacktraces:
+## Exception stacktraces:
 
 Please create a [gist](https://gist.github.com) with pasted stacktrace of exception thrown by java.
 
 ## Link to following:
 
-Please create a [gist](https://gist.github.com) which is a paste of following:
+Please create a seperate [gist](https://gist.github.com) for the following and link them here:
 * _full_ content of your config file YAML.
 * _full_ content of your Appium server logs.
-* _full_ content of `logs/test-log-all.log`, and link them here.
+* _full_ content of `logs/test-log-all.log`.
 
 Do _not_ paste above mentioned contents here, as it will make this issue very long and hard to read! 
 If you are reporting a bug, _always_ include all the mentioned files as linked gists! It helps to define the problem correctly and clearly. 
