@@ -408,7 +408,7 @@ If this won't solve the issues, than you need to remove old versions from your *
 Area | Status
 -----|-------
 Gitter IM | [![Join the chat at https://gitter.im/wasiqb/coteafs-appium](https://badges.gitter.im/wasiqb/coteafs-appium.svg)](https://gitter.im/wasiqb/coteafs-appium?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-Dependencies | [![Dependency Status](https://www.versioneye.com/user/projects/59269e4925feb9004d428b76/badge.svg)](https://www.versioneye.com/user/projects/59269e4925feb9004d428b76)
+Dependencies | [![Requirements Status](https://requires.io/github/WasiqB/coteafs-appium/requirements.svg?branch=master)](https://requires.io/github/WasiqB/coteafs-appium/requirements/?branch=master)
 Issues | [![Github Issues](http://githubbadges.herokuapp.com/wasiqb/coteafs-appium/issues.svg)](https://github.com/wasiqb/coteafs-appium/issues)
 Pull Requests | [![Pending Pull-Requests](http://githubbadges.herokuapp.com/wasiqb/coteafs-appium/pulls.svg)](https://github.com/wasiqb/coteafs-appium/pulls)
 Release | [![Github Releases](https://img.shields.io/github/downloads/wasiqb/coteafs-appium/latest/total.svg)](https://github.com/wasiqb/coteafs-appium/releases)
