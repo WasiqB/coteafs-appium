@@ -29,6 +29,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceElementFindTimedOutException;
+import com.github.wasiqb.coteafs.appium.exception.DeviceElementNameNotFoundException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotFoundException;
 
 import io.appium.java_client.AppiumDriver;
@@ -102,7 +103,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		load ();
 		final String msg = "Getting element with name [%s]...";
 		log.trace (String.format (msg, name));
-		return findElements (this.deviceElements.get (name));
+		return findElements (getDeviceElement (name));
 	}
 
 	/**
@@ -159,6 +160,14 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		}
 		this.activityLoaded = true;
 		return elem;
+	}
+
+	private DeviceElement getDeviceElement (final String name) {
+		if (this.deviceElements.containsKey (name)) {
+			return this.deviceElements.get (name);
+		}
+		final String msg = "DeviceElement with name [%s] not found.";
+		throw new DeviceElementNameNotFoundException (String.format (msg, name));
 	}
 
 	private void load () {
