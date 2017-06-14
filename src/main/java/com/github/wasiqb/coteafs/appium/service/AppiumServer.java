@@ -31,12 +31,13 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
-import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
+import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerAlreadyRunningException;
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotRunningException;
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStartingException;
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStoppingException;
+import com.github.wasiqb.coteafs.config.loader.ConfigLoader;
 
 import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
@@ -66,7 +67,7 @@ public final class AppiumServer {
 	 * @since 13-Apr-2017 7:33:24 PM
 	 */
 	public AppiumServer (final String name) {
-		this.setting = ConfigLoader.settings ()
+		this.setting = ConfigLoader.settings (AppiumSetting.class)
 			.getServer (name);
 		if (!this.setting.isExternal ()) {
 			initService ();

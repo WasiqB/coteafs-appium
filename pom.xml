@@ -88,6 +88,17 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.github.wasiqb.coteafs</groupId>
+			<artifactId>configs</artifactId>
+			<version>0.0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.yaml</groupId>
+					<artifactId>snakeyaml</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>${testng.version}</version>

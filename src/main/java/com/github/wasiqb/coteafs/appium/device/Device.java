@@ -44,8 +44,8 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.ApplicationType;
-import com.github.wasiqb.coteafs.appium.config.ConfigLoader;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotClosingException;
@@ -56,6 +56,7 @@ import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStartingExcepti
 import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStoppingException;
 import com.github.wasiqb.coteafs.appium.exception.DeviceTypeNotSupportedException;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
+import com.github.wasiqb.coteafs.config.loader.ConfigLoader;
 import com.google.common.reflect.TypeToken;
 
 import io.appium.java_client.AppiumDriver;
@@ -87,7 +88,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	 */
 	public Device (final AppiumServer server, final String name) {
 		this.server = server;
-		this.setting = ConfigLoader.settings ()
+		this.setting = ConfigLoader.settings (AppiumSetting.class)
 			.getDevice (name);
 		buildCapabilities ();
 	}
