@@ -9,12 +9,12 @@
 <setting id="cleanup.qualify_static_field_accesses_with_declaring_class" value="false"/>
 <setting id="cleanup.add_generated_serial_version_id" value="true"/>
 <setting id="cleanup.qualify_static_member_accesses_through_subtypes_with_declaring_class" value="true"/>
-<setting id="cleanup.remove_redundant_type_arguments" value="false"/>
+<setting id="cleanup.remove_redundant_type_arguments" value="true"/>
 <setting id="cleanup.remove_unused_imports" value="true"/>
 <setting id="cleanup.insert_inferred_type_arguments" value="false"/>
 <setting id="cleanup.make_private_fields_final" value="true"/>
 <setting id="cleanup.use_lambda" value="true"/>
-<setting id="cleanup.always_use_blocks" value="true"/>
+<setting id="cleanup.always_use_blocks" value="false"/>
 <setting id="cleanup.use_this_for_non_static_field_access_only_if_necessary" value="false"/>
 <setting id="cleanup.sort_members_all" value="true"/>
 <setting id="cleanup.remove_trailing_whitespaces_all" value="true"/>
@@ -27,7 +27,7 @@
 <setting id="cleanup.remove_unused_local_variables" value="false"/>
 <setting id="cleanup.convert_to_enhanced_for_loop" value="false"/>
 <setting id="cleanup.remove_unused_private_fields" value="true"/>
-<setting id="cleanup.never_use_blocks" value="false"/>
+<setting id="cleanup.never_use_blocks" value="true"/>
 <setting id="cleanup.add_missing_deprecated_annotations" value="true"/>
 <setting id="cleanup.use_this_for_non_static_field_access" value="true"/>
 <setting id="cleanup.remove_unnecessary_nls_tags" value="true"/>
