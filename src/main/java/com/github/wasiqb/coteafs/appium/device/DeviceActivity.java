@@ -67,6 +67,21 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Jul 5, 2017 6:55:54 AM
+	 * @param name
+	 * @param index
+	 * @return actions
+	 */
+	public DeviceElementActions <TDriver, TDevice> inElement (final String name, final int index) {
+		ServerChecker.checkServerRunning (this.device.server);
+		final String msg = "Preparing to perform actions on dynamic device element [%s] on index [%d]...";
+		log.info (String.format (msg, name, index));
+		final DeviceElement element = getDeviceElement (name).index (index);
+		return new DeviceElementActions <TDriver, TDevice> (this.device, name, findElements (element));
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since Apr 27, 2017 5:12:51 PM
 	 * @return the activityLoaded
 	 */
