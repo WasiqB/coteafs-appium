@@ -29,6 +29,7 @@ public class DeviceSetting {
 	private String			appWaitActivity;
 	private AutomationName	automationName;
 	private String			bootstrapPath;
+	private Browser			browser;
 	private String			bundleId;
 	private boolean			clearSystemFiles;
 	private int				defaultWait;
@@ -146,6 +147,15 @@ public class DeviceSetting {
 	 */
 	public String getBootstrapPath () {
 		return this.bootstrapPath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jul 15, 2017 5:05:42 PM
+	 * @return the browser
+	 */
+	public Browser getBrowser () {
+		return this.browser;
 	}
 
 	/**
@@ -398,6 +408,16 @@ public class DeviceSetting {
 	 */
 	public void setBootstrapPath (final String bootstrapPath) {
 		this.bootstrapPath = bootstrapPath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jul 15, 2017 5:05:42 PM
+	 * @param browser
+	 *            the browser to set
+	 */
+	public void setBrowser (final Browser browser) {
+		this.browser = browser;
 	}
 
 	/**

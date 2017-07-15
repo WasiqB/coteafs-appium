@@ -140,8 +140,8 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
 		}
 		catch (final Exception e) {
-			msg = "Error occured while finding device element with locator [%s] under parent %s.";
-			throw new DeviceElementNotFoundException (String.format (msg, locator, parent.name ()), e);
+			msg = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
+			throw new DeviceElementNotFoundException (String.format (msg, locator, index, parent.name ()), e);
 		}
 	}
 
@@ -156,8 +156,8 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
 		}
 		catch (final Exception e) {
-			msg = "Error occured while finding root device element with locator [%s].";
-			throw new DeviceElementNotFoundException (String.format (msg, locator), e);
+			msg = "Error occured while finding root device element with locator [%s] at index [%d].";
+			throw new DeviceElementNotFoundException (String.format (msg, locator, index), e);
 		}
 	}
 
@@ -189,7 +189,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		if (this.deviceElements.size () == 0) {
 			final String platform = this.device.setting.getDeviceType ()
 				.getName ();
-			final String msg = "Loading elements on %s activity...";
+			final String msg = "Loading elements on [%s] activity...";
 			log.info (String.format (msg, platform));
 			loadElements (prepare ());
 		}

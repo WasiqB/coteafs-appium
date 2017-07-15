@@ -171,8 +171,8 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		setCapability (PLATFORM_VERSION, this.setting.getDeviceVersion (), this.capabilities);
 
 		if (this.setting.getAppType () == ApplicationType.WEB) {
-			setCapability (BROWSER_NAME, this.setting.getDeviceType ()
-				.getName (), this.capabilities, true);
+			setCapability (BROWSER_NAME, this.setting.getBrowser ()
+				.getBrowser (), this.capabilities, true);
 		}
 		else {
 			String path = System.getProperty ("user.dir") + "/src/test/resources/" + this.setting.getAppLocation ();

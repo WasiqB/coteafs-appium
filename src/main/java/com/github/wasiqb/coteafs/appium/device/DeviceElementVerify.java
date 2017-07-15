@@ -52,7 +52,7 @@ public class DeviceElementVerify <TDriver extends AppiumDriver <MobileElement>, 
 	 * @since 19-May-2017 10:07:53 PM
 	 */
 	public void shouldBeDisabled () {
-		log.trace ("Verifying element to be disabled...");
+		log.info ("Verifying if element is disabled...");
 		assertThat (this.actions.enabled ()).isFalse ();
 	}
 
@@ -61,7 +61,7 @@ public class DeviceElementVerify <TDriver extends AppiumDriver <MobileElement>, 
 	 * @since 19-May-2017 10:08:28 PM
 	 */
 	public void shouldBeDisplayed () {
-		log.trace ("Verifying element to be displayed...");
+		log.info ("Verifying if element is displayed...");
 		assertThat (this.actions.visible ()).isTrue ();
 	}
 
@@ -70,7 +70,7 @@ public class DeviceElementVerify <TDriver extends AppiumDriver <MobileElement>, 
 	 * @since 19-May-2017 10:07:22 PM
 	 */
 	public void shouldBeEnabled () {
-		log.trace ("Verifying element to be enabled...");
+		log.info ("Verifying if element is enabled...");
 		assertThat (this.actions.enabled ()).isTrue ();
 	}
 
@@ -79,7 +79,7 @@ public class DeviceElementVerify <TDriver extends AppiumDriver <MobileElement>, 
 	 * @since 20-May-2017 12:24:26 PM
 	 */
 	public void shouldNotBeDisplayed () {
-		log.trace ("Verifying element not to be displayed...");
+		log.info ("Verifying if element is not displayed...");
 		assertThat (this.actions.visible ()).isFalse ();
 	}
 
@@ -89,8 +89,8 @@ public class DeviceElementVerify <TDriver extends AppiumDriver <MobileElement>, 
 	 * @param expected
 	 */
 	public void textShouldBeEqualTo (final String expected) {
-		final String msg = "Verifying element text to be equal to [%s]...";
-		log.trace (String.format (msg, expected));
+		final String msg = "Verifying if element text is equal to [%s]...";
+		log.info (String.format (msg, expected));
 		assertThat (this.actions.text ()).isEqualTo (expected);
 	}
 }
