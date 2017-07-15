@@ -95,4 +95,14 @@ public class DeviceActions <TDriver extends AppiumDriver <MobileElement>, TDevic
 			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
 		}
 	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jul 15, 2017 5:19:41 PM
+	 * @param url
+	 */
+	public void navigateTo (final String url) {
+		log.info (String.format ("Navigating to URL [%S]...", url));
+		this.driver.get (url);
+	}
 }
