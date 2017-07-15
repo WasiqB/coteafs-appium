@@ -224,9 +224,11 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	 * @since 19-May-2017 5:02:30 PM
 	 */
 	private void setAndroidCapabilities () {
-		setCapability (APP_ACTIVITY, this.setting.getAppActivity (), this.capabilities, true);
-		setCapability (APP_PACKAGE, this.setting.getAppPackage (), this.capabilities, true);
-		setCapability (APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity (), this.capabilities);
+		if (this.setting.getAppType () != ApplicationType.WEB) {
+			setCapability (APP_ACTIVITY, this.setting.getAppActivity (), this.capabilities, true);
+			setCapability (APP_PACKAGE, this.setting.getAppPackage (), this.capabilities, true);
+			setCapability (APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity (), this.capabilities);
+		}
 	}
 
 	/**
