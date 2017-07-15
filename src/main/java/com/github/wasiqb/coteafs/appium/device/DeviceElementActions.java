@@ -79,6 +79,15 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Jul 15, 2017 6:12:00 PM
+	 */
+	public void click () {
+		log.info (String.format ("Clicking on element [%s]...", this.name));
+		this.element.click ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:51:07 PM
 	 * @return enabled
 	 */
