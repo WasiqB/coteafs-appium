@@ -15,6 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
@@ -22,7 +25,7 @@ import org.openqa.selenium.TimeoutException;
 
 import com.github.wasiqb.coteafs.appium.android.system.PermissionActivity;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedError;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
@@ -58,8 +61,9 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 			return this.driver.currentActivity ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+		return null;
 	}
 
 	/**
@@ -85,7 +89,7 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 			log.warn (e.getMessage ());
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		return null;
 	}
@@ -101,8 +105,9 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 			return this.driver.isLocked ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+		return false;
 	}
 
 	/**
@@ -115,7 +120,7 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 			this.driver.lockDevice ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -129,7 +134,7 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 			this.driver.unlockDevice ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 }

@@ -15,6 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
+import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,28 +30,28 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementFindTimedOutException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementNameNotFoundException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotFoundException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceElementFindTimedOutError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceElementNameNotFoundError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotFoundError;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 
 /**
  * @author wasiq.bhamla
- * @param <TDriver>
- * @param <TDevice>
+ * @param <D>
+ * @param <E>
  * @since 26-Apr-2017 4:31:24 PM
  */
-public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElement>, TDevice extends Device <TDriver>> {
+public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E extends Device <D>> {
 	private static final Logger log;
 
 	static {
 		log = LogManager.getLogger (DeviceActivity.class);
 	}
 
-	protected final TDevice						device;
+	protected final E							device;
 	protected final Map <String, DeviceElement>	deviceElements;
 	private boolean								activityLoaded;
 	private final WebDriverWait					wait;
@@ -58,7 +61,7 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @param device
 	 * @since 26-Apr-2017 4:32:45 PM
 	 */
-	public DeviceActivity (final TDevice device) {
+	public DeviceActivity (final E device) {
 		this.device = device;
 		this.deviceElements = new HashMap <> ();
 		this.wait = new WebDriverWait (device.getDriver (), device.setting.getWaitForElementUntil ());
@@ -80,10 +83,10 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @since 26-Apr-2017 8:41:07 PM
 	 * @return device actions
 	 */
-	public DeviceActions <TDriver, TDevice> onDevice () {
+	public DeviceActions <D, E> onDevice () {
 		ServerChecker.checkServerRunning (this.device.server);
 		log.info ("Preparing to perform actions on device...");
-		return new DeviceActions <TDriver, TDevice> (this.device);
+		return new DeviceActions <D, E> (this.device);
 	}
 
 	/**
@@ -92,11 +95,11 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @param name
 	 * @return element actions
 	 */
-	public DeviceElementActions <TDriver, TDevice> onElement (final String name) {
+	public DeviceElementActions <D, E> onElement (final String name) {
 		ServerChecker.checkServerRunning (this.device.server);
 		final String msg = "Preparing to perform actions on device element [%s]...";
 		log.info (String.format (msg, name));
-		return new DeviceElementActions <TDriver, TDevice> (this.device, name, getElement (name));
+		return new DeviceElementActions <D, E> (this.device, name, getElement (name));
 	}
 
 	/**
@@ -106,12 +109,12 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 * @param index
 	 * @return actions
 	 */
-	public DeviceElementActions <TDriver, TDevice> onElement (final String name, final int index) {
+	public DeviceElementActions <D, E> onElement (final String name, final int index) {
 		ServerChecker.checkServerRunning (this.device.server);
 		final String msg = "Preparing to perform actions on dynamic device element [%s] on index [%d]...";
 		log.info (String.format (msg, name, index));
 		final DeviceElement element = getDeviceElement (name).index (index);
-		return new DeviceElementActions <TDriver, TDevice> (this.device, name, findElements (element));
+		return new DeviceElementActions <D, E> (this.device, name, findElements (element));
 	}
 
 	protected MobileElement getElement (final String name) {
@@ -128,6 +131,23 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 	 */
 	protected abstract DeviceElement prepare ();
 
+	private MobileElement find (final D deviceDriver, final By locator, final int index) {
+		String msg = "Finding root element using [%s] at index [%d]...";
+		log.trace (String.format (msg, locator, index));
+		try {
+			final List <MobileElement> result = deviceDriver.findElements (locator);
+			return result.get (index);
+		}
+		catch (final NoSuchSessionException e) {
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
+		catch (final Exception e) {
+			msg = "Error occured while finding root device element with locator [%s] at index [%d].";
+			fail (DeviceElementNotFoundError.class, String.format (msg, locator, index), e);
+		}
+		return null;
+	}
+
 	private MobileElement find (final DeviceElement parent, final By locator, final int index) {
 		String msg = "Finding child element of [%s] parent using [%s] at index [%d]...";
 		log.trace (String.format (msg, parent.name (), locator, index));
@@ -137,28 +157,13 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 			return result.get (index);
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		catch (final Exception e) {
 			msg = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
-			throw new DeviceElementNotFoundException (String.format (msg, locator, index, parent.name ()), e);
+			fail (DeviceElementNotFoundError.class, String.format (msg, locator, index, parent.name ()), e);
 		}
-	}
-
-	private MobileElement find (final TDriver deviceDriver, final By locator, final int index) {
-		String msg = "Finding root element using [%s] at index [%d]...";
-		log.trace (String.format (msg, locator, index));
-		try {
-			final List <MobileElement> result = deviceDriver.findElements (locator);
-			return result.get (index);
-		}
-		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
-		}
-		catch (final Exception e) {
-			msg = "Error occured while finding root device element with locator [%s] at index [%d].";
-			throw new DeviceElementNotFoundException (String.format (msg, locator, index), e);
-		}
+		return null;
 	}
 
 	private MobileElement findElements (final DeviceElement element) {
@@ -182,7 +187,8 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 			return this.deviceElements.get (name);
 		}
 		final String msg = "DeviceElement with name [%s] not found.";
-		throw new DeviceElementNameNotFoundException (String.format (msg, name));
+		fail (DeviceElementNameNotFoundError.class, String.format (msg, name));
+		return null;
 	}
 
 	private void load () {
@@ -213,10 +219,10 @@ public abstract class DeviceActivity <TDriver extends AppiumDriver <MobileElemen
 		}
 		catch (final TimeoutException e) {
 			final String msg = "[%s] locator timed out.";
-			throw new DeviceElementFindTimedOutException (String.format (msg, locator), e);
+			fail (DeviceElementFindTimedOutError.class, String.format (msg, locator), e);
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 }

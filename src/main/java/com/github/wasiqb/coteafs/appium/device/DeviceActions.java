@@ -15,6 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
+import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+
 import java.io.File;
 import java.io.IOException;
 
@@ -23,29 +26,44 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedError;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 
 /**
  * @author wasiq.bhamla
- * @param <TDriver>
- * @param <TDevice>
+ * @param <D>
+ * @param <E>
  * @since 26-Apr-2017 8:39:17 PM
  */
-public class DeviceActions <TDriver extends AppiumDriver <MobileElement>, TDevice extends Device <TDriver>> {
+public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends Device <D>> {
 	private static final Logger log;
 
 	static {
 		log = LogManager.getLogger (DeviceActions.class);
 	}
 
-	protected final TDevice			device;
-	protected final TDriver			driver;
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jul 22, 2017 11:03:48 PM
+	 * @param srcFiler
+	 * @param path
+	 */
+	private static void copyFile (final File source, final String destination) {
+		try {
+			FileUtils.copyFile (source, new File (destination));
+		}
+		catch (final IOException e) {
+			log.error ("Error occurred while capturing screensshot...");
+			log.catching (e);
+		}
+	}
+
+	protected final E				device;
+	protected final D				driver;
 	protected final WebDriverWait	wait;
 
 	/**
@@ -53,7 +71,7 @@ public class DeviceActions <TDriver extends AppiumDriver <MobileElement>, TDevic
 	 * @param device
 	 * @since 26-Apr-2017 8:39:17 PM
 	 */
-	public DeviceActions (final TDevice device) {
+	public DeviceActions (final E device) {
 		this.device = device;
 		this.driver = this.device.getDriver ();
 		this.wait = new WebDriverWait (this.driver, device.setting.getWaitForElementUntil ());
@@ -68,17 +86,11 @@ public class DeviceActions <TDriver extends AppiumDriver <MobileElement>, TDevic
 		final String msg = "Capturing screenshot and saving at [%s]...";
 		log.info (String.format (msg, path));
 		try {
-			final File srcFiler = ((TakesScreenshot) this.driver).getScreenshotAs (OutputType.FILE);
-			try {
-				FileUtils.copyFile (srcFiler, new File (path));
-			}
-			catch (final IOException e) {
-				log.error ("Error occurred while capturing screensshot...");
-				log.catching (e);
-			}
+			final File srcFiler = this.driver.getScreenshotAs (OutputType.FILE);
+			copyFile (srcFiler, path);
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -92,7 +104,7 @@ public class DeviceActions <TDriver extends AppiumDriver <MobileElement>, TDevic
 			this.driver.hideKeyboard ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 

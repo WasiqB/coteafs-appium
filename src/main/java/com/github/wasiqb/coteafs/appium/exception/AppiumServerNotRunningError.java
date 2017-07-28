@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 9:37:59 PM
+ * @since 04-May-2017 4:27:12 PM
  */
-public class AppiumServerNotStartingException extends BaseAppiumException {
-	private static final long serialVersionUID = 7896083001637597129L;
+public class AppiumServerNotRunningError extends CoteafsError {
+	private static final long serialVersionUID = 8585241762112136560L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:15:07 PM
+	 * @since 04-May-2017 4:36:48 PM
 	 * @param message
 	 */
-	public AppiumServerNotStartingException (final String message) {
-		super (message);
+	public AppiumServerNotRunningError (final String message) {
+		super (message, null);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 9:38:00 PM
+	 * @since 04-May-2017 4:27:12 PM
 	 * @param message
 	 * @param cause
 	 */
-	public AppiumServerNotStartingException (final String message, final Throwable cause) {
+	public AppiumServerNotRunningError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

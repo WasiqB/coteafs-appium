@@ -15,6 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.ios;
 
+import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Alert;
@@ -22,7 +25,7 @@ import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.TimeoutException;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedError;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
@@ -58,8 +61,8 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 			final Alert alert = this.wait.until (d -> d.switchTo ()
 				.alert ());
 			final String description = alert.getText ();
-			final String msg = "Alert Text: %s";
-			log.trace (String.format (msg, description));
+			final String msg = "Alert Text: [%s]";
+			log.info (String.format (msg, description));
 			alert.accept ();
 			return description;
 		}
@@ -68,7 +71,7 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 			log.warn (e.getMessage ());
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		return null;
 	}
@@ -86,7 +89,7 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 			this.driver.hideKeyboard (strategy, keyName);
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -100,7 +103,7 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 			this.driver.shake ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 }

@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 06-May-2017 4:11:39 PM
+ * @since 12-May-2017 10:00:29 PM
  */
-public class DeviceDriverDefaultWaitException extends BaseAppiumException {
-	private static final long serialVersionUID = 3213298782710610781L;
+public class AppiumServerStoppedError extends CoteafsError {
+	private static final long serialVersionUID = -16535073449188572L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 06-May-2017 4:11:39 PM
+	 * @since 12-May-2017 10:00:30 PM
 	 * @param message
 	 */
-	public DeviceDriverDefaultWaitException (final String message) {
+	public AppiumServerStoppedError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 06-May-2017 4:11:39 PM
+	 * @since 12-May-2017 10:00:30 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceDriverDefaultWaitException (final String message, final Throwable cause) {
+	public AppiumServerStoppedError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

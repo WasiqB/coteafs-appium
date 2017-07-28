@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 12-May-2017 7:29:59 PM
+ * @since 04-May-2017 9:44:46 PM
  */
-public class DeviceDesiredCapabilitiesNotSetException extends BaseAppiumException {
-	private static final long serialVersionUID = 2603048064389553019L;
+public class AppiumServerAlreadyRunningError extends CoteafsError {
+	private static final long serialVersionUID = 3122700421661631230L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 12-May-2017 7:30:02 PM
+	 * @since 04-May-2017 11:12:22 PM
 	 * @param message
 	 */
-	public DeviceDesiredCapabilitiesNotSetException (final String message) {
+	public AppiumServerAlreadyRunningError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 12-May-2017 7:30:02 PM
+	 * @since 04-May-2017 9:44:46 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceDesiredCapabilitiesNotSetException (final String message, final Throwable cause) {
+	public AppiumServerAlreadyRunningError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

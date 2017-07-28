@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 06-May-2017 4:17:32 PM
+ * @since 06-May-2017 4:11:39 PM
  */
-public class DeviceElementFindTimedOutException extends BaseAppiumException {
-	private static final long serialVersionUID = 4342518976798681279L;
+public class DeviceDriverDefaultWaitError extends CoteafsError {
+	private static final long serialVersionUID = 3213298782710610781L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 06-May-2017 4:17:32 PM
+	 * @since 06-May-2017 4:11:39 PM
 	 * @param message
 	 */
-	public DeviceElementFindTimedOutException (final String message) {
+	public DeviceDriverDefaultWaitError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 06-May-2017 4:17:32 PM
+	 * @since 06-May-2017 4:11:39 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceElementFindTimedOutException (final String message, final Throwable cause) {
+	public DeviceDriverDefaultWaitError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

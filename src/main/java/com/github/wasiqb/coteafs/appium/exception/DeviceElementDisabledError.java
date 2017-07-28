@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 17-May-2017 7:41:49 PM
+ * @since 04-May-2017 11:07:35 PM
  */
-public class DeviceTypeNotSupportedException extends BaseAppiumException {
-	private static final long serialVersionUID = -675650350464360559L;
+public class DeviceElementDisabledError extends CoteafsError {
+	private static final long serialVersionUID = -7319931622304889401L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 17-May-2017 7:41:50 PM
+	 * @since 04-May-2017 11:07:35 PM
 	 * @param message
 	 */
-	public DeviceTypeNotSupportedException (final String message) {
+	public DeviceElementDisabledError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 17-May-2017 7:41:50 PM
+	 * @since 04-May-2017 11:07:35 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceTypeNotSupportedException (final String message, final Throwable cause) {
+	public DeviceElementDisabledError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

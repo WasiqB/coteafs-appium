@@ -15,11 +15,14 @@
  */
 package com.github.wasiqb.coteafs.appium.utils;
 
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
+import com.github.wasiqb.coteafs.error.OperationNotSupportedError;
 
 /**
  * @author wasiq.bhamla
@@ -64,5 +67,13 @@ public final class CapabilityUtils {
 			log.trace (String.format (msg, key, value));
 			capabilities.setCapability (key, value);
 		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jul 23, 2017 2:47:32 PM
+	 */
+	private CapabilityUtils () {
+		fail (OperationNotSupportedError.class);
 	}
 }

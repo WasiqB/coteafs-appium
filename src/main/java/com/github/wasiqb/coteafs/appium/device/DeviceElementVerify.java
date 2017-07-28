@@ -25,25 +25,25 @@ import io.appium.java_client.MobileElement;
 
 /**
  * @author wasiq.bhamla
- * @param <TDriver>
- * @param <TDevice>
+ * @param <D>
+ * @param <E>
  * @since 19-May-2017 9:57:58 PM
  */
-public class DeviceElementVerify <TDriver extends AppiumDriver <MobileElement>, TDevice extends Device <TDriver>> {
+public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E extends Device <D>> {
 	private static final Logger log;
 
 	static {
 		log = LogManager.getLogger (DeviceElementActions.class);
 	}
 
-	private final DeviceElementActions <TDriver, TDevice> actions;
+	private final DeviceElementActions <D, E> actions;
 
 	/**
 	 * @author wasiq.bhamla
 	 * @param actions
 	 * @since 19-May-2017 9:59:32 PM
 	 */
-	public DeviceElementVerify (final DeviceElementActions <TDriver, TDevice> actions) {
+	public DeviceElementVerify (final DeviceElementActions <D, E> actions) {
 		this.actions = actions;
 	}
 

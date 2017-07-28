@@ -15,12 +15,15 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
+import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedError;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -29,19 +32,19 @@ import io.appium.java_client.TouchAction;
 
 /**
  * @author wasiq.bhamla
- * @param <TDriver>
- * @param <TDevice>
+ * @param <D>
+ * @param <E>
  * @since 26-Apr-2017 6:39:03 PM
  */
-public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>, TDevice extends Device <TDriver>> {
+public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E extends Device <D>> {
 	private static final Logger log;
 
 	static {
 		log = LogManager.getLogger (DeviceElementActions.class);
 	}
 
-	private final TDevice		device;
-	private final TDriver		driver;
+	private final E				device;
+	private final D				driver;
 	private final MobileElement	element;
 	private final String		name;
 	private final TouchAction	touch;
@@ -53,7 +56,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @param element
 	 * @since 26-Apr-2017 6:39:03 PM
 	 */
-	public DeviceElementActions (final TDevice device, final String name, final MobileElement element) {
+	public DeviceElementActions (final E device, final String name, final MobileElement element) {
 		this.device = device;
 		this.name = name;
 		this.element = element;
@@ -73,7 +76,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			this.element.clear ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -97,8 +100,9 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			return this.element.isEnabled ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+		return false;
 	}
 
 	/**
@@ -114,7 +118,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			this.element.sendKeys (text);
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -123,7 +127,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @since 19-May-2017 10:03:16 PM
 	 * @return the device
 	 */
-	public TDevice getDevice () {
+	public E getDevice () {
 		return this.device;
 	}
 
@@ -132,7 +136,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @since 19-May-2017 10:03:16 PM
 	 * @return the driver
 	 */
-	public TDriver getDriver () {
+	public D getDriver () {
 		return this.driver;
 	}
 
@@ -148,7 +152,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 				.perform ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -165,7 +169,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 				.perform ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -180,7 +184,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			this.element.pinch ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -195,8 +199,9 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			return this.element.isSelected ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+		return false;
 	}
 
 	/**
@@ -210,7 +215,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			this.element.submit ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -236,7 +241,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			this.element.swipe (direction, delay);
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -263,7 +268,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			this.element.tap (fingers, delay);
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
@@ -278,8 +283,9 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			return this.element.getText ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+		return null;
 	}
 
 	/**
@@ -287,7 +293,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 	 * @since 19-May-2017 10:09:58 PM
 	 * @return verify
 	 */
-	public DeviceElementVerify <TDriver, TDevice> verifyThat () {
+	public DeviceElementVerify <D, E> verifyThat () {
 		return new DeviceElementVerify <> (this);
 	}
 
@@ -302,8 +308,9 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			return this.element.isDisplayed ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+		return false;
 	}
 
 	/**
@@ -317,7 +324,7 @@ public class DeviceElementActions <TDriver extends AppiumDriver <MobileElement>,
 			this.element.zoom ();
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 }

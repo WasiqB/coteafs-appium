@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 10:11:47 PM
+ * @since 04-May-2017 9:52:46 PM
  */
-public class DeviceElementNotDisplayedException extends BaseAppiumException {
-	private static final long serialVersionUID = -2632375399231145369L;
+public class DeviceDriverNotStartingError extends CoteafsError {
+	private static final long serialVersionUID = 1786319114640601285L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:05:48 PM
+	 * @since 04-May-2017 11:16:56 PM
 	 * @param message
 	 */
-	public DeviceElementNotDisplayedException (final String message) {
+	public DeviceDriverNotStartingError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 10:11:47 PM
+	 * @since 04-May-2017 9:52:46 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceElementNotDisplayedException (final String message, final Throwable cause) {
+	public DeviceDriverNotStartingError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

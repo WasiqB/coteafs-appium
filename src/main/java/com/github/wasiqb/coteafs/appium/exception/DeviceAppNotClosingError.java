@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 9:44:46 PM
+ * @since 04-May-2017 9:55:17 PM
  */
-public class AppiumServerAlreadyRunningException extends BaseAppiumException {
-	private static final long serialVersionUID = 3122700421661631230L;
+public class DeviceAppNotClosingError extends CoteafsError {
+	private static final long serialVersionUID = -911705055646490050L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:12:22 PM
+	 * @since 04-May-2017 11:16:42 PM
 	 * @param message
 	 */
-	public AppiumServerAlreadyRunningException (final String message) {
+	public DeviceAppNotClosingError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 9:44:46 PM
+	 * @since 04-May-2017 9:55:17 PM
 	 * @param message
 	 * @param cause
 	 */
-	public AppiumServerAlreadyRunningException (final String message, final Throwable cause) {
+	public DeviceAppNotClosingError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

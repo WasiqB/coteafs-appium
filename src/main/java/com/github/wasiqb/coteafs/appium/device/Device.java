@@ -15,7 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
+import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_ACTIVITY;
@@ -47,14 +49,14 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotClosingException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotFoundException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceDriverDefaultWaitException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceDriverInitializationFailedException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStartingException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStoppingException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceTypeNotSupportedException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotClosingError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceAppNotFoundError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceDriverDefaultWaitError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceDriverInitializationFailedError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStartingError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceDriverNotStoppingError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceTypeNotSupportedError;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import com.github.wasiqb.coteafs.config.loader.ConfigLoader;
 import com.google.common.reflect.TypeToken;
@@ -64,10 +66,10 @@ import io.appium.java_client.MobileElement;
 
 /**
  * @author wasiq.bhamla
- * @param <TDriver>
+ * @param <D>
  * @since 12-Apr-2017 9:38:38 PM
  */
-public class Device <TDriver extends AppiumDriver <MobileElement>> {
+public class Device <D extends AppiumDriver <MobileElement>> {
 	private static final Logger log;
 
 	static {
@@ -75,10 +77,9 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	}
 
 	protected DesiredCapabilities	capabilities;
-	protected TDriver				driver;
+	protected D						driver;
 	protected final AppiumServer	server;
 	protected final DeviceSetting	setting;
-	private TypeToken <TDriver>		token;
 
 	/**
 	 * @author wasiq.bhamla
@@ -98,10 +99,10 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	 * @since 01-May-2017 7:08:10 PM
 	 * @return driver
 	 */
-	public TDriver getDriver () {
+	public D getDriver () {
 		final String platform = this.setting.getDeviceType ()
 			.getName ();
-		final String msg = "Getting %s device driver...";
+		final String msg = "Getting [%s] device driver...";
 		log.trace (String.format (msg, platform));
 		return this.driver;
 	}
@@ -126,33 +127,33 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 		final String platform = this.setting.getDeviceType ()
 			.getName ();
 		if (this.driver != null) {
-			msg = "Closign app on %s device...";
+			msg = "Closign app on [%s] device...";
 			log.trace (String.format (msg, platform));
 			try {
 				this.driver.closeApp ();
 			}
 			catch (final NoSuchSessionException e) {
-				throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+				fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 			}
 			catch (final Exception e) {
-				throw new DeviceAppNotClosingException ("Error occured while closing app.", e);
+				fail (DeviceAppNotClosingError.class, "Error occured while closing app.", e);
 			}
 
-			msg = "Quitting %s device driver...";
+			msg = "Quitting [%s] device driver...";
 			log.trace (String.format (msg, platform));
 			try {
 				this.driver.quit ();
 			}
 			catch (final NoSuchSessionException e) {
-				throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+				fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 			}
 			catch (final Exception e) {
-				throw new DeviceDriverNotStoppingException ("Error occured while stopping device driver.", e);
+				fail (DeviceDriverNotStoppingError.class, "Error occured while stopping device driver.", e);
 			}
 			this.driver = null;
 		}
 		else {
-			msg = "%s device driver already stopped...";
+			msg = "[%s] device driver already stopped...";
 			log.trace (String.format (msg, platform));
 		}
 	}
@@ -185,7 +186,7 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 			if (!file.exists ()) {
 				final String msg = "App not found on mentioned location [%s]...";
 				log.error (String.format (msg, path));
-				throw new DeviceAppNotFoundException (String.format (msg, path));
+				fail (DeviceAppNotFoundError.class, String.format (msg, path));
 			}
 			setCapability (APP, path, this.capabilities, true);
 		}
@@ -202,21 +203,23 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	}
 
 	@SuppressWarnings ("unchecked")
-	private TDriver init (final URL url, final Capabilities capability) {
+	private D init (final URL url, final Capabilities capability) {
 		log.trace ("Initializing driver...");
-		this.token = new TypeToken <TDriver> (getClass ()) {
+		final TypeToken <D> token = new TypeToken <D> (getClass ()) {
 			private static final long serialVersionUID = 1562415938665085306L;
 		};
-		final Class <TDriver> cls = (Class <TDriver>) this.token.getRawType ();
+		final Class <D> cls = (Class <D>) token.getRawType ();
 		final Class <?> [] argTypes = new Class <?> [] { URL.class, Capabilities.class };
 		try {
-			final Constructor <TDriver> ctor = cls.getDeclaredConstructor (argTypes);
+			final Constructor <D> ctor = cls.getDeclaredConstructor (argTypes);
 			return ctor.newInstance (url, capability);
 		}
 		catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
-			throw new DeviceDriverInitializationFailedException ("Error occured while initializing device driver.", e);
+			fail (DeviceDriverInitializationFailedError.class, "Error occured while initializing device driver.",
+					e);
 		}
+		return null;
 	}
 
 	/**
@@ -247,8 +250,8 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 				// No other setting needed for Windows. Only App is required.
 				break;
 			default:
-				final String msg = "%s device type not supported.";
-				throw new DeviceTypeNotSupportedException (String.format (msg, this.setting.getDeviceType ()));
+				final String msg = "[%s] device type not supported.";
+				fail (DeviceTypeNotSupportedError.class, String.format (msg, this.setting.getDeviceType ()));
 		}
 	}
 
@@ -259,10 +262,10 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 				.implicitlyWait (this.setting.getDefaultWait (), TimeUnit.SECONDS);
 		}
 		catch (final NoSuchSessionException e) {
-			throw new AppiumServerStoppedException ("Server Session has been stopped.", e);
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		catch (final Exception e) {
-			throw new DeviceDriverDefaultWaitException ("Error occured while setting device driver default wait.", e);
+			fail (DeviceDriverDefaultWaitError.class, "Error occured while setting device driver default wait.", e);
 		}
 	}
 
@@ -281,13 +284,13 @@ public class Device <TDriver extends AppiumDriver <MobileElement>> {
 	}
 
 	private void startDriver (final String platform) {
-		final String msg = "Starting %s device driver...";
+		final String msg = "Starting [%s] device driver...";
 		log.trace (String.format (msg, platform));
 		try {
 			this.driver = init (this.server.getServiceUrl (), this.capabilities);
 		}
 		catch (final Exception e) {
-			throw new DeviceDriverNotStartingException ("Error occured starting device driver", e);
+			fail (DeviceDriverNotStartingError.class, "Error occured starting device driver", e);
 		}
 	}
 }

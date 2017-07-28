@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 03-Jun-2017 3:44:40 PM
+ * @since 04-May-2017 9:37:59 PM
  */
-public class DeviceElementNameNotFoundException extends BaseAppiumException {
-	private static final long serialVersionUID = -7772079377357876689L;
+public class AppiumServerNotStartingError extends CoteafsError {
+	private static final long serialVersionUID = 7896083001637597129L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 03-Jun-2017 3:44:41 PM
+	 * @since 04-May-2017 11:15:07 PM
 	 * @param message
 	 */
-	public DeviceElementNameNotFoundException (final String message) {
+	public AppiumServerNotStartingError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 03-Jun-2017 3:44:41 PM
+	 * @since 04-May-2017 9:38:00 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceElementNameNotFoundException (final String message, final Throwable cause) {
+	public AppiumServerNotStartingError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

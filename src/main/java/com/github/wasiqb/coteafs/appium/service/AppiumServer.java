@@ -16,6 +16,7 @@
 package com.github.wasiqb.coteafs.appium.service;
 
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 
 import java.io.File;
 import java.io.IOException;
@@ -33,10 +34,10 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerAlreadyRunningException;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotRunningException;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStartingException;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStoppingException;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerAlreadyRunningError;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotRunningError;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStartingError;
+import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStoppingError;
 import com.github.wasiqb.coteafs.config.loader.ConfigLoader;
 
 import io.appium.java_client.remote.MobileCapabilityType;
@@ -113,7 +114,7 @@ public final class AppiumServer {
 			socket.close ();
 		}
 		catch (final IOException e) {
-			throw new AppiumServerNotRunningException ("Error connecting to Server...", e);
+			fail (AppiumServerNotRunningError.class, "Error connecting to Server...", e);
 		}
 		return true;
 	}
@@ -130,10 +131,10 @@ public final class AppiumServer {
 				this.service.start ();
 			}
 			catch (final AppiumServerHasNotBeenStartedLocallyException e) {
-				throw new AppiumServerNotStartingException ("Error occured while starting Appium server", e);
+				fail (AppiumServerNotStartingError.class, "Error occured while starting Appium server", e);
 			}
 			catch (final Exception e) {
-				throw new AppiumServerAlreadyRunningException ("Appium server is running already.", e);
+				fail (AppiumServerAlreadyRunningError.class, "Appium server is running already.", e);
 			}
 			log.trace ("Appium Service Started...");
 		}
@@ -155,7 +156,7 @@ public final class AppiumServer {
 				this.service.stop ();
 			}
 			catch (final Exception e) {
-				throw new AppiumServerNotStoppingException ("Error occured while stopping the server.", e);
+				fail (AppiumServerNotStoppingError.class, "Error occured while stopping the server.", e);
 			}
 			this.service = null;
 			log.trace ("Appium Service Stopped...");

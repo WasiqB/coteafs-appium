@@ -99,6 +99,11 @@
 			</exclusions>
 		</dependency>
 		<dependency>
+			<groupId>com.github.wasiqb.coteafs</groupId>
+			<artifactId>error</artifactId>
+			<version>1.0.0</version>
+		</dependency>
+		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>${testng.version}</version>

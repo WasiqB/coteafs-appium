@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 4:27:12 PM
+ * @since 06-May-2017 4:17:32 PM
  */
-public class AppiumServerNotRunningException extends BaseAppiumException {
-	private static final long serialVersionUID = 8585241762112136560L;
+public class DeviceElementFindTimedOutError extends CoteafsError {
+	private static final long serialVersionUID = 4342518976798681279L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 4:36:48 PM
+	 * @since 06-May-2017 4:17:32 PM
 	 * @param message
 	 */
-	public AppiumServerNotRunningException (final String message) {
-		super (message, null);
+	public DeviceElementFindTimedOutError (final String message) {
+		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 4:27:12 PM
+	 * @since 06-May-2017 4:17:32 PM
 	 * @param message
 	 * @param cause
 	 */
-	public AppiumServerNotRunningException (final String message, final Throwable cause) {
+	public DeviceElementFindTimedOutError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

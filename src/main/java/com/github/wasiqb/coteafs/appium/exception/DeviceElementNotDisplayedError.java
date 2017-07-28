@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 11:07:35 PM
+ * @since 04-May-2017 10:11:47 PM
  */
-public class DeviceElementDisabledException extends BaseAppiumException {
-	private static final long serialVersionUID = -7319931622304889401L;
+public class DeviceElementNotDisplayedError extends CoteafsError {
+	private static final long serialVersionUID = -2632375399231145369L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:07:35 PM
+	 * @since 04-May-2017 11:05:48 PM
 	 * @param message
 	 */
-	public DeviceElementDisabledException (final String message) {
+	public DeviceElementNotDisplayedError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:07:35 PM
+	 * @since 04-May-2017 10:11:47 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceElementDisabledException (final String message, final Throwable cause) {
+	public DeviceElementNotDisplayedError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

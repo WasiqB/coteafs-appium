@@ -15,9 +15,12 @@
  */
 package com.github.wasiqb.coteafs.appium.checker;
 
-import com.github.wasiqb.coteafs.appium.exception.DeviceDesiredCapabilitiesNotSetException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementDisabledException;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotDisplayedException;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+
+import com.github.wasiqb.coteafs.appium.exception.DeviceDesiredCapabilitiesNotSetError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceElementDisabledError;
+import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotDisplayedError;
+import com.github.wasiqb.coteafs.error.OperationNotSupportedError;
 
 import io.appium.java_client.MobileElement;
 
@@ -35,7 +38,7 @@ public final class DeviceChecker {
 	public static void checkCapabilitiesParams (final String key, final Object value) {
 		if (value == null) {
 			final String msg = "Device Desired Capabilities value for [%s] key not set.";
-			throw new DeviceDesiredCapabilitiesNotSetException (String.format (msg, key));
+			fail (DeviceDesiredCapabilitiesNotSetError.class, String.format (msg, key));
 		}
 	}
 
@@ -48,7 +51,7 @@ public final class DeviceChecker {
 	public static void checkDeviceElementDisplayed (final MobileElement element, final String name) {
 		if (!element.isDisplayed ()) {
 			final String msg = "Device element [%s] is not displayed.";
-			throw new DeviceElementNotDisplayedException (String.format (msg, name));
+			fail (DeviceElementNotDisplayedError.class, String.format (msg, name));
 		}
 	}
 
@@ -61,7 +64,15 @@ public final class DeviceChecker {
 	public static void checkDeviceElementEnabled (final MobileElement element, final String name) {
 		if (!element.isEnabled ()) {
 			final String msg = "Device element [%s] is disabled.";
-			throw new DeviceElementDisabledException (String.format (msg, name));
+			fail (DeviceElementDisabledError.class, String.format (msg, name));
 		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jul 22, 2017 10:12:20 PM
+	 */
+	private DeviceChecker () {
+		fail (OperationNotSupportedError.class);
 	}
 }

@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 9:57:00 PM
+ * @since 04-May-2017 11:19:31 PM
  */
-public class DeviceDriverNotStoppingException extends BaseAppiumException {
-	private static final long serialVersionUID = 6550193998074883544L;
+public class AppiumConfigFileNotFoundError extends CoteafsError {
+	private static final long serialVersionUID = 7619491487630973407L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:17:11 PM
+	 * @since 04-May-2017 11:19:31 PM
 	 * @param message
 	 */
-	public DeviceDriverNotStoppingException (final String message) {
+	public AppiumConfigFileNotFoundError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 9:57:00 PM
+	 * @since 04-May-2017 11:19:31 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceDriverNotStoppingException (final String message, final Throwable cause) {
+	public AppiumConfigFileNotFoundError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

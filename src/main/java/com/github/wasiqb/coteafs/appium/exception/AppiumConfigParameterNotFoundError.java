@@ -15,29 +15,31 @@
  */
 package com.github.wasiqb.coteafs.appium.exception;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 9:55:17 PM
+ * @since 09-May-2017 3:46:59 PM
  */
-public class DeviceAppNotClosingException extends BaseAppiumException {
-	private static final long serialVersionUID = -911705055646490050L;
+public class AppiumConfigParameterNotFoundError extends CoteafsError {
+	private static final long serialVersionUID = 8185078640460346377L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:16:42 PM
+	 * @since 09-May-2017 3:46:59 PM
 	 * @param message
 	 */
-	public DeviceAppNotClosingException (final String message) {
+	public AppiumConfigParameterNotFoundError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 9:55:17 PM
+	 * @since 09-May-2017 3:46:59 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceAppNotClosingException (final String message, final Throwable cause) {
+	public AppiumConfigParameterNotFoundError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }
