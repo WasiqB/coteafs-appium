@@ -15,6 +15,8 @@
  */
 package com.github.wasiqb.coteafs.appium.service;
 
+import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_DEFAULT_FILE;
+import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_KEY;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 
@@ -68,7 +70,10 @@ public final class AppiumServer {
 	 * @since 13-Apr-2017 7:33:24 PM
 	 */
 	public AppiumServer (final String name) {
-		this.setting = ConfigLoader.settings (AppiumSetting.class)
+		this.setting = ConfigLoader.settings ()
+			.withKey (COTEAFS_CONFIG_KEY)
+			.withDefault (COTEAFS_CONFIG_DEFAULT_FILE)
+			.load (AppiumSetting.class)
 			.getServer (name);
 		if (!this.setting.isExternal ()) {
 			initService ();

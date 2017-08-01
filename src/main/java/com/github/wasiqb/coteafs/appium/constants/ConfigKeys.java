@@ -13,44 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
-
-import org.openqa.selenium.remote.BrowserType;
+package com.github.wasiqb.coteafs.appium.constants;
 
 /**
  * @author wasiq.bhamla
- * @since Jul 15, 2017 4:50:08 PM
+ * @since Jul 31, 2017 9:45:27 PM
  */
-public enum Browser {
+public interface ConfigKeys {
 	/**
-	 * Chrome browser.
+	 * Default config file name.
 	 */
-	CHROME (BrowserType.CHROME),
+	String	COTEAFS_CONFIG_DEFAULT_FILE	= "appium-config.yaml";
 	/**
-	 * Firefox browser.
+	 * Config key to use.
 	 */
-	FIREFOX (BrowserType.FIREFOX),
-	/**
-	 * Opera browser.
-	 */
-	OPERA (BrowserType.OPERA_BLINK),
-	/**
-	 * Safari browser.
-	 */
-	SAFARI (BrowserType.SAFARI);
-
-	private final String name;
-
-	private Browser (final String name) {
-		this.name = name;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Jul 15, 2017 5:04:12 PM
-	 * @return the browser
-	 */
-	public String getBrowser () {
-		return this.name;
-	}
+	String	COTEAFS_CONFIG_KEY			= "coteafs.appium.config";
 }

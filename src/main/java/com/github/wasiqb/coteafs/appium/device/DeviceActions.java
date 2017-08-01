@@ -83,7 +83,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @param path
 	 */
 	public void captureScreenshot (final String path) {
-		final String msg = "Capturing screenshot and saving at [%s]...";
+		String msg = "Capturing screenshot and saving at [%s]...";
 		log.info (String.format (msg, path));
 		try {
 			final File srcFiler = this.driver.getScreenshotAs (OutputType.FILE);

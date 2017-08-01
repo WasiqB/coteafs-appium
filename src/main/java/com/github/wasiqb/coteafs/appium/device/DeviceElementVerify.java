@@ -89,7 +89,7 @@ public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E exte
 	 * @param expected
 	 */
 	public void textShouldBeEqualTo (final String expected) {
-		final String msg = "Verifying if element text is equal to [%s]...";
+		String msg = "Verifying if element text is equal to [%s]...";
 		log.info (String.format (msg, expected));
 		assertThat (this.actions.text ()).isEqualTo (expected);
 	}

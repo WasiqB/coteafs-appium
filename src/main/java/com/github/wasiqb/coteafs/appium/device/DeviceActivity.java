@@ -86,7 +86,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	public DeviceActions <D, E> onDevice () {
 		ServerChecker.checkServerRunning (this.device.server);
 		log.info ("Preparing to perform actions on device...");
-		return new DeviceActions <D, E> (this.device);
+		return new DeviceActions <> (this.device);
 	}
 
 	/**
@@ -97,9 +97,9 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 */
 	public DeviceElementActions <D, E> onElement (final String name) {
 		ServerChecker.checkServerRunning (this.device.server);
-		final String msg = "Preparing to perform actions on device element [%s]...";
+		String msg = "Preparing to perform actions on device element [%s]...";
 		log.info (String.format (msg, name));
-		return new DeviceElementActions <D, E> (this.device, name, getElement (name));
+		return new DeviceElementActions <> (this.device, name, getElement (name));
 	}
 
 	/**
@@ -111,15 +111,15 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 */
 	public DeviceElementActions <D, E> onElement (final String name, final int index) {
 		ServerChecker.checkServerRunning (this.device.server);
-		final String msg = "Preparing to perform actions on dynamic device element [%s] on index [%d]...";
+		String msg = "Preparing to perform actions on dynamic device element [%s] on index [%d]...";
 		log.info (String.format (msg, name, index));
 		final DeviceElement element = getDeviceElement (name).index (index);
-		return new DeviceElementActions <D, E> (this.device, name, findElements (element));
+		return new DeviceElementActions <> (this.device, name, findElements (element));
 	}
 
 	protected MobileElement getElement (final String name) {
 		load ();
-		final String msg = "Getting element with name [%s]...";
+		String msg = "Getting element with name [%s]...";
 		log.trace (String.format (msg, name));
 		return findElements (getDeviceElement (name));
 	}
@@ -186,7 +186,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		if (this.deviceElements.containsKey (name)) {
 			return this.deviceElements.get (name);
 		}
-		final String msg = "DeviceElement with name [%s] not found.";
+		String msg = "DeviceElement with name [%s] not found.";
 		fail (DeviceElementNameNotFoundError.class, String.format (msg, name));
 		return null;
 	}
@@ -195,7 +195,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		if (this.deviceElements.size () == 0) {
 			final String platform = this.device.setting.getDeviceType ()
 				.getName ();
-			final String msg = "Loading elements on [%s] activity...";
+			String msg = "Loading elements on [%s] activity...";
 			log.info (String.format (msg, platform));
 			loadElements (prepare ());
 		}
@@ -218,7 +218,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 				.isDisplayed ());
 		}
 		catch (final TimeoutException e) {
-			final String msg = "[%s] locator timed out.";
+			String msg = "[%s] locator timed out.";
 			fail (DeviceElementFindTimedOutError.class, String.format (msg, locator), e);
 		}
 		catch (final NoSuchSessionException e) {

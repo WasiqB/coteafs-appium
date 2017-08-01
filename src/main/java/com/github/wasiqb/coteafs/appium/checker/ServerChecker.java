@@ -20,7 +20,6 @@ import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 import com.github.wasiqb.coteafs.appium.exception.AppiumConfigParameterNotFoundError;
 import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotRunningError;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
-import com.github.wasiqb.coteafs.error.OperationNotSupportedError;
 
 /**
  * @author wasiq.bhamla
@@ -35,7 +34,7 @@ public final class ServerChecker {
 	 */
 	public static void checkServerConfigParams (final String key, final Object value) {
 		if (value == null) {
-			final String msg = "Server Config value for %s key not set.";
+			String msg = "Server Config value for %s key not set.";
 			fail (AppiumConfigParameterNotFoundError.class, String.format (msg, key));
 		}
 	}
@@ -56,6 +55,6 @@ public final class ServerChecker {
 	 * @since Jul 22, 2017 10:50:03 PM
 	 */
 	private ServerChecker () {
-		fail (OperationNotSupportedError.class);
+		// Utility class.
 	}
 }

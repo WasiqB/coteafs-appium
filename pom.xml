@@ -1,39 +1,16 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>com.github.wasiqb.coteafs</groupId>
 	<artifactId>appium</artifactId>
-	<version>0.0.1</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Automation Framework wrapped over Appium.</description>
 	<url>https://github.com/WasiqB/coteafs-appium</url>
-	<inceptionYear>2017</inceptionYear>
 
-	<organization>
-		<name>Wasiq Bhamla</name>
-		<url>https://github.com/WasiqB</url>
-	</organization>
-
-	<licenses>
-		<license>
-			<name>The Apache License, Version 2.0</name>
-			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-		</license>
-	</licenses>
-
-	<developers>
-		<developer>
-			<name>Wasiq Bhamla</name>
-			<email>wasbhamla2005@gmail.com</email>
-			<roles>
-				<role>Admin</role>
-				<role>Developer</role>
-			</roles>
-			<organization>Wasiq Bhamla</organization>
-			<organizationUrl>https://github.com/WasiqB</organizationUrl>
-			<timezone>+5</timezone>
-		</developer>
-	</developers>
+	<parent>
+		<groupId>com.github.wasiqb.coteafs</groupId>
+		<artifactId>parent</artifactId>
+		<version>1.0.0</version>
+	</parent>
 
 	<scm>
 		<connection>scm:git:https://github.com/WasiqB/coteafs-appium.git</connection>
@@ -51,46 +28,11 @@
 		<url>https://travis-ci.org/WasiqB/coteafs-appium</url>
 	</ciManagement>
 
-	<repositories>
-		<repository>
-			<id>jcenter</id>
-			<name>bintray</name>
-			<url>http://jcenter.bintray.com</url>
-		</repository>
-	</repositories>
-
-	<properties>
-		<maven.build.timestamp.format>yyyy-MM-dd HH:mm</maven.build.timestamp.format>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.version>3.6.1</maven.compiler.version>
-		<maven.source.encoding>UTF-8</maven.source.encoding>
-		<maven.source.version>3.0.1</maven.source.version>
-		<maven.javadoc.version>2.10.4</maven.javadoc.version>
-		<maven.gpg.version>1.6</maven.gpg.version>
-		<surefire-version>2.20</surefire-version>
-		<version.version>2.3</version.version>
-		<testng.version>6.11</testng.version>
-		<log4j.version>2.8.2</log4j.version>
-		<truth.version>0.33</truth.version>
-		<yaml-version>1.18</yaml-version>
-		<selenium-version>3.4.0</selenium-version>
-		<appium-version>4.1.2</appium-version>
-		<commons.version>3.5</commons.version>
-		<nexus.version>1.6.8</nexus.version>
-		<jacoco.version>0.7.9</jacoco.version>
-		<suite-xml>testng.xml</suite-xml>
-		<jackson.version>2.9.0.pr3</jackson.version>
-		<guava.version>22.0</guava.version>
-		<maven.clean.version>3.0.0</maven.clean.version>
-		<maven.resource.version>3.0.2</maven.resource.version>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>configs</artifactId>
-			<version>0.0.1</version>
+			<version>${project.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.yaml</groupId>
@@ -101,7 +43,7 @@
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>error</artifactId>
-			<version>1.0.0</version>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
@@ -191,169 +133,4 @@
 			<version>${yaml-version}</version>
 		</dependency>
 	</dependencies>
-
-	<distributionManagement>
-		<snapshotRepository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/content/repositories/snapshots</url>
-		</snapshotRepository>
-		<repository>
-			<id>ossrh</id>
-			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2</url>
-		</repository>
-	</distributionManagement>
-
-	<build>
-		<sourceDirectory>src/main/java</sourceDirectory>
-		<plugins>
-			<plugin>
-				<artifactId>maven-clean-plugin</artifactId>
-				<version>${maven.clean.version}</version>
-				<executions>
-					<execution>
-						<id>auto-clean</id>
-						<phase>clean</phase>
-						<goals>
-							<goal>clean</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-resources-plugin</artifactId>
-				<version>${maven.resource.version}</version>
-				<configuration>
-					<encoding>${maven.source.encoding}</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${maven.compiler.version}</version>
-				<configuration>
-					<compilerVersion>${maven.compiler.source}</compilerVersion>
-					<source>${maven.compiler.source}</source>
-					<target>${maven.compiler.target}</target>
-					<encoding>${maven.source.encoding}</encoding>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>${maven.source.version}</version>
-				<executions>
-					<execution>
-						<id>attach-sources</id>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>${maven.javadoc.version}</version>
-				<configuration>
-					<encoding>${maven.source.encoding}</encoding>
-				</configuration>
-				<executions>
-					<execution>
-						<id>attach-javadocs</id>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>report</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>versions-maven-plugin</artifactId>
-				<version>${version.version}</version>
-				<configuration>
-					<generateBackupPoms>false</generateBackupPoms>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>${surefire-version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>test</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<!-- <systemPropertyVariables> <org.uncommons.reportng.escape-output>false</org.uncommons.reportng.escape-output> 
-						<org.uncommons.reportng.title>CoTeAFS ${suite-xml}</org.uncommons.reportng.title> 
-						<org.uncommons.reportng.show-expected-exceptions>true</org.uncommons.reportng.show-expected-exceptions> 
-						</systemPropertyVariables> <properties> <property> <name>usedefaultlisteners</name> 
-						<value>false</value> </property> <property> <name>listener</name> <value> 
-						org.uncommons.reportng.JUnitXMLReporter,org.uncommons.reportng.HTMLReporter 
-						</value> </property> </properties> -->
-					<suiteXmlFiles>
-						<suiteXmlFile>${suite-xml}</suiteXmlFile>
-					</suiteXmlFiles>
-					<argLine>-Dfile.encoding=UTF-8 -Xdebug -Xnoagent</argLine>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
-	<profiles>
-		<profile>
-			<id>release</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>${maven.gpg.version}</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<groupId>org.sonatype.plugins</groupId>
-						<artifactId>nexus-staging-maven-plugin</artifactId>
-						<version>${nexus.version}</version>
-						<extensions>true</extensions>
-						<configuration>
-							<serverId>ossrh</serverId>
-							<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-							<autoReleaseAfterClose>true</autoReleaseAfterClose>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
 </project>

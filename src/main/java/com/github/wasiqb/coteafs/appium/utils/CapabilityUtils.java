@@ -15,14 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.utils;
 
-import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
-import com.github.wasiqb.coteafs.error.OperationNotSupportedError;
 
 /**
  * @author wasiq.bhamla
@@ -63,7 +60,7 @@ public final class CapabilityUtils {
 			if (value instanceof Integer && (Integer) value == 0) {
 				return;
 			}
-			final String msg = "Setting capability [key: %s, value: %s]...";
+			String msg = "Setting capability [key: %s, value: %s]...";
 			log.trace (String.format (msg, key, value));
 			capabilities.setCapability (key, value);
 		}
@@ -74,6 +71,6 @@ public final class CapabilityUtils {
 	 * @since Jul 23, 2017 2:47:32 PM
 	 */
 	private CapabilityUtils () {
-		fail (OperationNotSupportedError.class);
+		// Utility class.
 	}
 }

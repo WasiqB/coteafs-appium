@@ -61,7 +61,7 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 			final Alert alert = this.wait.until (d -> d.switchTo ()
 				.alert ());
 			final String description = alert.getText ();
-			final String msg = "Alert Text: [%s]";
+			String msg = "Alert Text: [%s]";
 			log.info (String.format (msg, description));
 			alert.accept ();
 			return description;
@@ -83,7 +83,7 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 	 * @param keyName
 	 */
 	public void hideKeyboard (final String strategy, final String keyName) {
-		final String msg = "Hiding keyboard on device using %s strategy for key %s...";
+		String msg = "Hiding keyboard on device using %s strategy for key %s...";
 		log.info (String.format (msg, strategy, keyName));
 		try {
 			this.driver.hideKeyboard (strategy, keyName);

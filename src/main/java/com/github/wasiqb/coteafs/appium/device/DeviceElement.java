@@ -125,10 +125,10 @@ public class DeviceElement {
 	 */
 	@Override
 	public String toString () {
-		final String line1 = "Name: %s";
-		final String line2 = "By: %s";
-		final String line4 = "Index: %d";
-		final String line3 = "Childs: %s";
+		String line1 = "Name: %s";
+		String line2 = "By: %s";
+		String line4 = "Index: %d";
+		String line3 = "Childs: %s";
 		final StringBuilder sb = new StringBuilder (String.format (line1, this.name)).append ("\n");
 		sb.append (String.format (line2, this.by))
 			.append ("\n");

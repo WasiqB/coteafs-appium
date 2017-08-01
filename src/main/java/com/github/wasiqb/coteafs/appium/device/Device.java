@@ -15,6 +15,8 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
+import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_DEFAULT_FILE;
+import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_KEY;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
@@ -89,7 +91,10 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	 */
 	public Device (final AppiumServer server, final String name) {
 		this.server = server;
-		this.setting = ConfigLoader.settings (AppiumSetting.class)
+		this.setting = ConfigLoader.settings ()
+			.withKey (COTEAFS_CONFIG_KEY)
+			.withDefault (COTEAFS_CONFIG_DEFAULT_FILE)
+			.load (AppiumSetting.class)
 			.getDevice (name);
 		buildCapabilities ();
 	}
@@ -102,7 +107,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	public D getDriver () {
 		final String platform = this.setting.getDeviceType ()
 			.getName ();
-		final String msg = "Getting [%s] device driver...";
+		String msg = "Getting [%s] device driver...";
 		log.trace (String.format (msg, platform));
 		return this.driver;
 	}
@@ -184,7 +189,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 
 			final File file = new File (path);
 			if (!file.exists ()) {
-				final String msg = "App not found on mentioned location [%s]...";
+				String msg = "App not found on mentioned location [%s]...";
 				log.error (String.format (msg, path));
 				fail (DeviceAppNotFoundError.class, String.format (msg, path));
 			}
@@ -216,8 +221,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		}
 		catch (NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException e) {
-			fail (DeviceDriverInitializationFailedError.class, "Error occured while initializing device driver.",
-					e);
+			fail (DeviceDriverInitializationFailedError.class, "Error occured while initializing device driver.", e);
 		}
 		return null;
 	}
@@ -250,7 +254,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 				// No other setting needed for Windows. Only App is required.
 				break;
 			default:
-				final String msg = "[%s] device type not supported.";
+				String msg = "[%s] device type not supported.";
 				fail (DeviceTypeNotSupportedError.class, String.format (msg, this.setting.getDeviceType ()));
 		}
 	}
@@ -284,7 +288,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	}
 
 	private void startDriver (final String platform) {
-		final String msg = "Starting [%s] device driver...";
+		String msg = "Starting [%s] device driver...";
 		log.trace (String.format (msg, platform));
 		try {
 			this.driver = init (this.server.getServiceUrl (), this.capabilities);
