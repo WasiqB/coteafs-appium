@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
-import org.openqa.selenium.remote.BrowserType;
+import io.appium.java_client.remote.MobileBrowserType;
 
 /**
  * @author wasiq.bhamla
@@ -23,21 +23,21 @@ import org.openqa.selenium.remote.BrowserType;
  */
 public enum Browser {
 	/**
+	 * System browser.
+	 */
+	BROWSER (MobileBrowserType.BROWSER),
+	/**
 	 * Chrome browser.
 	 */
-	CHROME (BrowserType.CHROME),
+	CHROME (MobileBrowserType.CHROME),
 	/**
-	 * Firefox browser.
+	 * Chromiuim browser.
 	 */
-	FIREFOX (BrowserType.FIREFOX),
-	/**
-	 * Opera browser.
-	 */
-	OPERA (BrowserType.OPERA_BLINK),
+	CHROMIUM (MobileBrowserType.CHROMIUM),
 	/**
 	 * Safari browser.
 	 */
-	SAFARI (BrowserType.SAFARI);
+	SAFARI (MobileBrowserType.SAFARI);
 
 	private final String name;
 

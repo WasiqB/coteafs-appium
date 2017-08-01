@@ -17,9 +17,9 @@ package com.github.wasiqb.coteafs.appium.checker;
 
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 
-import com.github.wasiqb.coteafs.appium.exception.DeviceDesiredCapabilitiesNotSetError;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementDisabledError;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotDisplayedError;
+import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
+import com.github.wasiqb.coteafs.appium.error.DeviceElementDisabledError;
+import com.github.wasiqb.coteafs.appium.error.DeviceElementNotDisplayedError;
 
 import io.appium.java_client.MobileElement;
 

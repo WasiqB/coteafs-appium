@@ -36,10 +36,10 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerAlreadyRunningError;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotRunningError;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStartingError;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotStoppingError;
+import com.github.wasiqb.coteafs.appium.error.AppiumServerAlreadyRunningError;
+import com.github.wasiqb.coteafs.appium.error.AppiumServerNotRunningError;
+import com.github.wasiqb.coteafs.appium.error.AppiumServerNotStartingError;
+import com.github.wasiqb.coteafs.appium.error.AppiumServerNotStoppingError;
 import com.github.wasiqb.coteafs.config.loader.ConfigLoader;
 
 import io.appium.java_client.remote.MobileCapabilityType;

@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.exception;
+package com.github.wasiqb.coteafs.appium.error;
 
 import com.github.wasiqb.coteafs.error.CoteafsError;
 
 /**
  * @author wasiq.bhamla
- * @since 12-May-2017 10:00:29 PM
+ * @since 04-May-2017 11:07:35 PM
  */
-public class AppiumServerStoppedError extends CoteafsError {
-	private static final long serialVersionUID = -16535073449188572L;
+public class DeviceElementDisabledError extends CoteafsError {
+	private static final long serialVersionUID = -7319931622304889401L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 12-May-2017 10:00:30 PM
+	 * @since 04-May-2017 11:07:35 PM
 	 * @param message
 	 */
-	public AppiumServerStoppedError (final String message) {
+	public DeviceElementDisabledError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 12-May-2017 10:00:30 PM
+	 * @since 04-May-2017 11:07:35 PM
 	 * @param message
 	 * @param cause
 	 */
-	public AppiumServerStoppedError (final String message, final Throwable cause) {
+	public DeviceElementDisabledError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

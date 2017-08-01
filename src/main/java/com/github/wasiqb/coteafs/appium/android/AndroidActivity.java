@@ -59,7 +59,7 @@ public abstract class AndroidActivity extends DeviceActivity <AndroidDriver <Mob
 	 */
 	@Override
 	public AndroidDeviceElementActions onElement (final String name) {
-		String msg = "Preparing to perform actions on Android device element %s...";
+		String msg = "Preparing to perform actions on Android device element [%s]...";
 		log.info (String.format (msg, name));
 		return new AndroidDeviceElementActions (this.device, name, getElement (name));
 	}

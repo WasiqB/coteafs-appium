@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.exception;
+package com.github.wasiqb.coteafs.appium.error;
 
 import com.github.wasiqb.coteafs.error.CoteafsError;
 
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 4:27:12 PM
+ * @since 04-May-2017 11:22:34 PM
  */
-public class AppiumServerNotRunningError extends CoteafsError {
-	private static final long serialVersionUID = 8585241762112136560L;
+public class AppiumConfigNotLoadedError extends CoteafsError {
+	private static final long serialVersionUID = 3051298544062173848L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 4:36:48 PM
+	 * @since 04-May-2017 11:22:34 PM
 	 * @param message
 	 */
-	public AppiumServerNotRunningError (final String message) {
-		super (message, null);
+	public AppiumConfigNotLoadedError (final String message) {
+		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 4:27:12 PM
+	 * @since 04-May-2017 11:22:34 PM
 	 * @param message
 	 * @param cause
 	 */
-	public AppiumServerNotRunningError (final String message, final Throwable cause) {
+	public AppiumConfigNotLoadedError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.exception;
+package com.github.wasiqb.coteafs.appium.error;
 
 import com.github.wasiqb.coteafs.error.CoteafsError;
 
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 10:11:47 PM
+ * @since 12-May-2017 7:29:59 PM
  */
-public class DeviceElementNotDisplayedError extends CoteafsError {
-	private static final long serialVersionUID = -2632375399231145369L;
+public class DeviceDesiredCapabilitiesNotSetError extends CoteafsError {
+	private static final long serialVersionUID = 2603048064389553019L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:05:48 PM
+	 * @since 12-May-2017 7:30:02 PM
 	 * @param message
 	 */
-	public DeviceElementNotDisplayedError (final String message) {
+	public DeviceDesiredCapabilitiesNotSetError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 10:11:47 PM
+	 * @since 12-May-2017 7:30:02 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceElementNotDisplayedError (final String message, final Throwable cause) {
+	public DeviceDesiredCapabilitiesNotSetError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

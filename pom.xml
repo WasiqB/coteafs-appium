@@ -2,6 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>appium</artifactId>
+	<version>0.0.1</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Automation Framework wrapped over Appium.</description>
 	<url>https://github.com/WasiqB/coteafs-appium</url>
@@ -32,7 +33,7 @@
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>configs</artifactId>
-			<version>${project.version}</version>
+			<version>1.0.0</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.yaml</groupId>
@@ -43,7 +44,7 @@
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>error</artifactId>
-			<version>${project.version}</version>
+			<version>1.0.0</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>

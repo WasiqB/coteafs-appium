@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.exception;
+package com.github.wasiqb.coteafs.appium.error;
 
 import com.github.wasiqb.coteafs.error.CoteafsError;
 
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 9:44:46 PM
+ * @since 04-May-2017 9:52:46 PM
  */
-public class AppiumServerAlreadyRunningError extends CoteafsError {
-	private static final long serialVersionUID = 3122700421661631230L;
+public class DeviceDriverNotStartingError extends CoteafsError {
+	private static final long serialVersionUID = 1786319114640601285L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:12:22 PM
+	 * @since 04-May-2017 11:16:56 PM
 	 * @param message
 	 */
-	public AppiumServerAlreadyRunningError (final String message) {
+	public DeviceDriverNotStartingError (final String message) {
 		super (message);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 9:44:46 PM
+	 * @since 04-May-2017 9:52:46 PM
 	 * @param message
 	 * @param cause
 	 */
-	public AppiumServerAlreadyRunningError (final String message, final Throwable cause) {
+	public DeviceDriverNotStartingError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

@@ -28,6 +28,9 @@ public class DeviceSetting {
 	private ApplicationType	appType;
 	private String			appWaitActivity;
 	private AutomationName	automationName;
+	private String			avd;
+	private int				avdLaunchTimeout;
+	private int				avdReadyTimeout;
 	private String			bootstrapPath;
 	private Browser			browser;
 	private String			bundleId;
@@ -39,6 +42,7 @@ public class DeviceSetting {
 	private boolean			externalApp;
 	private boolean			fullReset;
 	private boolean			noReset;
+	private PlatformType	platformType;
 	private int				sessionTimeout;
 	private String			signingId;
 	private String			teamId;
@@ -55,8 +59,9 @@ public class DeviceSetting {
 	 */
 	public DeviceSetting () {
 		this.automationName = AutomationName.APPIUM;
-		this.deviceType = DeviceType.ANDROID;
+		this.platformType = PlatformType.ANDROID;
 		this.appType = ApplicationType.NATIVE;
+		this.deviceType = DeviceType.REAL;
 		this.defaultWait = 30;
 		this.waitForElementUntil = 30;
 		this.noReset = false;
@@ -142,6 +147,33 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Aug 1, 2017 4:43:20 PM
+	 * @return the avd
+	 */
+	public String getAvd () {
+		return this.avd;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Aug 1, 2017 4:43:20 PM
+	 * @return the avdLaunchTimeout
+	 */
+	public int getAvdLaunchTimeout () {
+		return this.avdLaunchTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Aug 1, 2017 4:43:20 PM
+	 * @return the avdReadyTimeout
+	 */
+	public int getAvdReadyTimeout () {
+		return this.avdReadyTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @return the bootstrapPath
 	 */
@@ -187,7 +219,7 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 12-Apr-2017 8:42:49 PM
+	 * @since Aug 1, 2017 3:57:48 PM
 	 * @return the deviceType
 	 */
 	public DeviceType getDeviceType () {
@@ -201,6 +233,15 @@ public class DeviceSetting {
 	 */
 	public String getDeviceVersion () {
 		return this.deviceVersion;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 12-Apr-2017 8:42:49 PM
+	 * @return the deviceType
+	 */
+	public PlatformType getPlatformType () {
+		return this.platformType;
 	}
 
 	/**
@@ -402,6 +443,36 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Aug 1, 2017 4:43:20 PM
+	 * @param avd
+	 *            the avd to set
+	 */
+	public void setAvd (final String avd) {
+		this.avd = avd;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Aug 1, 2017 4:43:20 PM
+	 * @param avdLaunchTimeout
+	 *            the avdLaunchTimeout to set
+	 */
+	public void setAvdLaunchTimeout (final int avdLaunchTimeout) {
+		this.avdLaunchTimeout = avdLaunchTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Aug 1, 2017 4:43:20 PM
+	 * @param avdReadyTimeout
+	 *            the avdReadyTimeout to set
+	 */
+	public void setAvdReadyTimeout (final int avdReadyTimeout) {
+		this.avdReadyTimeout = avdReadyTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @param bootstrapPath
 	 *            the bootstrapPath to set
@@ -462,7 +533,7 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 12-Apr-2017 8:42:49 PM
+	 * @since Aug 1, 2017 3:57:48 PM
 	 * @param deviceType
 	 *            the deviceType to set
 	 */
@@ -508,6 +579,16 @@ public class DeviceSetting {
 	 */
 	public void setNoReset (final boolean noReset) {
 		this.noReset = noReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 12-Apr-2017 8:42:49 PM
+	 * @param deviceType
+	 *            the deviceType to set
+	 */
+	public void setPlatformType (final PlatformType deviceType) {
+		this.platformType = deviceType;
 	}
 
 	/**

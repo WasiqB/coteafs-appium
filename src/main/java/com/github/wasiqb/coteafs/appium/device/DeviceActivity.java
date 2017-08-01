@@ -30,10 +30,10 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedError;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementFindTimedOutError;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementNameNotFoundError;
-import com.github.wasiqb.coteafs.appium.exception.DeviceElementNotFoundError;
+import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
+import com.github.wasiqb.coteafs.appium.error.DeviceElementFindTimedOutError;
+import com.github.wasiqb.coteafs.appium.error.DeviceElementNameNotFoundError;
+import com.github.wasiqb.coteafs.appium.error.DeviceElementNotFoundError;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -193,7 +193,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 
 	private void load () {
 		if (this.deviceElements.size () == 0) {
-			final String platform = this.device.setting.getDeviceType ()
+			final String platform = this.device.setting.getPlatformType ()
 				.getName ();
 			String msg = "Loading elements on [%s] activity...";
 			log.info (String.format (msg, platform));

@@ -13,19 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
+package com.github.wasiqb.coteafs.appium.error;
+
+import com.github.wasiqb.coteafs.error.CoteafsError;
 
 /**
  * @author wasiq.bhamla
- * @since Aug 1, 2017 3:56:25 PM
+ * @since 06-May-2017 4:03:58 PM
  */
-public enum DeviceType {
+public class DeviceAppNotFoundError extends CoteafsError {
+	private static final long serialVersionUID = 1403120362024067556L;
+
 	/**
-	 * Indicates real device.
+	 * @author wasiq.bhamla
+	 * @since 06-May-2017 4:03:58 PM
+	 * @param message
 	 */
-	REAL,
+	public DeviceAppNotFoundError (final String message) {
+		super (message);
+	}
+
 	/**
-	 * Indicates simulator / emulators.
+	 * @author wasiq.bhamla
+	 * @since 06-May-2017 4:03:58 PM
+	 * @param message
+	 * @param cause
 	 */
-	SIMULATOR;
+	public DeviceAppNotFoundError (final String message, final Throwable cause) {
+		super (message, cause);
+	}
 }

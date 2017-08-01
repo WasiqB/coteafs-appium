@@ -13,33 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.exception;
+package com.github.wasiqb.coteafs.appium.error;
 
 import com.github.wasiqb.coteafs.error.CoteafsError;
 
 /**
  * @author wasiq.bhamla
- * @since 04-May-2017 9:55:17 PM
+ * @since 04-May-2017 4:27:12 PM
  */
-public class DeviceAppNotClosingError extends CoteafsError {
-	private static final long serialVersionUID = -911705055646490050L;
+public class AppiumServerNotRunningError extends CoteafsError {
+	private static final long serialVersionUID = 8585241762112136560L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:16:42 PM
+	 * @since 04-May-2017 4:36:48 PM
 	 * @param message
 	 */
-	public DeviceAppNotClosingError (final String message) {
-		super (message);
+	public AppiumServerNotRunningError (final String message) {
+		super (message, null);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 04-May-2017 9:55:17 PM
+	 * @since 04-May-2017 4:27:12 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceAppNotClosingError (final String message, final Throwable cause) {
+	public AppiumServerNotRunningError (final String message, final Throwable cause) {
 		super (message, cause);
 	}
 }

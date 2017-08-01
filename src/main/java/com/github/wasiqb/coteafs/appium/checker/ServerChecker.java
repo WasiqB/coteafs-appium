@@ -17,8 +17,8 @@ package com.github.wasiqb.coteafs.appium.checker;
 
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 
-import com.github.wasiqb.coteafs.appium.exception.AppiumConfigParameterNotFoundError;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerNotRunningError;
+import com.github.wasiqb.coteafs.appium.error.AppiumConfigParameterNotFoundError;
+import com.github.wasiqb.coteafs.appium.error.AppiumServerNotRunningError;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 /**

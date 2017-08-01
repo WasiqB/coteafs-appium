@@ -25,7 +25,7 @@ import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.TimeoutException;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
-import com.github.wasiqb.coteafs.appium.exception.AppiumServerStoppedError;
+import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
