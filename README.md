@@ -3,13 +3,13 @@
 This is a very easy to use Mobile Automation Framework which can be used to test multiple devices of different platforms in a single test. This is a one of it's kind framework with unique coding standards defined by the framework. Writing tests for Mobile devices was never so easy before, but by using this framework, the scripting time will be reduce by more than 50%. To know more about the framework let's see it's advantages now.
 
 ## Advantages:
-* Supports Android and iOS devices.
+* Supports Android and iOS devices and simulators.
 * Enforces Page object model style of coding.
 * Easily configureable with config file.
 * Allows you to concentrate more on tests then other repeated codings.
 * Promotes fluent style coding.
 * Has inbuilt assertions to verify the device elements.
-* Has pre-defined exceptions which wraps the Selenium and Appium exceptions in a meaningful way.
+* Has pre-defined errors which wraps the Selenium and Appium exceptions in a meaningful way.
 * Supports testing multiple devices of different platforms to be tested together.
 
 # Usage
@@ -48,7 +48,7 @@ You will also need following supporting dependencies which is also required to b
 
 # Getting started with the Framework.
 ## Config file:
-This the heart of this framework. It is a yaml file which will have all the settings needed for your tests. The framework will try to find System property `coteafs.appium.config` which will have the path of the config file. If it is not specified, by default, it will search the file at `test-config.yaml` under `src/test/resources` directory. If this file is not found in that location as well, then it will throw `AppiumConfigFileNotFoundException`.
+Config file is the heart of this framework. It is supported by [coteafs-configs](https://github.com/WasiqB/coteafs-config) framework which supports yaml file format parsing. This config file will contain all the settings needed for your tests. The framework will try to find System property `coteafs.appium.config` which will have the path of the config file. If it is not specified, by default, it will search the file at `appium-config.yaml` under `src/test/resources` directory. If this file is not found in that location as well, then it will throw `AppiumConfigFileNotFoundError`.
 
 ### Supported Server Config List:
 Following is the server config list:
@@ -70,7 +70,8 @@ Following is the device config list:
 Key | Platform | Allowed Values | Description
 ----|----------|----------------|------------
 `device_name` | Both | | Name of the device.
-`device_type` | Both | ANDROID, IOS, WINDOWS | Device type.
+`device_type` | Both | REAL, SIMULATOR | Device type.
+`platform_type` | Both | ANDROID, IOS, WINDOWS | Platform type.
 `device_version` | Both | | Platform version.
 `automation_name` | Both | APPIUM, XCUI | Automation used.
 `app_name` | IOS | | Application Name
@@ -96,33 +97,38 @@ Key | Platform | Allowed Values | Description
 `session_timeout` | Both | Int | New command timeout value.
 `no_reset` | Both | false | true, if app reset is not required, else, can be omitted.
 `full_reset` | Both | false | true, if full reset of app is required, else, can be omitted.
+`avd` | Android | AVD Name | Android Virtual Device Name
+`avd_launch_timeout` | Android | Int | AVD launch timeout in sec.
+`avd_ready_timeout` | Android | Int | AVD ready timeout in sec.
+`browser` | Both | BROWSER, CHROME, CHROMIUM, SAFARI | When running web tests.
 
-## Exceptions:
-Sometimes it is very difficult to identify what went wrong when we run tests using Appium or Selenium. To handle this, framework handles all the events and throws a meaningful exception which is easy to identify the cause of failure.
+## Errors:
+Sometimes it is very difficult to identify what went wrong when we run tests using Appium or Selenium. To handle this, framework handles all the events and throws a meaningful error using [coteafs-error](https://github.com/WasiqB/coteafs-error) framework, which is easy to identify the cause of failure.
 Following is the list of exception and their events of occurring:
 
 Exception | Events
 ----------|-------
-`AppiumConfigFileNotFoundException` | When Config file is not found.
-`AppiumConfigNotLoadedException` | When some error occurs while loading the config file.
-`AppiumConfigParameterNotFoundException` | When the config file is missing mandatory params.
-`AppiumServerAlreadyRunningException` | When Appium server is already running.
-`AppiumServerNotRunningException` | When Appium server is not running.
-`AppiumServerNotStartingException` | When there is Error while starting the server.
-`AppiumServerNotStoppingException` | When there is Error while stopping the server.
-`AppiumServerStoppedException` | When trying to interact with device while Appium server is stopped.
-`DeviceAppNotClosingException` | When there is Error while closing Device app.
-`DeviceAppNotFoundException` | When device app is not found on local machine.
-`DeviceDesiredCapabilitiesNotSetException` | When device mandatory desired capabilities is not set.
-`DeviceDriverDefaultWaitException` | When there is Error while setting implicit waits.
-`DeviceDriverInitializationFailedException` | When there is Error while initializing device driver.
-`DeviceDriverNotStartingException` | When there is Error while starting device driver.
-`DeviceDriverNotStoppingException` | When there is Error while quitting device driver.
-`DeviceElementDisabledException` | When you are trying to interact with disabled element.
-`DeviceElementFindTimedOutException` | When element is not ready within specified explicit delay given in config file.
-`DeviceElementNotDisplayedException` | When you are trying to interact with element which is not yet displayed.
-`DeviceElementNotFoundException` | When device element cannot be found.
-`DeviceTypeNotSupportedException` | When the mentioned device type is not supported by the framework.
+`AppiumConfigFileNotFoundError` | When Config file is not found.
+`AppiumConfigNotLoadedError` | When some error occurs while loading the config file.
+`AppiumConfigParameterNotFoundError` | When the config file is missing mandatory params.
+`AppiumServerAlreadyRunningError` | When Appium server is already running.
+`AppiumServerNotRunningError` | When Appium server is not running.
+`AppiumServerNotStartingError` | When there is Error while starting the server.
+`AppiumServerNotStoppingError` | When there is Error while stopping the server.
+`AppiumServerStoppedError` | When trying to interact with device while Appium server is stopped.
+`DeviceAppNotClosingError` | When there is Error while closing Device app.
+`DeviceAppNotFoundError` | When device app is not found on local machine.
+`DeviceDesiredCapabilitiesNotSetError` | When device mandatory desired capabilities is not set.
+`DeviceDriverDefaultWaitError` | When there is Error while setting implicit waits.
+`DeviceDriverInitializationFailedError` | When there is Error while initializing device driver.
+`DeviceDriverNotStartingError` | When there is Error while starting device driver.
+`DeviceDriverNotStoppingError` | When there is Error while quitting device driver.
+`DeviceElementDisabledError` | When you are trying to interact with disabled element.
+`DeviceElementFindTimedOutError` | When element is not ready within specified explicit delay given in config file.
+`DeviceElementNameNotFoundError` | When element name is not found in Activity class.
+`DeviceElementNotDisplayedError` | When you are trying to interact with element which is not yet displayed.
+`DeviceElementNotFoundError` | When device element cannot be found.
+`DeviceTypeNotSupportedError` | When the mentioned device type is not supported by the framework.
 
 ## Logging:
 By default, framework create 3 types of log files under `/logs` folder as specified below:
@@ -231,7 +237,8 @@ servers:	# should not be changed.
 
 devices:	# Should not change.
   android:	# Can be any text, it will be used to refer configs in tests.
-    device_type: ANDROID
+    platform_type: ANDROID
+    device_type: REAL
     device_name: Mi4
     device_version: 6.0.1
     app_type: HYBRID
@@ -243,7 +250,7 @@ devices:	# Should not change.
     session_timeout: 6000
     clear_system_files: true
   iphone:	# Can be any text, it will be used to refer configs in tests.
-    device_type: IOS
+    platform_type: IOS
     device_name: iPhone 6
     device_version: 10.3.1
     udid: XXXX
@@ -251,14 +258,14 @@ devices:	# Should not change.
     app_type: HYBRID
     app_location: app/iphone/your_app.ipa
     automation_name: XCUI
-    app_name: Campus Key
+    app_name: [Your App Name]
     team_id: XXXXXXXXXX
     signing_id: iPhone Developer
     bootstrap_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent
     agent_path: /usr/local/lib/node_modules/appium/node_modules/appium-xcuitest-driver/WebDriverAgent/WebDriverAgent.xcodeproj
     session_timeout: 6000
   ipad:		# Can be any text, it will be used to refer configs in tests.
-    device_type: IOS
+    platform_type: IOS
     device_name: iPad Mini 4
     device_version: 10.3.1
     udid: XXXX
@@ -399,9 +406,7 @@ If this won't solve the issues, than you need to remove old versions from your *
 
 # Following not yet supported:
 * Windows Devices.
-* Simulators / Emulators.
 * Starting of Appium server from script for iOS devices.
-* Mobile web apps testing on device browsers.
 * Parallel execution is not tested, that's why mentioned here. It may work.
 
 # Framework Status
