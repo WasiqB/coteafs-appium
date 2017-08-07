@@ -33,7 +33,7 @@
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>configs</artifactId>
-			<version>1.0.0</version>
+			<version>${coteafs.config.version}</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.yaml</groupId>
@@ -44,12 +44,12 @@
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>error</artifactId>
-			<version>1.0.0</version>
+			<version>${coteafs.error.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>logger</artifactId>
-			<version>1.0.0</version>
+			<version>${coteafs.logger.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.testng</groupId>
