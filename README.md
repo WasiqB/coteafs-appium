@@ -21,30 +21,6 @@ You need to use following in your pom.xml in order to use this framework.
   <version>0.0.1</version>
 </dependency>
 ```
-You will also need following supporting dependencies which is also required to be added in your pom file.
-```xml
-<dependency>
-  <groupId>org.apache.logging.log4j</groupId>
-  <artifactId>log4j-core</artifactId>
-  <version>2.8.2</version>
-</dependency>
-<dependency>
-  <groupId>org.apache.logging.log4j</groupId>
-  <artifactId>log4j-api</artifactId>
-  <version>2.8.2</version>
-</dependency>
-<dependency>
-  <groupId>io.appium</groupId>
-  <artifactId>java-client</artifactId>
-  <version>4.1.2</version>
-  <exclusions>
-    <exclusion>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-    </exclusion>
-  </exclusions>
-</dependency>
-```
 
 # Getting started with the Framework.
 ## Config file:
@@ -407,6 +383,7 @@ If this won't solve the issues, than you need to remove old versions from your *
 * Windows Devices.
 * Starting of Appium server from script for iOS devices.
 * Parallel execution is not tested, that's why mentioned here. It may work.
+* Any functionality which you want to see.
 
 # Framework Status
 Area | Status
