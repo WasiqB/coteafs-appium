@@ -18,7 +18,7 @@ You need to use following in your pom.xml in order to use this framework.
 <dependency>
   <groupId>com.github.wasiqb.coteafs</groupId>
   <artifactId>appium</artifactId>
-  <version>0.0.1</version>
+  <version>1.0.0</version>
 </dependency>
 ```
 
