@@ -50,47 +50,57 @@ public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E exte
 	/**
 	 * @author wasiq.bhamla
 	 * @since 19-May-2017 10:07:53 PM
+	 * @return instance
 	 */
-	public void shouldBeDisabled () {
+	public DeviceElementVerify <D, E> shouldBeDisabled () {
 		log.info ("Verifying if element is disabled...");
 		assertThat (this.actions.enabled ()).isFalse ();
+		return this;
 	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since 19-May-2017 10:08:28 PM
+	 * @return instance
 	 */
-	public void shouldBeDisplayed () {
+	public DeviceElementVerify <D, E> shouldBeDisplayed () {
 		log.info ("Verifying if element is displayed...");
 		assertThat (this.actions.visible ()).isTrue ();
+		return this;
 	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since 19-May-2017 10:07:22 PM
+	 * @return instance
 	 */
-	public void shouldBeEnabled () {
+	public DeviceElementVerify <D, E> shouldBeEnabled () {
 		log.info ("Verifying if element is enabled...");
 		assertThat (this.actions.enabled ()).isTrue ();
+		return this;
 	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since 20-May-2017 12:24:26 PM
+	 * @return instance
 	 */
-	public void shouldNotBeDisplayed () {
+	public DeviceElementVerify <D, E> shouldNotBeDisplayed () {
 		log.info ("Verifying if element is not displayed...");
 		assertThat (this.actions.visible ()).isFalse ();
+		return this;
 	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since 20-May-2017 12:39:27 PM
 	 * @param expected
+	 * @return instance
 	 */
-	public void textShouldBeEqualTo (final String expected) {
-		String msg = "Verifying if element text is equal to [%s]...";
+	public DeviceElementVerify <D, E> textShouldBeEqualTo (final String expected) {
+		final String msg = "Verifying if element text is equal to [%s]...";
 		log.info (String.format (msg, expected));
 		assertThat (this.actions.text ()).isEqualTo (expected);
+		return this;
 	}
 }

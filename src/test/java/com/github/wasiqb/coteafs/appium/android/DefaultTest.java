@@ -80,6 +80,11 @@ public class DefaultTest {
 		login.onDevice ()
 			.hideKeyboard ();
 		login.onElement ("login")
+			.verifyThat ()
+			.shouldBeDisplayed ()
+			.shouldBeEnabled ()
+			.textShouldBeEqualTo ("Login");
+		login.onElement ("login")
 			.tap (100);
 	}
 }
