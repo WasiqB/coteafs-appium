@@ -18,7 +18,7 @@ You need to use following in your pom.xml in order to use this framework.
 <dependency>
   <groupId>com.github.wasiqb.coteafs</groupId>
   <artifactId>appium</artifactId>
-  <version>1.0.0</version>
+  <version>1.1.0</version>
 </dependency>
 ```
 
@@ -77,6 +77,10 @@ Key | Platform | Allowed Values | Description
 `avd_launch_timeout` | Android | Int | AVD launch timeout in sec.
 `avd_ready_timeout` | Android | Int | AVD ready timeout in sec.
 `browser` | Both | BROWSER, CHROME, CHROMIUM, SAFARI | When running web tests.
+`delay_before_tap` | Both | Double | Delay in secs before tap.
+`delay_after_tap` | Both | Double | Delay in secs after tap.
+`delay_before_swipe` | Both | Double | Delay in secs before swipe.
+`delay_after_swipe` | Both | Double | Delay in secs after swipe.
 
 ## Errors:
 Sometimes it is very difficult to identify what went wrong when we run tests using Appium or Selenium. To handle this, framework handles all the events and throws a meaningful error using [coteafs-error](https://github.com/WasiqB/coteafs-error) framework, which is easy to identify the cause of failure.

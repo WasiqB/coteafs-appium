@@ -1,17 +1,10 @@
 /**
- * Copyright (c) 2017, Wasiq Bhamla.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2017, Wasiq Bhamla. Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed
+ * to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
  */
 package com.github.wasiqb.coteafs.appium.device;
 
@@ -148,7 +141,13 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Performing long press on element [%s]...", this.name));
 		try {
-			this.touch.longPress (this.element)
+			final int beforeTap = this.device.getSetting ()
+				.getDelayBeforeTap ();
+			final int afterTap = this.device.getSetting ()
+				.getDelayAfterTap ();
+			this.touch.waitAction (beforeTap)
+				.longPress (this.element)
+				.waitAction (afterTap)
 				.perform ();
 		}
 		catch (final NoSuchSessionException e) {
@@ -157,10 +156,13 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	}
 
 	/**
+	 * Will be removed in future release. Use <code>void longPress ()</code> instead.
+	 *
 	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:55:59 PM
 	 * @param duration
 	 */
+	@Deprecated
 	public void longPress (final int duration) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Performing long press on element [%s] till [%d] ms...", this.name, duration));
@@ -225,15 +227,19 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param direction
 	 */
 	public void swipe (final SwipeElementDirection direction) {
-		swipe (direction, 100);
+		swipe (direction, this.device.getSetting ()
+			.getDelayBeforeSwipe ());
 	}
 
 	/**
+	 * Will be removed in future release. Use <code>void swipe ()</code> instead.
+	 *
 	 * @author wasiq.bhamla
 	 * @since 12-May-2017 10:07:14 PM
 	 * @param direction
 	 * @param delay
 	 */
+	@Deprecated
 	public void swipe (final SwipeElementDirection direction, final int delay) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Swiping [%s] on element [%s] with [%d] ms delay...", direction, this.name, delay));

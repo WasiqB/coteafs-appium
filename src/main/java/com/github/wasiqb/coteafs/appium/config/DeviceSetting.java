@@ -1,17 +1,10 @@
 /**
- * Copyright (c) 2017, Wasiq Bhamla.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2017, Wasiq Bhamla. Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed
+ * to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
  */
 package com.github.wasiqb.coteafs.appium.config;
 
@@ -36,6 +29,10 @@ public class DeviceSetting {
 	private String			bundleId;
 	private boolean			clearSystemFiles;
 	private int				defaultWait;
+	private int				delayAfterSwipe;
+	private int				delayAfterTap;
+	private int				delayBeforeSwipe;
+	private int				delayBeforeTap;
 	private String			deviceName;
 	private DeviceType		deviceType;
 	private String			deviceVersion;
@@ -71,6 +68,10 @@ public class DeviceSetting {
 		this.sessionTimeout = 120;
 		this.useNewWda = false;
 		this.usePrebuiltWda = false;
+		this.delayBeforeTap = 100;
+		this.delayAfterTap = 100;
+		this.delayBeforeSwipe = 100;
+		this.delayAfterSwipe = 100;
 	}
 
 	/**
@@ -206,6 +207,42 @@ public class DeviceSetting {
 	 */
 	public int getDefaultWait () {
 		return this.defaultWait;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 3:05:58 PM
+	 * @return the delayAfterSwipe
+	 */
+	public int getDelayAfterSwipe () {
+		return this.delayAfterSwipe;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 3:05:58 PM
+	 * @return the delayAfterTap
+	 */
+	public int getDelayAfterTap () {
+		return this.delayAfterTap;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 3:05:58 PM
+	 * @return the delayBeforeSwipe
+	 */
+	public int getDelayBeforeSwipe () {
+		return this.delayBeforeSwipe;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 3:05:58 PM
+	 * @return the delayBeforeTap
+	 */
+	public int getDelayBeforeTap () {
+		return this.delayBeforeTap;
 	}
 
 	/**
@@ -519,6 +556,46 @@ public class DeviceSetting {
 	 */
 	public void setDefaultWait (final int defaultWait) {
 		this.defaultWait = defaultWait;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 3:05:58 PM
+	 * @param delayAfterSwipe
+	 *            the delayAfterSwipe to set
+	 */
+	public void setDelayAfterSwipe (final int delayAfterSwipe) {
+		this.delayAfterSwipe = delayAfterSwipe;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 3:05:58 PM
+	 * @param delayAfterTap
+	 *            the delayAfterTap to set
+	 */
+	public void setDelayAfterTap (final int delayAfterTap) {
+		this.delayAfterTap = delayAfterTap;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 3:05:58 PM
+	 * @param delayBeforeSwipe
+	 *            the delayBeforeSwipe to set
+	 */
+	public void setDelayBeforeSwipe (final int delayBeforeSwipe) {
+		this.delayBeforeSwipe = delayBeforeSwipe;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 3:05:58 PM
+	 * @param delayBeforeTap
+	 *            the delayBeforeTap to set
+	 */
+	public void setDelayBeforeTap (final int delayBeforeTap) {
+		this.delayBeforeTap = delayBeforeTap;
 	}
 
 	/**

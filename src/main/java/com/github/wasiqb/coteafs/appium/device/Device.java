@@ -1,17 +1,10 @@
 /**
- * Copyright (c) 2017, Wasiq Bhamla.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *        http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * Copyright (c) 2017, Wasiq Bhamla. Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy of the
+ * License at http://www.apache.org/licenses/LICENSE-2.0 Unless required by applicable law or agreed
+ * to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific
+ * language governing permissions and limitations under the License.
  */
 package com.github.wasiqb.coteafs.appium.device;
 
@@ -106,70 +99,6 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 01-May-2017 7:08:10 PM
-	 * @return driver
-	 */
-	public D getDriver () {
-		final String platform = this.setting.getPlatformType ()
-			.getName ();
-		String msg = "Getting [%s] device driver...";
-		log.trace (String.format (msg, platform));
-		return this.driver;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 17-Apr-2017 4:46:12 PM
-	 */
-	public void start () {
-		final String platform = this.setting.getPlatformType ()
-			.getName ();
-		startDriver (platform);
-		setImplicitWait ();
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 17-Apr-2017 4:46:02 PM
-	 */
-	public void stop () {
-		String msg = null;
-		final String platform = this.setting.getPlatformType ()
-			.getName ();
-		if (this.driver != null) {
-			msg = "Closign app on [%s] device...";
-			log.trace (String.format (msg, platform));
-			try {
-				this.driver.closeApp ();
-			}
-			catch (final NoSuchSessionException e) {
-				fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-			}
-			catch (final Exception e) {
-				fail (DeviceAppNotClosingError.class, "Error occured while closing app.", e);
-			}
-
-			msg = "Quitting [%s] device driver...";
-			log.trace (String.format (msg, platform));
-			try {
-				this.driver.quit ();
-			}
-			catch (final NoSuchSessionException e) {
-				fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-			}
-			catch (final Exception e) {
-				fail (DeviceDriverNotStoppingError.class, "Error occured while stopping device driver.", e);
-			}
-			this.driver = null;
-		}
-		else {
-			msg = "[%s] device driver already stopped...";
-			log.trace (String.format (msg, platform));
-		}
-	}
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since 13-Apr-2017 3:38:32 PM
 	 */
 	private void buildCapabilities () {
@@ -192,7 +121,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 
 			final File file = new File (path);
 			if (!file.exists ()) {
-				String msg = "App not found on mentioned location [%s]...";
+				final String msg = "App not found on mentioned location [%s]...";
 				log.error (String.format (msg, path));
 				fail (DeviceAppNotFoundError.class, String.format (msg, path));
 			}
@@ -202,6 +131,28 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		log.trace ("Building Device capabilities completed...");
 	}
 
+	/**
+	 * @author wasiq.bhamla
+	 * @since 01-May-2017 7:08:10 PM
+	 * @return driver
+	 */
+	public D getDriver () {
+		final String platform = this.setting.getPlatformType ()
+			.getName ();
+		final String msg = "Getting [%s] device driver...";
+		log.trace (String.format (msg, platform));
+		return this.driver;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 4:36:02 PM
+	 * @return the setting
+	 */
+	public DeviceSetting getSetting () {
+		return this.setting;
+	}
+
 	@SuppressWarnings ("unchecked")
 	private D init (final URL url, final Capabilities capability) {
 		log.trace ("Initializing driver...");
@@ -209,7 +160,9 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 			private static final long serialVersionUID = 1562415938665085306L;
 		};
 		final Class <D> cls = (Class <D>) token.getRawType ();
-		final Class <?> [] argTypes = new Class <?> [] { URL.class, Capabilities.class };
+		final Class <?> [] argTypes = new Class <?> [] {
+				URL.class, Capabilities.class
+		};
 		try {
 			final Constructor <D> ctor = cls.getDeclaredConstructor (argTypes);
 			return ctor.newInstance (url, capability);
@@ -259,7 +212,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 				break;
 			case WINDOWS:
 			default:
-				String msg = "[%s] device type not supported.";
+				final String msg = "[%s] device type not supported.";
 				fail (DeviceTypeNotSupportedError.class, String.format (msg, this.setting.getPlatformType ()));
 		}
 	}
@@ -294,14 +247,65 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		setCapability ("usePrebuiltWDA", this.setting.isUsePrebuiltWda (), this.capabilities);
 	}
 
+	/**
+	 * @author wasiq.bhamla
+	 * @since 17-Apr-2017 4:46:12 PM
+	 */
+	public void start () {
+		final String platform = this.setting.getPlatformType ()
+			.getName ();
+		startDriver (platform);
+		setImplicitWait ();
+	}
+
 	private void startDriver (final String platform) {
-		String msg = "Starting [%s] device driver...";
+		final String msg = "Starting [%s] device driver...";
 		log.trace (String.format (msg, platform));
 		try {
 			this.driver = init (this.server.getServiceUrl (), this.capabilities);
 		}
 		catch (final Exception e) {
 			fail (DeviceDriverNotStartingError.class, "Error occured starting device driver", e);
+		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 17-Apr-2017 4:46:02 PM
+	 */
+	public void stop () {
+		String msg = null;
+		final String platform = this.setting.getPlatformType ()
+			.getName ();
+		if (this.driver != null) {
+			msg = "Closign app on [%s] device...";
+			log.trace (String.format (msg, platform));
+			try {
+				this.driver.closeApp ();
+			}
+			catch (final NoSuchSessionException e) {
+				fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+			}
+			catch (final Exception e) {
+				fail (DeviceAppNotClosingError.class, "Error occured while closing app.", e);
+			}
+
+			msg = "Quitting [%s] device driver...";
+			log.trace (String.format (msg, platform));
+			try {
+				this.driver.quit ();
+			}
+			catch (final NoSuchSessionException e) {
+				fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+			}
+			catch (final Exception e) {
+				fail (DeviceDriverNotStoppingError.class, "Error occured while stopping device driver.", e);
+			}
+			this.driver = null;
+		}
+		else {
+			msg = "[%s] device driver already stopped...";
+			log.trace (String.format (msg, platform));
 		}
 	}
 }
