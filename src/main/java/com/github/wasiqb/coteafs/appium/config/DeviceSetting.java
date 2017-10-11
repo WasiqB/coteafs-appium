@@ -40,6 +40,9 @@ public class DeviceSetting {
 	private boolean			fullReset;
 	private boolean			noReset;
 	private PlatformType	platformType;
+	private String			screenShotExtension;
+	private String			screenShotPath;
+	private String			screenShotPrefix;
 	private int				sessionTimeout;
 	private String			signingId;
 	private String			teamId;
@@ -72,6 +75,9 @@ public class DeviceSetting {
 		this.delayAfterTap = 100;
 		this.delayBeforeSwipe = 100;
 		this.delayAfterSwipe = 100;
+		this.screenShotPath = "/screenshots";
+		this.screenShotPrefix = "SCR";
+		this.screenShotExtension = "jpeg";
 	}
 
 	/**
@@ -279,6 +285,33 @@ public class DeviceSetting {
 	 */
 	public PlatformType getPlatformType () {
 		return this.platformType;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 9:34:10 PM
+	 * @return the screenShotExtension
+	 */
+	public String getScreenShotExtension () {
+		return this.screenShotExtension;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 9:26:37 PM
+	 * @return the screenShotPath
+	 */
+	public String getScreenShotPath () {
+		return this.screenShotPath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 9:26:37 PM
+	 * @return the screenShotPrefix
+	 */
+	public String getScreenShotPrefix () {
+		return this.screenShotPrefix;
 	}
 
 	/**
@@ -666,6 +699,36 @@ public class DeviceSetting {
 	 */
 	public void setPlatformType (final PlatformType deviceType) {
 		this.platformType = deviceType;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 9:34:10 PM
+	 * @param screenShotExtension
+	 *            the screenShotExtension to set
+	 */
+	public void setScreenShotExtension (final String screenShotExtension) {
+		this.screenShotExtension = screenShotExtension;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 9:26:37 PM
+	 * @param screenShotPath
+	 *            the screenShotPath to set
+	 */
+	public void setScreenShotPath (final String screenShotPath) {
+		this.screenShotPath = screenShotPath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 9:26:37 PM
+	 * @param screenShotPrefix
+	 *            the screenShotPrefix to set
+	 */
+	public void setScreenShotPrefix (final String screenShotPrefix) {
+		this.screenShotPrefix = screenShotPrefix;
 	}
 
 	/**

@@ -17,9 +17,12 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static java.lang.String.format;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
@@ -79,11 +82,29 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 9:32:56 PM
+	 */
+	public void captureScreenshot () {
+		final String path = this.device.getSetting ()
+			.getScreenShotPath ();
+		final String prefix = this.device.getSetting ()
+			.getScreenShotPath ();
+		final String extension = this.device.getSetting ()
+			.getScreenShotExtension ();
+		final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-hhmmss");
+		final String timeStamp = date.format (Calendar.getInstance ()
+			.getTime ());
+		final String fileName = "%s/%s-%s.%s";
+		captureScreenshot (format (fileName, path, prefix, timeStamp, extension));
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 01-May-2017 8:24:34 PM
 	 * @param path
 	 */
 	public void captureScreenshot (final String path) {
-		String msg = "Capturing screenshot and saving at [%s]...";
+		final String msg = "Capturing screenshot and saving at [%s]...";
 		log.info (String.format (msg, path));
 		try {
 			final File srcFiler = this.driver.getScreenshotAs (OutputType.FILE);
