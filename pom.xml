@@ -30,7 +30,7 @@
 	</ciManagement>
 
 	<properties>
-		<appium-version>4.1.2</appium-version>
+		<appium-version>5.0.4</appium-version>
 		<coteafs.config.version>1.2.0</coteafs.config.version>
 		<coteafs.error.version>1.2.0</coteafs.error.version>
 		<coteafs.logger.version>1.2.0</coteafs.logger.version>
