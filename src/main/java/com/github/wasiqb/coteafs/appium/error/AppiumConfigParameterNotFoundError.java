@@ -15,13 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
-import com.github.wasiqb.coteafs.error.CoteafsError;
-
 /**
  * @author wasiq.bhamla
  * @since 09-May-2017 3:46:59 PM
  */
-public class AppiumConfigParameterNotFoundError extends CoteafsError {
+public class AppiumConfigParameterNotFoundError extends CoteafsAppiumError {
 	private static final long serialVersionUID = 8185078640460346377L;
 
 	/**

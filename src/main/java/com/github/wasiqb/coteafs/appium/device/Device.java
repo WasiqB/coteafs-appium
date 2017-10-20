@@ -21,9 +21,16 @@ import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_LAUNC
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_READY_TIMEOUT;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.APP_NAME;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.BUNDLE_ID;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_NEW_WDA;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_PREBUILT_WDA;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_CONNECTION_TIMEOUT;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_ORG_ID;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_SIGNING_ID;
 import static io.appium.java_client.remote.MobileCapabilityType.APP;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.BROWSER_NAME;
+import static io.appium.java_client.remote.MobileCapabilityType.CLEAR_SYSTEM_FILES;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.FULL_RESET;
 import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIMEOUT;
@@ -52,6 +59,7 @@ import com.github.wasiqb.coteafs.appium.config.DeviceType;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceAppNotClosingError;
 import com.github.wasiqb.coteafs.appium.error.DeviceAppNotFoundError;
+import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverDefaultWaitError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverInitializationFailedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverNotStartingError;
@@ -99,6 +107,57 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since 01-May-2017 7:08:10 PM
+	 * @return driver
+	 */
+	public D getDriver () {
+		final String platform = this.setting.getPlatformType ()
+			.getName ();
+		final String msg = "Getting [%s] device driver...";
+		log.trace (String.format (msg, platform));
+		return this.driver;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 9, 2017 4:36:02 PM
+	 * @return the setting
+	 */
+	public DeviceSetting getSetting () {
+		return this.setting;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 17-Apr-2017 4:46:12 PM
+	 */
+	public void start () {
+		final String platform = this.setting.getPlatformType ()
+			.getName ();
+		startDriver (platform);
+		setImplicitWait ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 17-Apr-2017 4:46:02 PM
+	 */
+	public void stop () {
+		final String platform = this.setting.getPlatformType ()
+			.getName ();
+		if (this.driver != null) {
+			closeApp (platform);
+			quitApp (platform);
+			this.driver = null;
+		}
+		else {
+			final String message = "[%s] device driver already stopped...";
+			log.trace (String.format (message, platform));
+		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 13-Apr-2017 3:38:32 PM
 	 */
 	private void buildCapabilities () {
@@ -133,24 +192,21 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 01-May-2017 7:08:10 PM
-	 * @return driver
+	 * @param platform
+	 * @since Oct 16, 2017 8:07:53 PM
 	 */
-	public D getDriver () {
-		final String platform = this.setting.getPlatformType ()
-			.getName ();
-		final String msg = "Getting [%s] device driver...";
-		log.trace (String.format (msg, platform));
-		return this.driver;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 9, 2017 4:36:02 PM
-	 * @return the setting
-	 */
-	public DeviceSetting getSetting () {
-		return this.setting;
+	private void closeApp (final String platform) {
+		final String message = "Closign app on [%s] device...";
+		log.trace (String.format (message, platform));
+		try {
+			this.driver.closeApp ();
+		}
+		catch (final NoSuchSessionException e) {
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
+		catch (final Exception e) {
+			fail (DeviceAppNotClosingError.class, "Error occured while closing app.", e);
+		}
 	}
 
 	@SuppressWarnings ("unchecked")
@@ -160,9 +216,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 			private static final long serialVersionUID = 1562415938665085306L;
 		};
 		final Class <D> cls = (Class <D>) token.getRawType ();
-		final Class <?> [] argTypes = new Class <?> [] {
-				URL.class, Capabilities.class
-		};
+		final Class <?> [] argTypes = new Class <?> [] { URL.class, Capabilities.class };
 		try {
 			final Constructor <D> ctor = cls.getDeclaredConstructor (argTypes);
 			return ctor.newInstance (url, capability);
@@ -174,17 +228,41 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		return null;
 	}
 
+	/**
+	 * @author wasiq.bhamla
+	 * @param platform
+	 * @since Oct 16, 2017 8:14:56 PM
+	 */
+	private void quitApp (final String platform) {
+		final String message = "Quitting [%s] device driver...";
+		log.trace (String.format (message, platform));
+		try {
+			this.driver.quit ();
+		}
+		catch (final NoSuchSessionException e) {
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
+		catch (final Exception e) {
+			fail (DeviceDriverNotStoppingError.class, "Error occured while stopping device driver.", e);
+		}
+	}
+
 	private void setAndroidCapabilities () {
+		final String packageName = this.setting.getAppPackage ();
+		final String app = this.setting.getAppLocation ();
+		if (packageName == null && app == null) {
+			fail (DeviceDesiredCapabilitiesNotSetError.class, "Either App or Package name is mandatory...");
+		}
+
 		if (this.setting.getDeviceType () == DeviceType.SIMULATOR) {
 			setCapability (AVD, this.setting.getAvd (), this.capabilities, true);
 			setCapability (AVD_READY_TIMEOUT, SECONDS.toMillis (this.setting.getAvdReadyTimeout ()), this.capabilities);
 			setCapability (AVD_LAUNCH_TIMEOUT, SECONDS.toMillis (this.setting.getAvdLaunchTimeout ()),
 					this.capabilities);
 		}
-
 		if (this.setting.getAppType () != ApplicationType.WEB) {
-			setCapability (APP_ACTIVITY, this.setting.getAppActivity (), this.capabilities, true);
-			setCapability (APP_PACKAGE, this.setting.getAppPackage (), this.capabilities, true);
+			setCapability (APP_ACTIVITY, this.setting.getAppActivity (), this.capabilities);
+			setCapability (APP_PACKAGE, this.setting.getAppPackage (), this.capabilities);
 			setCapability (APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity (), this.capabilities);
 		}
 	}
@@ -197,7 +275,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		setCapability (NO_RESET, this.setting.isNoReset (), this.capabilities);
 		setCapability (FULL_RESET, this.setting.isFullReset (), this.capabilities);
 		setCapability (NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
-		setCapability ("clearSystemFiles", this.setting.isClearSystemFiles (), this.capabilities);
+		setCapability (CLEAR_SYSTEM_FILES, this.setting.isClearSystemFiles (), this.capabilities);
 		setCapability (AUTOMATION_NAME, this.setting.getAutomationName ()
 			.getName (), this.capabilities, true);
 	}
@@ -235,27 +313,16 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		if (this.setting.getAppType () != ApplicationType.WEB) {
 			setCapability (BUNDLE_ID, this.setting.getBundleId (), this.capabilities, true);
 		}
-		setCapability ("xcodeOrgId", this.setting.getTeamId (), this.capabilities, true);
-		setCapability ("xcodeSigningId", this.setting.getSigningId (), this.capabilities, true);
+		setCapability (XCODE_ORG_ID, this.setting.getTeamId (), this.capabilities, true);
+		setCapability (XCODE_SIGNING_ID, this.setting.getSigningId (), this.capabilities, true);
 		setCapability (APP_NAME, this.setting.getAppName (), this.capabilities, true);
 		setCapability (UDID, this.setting.getUdid (), this.capabilities, true);
-		setCapability ("wdaConnectionTimeout", this.setting.getWdaConnectionTimeout (), this.capabilities, true);
+		setCapability (WDA_CONNECTION_TIMEOUT, this.setting.getWdaConnectionTimeout (), this.capabilities, true);
 		setCapability ("bootstrapPath", this.setting.getBootstrapPath (), this.capabilities);
 		setCapability ("agentPath", this.setting.getAgentPath (), this.capabilities);
-		setCapability ("updatedWDABundleId", this.setting.getUpdatedWdaBundleId (), this.capabilities);
-		setCapability ("useNewWDA", this.setting.isUseNewWda (), this.capabilities);
-		setCapability ("usePrebuiltWDA", this.setting.isUsePrebuiltWda (), this.capabilities);
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 17-Apr-2017 4:46:12 PM
-	 */
-	public void start () {
-		final String platform = this.setting.getPlatformType ()
-			.getName ();
-		startDriver (platform);
-		setImplicitWait ();
+		setCapability (UPDATE_WDA_BUNDLEID, this.setting.getUpdatedWdaBundleId (), this.capabilities);
+		setCapability (USE_NEW_WDA, this.setting.isUseNewWda (), this.capabilities);
+		setCapability (USE_PREBUILT_WDA, this.setting.isUsePrebuiltWda (), this.capabilities);
 	}
 
 	private void startDriver (final String platform) {
@@ -266,46 +333,6 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		}
 		catch (final Exception e) {
 			fail (DeviceDriverNotStartingError.class, "Error occured starting device driver", e);
-		}
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 17-Apr-2017 4:46:02 PM
-	 */
-	public void stop () {
-		String msg = null;
-		final String platform = this.setting.getPlatformType ()
-			.getName ();
-		if (this.driver != null) {
-			msg = "Closign app on [%s] device...";
-			log.trace (String.format (msg, platform));
-			try {
-				this.driver.closeApp ();
-			}
-			catch (final NoSuchSessionException e) {
-				fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-			}
-			catch (final Exception e) {
-				fail (DeviceAppNotClosingError.class, "Error occured while closing app.", e);
-			}
-
-			msg = "Quitting [%s] device driver...";
-			log.trace (String.format (msg, platform));
-			try {
-				this.driver.quit ();
-			}
-			catch (final NoSuchSessionException e) {
-				fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-			}
-			catch (final Exception e) {
-				fail (DeviceDriverNotStoppingError.class, "Error occured while stopping device driver.", e);
-			}
-			this.driver = null;
-		}
-		else {
-			msg = "[%s] device driver already stopped...";
-			log.trace (String.format (msg, platform));
 		}
 	}
 }

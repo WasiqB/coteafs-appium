@@ -15,13 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
-import com.github.wasiqb.coteafs.error.CoteafsError;
-
 /**
  * @author wasiq.bhamla
  * @since 04-May-2017 10:11:47 PM
  */
-public class DeviceElementNotDisplayedError extends CoteafsError {
+public class DeviceElementNotDisplayedError extends CoteafsAppiumError {
 	private static final long serialVersionUID = -2632375399231145369L;
 
 	/**

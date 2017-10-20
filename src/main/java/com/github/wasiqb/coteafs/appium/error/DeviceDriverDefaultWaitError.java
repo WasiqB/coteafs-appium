@@ -15,13 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
-import com.github.wasiqb.coteafs.error.CoteafsError;
-
 /**
  * @author wasiq.bhamla
  * @since 06-May-2017 4:11:39 PM
  */
-public class DeviceDriverDefaultWaitError extends CoteafsError {
+public class DeviceDriverDefaultWaitError extends CoteafsAppiumError {
 	private static final long serialVersionUID = 3213298782710610781L;
 
 	/**

@@ -15,13 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
-import com.github.wasiqb.coteafs.error.CoteafsError;
-
 /**
  * @author wasiq.bhamla
  * @since 04-May-2017 9:55:17 PM
  */
-public class DeviceAppNotClosingError extends CoteafsError {
+public class DeviceAppNotClosingError extends CoteafsAppiumError {
 	private static final long serialVersionUID = -911705055646490050L;
 
 	/**

@@ -15,13 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
-import com.github.wasiqb.coteafs.error.CoteafsError;
-
 /**
  * @author wasiq.bhamla
  * @since 12-May-2017 7:29:59 PM
  */
-public class DeviceDesiredCapabilitiesNotSetError extends CoteafsError {
+public class DeviceDesiredCapabilitiesNotSetError extends CoteafsAppiumError {
 	private static final long serialVersionUID = 2603048064389553019L;
 
 	/**

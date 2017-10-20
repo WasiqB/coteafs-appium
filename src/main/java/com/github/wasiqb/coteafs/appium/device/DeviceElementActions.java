@@ -10,6 +10,7 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static java.time.Duration.ofSeconds;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,10 +18,11 @@ import org.openqa.selenium.NoSuchSessionException;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
+import com.github.wasiqb.coteafs.error.NotImplementedError;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.SwipeElementDirection;
+import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
 
 /**
@@ -36,11 +38,12 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		log = LogManager.getLogger (DeviceElementActions.class);
 	}
 
-	private final E				device;
-	private final D				driver;
-	private final MobileElement	element;
-	private final String		name;
-	private final TouchAction	touch;
+	private final E					device;
+	private final D					driver;
+	private final MobileElement		element;
+	private final MultiTouchAction	multiTouch;
+	private final String			name;
+	private final TouchAction		touch;
 
 	/**
 	 * @author wasiq.bhamla
@@ -55,6 +58,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		this.element = element;
 		this.driver = this.device.getDriver ();
 		this.touch = new TouchAction (this.driver);
+		this.multiTouch = new MultiTouchAction (this.driver);
 		DeviceChecker.checkDeviceElementDisplayed (element, name);
 	}
 
@@ -145,29 +149,9 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 				.getDelayBeforeTap ();
 			final int afterTap = this.device.getSetting ()
 				.getDelayAfterTap ();
-			this.touch.waitAction (beforeTap)
+			this.touch.waitAction (ofSeconds (beforeTap))
 				.longPress (this.element)
-				.waitAction (afterTap)
-				.perform ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
-	}
-
-	/**
-	 * Will be removed in future release. Use <code>void longPress ()</code> instead.
-	 *
-	 * @author wasiq.bhamla
-	 * @since 26-Apr-2017 8:55:59 PM
-	 * @param duration
-	 */
-	@Deprecated
-	public void longPress (final int duration) {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Performing long press on element [%s] till [%d] ms...", this.name, duration));
-		try {
-			this.touch.longPress (this.element, duration)
+				.waitAction (ofSeconds (afterTap))
 				.perform ();
 		}
 		catch (final NoSuchSessionException e) {
@@ -183,7 +167,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Pinching on element [%s]...", this.name));
 		try {
-			this.element.pinch ();
+			fail (NotImplementedError.class, "Pinch! Coming Soon!!");
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
@@ -223,28 +207,14 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 26-Apr-2017 8:47:41 PM
-	 * @param direction
-	 */
-	public void swipe (final SwipeElementDirection direction) {
-		swipe (direction, this.device.getSetting ()
-			.getDelayBeforeSwipe ());
-	}
-
-	/**
-	 * Will be removed in future release. Use <code>void swipe ()</code> instead.
-	 *
-	 * @author wasiq.bhamla
 	 * @since 12-May-2017 10:07:14 PM
 	 * @param direction
-	 * @param delay
 	 */
-	@Deprecated
-	public void swipe (final SwipeElementDirection direction, final int delay) {
+	public void swipe (final SwipeDirection direction) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Swiping [%s] on element [%s] with [%d] ms delay...", direction, this.name, delay));
+		log.info (String.format ("Swiping [%s] on element [%s]...", direction, this.name));
 		try {
-			this.element.swipe (direction, delay);
+			fail (NotImplementedError.class, "Swipe! Coming Soon!!");
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
@@ -253,25 +223,20 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 26-Apr-2017 7:36:44 PM
-	 * @param delay
-	 */
-	public void tap (final int delay) {
-		tap (1, delay);
-	}
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since 12-May-2017 10:08:55 PM
-	 * @param fingers
-	 * @param delay
 	 */
-	public void tap (final int fingers, final int delay) {
+	public void tap () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		log.info (String.format ("Tapping on element [%s] using [%d] finger(s) with [%d] ms delay...", this.name,
-				fingers, delay));
+		log.info (String.format ("Tapping on element [%s]...", this.name));
 		try {
-			this.element.tap (fingers, delay);
+			final int beforeTap = this.device.getSetting ()
+				.getDelayBeforeTap ();
+			final int afterTap = this.device.getSetting ()
+				.getDelayAfterTap ();
+			this.touch.waitAction (ofSeconds (beforeTap))
+				.tap (this.element)
+				.waitAction (ofSeconds (afterTap))
+				.perform ();
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
@@ -327,7 +292,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		log.info (String.format ("Zooming on element [%s]...", this.name));
 		try {
-			this.element.zoom ();
+			fail (NotImplementedError.class, "Zoom! Coming Soon!!");
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);

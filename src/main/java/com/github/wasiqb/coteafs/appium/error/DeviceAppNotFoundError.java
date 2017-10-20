@@ -15,13 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
-import com.github.wasiqb.coteafs.error.CoteafsError;
-
 /**
  * @author wasiq.bhamla
  * @since 06-May-2017 4:03:58 PM
  */
-public class DeviceAppNotFoundError extends CoteafsError {
+public class DeviceAppNotFoundError extends CoteafsAppiumError {
 	private static final long serialVersionUID = 1403120362024067556L;
 
 	/**

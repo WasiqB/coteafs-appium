@@ -15,13 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
-import com.github.wasiqb.coteafs.error.CoteafsError;
-
 /**
  * @author wasiq.bhamla
  * @since 17-May-2017 7:41:49 PM
  */
-public class DeviceTypeNotSupportedError extends CoteafsError {
+public class DeviceTypeNotSupportedError extends CoteafsAppiumError {
 	private static final long serialVersionUID = -675650350464360559L;
 
 	/**

@@ -76,12 +76,12 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 		log.trace ("Handling iOS Alert pop-up...");
 		final PermissionActivity perm = new PermissionActivity (this.device);
 		try {
-			String msg = "Alert Text: %s";
-			String description = perm.onElement ("Message")
+			final String msg = "Alert Text: %s";
+			final String description = perm.onElement ("Message")
 				.text ();
 			log.trace (String.format (msg, description));
 			perm.onElement (buttonText)
-				.tap (100);
+				.tap ();
 			return description;
 		}
 		catch (final TimeoutException e) {

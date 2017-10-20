@@ -15,13 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
-import com.github.wasiqb.coteafs.error.CoteafsError;
-
 /**
  * @author wasiq.bhamla
  * @since 06-May-2017 4:07:48 PM
  */
-public class DeviceDriverInitializationFailedError extends CoteafsError {
+public class DeviceDriverInitializationFailedError extends CoteafsAppiumError {
 	private static final long serialVersionUID = -3202324172947020043L;
 
 	/**

@@ -15,29 +15,34 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
+import com.github.wasiqb.coteafs.error.CoteafsError;
+import com.github.wasiqb.coteafs.error.enums.Category;
+import com.github.wasiqb.coteafs.error.enums.Reason;
+import com.github.wasiqb.coteafs.error.enums.Severity;
+
 /**
  * @author wasiq.bhamla
- * @since 03-Jun-2017 3:44:40 PM
+ * @since Oct 14, 2017 8:51:55 PM
  */
-public class DeviceElementNameNotFoundError extends CoteafsAppiumError {
-	private static final long serialVersionUID = -7772079377357876689L;
+public class CoteafsAppiumError extends CoteafsError {
+	private static final long serialVersionUID = -8566294740519833332L;
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 03-Jun-2017 3:44:41 PM
+	 * @since Oct 14, 2017 8:51:56 PM
 	 * @param message
 	 */
-	public DeviceElementNameNotFoundError (final String message) {
-		super (message);
+	public CoteafsAppiumError (final String message) {
+		super (message, Reason.R2, Category.C1, Severity.CRITICAL);
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 03-Jun-2017 3:44:41 PM
+	 * @since Oct 14, 2017 8:51:56 PM
 	 * @param message
 	 * @param cause
 	 */
-	public DeviceElementNameNotFoundError (final String message, final Throwable cause) {
-		super (message, cause);
+	public CoteafsAppiumError (final String message, final Throwable cause) {
+		super (message, cause, Reason.R2, Category.C1, Severity.CRITICAL);
 	}
 }

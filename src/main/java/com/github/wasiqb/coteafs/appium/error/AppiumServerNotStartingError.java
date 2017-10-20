@@ -15,13 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.error;
 
-import com.github.wasiqb.coteafs.error.CoteafsError;
-
 /**
  * @author wasiq.bhamla
  * @since 04-May-2017 9:37:59 PM
  */
-public class AppiumServerNotStartingError extends CoteafsError {
+public class AppiumServerNotStartingError extends CoteafsAppiumError {
 	private static final long serialVersionUID = 7896083001637597129L;
 
 	/**
