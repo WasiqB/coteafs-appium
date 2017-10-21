@@ -125,8 +125,8 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void enterText (final String text) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
-		clear ();
 		tap ();
+		clear ();
 		log.info (String.format ("Entering text [%s] in element [%s]...", text, this.name));
 		try {
 			this.element.sendKeys (text);

@@ -71,10 +71,10 @@ public class DeviceSetting {
 		this.sessionTimeout = 120;
 		this.useNewWda = false;
 		this.usePrebuiltWda = false;
-		this.delayBeforeTap = 1;
-		this.delayAfterTap = 1;
-		this.delayBeforeSwipe = 1;
-		this.delayAfterSwipe = 1;
+		this.delayBeforeTap = 0;
+		this.delayAfterTap = 0;
+		this.delayBeforeSwipe = 0;
+		this.delayAfterSwipe = 0;
 		this.screenShotPath = "/screenshots";
 		this.screenShotPrefix = "SCR";
 		this.screenShotExtension = "jpeg";
