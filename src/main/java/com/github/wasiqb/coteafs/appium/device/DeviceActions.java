@@ -18,6 +18,7 @@ package com.github.wasiqb.coteafs.appium.device;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 import static java.lang.String.format;
+import static java.time.Duration.ofSeconds;
 
 import java.io.File;
 import java.io.IOException;
@@ -27,6 +28,7 @@ import java.util.Calendar;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -35,6 +37,8 @@ import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
 
 /**
  * @author wasiq.bhamla
@@ -68,6 +72,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	protected final E				device;
 	protected final D				driver;
 	protected final WebDriverWait	wait;
+	private final MultiTouchAction	multiTouch;
 
 	/**
 	 * @author wasiq.bhamla
@@ -78,6 +83,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		this.device = device;
 		this.driver = this.device.getDriver ();
 		this.wait = new WebDriverWait (this.driver, device.setting.getWaitForElementUntil ());
+		this.multiTouch = new MultiTouchAction (this.driver);
 	}
 
 	/**
@@ -137,5 +143,65 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	public void navigateTo (final String url) {
 		log.info (String.format ("Navigating to URL [%S]...", url));
 		this.driver.get (url);
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 20, 2017 8:45:31 PM
+	 * @param distance
+	 */
+	public void pinch (final SwipeDistance distance) {
+		log.info (format ("Pinching on device screen by [%s] distance...", distance));
+		final TouchAction firstFinger = swipeTo (SwipeDirection.DOWN, distance);
+		final TouchAction secondFinger = swipeTo (SwipeDirection.UP, distance);
+		this.multiTouch.add (firstFinger)
+			.add (secondFinger)
+			.perform ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 20, 2017 7:52:29 PM
+	 * @param direction
+	 * @param distance
+	 */
+	public void swipe (final SwipeDirection direction, final SwipeDistance distance) {
+		log.info (format ("Swiping [%s] on device screen by [%s] distance...", direction, distance));
+		swipeTo (direction, distance).perform ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 20, 2017 8:44:00 PM
+	 * @param distance
+	 */
+	public void zoom (final SwipeDistance distance) {
+		log.info (format ("Zooming in device screen by [%s] distance...", distance));
+		final TouchAction firstFinger = swipeTo (SwipeDirection.UP, distance);
+		final TouchAction secondFinger = swipeTo (SwipeDirection.DOWN, distance);
+		this.multiTouch.add (firstFinger)
+			.add (secondFinger)
+			.perform ();
+	}
+
+	private TouchAction swipeTo (final SwipeDirection direction, final SwipeDistance distance) {
+		final Dimension size = this.driver.manage ()
+			.window ()
+			.getSize ();
+		final int startX = size.getWidth () / 2;
+		final int startY = size.getHeight () / 2;
+		final int endX = (int) (startX * direction.getX () * distance.getDistance ());
+		final int endY = (int) (startY * direction.getY () * distance.getDistance ());
+		final int beforeSwipe = this.device.getSetting ()
+			.getDelayBeforeSwipe ();
+		final int afterSwipe = this.device.getSetting ()
+			.getDelayAfterSwipe ();
+		final TouchAction returnAction = new TouchAction (this.driver);
+		returnAction.press (startX, startY)
+			.waitAction (ofSeconds (beforeSwipe))
+			.moveTo (endX, endY)
+			.waitAction (ofSeconds (afterSwipe))
+			.release ();
+		return returnAction;
 	}
 }

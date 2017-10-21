@@ -3,7 +3,7 @@
 This is a very easy to use Mobile Automation Framework which can be used to test multiple devices of different platforms in a single test. This is a one of it's kind framework with unique coding standards defined by the framework. Writing tests for Mobile devices was never so easy before, but by using this framework, the scripting time will be reduce by more than 50%. To know more about the framework let's see it's advantages now.
 
 ## Advantages:
-* Supports Android and iOS devices and simulators.
+* Supports Android, iOS and Windows devices and simulators.
 * Enforces Page object model style of coding.
 * Easily configureable with config file.
 * Allows you to concentrate more on tests then other repeated codings.
@@ -18,7 +18,7 @@ You need to use following in your pom.xml in order to use this framework.
 <dependency>
   <groupId>com.github.wasiqb.coteafs</groupId>
   <artifactId>appium</artifactId>
-  <version>1.1.0</version>
+  <version>2.0.0</version>
 </dependency>
 ```
 
@@ -81,6 +81,9 @@ Key | Platform | Allowed Values | Description
 `delay_after_tap` | Both | Double | Delay in secs after tap.
 `delay_before_swipe` | Both | Double | Delay in secs before swipe.
 `delay_after_swipe` | Both | Double | Delay in secs after swipe.
+`screen_shot_path` | Both | String | Path to the folder where screenshots will be stored.
+`screen_shot_prefix` | Both | String | Prefix for the screenshot file name.
+`screen_shot_extension` | Both | String | Valid image file extension, e.g.: jpeg, png.
 
 ## Errors:
 Sometimes it is very difficult to identify what went wrong when we run tests using Appium or Selenium. To handle this, framework handles all the events and throws a meaningful error using [coteafs-error](https://github.com/WasiqB/coteafs-error) framework, which is easy to identify the cause of failure.
@@ -181,8 +184,9 @@ Framework allows you to take screenshots of any Activity which you are working o
 ```java
 	. . .
 	final LoginActivity login = new LoginActivity (this.iosDevice);
-	login.onDevice ().captureScreenshot ("path/to/file/with/name.extension")
-	. . .
+	login.onDevice ().captureScreenshot ("path/to/file/with/name.extension");
+	. . . OR . . .
+	login.onDevice ().captureScreenshot ();	
 ```
 
 ## Hiding keyboard:
@@ -384,7 +388,6 @@ public class IOSHappyPathDemo {
 If this won't solve the issues, than you need to remove old versions from your **.m2** repository from your local machine for both **SnakeYaml** and **Google's Guava**.
 
 # Following not yet supported:
-* Windows Devices.
 * Starting of Appium server from script for iOS devices.
 * Parallel execution is not tested, that's why mentioned here. It may work.
 * Any functionality which you want to see.

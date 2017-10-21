@@ -4,9 +4,9 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
-import com.github.wasiqb.coteafs.appium.android.activities.LoginActivity;
-import com.github.wasiqb.coteafs.appium.android.activities.WalkThruActivity2;
-import com.github.wasiqb.coteafs.appium.android.activities.WalkthruActivity1;
+import com.github.wasiqb.coteafs.appium.android.calabashtest.activities.MainActivity;
+import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
+import com.github.wasiqb.coteafs.appium.device.SwipeDistance;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 /**
@@ -23,7 +23,7 @@ public class DefaultTest {
 	 */
 	@BeforeSuite (alwaysRun = true)
 	public void setupTestSuite () {
-		this.androidServer = new AppiumServer ("default");
+		this.androidServer = new AppiumServer ("android");
 		this.androidServer.start ();
 
 		this.androidDevice = new AndroidDevice (this.androidServer, "android");
@@ -48,43 +48,14 @@ public class DefaultTest {
 	 */
 	@Test (description = "Click next")
 	public void test1 () {
-		final WalkthruActivity1 walk = new WalkthruActivity1 (this.androidDevice);
-		walk.onElement ("Next")
-			.tap (100);
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 20-Apr-2017 9:37:50 PM
-	 */
-	@Test (description = "Click on Skip")
-	public void test2 () {
-		final WalkThruActivity2 walk = new WalkThruActivity2 (this.androidDevice);
-		walk.onElement ("Skip")
-			.tap (100);
-		walk.onDevice ()
-			.handlePermissionAlert ("Allow");
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 20-Apr-2017 9:45:31 PM
-	 */
-	@Test (description = "Login to App")
-	public void test3 () {
-		final LoginActivity login = new LoginActivity (this.androidDevice);
-		login.onElement ("userName")
-			.enterText ("user_id_1");
-		login.onElement ("password")
-			.enterText ("password_1");
-		login.onDevice ()
+		final MainActivity main = new MainActivity (this.androidDevice);
+		main.onDevice ()
 			.hideKeyboard ();
-		login.onElement ("login")
-			.verifyThat ()
-			.shouldBeDisplayed ()
-			.shouldBeEnabled ()
-			.textShouldBeEqualTo ("Login");
-		login.onElement ("login")
-			.tap (100);
+		main.onDevice ()
+			.swipe (SwipeDirection.UP, SwipeDistance.HALF);
+		System.out.println ("Swipe up...");
+		main.onDevice ()
+			.swipe (SwipeDirection.DOWN, SwipeDistance.QUARTER);
+		System.out.println ("Swipe down...");
 	}
 }

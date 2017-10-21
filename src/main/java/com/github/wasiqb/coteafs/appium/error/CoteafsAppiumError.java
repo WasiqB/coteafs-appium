@@ -24,7 +24,7 @@ import com.github.wasiqb.coteafs.error.enums.Severity;
  * @author wasiq.bhamla
  * @since Oct 14, 2017 8:51:55 PM
  */
-public class CoteafsAppiumError extends CoteafsError {
+class CoteafsAppiumError extends CoteafsError {
 	private static final long serialVersionUID = -8566294740519833332L;
 
 	/**

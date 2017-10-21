@@ -1,0 +1,17 @@
+servers:
+  android:
+    ip: 127.0.0.1
+    port: 4723
+    external: true
+
+devices:
+  android:
+    platform_type: ANDROID
+    device_name: MI Redmi Note 4
+    device_version: 7.0
+    app_type: NATIVE
+    automation_name: APPIUM
+    app_location: apps/android/app-debug.apk
+    session_timeout: 6000
+    clear_system_files: true
+  
