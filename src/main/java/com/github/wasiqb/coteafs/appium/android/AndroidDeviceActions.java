@@ -29,6 +29,7 @@ import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidKeyCode;
 
 /**
  * @author wasiq.bhamla
@@ -118,6 +119,20 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 		log.info ("Locking the Android device...");
 		try {
 			this.driver.lockDevice ();
+		}
+		catch (final NoSuchSessionException e) {
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 21, 2017 8:27:50 PM
+	 */
+	public void pressBack () {
+		log.info ("Pressing Back button on Android device...");
+		try {
+			this.driver.pressKeyCode (AndroidKeyCode.BACK);
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);

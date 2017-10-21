@@ -94,7 +94,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		final String path = this.device.getSetting ()
 			.getScreenShotPath ();
 		final String prefix = this.device.getSetting ()
-			.getScreenShotPath ();
+			.getScreenShotPrefix ();
 		final String extension = this.device.getSetting ()
 			.getScreenShotExtension ();
 		final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-hhmmss");
@@ -111,7 +111,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 */
 	public void captureScreenshot (final String path) {
 		final String msg = "Capturing screenshot and saving at [%s]...";
-		log.info (String.format (msg, path));
+		log.info (format (msg, path));
 		try {
 			final File srcFiler = this.driver.getScreenshotAs (OutputType.FILE);
 			copyFile (srcFiler, path);
@@ -141,7 +141,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @param url
 	 */
 	public void navigateTo (final String url) {
-		log.info (String.format ("Navigating to URL [%S]...", url));
+		log.info (format ("Navigating to URL [%S]...", url));
 		this.driver.get (url);
 	}
 

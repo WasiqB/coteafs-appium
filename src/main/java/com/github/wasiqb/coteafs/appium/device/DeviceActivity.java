@@ -17,6 +17,7 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 
 import java.util.HashMap;
 import java.util.List;
@@ -97,7 +98,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 */
 	public DeviceElementActions <D, E> onElement (final String name) {
 		ServerChecker.checkServerRunning (this.device.server);
-		String msg = "Preparing to perform actions on device element [%s]...";
+		final String msg = "Preparing to perform actions on device element [%s]...";
 		log.info (String.format (msg, name));
 		return new DeviceElementActions <> (this.device, name, getElement (name));
 	}
@@ -111,7 +112,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 */
 	public DeviceElementActions <D, E> onElement (final String name, final int index) {
 		ServerChecker.checkServerRunning (this.device.server);
-		String msg = "Preparing to perform actions on dynamic device element [%s] on index [%d]...";
+		final String msg = "Preparing to perform actions on dynamic device element [%s] on index [%d]...";
 		log.info (String.format (msg, name, index));
 		final DeviceElement element = getDeviceElement (name).index (index);
 		return new DeviceElementActions <> (this.device, name, findElements (element));
@@ -119,7 +120,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 
 	protected MobileElement getElement (final String name) {
 		load ();
-		String msg = "Getting element with name [%s]...";
+		final String msg = "Getting element with name [%s]...";
 		log.trace (String.format (msg, name));
 		return findElements (getDeviceElement (name));
 	}
@@ -132,36 +133,46 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	protected abstract DeviceElement prepare ();
 
 	private MobileElement find (final D deviceDriver, final By locator, final int index) {
-		String msg = "Finding root element using [%s] at index [%d]...";
-		log.trace (String.format (msg, locator, index));
+		String message = "Finding root element using [%s] at index [%d]...";
+		log.trace (String.format (message, locator, index));
 		try {
+			this.wait.until (visibilityOfAllElementsLocatedBy (locator));
 			final List <MobileElement> result = deviceDriver.findElements (locator);
 			return result.get (index);
+		}
+		catch (final TimeoutException e) {
+			message = "[%s] locator timed out.";
+			fail (DeviceElementFindTimedOutError.class, String.format (message, locator), e);
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		catch (final Exception e) {
-			msg = "Error occured while finding root device element with locator [%s] at index [%d].";
-			fail (DeviceElementNotFoundError.class, String.format (msg, locator, index), e);
+			message = "Error occured while finding root device element with locator [%s] at index [%d].";
+			fail (DeviceElementNotFoundError.class, String.format (message, locator, index), e);
 		}
 		return null;
 	}
 
 	private MobileElement find (final DeviceElement parent, final By locator, final int index) {
-		String msg = "Finding child element of [%s] parent using [%s] at index [%d]...";
-		log.trace (String.format (msg, parent.name (), locator, index));
+		String message = "Finding child element of [%s] parent using [%s] at index [%d]...";
+		log.trace (String.format (message, parent.name (), locator, index));
 		final MobileElement mobileElement = getElement (parent.name ());
 		try {
+			this.wait.until (visibilityOfAllElementsLocatedBy (locator));
 			final List <MobileElement> result = mobileElement.findElements (locator);
 			return result.get (index);
+		}
+		catch (final TimeoutException e) {
+			message = "[%s] locator timed out.";
+			fail (DeviceElementFindTimedOutError.class, String.format (message, locator), e);
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		catch (final Exception e) {
-			msg = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
-			fail (DeviceElementNotFoundError.class, String.format (msg, locator, index, parent.name ()), e);
+			message = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
+			fail (DeviceElementNotFoundError.class, String.format (message, locator, index, parent.name ()), e);
 		}
 		return null;
 	}
@@ -170,7 +181,6 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		final DeviceElement parent = element.parent ();
 		final By locator = element.locator ();
 		final int index = element.index ();
-		waitForElement (locator);
 		MobileElement elem = null;
 		if (parent != null) {
 			elem = find (parent, locator, index);
@@ -186,7 +196,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		if (this.deviceElements.containsKey (name)) {
 			return this.deviceElements.get (name);
 		}
-		String msg = "DeviceElement with name [%s] not found.";
+		final String msg = "DeviceElement with name [%s] not found.";
 		fail (DeviceElementNameNotFoundError.class, String.format (msg, name));
 		return null;
 	}
@@ -195,7 +205,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		if (this.deviceElements.size () == 0) {
 			final String platform = this.device.setting.getPlatformType ()
 				.getName ();
-			String msg = "Loading elements on [%s] activity...";
+			final String msg = "Loading elements on [%s] activity...";
 			log.info (String.format (msg, platform));
 			loadElements (prepare ());
 		}
@@ -209,20 +219,6 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		final List <DeviceElement> childs = rootElement.childs ();
 		for (final DeviceElement child : childs) {
 			loadElements (child);
-		}
-	}
-
-	private void waitForElement (final By locator) {
-		try {
-			this.wait.until (d -> d.findElement (locator)
-				.isDisplayed ());
-		}
-		catch (final TimeoutException e) {
-			String msg = "[%s] locator timed out.";
-			fail (DeviceElementFindTimedOutError.class, String.format (msg, locator), e);
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 }
