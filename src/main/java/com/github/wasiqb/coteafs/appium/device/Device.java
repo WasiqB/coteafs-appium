@@ -38,6 +38,7 @@ import static io.appium.java_client.remote.MobileCapabilityType.NO_RESET;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION;
 import static io.appium.java_client.remote.MobileCapabilityType.UDID;
+import static java.lang.System.getProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import java.io.File;
@@ -172,21 +173,24 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 				.getBrowser (), this.capabilities, true);
 		}
 		else {
-			String path = System.getProperty ("user.dir") + "/src/test/resources/" + this.setting.getAppLocation ();
+			final String appPath = this.setting.getAppLocation ();
+			if (appPath != null) {
+				String path = "%s/src/test/resources/%s";
+				path = String.format (path, getProperty ("user.dir"), appPath);
 
-			if (this.setting.isExternalApp ()) {
-				path = this.setting.getAppLocation ();
-			}
+				if (this.setting.isExternalApp ()) {
+					path = this.setting.getAppLocation ();
+				}
 
-			final File file = new File (path);
-			if (!file.exists ()) {
-				final String msg = "App not found on mentioned location [%s]...";
-				log.error (String.format (msg, path));
-				fail (DeviceAppNotFoundError.class, String.format (msg, path));
+				final File file = new File (path);
+				if (!file.exists ()) {
+					final String msg = "App not found on mentioned location [%s]...";
+					log.error (String.format (msg, path));
+					fail (DeviceAppNotFoundError.class, String.format (msg, path));
+				}
+				setCapability (APP, path, this.capabilities, true);
 			}
-			setCapability (APP, path, this.capabilities, true);
 		}
-
 		log.trace ("Building Device capabilities completed...");
 	}
 
