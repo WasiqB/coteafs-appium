@@ -22,7 +22,6 @@ import com.github.wasiqb.coteafs.error.NotImplementedError;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
 
 /**
@@ -38,12 +37,12 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		log = LogManager.getLogger (DeviceElementActions.class);
 	}
 
-	private final E					device;
-	private final D					driver;
-	private final MobileElement		element;
-	private final MultiTouchAction	multiTouch;
-	private final String			name;
-	private final TouchAction		touch;
+	private final E				device;
+	private final D				driver;
+	private final MobileElement	element;
+	// private final MultiTouchAction multiTouch;
+	private final String		name;
+	private final TouchAction	touch;
 
 	/**
 	 * @author wasiq.bhamla
@@ -58,8 +57,25 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		this.element = element;
 		this.driver = this.device.getDriver ();
 		this.touch = new TouchAction (this.driver);
-		this.multiTouch = new MultiTouchAction (this.driver);
+		// this.multiTouch = new MultiTouchAction (this.driver);
 		DeviceChecker.checkDeviceElementDisplayed (element, name);
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 21, 2017 5:22:04 PM
+	 * @param text
+	 */
+	public void appendText (final String text) {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		tap ();
+		log.info (String.format ("Appending text [%s] in element [%s]...", text, this.name));
+		try {
+			this.element.sendKeys (text);
+		}
+		catch (final NoSuchSessionException e) {
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
 	}
 
 	/**
@@ -110,6 +126,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	public void enterText (final String text) {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 		clear ();
+		tap ();
 		log.info (String.format ("Entering text [%s] in element [%s]...", text, this.name));
 		try {
 			this.element.sendKeys (text);
