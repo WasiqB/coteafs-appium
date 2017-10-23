@@ -46,7 +46,11 @@ public class ExpenseTrackerTest extends DefaultTest {
 			.tap ();
 
 		final TextEntryActivityActions entry = new TextEntryActivityActions (this.androidDevice);
-		entry.entry (date, amount, description, favorite);
+		entry.addInputValue ("Date", date)
+			.addInputValue ("Amount", amount)
+			.addInputValue ("Description", description)
+			.addInputValue ("AddFavorite", favorite)
+			.perform ();
 	}
 
 	/**

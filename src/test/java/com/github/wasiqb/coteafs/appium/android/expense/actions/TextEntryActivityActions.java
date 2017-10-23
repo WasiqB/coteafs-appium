@@ -15,6 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.android.expense.actions;
 
+import com.github.wasiqb.coteafs.appium.android.AndroidActivityActions;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.android.expense.activities.ConfirmDialogActivity;
 import com.github.wasiqb.coteafs.appium.android.expense.activities.TextEntryActivity;
@@ -23,43 +24,38 @@ import com.github.wasiqb.coteafs.appium.android.expense.activities.TextEntryActi
  * @author wasiq.bhamla
  * @since Oct 23, 2017 4:14:40 PM
  */
-public class TextEntryActivityActions {
-	private final AndroidDevice device;
-
+public class TextEntryActivityActions extends AndroidActivityActions {
 	/**
 	 * @author wasiq.bhamla
 	 * @param device
 	 * @since Oct 23, 2017 4:14:40 PM
 	 */
 	public TextEntryActivityActions (final AndroidDevice device) {
-		this.device = device;
+		super (device);
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 23, 2017 4:16:48 PM
-	 * @param date
-	 * @param amount
-	 * @param description
-	 * @param favorite
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivityActions#perform()
 	 */
-	public void entry (final String [] date, final String amount, final String description, final boolean favorite) {
-		final TextEntryActivity entry = new TextEntryActivity (this.device);
-
+	@Override
+	public void perform () {
+		final TextEntryActivity entry = new TextEntryActivity (getDevice ());
 		entry.onElement ("Title")
 			.verifyThat ()
 			.textShouldBeEqualTo ("Text Entry");
 
 		entry.onElement ("Date")
 			.tap ();
-		setDate (date);
+		setDate (value ("Date").toString ()
+			.split ("-"));
 		entry.onElement ("Amount")
-			.enterText (amount);
+			.enterText (value ("Amount"));
 		entry.onElement ("Description")
-			.enterText (description);
+			.appendText (value ("Description"));
 		entry.onDevice ()
 			.hideKeyboard ();
-		if (favorite) {
+		if ((boolean) value ("AddFavorite")) {
 			entry.onElement ("AddFavorite")
 				.tap ();
 		}
@@ -75,7 +71,7 @@ public class TextEntryActivityActions {
 	 * @param date
 	 */
 	private void setDate (final String [] date) {
-		final ConfirmDialogActivity dialog = new ConfirmDialogActivity (this.device);
+		final ConfirmDialogActivity dialog = new ConfirmDialogActivity (getDevice ());
 		if (date == null) {
 			dialog.onElement ("Cancel")
 				.tap ();
