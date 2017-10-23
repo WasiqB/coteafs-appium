@@ -49,13 +49,16 @@ public class DefaultTest {
 	@Test (description = "Click next")
 	public void test1 () {
 		final MainActivity main = new MainActivity (this.androidDevice);
+		// main.onDevice ()
+		// .hideKeyboard ();
 		main.onDevice ()
-			.hideKeyboard ();
+			.swipe (SwipeDirection.LEFT, SwipeDistance.HALF);
+		System.out.println ("Swipe left...");
 		main.onDevice ()
-			.swipe (SwipeDirection.UP, SwipeDistance.HALF);
-		System.out.println ("Swipe up...");
+			.swipe (SwipeDirection.LEFT, SwipeDistance.HALF);
+		System.out.println ("Swipe left...");
 		main.onDevice ()
-			.swipe (SwipeDirection.DOWN, SwipeDistance.QUARTER);
-		System.out.println ("Swipe down...");
+			.swipe (SwipeDirection.RIGHT, SwipeDistance.HALF);
+		System.out.println ("Swipe right...");
 	}
 }
