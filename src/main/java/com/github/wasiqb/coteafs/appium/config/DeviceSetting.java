@@ -8,6 +8,8 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
+import static java.lang.String.format;
+
 /**
  * @author wasiq.bhamla
  * @since 12-Apr-2017 8:34:28 PM
@@ -40,7 +42,6 @@ public class DeviceSetting {
 	private boolean			fullReset;
 	private boolean			noReset;
 	private PlatformType	platformType;
-	private String			screenShotExtension;
 	private String			screenShotPath;
 	private String			screenShotPrefix;
 	private int				sessionTimeout;
@@ -75,9 +76,8 @@ public class DeviceSetting {
 		this.delayAfterTap = 0;
 		this.delayBeforeSwipe = 0;
 		this.delayAfterSwipe = 0;
-		this.screenShotPath = "/screenshots";
+		this.screenShotPath = format ("%s/screenshots", System.getProperty ("user.dir"));
 		this.screenShotPrefix = "SCR";
-		this.screenShotExtension = "jpeg";
 	}
 
 	/**
@@ -285,15 +285,6 @@ public class DeviceSetting {
 	 */
 	public PlatformType getPlatformType () {
 		return this.platformType;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 9, 2017 9:34:10 PM
-	 * @return the screenShotExtension
-	 */
-	public String getScreenShotExtension () {
-		return this.screenShotExtension;
 	}
 
 	/**
@@ -699,16 +690,6 @@ public class DeviceSetting {
 	 */
 	public void setPlatformType (final PlatformType deviceType) {
 		this.platformType = deviceType;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 9, 2017 9:34:10 PM
-	 * @param screenShotExtension
-	 *            the screenShotExtension to set
-	 */
-	public void setScreenShotExtension (final String screenShotExtension) {
-		this.screenShotExtension = screenShotExtension;
 	}
 
 	/**

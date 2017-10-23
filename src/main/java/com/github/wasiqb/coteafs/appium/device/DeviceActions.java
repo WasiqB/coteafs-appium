@@ -71,8 +71,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 
 	protected final E				device;
 	protected final D				driver;
-	protected final WebDriverWait	wait;
 	private final MultiTouchAction	multiTouch;
+	protected final WebDriverWait	wait;
 
 	/**
 	 * @author wasiq.bhamla
@@ -95,13 +95,11 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 			.getScreenShotPath ();
 		final String prefix = this.device.getSetting ()
 			.getScreenShotPrefix ();
-		final String extension = this.device.getSetting ()
-			.getScreenShotExtension ();
 		final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-hhmmss");
 		final String timeStamp = date.format (Calendar.getInstance ()
 			.getTime ());
 		final String fileName = "%s/%s-%s.%s";
-		captureScreenshot (format (fileName, path, prefix, timeStamp, extension));
+		captureScreenshot (format (fileName, path, prefix, timeStamp, "jpeg"));
 	}
 
 	/**
@@ -170,20 +168,6 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		swipeTo (direction, distance).perform ();
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 20, 2017 8:44:00 PM
-	 * @param distance
-	 */
-	public void zoom (final SwipeDistance distance) {
-		log.info (format ("Zooming in device screen by [%s] distance...", distance));
-		final TouchAction firstFinger = swipeTo (SwipeDirection.UP, distance);
-		final TouchAction secondFinger = swipeTo (SwipeDirection.DOWN, distance);
-		this.multiTouch.add (firstFinger)
-			.add (secondFinger)
-			.perform ();
-	}
-
 	private TouchAction swipeTo (final SwipeDirection direction, final SwipeDistance distance) {
 		final Dimension size = this.driver.manage ()
 			.window ()
@@ -203,5 +187,19 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 			.waitAction (ofSeconds (afterSwipe))
 			.release ();
 		return returnAction;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 20, 2017 8:44:00 PM
+	 * @param distance
+	 */
+	public void zoom (final SwipeDistance distance) {
+		log.info (format ("Zooming in device screen by [%s] distance...", distance));
+		final TouchAction firstFinger = swipeTo (SwipeDirection.UP, distance);
+		final TouchAction secondFinger = swipeTo (SwipeDirection.DOWN, distance);
+		this.multiTouch.add (firstFinger)
+			.add (secondFinger)
+			.perform ();
 	}
 }

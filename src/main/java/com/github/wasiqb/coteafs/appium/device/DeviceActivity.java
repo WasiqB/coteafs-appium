@@ -54,7 +54,6 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 
 	protected final E							device;
 	protected final Map <String, DeviceElement>	deviceElements;
-	private boolean								activityLoaded;
 	private final WebDriverWait					wait;
 
 	/**
@@ -66,17 +65,6 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		this.device = device;
 		this.deviceElements = new HashMap <> ();
 		this.wait = new WebDriverWait (device.getDriver (), device.setting.getWaitForElementUntil ());
-		this.activityLoaded = false;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Apr 27, 2017 5:12:51 PM
-	 * @return the activityLoaded
-	 */
-	public boolean isActivityLoaded () {
-		log.trace ("Checking if activity is loaded...");
-		return this.activityLoaded;
 	}
 
 	/**
@@ -188,7 +176,6 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		else {
 			elem = find (this.device.getDriver (), locator, index);
 		}
-		this.activityLoaded = true;
 		return elem;
 	}
 

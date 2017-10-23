@@ -2,11 +2,7 @@ package com.github.wasiqb.coteafs.appium.android;
 
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
-import org.testng.annotations.Test;
 
-import com.github.wasiqb.coteafs.appium.android.calabashtest.activities.MainActivity;
-import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
-import com.github.wasiqb.coteafs.appium.device.SwipeDistance;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 /**
@@ -14,7 +10,7 @@ import com.github.wasiqb.coteafs.appium.service.AppiumServer;
  * @since 13-Apr-2017 10:09:49 PM
  */
 public class DefaultTest {
-	private AndroidDevice	androidDevice;
+	protected AndroidDevice	androidDevice;
 	private AppiumServer	androidServer;
 
 	/**
@@ -26,7 +22,7 @@ public class DefaultTest {
 		this.androidServer = new AppiumServer ("android");
 		this.androidServer.start ();
 
-		this.androidDevice = new AndroidDevice (this.androidServer, "android");
+		this.androidDevice = new AndroidDevice (this.androidServer, "test");
 		this.androidDevice.start ();
 	}
 
@@ -40,25 +36,5 @@ public class DefaultTest {
 			this.androidDevice.stop ();
 			this.androidServer.stop ();
 		}
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 17-Apr-2017 8:09:21 PM
-	 */
-	@Test (description = "Click next")
-	public void test1 () {
-		final MainActivity main = new MainActivity (this.androidDevice);
-		// main.onDevice ()
-		// .hideKeyboard ();
-		main.onDevice ()
-			.swipe (SwipeDirection.LEFT, SwipeDistance.HALF);
-		System.out.println ("Swipe left...");
-		main.onDevice ()
-			.swipe (SwipeDirection.LEFT, SwipeDistance.HALF);
-		System.out.println ("Swipe left...");
-		main.onDevice ()
-			.swipe (SwipeDirection.RIGHT, SwipeDistance.HALF);
-		System.out.println ("Swipe right...");
 	}
 }

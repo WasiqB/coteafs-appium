@@ -7,7 +7,7 @@
 	</listeners> -->
 	<test name="Android Test">
 		<classes>
-			<class name="com.github.wasiqb.coteafs.appium.android.DefaultTest" />
+			<class name="com.github.wasiqb.coteafs.appium.android.ExpenseTrackerTest" />
 		</classes>
 	</test> <!-- Android Test -->
 </suite> <!-- coteafs-appium Test Suite -->
