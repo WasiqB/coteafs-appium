@@ -18,6 +18,7 @@ package com.github.wasiqb.coteafs.appium.android.expense.actions;
 import com.github.wasiqb.coteafs.appium.android.AndroidActivityActions;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.android.expense.activities.ConfirmDialogActivity;
+import com.github.wasiqb.coteafs.appium.android.expense.activities.DashboardActivity;
 import com.github.wasiqb.coteafs.appium.android.expense.activities.TextEntryActivity;
 
 /**
@@ -40,6 +41,10 @@ public class TextEntryActivityActions extends AndroidActivityActions {
 	 */
 	@Override
 	public void perform () {
+		final DashboardActivity home = new DashboardActivity (getDevice ());
+		home.onElement ("Text")
+			.tap ();
+
 		final TextEntryActivity entry = new TextEntryActivity (getDevice ());
 		entry.onElement ("Title")
 			.verifyThat ()
@@ -47,8 +52,7 @@ public class TextEntryActivityActions extends AndroidActivityActions {
 
 		entry.onElement ("Date")
 			.tap ();
-		setDate (value ("Date").toString ()
-			.split ("-"));
+		setDate (value ("Date"));
 		entry.onElement ("Amount")
 			.enterText (value ("Amount"));
 		entry.onElement ("Description")
@@ -70,19 +74,21 @@ public class TextEntryActivityActions extends AndroidActivityActions {
 	 * @since Oct 23, 2017 4:17:30 PM
 	 * @param date
 	 */
-	private void setDate (final String [] date) {
+	private void setDate (final Object date) {
 		final ConfirmDialogActivity dialog = new ConfirmDialogActivity (getDevice ());
 		if (date == null) {
 			dialog.onElement ("Cancel")
 				.tap ();
 		}
 		else {
+			final String [] values = date.toString ()
+				.split ("-");
 			dialog.onElement ("EditMonth")
-				.enterText (date [0].toUpperCase ());
+				.enterText (values [0].toUpperCase ());
 			dialog.onElement ("EditDay")
-				.enterText (date [1]);
+				.enterText (values [1]);
 			dialog.onElement ("EditYear")
-				.enterText (date [2]);
+				.enterText (values [2]);
 			dialog.onElement ("OK")
 				.tap ();
 		}

@@ -15,6 +15,8 @@
  */
 package com.github.wasiqb.coteafs.appium.android.expense.activities;
 
+import org.openqa.selenium.By;
+
 import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
@@ -39,7 +41,33 @@ public class ListActivity extends AndroidActivity {
 	 */
 	@Override
 	protected DeviceElement prepare () {
+		final DeviceElement main = DeviceElement.create ("Main")
+			.using (By.id ("android:id/content"));
 
-		return null;
+		final DeviceElement tabs = DeviceElement.create ("Tabs")
+			.parent (main)
+			.using (By.id ("android:id/tabs"));
+
+		DeviceElement.create ("ThisWeek")
+			.parent (tabs)
+			.using (By.className ("android.widget.RelativeLayout"));
+		DeviceElement.create ("ThisMonth")
+			.parent (tabs)
+			.index (1)
+			.using (By.className ("android.widget.RelativeLayout"));
+		DeviceElement.create ("ThisYear")
+			.parent (tabs)
+			.index (2)
+			.using (By.className ("android.widget.RelativeLayout"));
+		DeviceElement.create ("All")
+			.parent (tabs)
+			.index (3)
+			.using (By.className ("android.widget.RelativeLayout"));
+
+		final DeviceElement tabContent = DeviceElement.create ("List")
+			.parent (main)
+			.using (By.id ("com.vinsol.expensetracker:id/expense_listing_listview"));
+
+		return main;
 	}
 }

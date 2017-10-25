@@ -23,7 +23,6 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.github.wasiqb.coteafs.appium.android.expense.actions.TextEntryActivityActions;
-import com.github.wasiqb.coteafs.appium.android.expense.activities.DashboardActivity;
 
 /**
  * @author wasiq.bhamla
@@ -39,12 +38,8 @@ public class ExpenseTrackerTest extends DefaultTest {
 	 * @since Oct 23, 2017 4:12:37 PM
 	 */
 	@Test (dataProvider = "textEntryDataProvider")
-	public void testCreateEntry (final String [] date, final String amount, final String description,
+	public void testCreateEntry (final String date, final String amount, final String description,
 			final boolean favorite) {
-		final DashboardActivity home = new DashboardActivity (this.androidDevice);
-		home.onElement ("Text")
-			.tap ();
-
 		final TextEntryActivityActions entry = new TextEntryActivityActions (this.androidDevice);
 		entry.addInputValue ("Date", date)
 			.addInputValue ("Amount", amount)
@@ -61,15 +56,15 @@ public class ExpenseTrackerTest extends DefaultTest {
 	@DataProvider
 	public Iterator <Object []> textEntryDataProvider () {
 		final List <Object []> data = new ArrayList <> ();
-		data.add (new Object [] { null, "10000", "Test 1", false });
-		data.add (new Object [] { null, "10000", "Test 2", false });
-		data.add (new Object [] { null, "10000", "Test 3", false });
-		data.add (new Object [] { null, "10000", "Test 4", false });
+		data.add (new Object [] { "Oct-21-2017", "10000", "Test 1", false });
+		data.add (new Object [] { "Oct-22-2017", "10000", "Test 2", false });
+		data.add (new Object [] { "Oct-23-2017", "10000", "Test 3", false });
+		data.add (new Object [] { "Oct-24-2017", "10000", "Test 4", false });
 		data.add (new Object [] { null, "10000", "Test 5", false });
-		data.add (new Object [] { null, "10000", "Test 6", true });
-		data.add (new Object [] { null, "10000", "Test 7", true });
-		data.add (new Object [] { null, "10000", "Test 8", true });
-		data.add (new Object [] { null, "10000", "Test 9", true });
+		data.add (new Object [] { "Oct-21-2017", "10000", "Test 6", true });
+		data.add (new Object [] { "Oct-22-2017", "10000", "Test 7", true });
+		data.add (new Object [] { "Oct-23-2017", "10000", "Test 8", true });
+		data.add (new Object [] { "Oct-24-2017", "10000", "Test 9", true });
 		data.add (new Object [] { null, "10000", "Test 10", true });
 		return data.iterator ();
 	}

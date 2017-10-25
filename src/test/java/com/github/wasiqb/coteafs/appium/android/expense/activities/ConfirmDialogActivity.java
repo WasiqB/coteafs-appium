@@ -72,13 +72,13 @@ public class ConfirmDialogActivity extends AndroidActivity {
 
 		DeviceElement.create ("EditMonth")
 			.parent (month)
-			.using (By.id ("android.widget.EditText"));
+			.using (By.className ("android.widget.EditText"));
 		DeviceElement.create ("EditDay")
 			.parent (day)
-			.using (By.id ("android.widget.EditText"));
+			.using (By.className ("android.widget.EditText"));
 		DeviceElement.create ("EditYear")
 			.parent (year)
-			.using (By.id ("android.widget.EditText"));
+			.using (By.className ("android.widget.EditText"));
 
 		return main;
 	}
