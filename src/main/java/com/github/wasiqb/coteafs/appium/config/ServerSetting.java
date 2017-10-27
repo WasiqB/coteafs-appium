@@ -15,19 +15,25 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author wasiq.bhamla
  * @since 12-Apr-2017 8:43:22 PM
  */
 public class ServerSetting {
-	private String	appiumJsPath;
-	private boolean	external;
-	private boolean	fullReset;
-	private String	ip;
-	private boolean	noReset;
-	private int		port;
-	private int		sessionTimeout;
-	private long	startUpTimeOutSeconds;
+	private String					appiumJsPath;
+	private ServerArgumentSetting	arguments;
+	private Map <String, String>	environmentVariables;
+	private boolean					external;
+	private boolean					fullReset;
+	private String					ip;
+	private String					logFilePath;
+	private boolean					noReset;
+	private int						port;
+	private int						sessionTimeout;
+	private long					startUpTimeOutSeconds;
 
 	/**
 	 * @author wasiq.bhamla
@@ -39,6 +45,8 @@ public class ServerSetting {
 		this.fullReset = false;
 		this.sessionTimeout = 120;
 		this.startUpTimeOutSeconds = 60;
+		this.environmentVariables = new HashMap <> ();
+		this.logFilePath = String.format ("%s/logs/server.log", System.getProperty ("user.dir"));
 	}
 
 	/**
@@ -52,11 +60,38 @@ public class ServerSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 1:28:09 PM
+	 * @return the arguments
+	 */
+	public ServerArgumentSetting getArguments () {
+		return this.arguments;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 1:28:09 PM
+	 * @return the environmentVariables
+	 */
+	public Map <String, String> getEnvironmentVariables () {
+		return this.environmentVariables;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:51:26 PM
 	 * @return the ip
 	 */
 	public String getIp () {
 		return this.ip;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 1:28:09 PM
+	 * @return the logFilePath
+	 */
+	public String getLogFilePath () {
+		return this.logFilePath;
 	}
 
 	/**
@@ -125,6 +160,26 @@ public class ServerSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 1:28:09 PM
+	 * @param arguments
+	 *            the arguments to set
+	 */
+	public void setArguments (final ServerArgumentSetting arguments) {
+		this.arguments = arguments;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 1:28:09 PM
+	 * @param environmentVariables
+	 *            the environmentVariables to set
+	 */
+	public void setEnvironmentVariables (final Map <String, String> environmentVariables) {
+		this.environmentVariables = environmentVariables;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 21-Apr-2017 5:06:22 PM
 	 * @param external
 	 *            the external to set
@@ -151,6 +206,16 @@ public class ServerSetting {
 	 */
 	public void setIp (final String ip) {
 		this.ip = ip;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 1:28:09 PM
+	 * @param logFilePath
+	 *            the logFilePath to set
+	 */
+	public void setLogFilePath (final String logFilePath) {
+		this.logFilePath = logFilePath;
 	}
 
 	/**

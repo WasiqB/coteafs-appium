@@ -19,6 +19,19 @@ import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONF
 import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_KEY;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static io.appium.java_client.service.local.flags.AndroidServerFlag.BOOTSTRAP_PORT_NUMBER;
+import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME_DRIVER_EXECUTABLE;
+import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME_DRIVER_PORT;
+import static io.appium.java_client.service.local.flags.AndroidServerFlag.SUPPRESS_ADB_KILL_SERVER;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.CONFIGURATION_FILE;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.LOCAL_TIMEZONE;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.LOG_LEVEL;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.LOG_TIMESTAMP;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
+import static io.appium.java_client.service.local.flags.IOSServerFlag.BACK_END_RETRIES;
+import static io.appium.java_client.service.local.flags.IOSServerFlag.IPA_ABSOLUTE_PATH;
+import static io.appium.java_client.service.local.flags.IOSServerFlag.SAFARI;
+import static io.appium.java_client.service.local.flags.IOSServerFlag.WEBKIT_DEBUG_PROXY_PORT;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,12 +42,14 @@ import java.net.SocketAddress;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
+import com.github.wasiqb.coteafs.appium.config.ServerArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerAlreadyRunningError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotRunningError;
@@ -46,7 +61,7 @@ import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
-import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import io.appium.java_client.service.local.flags.ServerArgument;
 
 /**
  * @author wasiq.bhamla
@@ -191,9 +206,11 @@ public final class AppiumServer {
 		this.builder = this.builder.withIPAddress (this.setting.getIp ())
 			.withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS);
 		setPort ();
+		setLogFile ();
 		setAppiumJS ();
 		setCapabilities ();
 		setArguments ();
+		setEnvironmentVariables ();
 		log.trace ("Building Appium Service done...");
 	}
 
@@ -215,13 +232,50 @@ public final class AppiumServer {
 		}
 	}
 
+	private void setArgument (final ServerArgument flag, final boolean value) {
+		if (value) {
+			this.builder = this.builder.withArgument (flag);
+		}
+	}
+
+	private void setArgument (final ServerArgument flag, final int value) {
+		if (value > 0) {
+			this.builder = this.builder.withArgument (flag, Integer.toString (value));
+		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 3:15:05 PM
+	 * @param logLevel
+	 * @param level
+	 */
+	private void setArgument (final ServerArgument flag, final String value) {
+		if (StringUtils.isNoneEmpty (value)) {
+			this.builder = this.builder.withArgument (flag, value);
+		}
+	}
+
 	/**
 	 * @author wasiq.bhamla
 	 * @since Oct 27, 2017 12:43:53 PM
 	 */
 	private void setArguments () {
-		this.builder = this.builder.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
-			.withArgument (GeneralServerFlag.LOG_LEVEL, "debug");
+		final ServerArgumentSetting args = this.setting.getArguments ();
+		setArgument (LOG_LEVEL, args.getLogLevel ()
+			.getLevel ());
+		setArgument (SESSION_OVERRIDE, args.isSessionOverride ());
+		setArgument (BACK_END_RETRIES, args.getBackendRetries ());
+		setArgument (BOOTSTRAP_PORT_NUMBER, args.getBootstrapPort ());
+		setArgument (CHROME_DRIVER_PORT, args.getChromeDriverPort ());
+		setArgument (CHROME_DRIVER_EXECUTABLE, args.getChromeDriverExePath ());
+		setArgument (IPA_ABSOLUTE_PATH, args.getIpaAbsolutePath ());
+		setArgument (LOG_TIMESTAMP, args.isLogTimeStamp ());
+		setArgument (LOCAL_TIMEZONE, args.isLocalTimeZone ());
+		setArgument (CONFIGURATION_FILE, args.getNodeConfigFile ());
+		setArgument (SAFARI, args.isSafari ());
+		setArgument (SUPPRESS_ADB_KILL_SERVER, args.isSuppressAdbKillServer ());
+		setArgument (WEBKIT_DEBUG_PROXY_PORT, args.getWebkitDebugProxyPort ());
 	}
 
 	/**
@@ -230,6 +284,25 @@ public final class AppiumServer {
 	 */
 	private void setCapabilities () {
 		this.builder = this.builder.withCapabilities (this.capabilities);
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 1:10:26 PM
+	 */
+	private void setEnvironmentVariables () {
+		this.builder = this.builder.withEnvironment (this.setting.getEnvironmentVariables ());
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 3:00:49 PM
+	 */
+	private void setLogFile () {
+		if (this.setting.getLogFilePath () != null) {
+			final File logFile = new File (this.setting.getLogFilePath ());
+			this.builder = this.builder.withLogFile (logFile);
+		}
 	}
 
 	/**

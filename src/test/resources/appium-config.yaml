@@ -2,7 +2,14 @@ servers:
   android:
     ip: 127.0.0.1
     port: 4723
-    external: true
+    arguments:
+      log_level: DEBUG
+      log_time_stamp: true
+      local_time_zone: true
+      session_override: true
+      suppress_adb_kill_server: true
+    environment_variables:
+      ANDROID_HOME: /Users/wasiq.bhamla/Library/Android/sdk
 
 devices:
   android:
