@@ -71,8 +71,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 
 	protected final E				device;
 	protected final D				driver;
-	private final MultiTouchAction	multiTouch;
 	protected final WebDriverWait	wait;
+	private final MultiTouchAction	multiTouch;
 
 	/**
 	 * @author wasiq.bhamla
@@ -100,23 +100,6 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 			.getTime ());
 		final String fileName = "%s/%s-%s.%s";
 		captureScreenshot (format (fileName, path, prefix, timeStamp, "jpeg"));
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 01-May-2017 8:24:34 PM
-	 * @param path
-	 */
-	public void captureScreenshot (final String path) {
-		final String msg = "Capturing screenshot and saving at [%s]...";
-		log.info (format (msg, path));
-		try {
-			final File srcFiler = this.driver.getScreenshotAs (OutputType.FILE);
-			copyFile (srcFiler, path);
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
 	}
 
 	/**
@@ -168,6 +151,37 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		swipeTo (direction, distance).perform ();
 	}
 
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 20, 2017 8:44:00 PM
+	 * @param distance
+	 */
+	public void zoom (final SwipeDistance distance) {
+		log.info (format ("Zooming in device screen by [%s] distance...", distance));
+		final TouchAction firstFinger = swipeTo (SwipeDirection.UP, distance);
+		final TouchAction secondFinger = swipeTo (SwipeDirection.DOWN, distance);
+		this.multiTouch.add (firstFinger)
+			.add (secondFinger)
+			.perform ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since 01-May-2017 8:24:34 PM
+	 * @param path
+	 */
+	private void captureScreenshot (final String path) {
+		final String msg = "Capturing screenshot and saving at [%s]...";
+		log.info (format (msg, path));
+		try {
+			final File srcFiler = this.driver.getScreenshotAs (OutputType.FILE);
+			copyFile (srcFiler, path);
+		}
+		catch (final NoSuchSessionException e) {
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
+	}
+
 	private TouchAction swipeTo (final SwipeDirection direction, final SwipeDistance distance) {
 		final Dimension size = this.driver.manage ()
 			.window ()
@@ -187,19 +201,5 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 			.waitAction (ofSeconds (afterSwipe))
 			.release ();
 		return returnAction;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 20, 2017 8:44:00 PM
-	 * @param distance
-	 */
-	public void zoom (final SwipeDistance distance) {
-		log.info (format ("Zooming in device screen by [%s] distance...", distance));
-		final TouchAction firstFinger = swipeTo (SwipeDirection.UP, distance);
-		final TouchAction secondFinger = swipeTo (SwipeDirection.DOWN, distance);
-		this.multiTouch.add (firstFinger)
-			.add (secondFinger)
-			.perform ();
 	}
 }

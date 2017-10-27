@@ -188,16 +188,12 @@ public final class AppiumServer {
 	private void buildService () {
 		log.trace ("Building Appium Service started...");
 		ServerChecker.checkServerConfigParams ("IP Address", this.setting.getIp ());
-		ServerChecker.checkServerConfigParams ("Port", this.setting.getPort ());
-		ServerChecker.checkServerConfigParams ("AppiumJS Path", this.setting.getAppiumJsPath ());
-		final File appJs = new File (this.setting.getAppiumJsPath ());
-		this.builder.withIPAddress (this.setting.getIp ())
-			.usingPort (this.setting.getPort ())
-			.withAppiumJS (appJs)
-			.withCapabilities (this.capabilities)
-			.withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS)
-			.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
-			.withArgument (GeneralServerFlag.LOG_LEVEL, "error");
+		this.builder = this.builder.withIPAddress (this.setting.getIp ())
+			.withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS);
+		setPort ();
+		setAppiumJS ();
+		setCapabilities ();
+		setArguments ();
 		log.trace ("Building Appium Service done...");
 	}
 
@@ -206,5 +202,46 @@ public final class AppiumServer {
 		this.builder = new AppiumServiceBuilder ();
 		this.capabilities = new DesiredCapabilities ();
 		log.trace ("Initializing Appium Service done...");
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 12:39:17 PM
+	 */
+	private void setAppiumJS () {
+		if (this.setting.getAppiumJsPath () != null) {
+			final File appJs = new File (this.setting.getAppiumJsPath ());
+			this.builder = this.builder.withAppiumJS (appJs);
+		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 12:43:53 PM
+	 */
+	private void setArguments () {
+		this.builder = this.builder.withArgument (GeneralServerFlag.SESSION_OVERRIDE)
+			.withArgument (GeneralServerFlag.LOG_LEVEL, "debug");
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 12:40:55 PM
+	 */
+	private void setCapabilities () {
+		this.builder = this.builder.withCapabilities (this.capabilities);
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Oct 27, 2017 12:42:30 PM
+	 */
+	private void setPort () {
+		if (this.setting.getPort () > 0) {
+			this.builder = this.builder.usingPort (this.setting.getPort ());
+		}
+		else {
+			this.builder = this.builder.usingAnyFreePort ();
+		}
 	}
 }
