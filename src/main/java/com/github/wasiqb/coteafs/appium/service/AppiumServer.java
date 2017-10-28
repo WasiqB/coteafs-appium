@@ -262,20 +262,22 @@ public final class AppiumServer {
 	 */
 	private void setArguments () {
 		final ServerArgumentSetting args = this.setting.getArguments ();
-		setArgument (LOG_LEVEL, args.getLogLevel ()
-			.getLevel ());
-		setArgument (SESSION_OVERRIDE, args.isSessionOverride ());
-		setArgument (BACK_END_RETRIES, args.getBackendRetries ());
-		setArgument (BOOTSTRAP_PORT_NUMBER, args.getBootstrapPort ());
-		setArgument (CHROME_DRIVER_PORT, args.getChromeDriverPort ());
-		setArgument (CHROME_DRIVER_EXECUTABLE, args.getChromeDriverExePath ());
-		setArgument (IPA_ABSOLUTE_PATH, args.getIpaAbsolutePath ());
-		setArgument (LOG_TIMESTAMP, args.isLogTimeStamp ());
-		setArgument (LOCAL_TIMEZONE, args.isLocalTimeZone ());
-		setArgument (CONFIGURATION_FILE, args.getNodeConfigFile ());
-		setArgument (SAFARI, args.isSafari ());
-		setArgument (SUPPRESS_ADB_KILL_SERVER, args.isSuppressAdbKillServer ());
-		setArgument (WEBKIT_DEBUG_PROXY_PORT, args.getWebkitDebugProxyPort ());
+		if (args != null) {
+			setArgument (LOG_LEVEL, args.getLogLevel ()
+				.getLevel ());
+			setArgument (SESSION_OVERRIDE, args.isSessionOverride ());
+			setArgument (BACK_END_RETRIES, args.getBackendRetries ());
+			setArgument (BOOTSTRAP_PORT_NUMBER, args.getBootstrapPort ());
+			setArgument (CHROME_DRIVER_PORT, args.getChromeDriverPort ());
+			setArgument (CHROME_DRIVER_EXECUTABLE, args.getChromeDriverExePath ());
+			setArgument (IPA_ABSOLUTE_PATH, args.getIpaAbsolutePath ());
+			setArgument (LOG_TIMESTAMP, args.isLogTimeStamp ());
+			setArgument (LOCAL_TIMEZONE, args.isLocalTimeZone ());
+			setArgument (CONFIGURATION_FILE, args.getNodeConfigFile ());
+			setArgument (SAFARI, args.isSafari ());
+			setArgument (SUPPRESS_ADB_KILL_SERVER, args.isSuppressAdbKillServer ());
+			setArgument (WEBKIT_DEBUG_PROXY_PORT, args.getWebkitDebugProxyPort ());
+		}
 	}
 
 	/**

@@ -23,6 +23,12 @@ import java.util.Map;
  * @since 12-Apr-2017 8:43:22 PM
  */
 public class ServerSetting {
+	private static int countInstance;
+
+	static {
+		countInstance = 0;
+	}
+
 	private String					appiumJsPath;
 	private ServerArgumentSetting	arguments;
 	private Map <String, String>	environmentVariables;
@@ -40,13 +46,14 @@ public class ServerSetting {
 	 * @since 08-May-2017 7:49:49 PM
 	 */
 	public ServerSetting () {
+		countInstance++;
 		this.external = false;
 		this.noReset = false;
 		this.fullReset = false;
 		this.sessionTimeout = 120;
 		this.startUpTimeOutSeconds = 60;
 		this.environmentVariables = new HashMap <> ();
-		this.logFilePath = String.format ("%s/logs/server.log", System.getProperty ("user.dir"));
+		this.logFilePath = String.format ("%s/logs/server-%d.log", System.getProperty ("user.dir"), countInstance);
 	}
 
 	/**
