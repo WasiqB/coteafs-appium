@@ -301,8 +301,10 @@ public final class AppiumServer {
 	 * @since Oct 27, 2017 3:00:49 PM
 	 */
 	private void setLogFile () {
-		if (this.setting.getLogFilePath () != null) {
-			final File logFile = new File (this.setting.getLogFilePath ());
+		final String logFilePath = this.setting.getLogFilePath ();
+		if (logFilePath != null) {
+			final File logFile = new File (logFilePath);
+			logFile.delete ();
 			this.builder = this.builder.withLogFile (logFile);
 		}
 	}
