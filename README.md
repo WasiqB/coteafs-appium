@@ -20,6 +20,11 @@ A Mobile Automation Framework built on top of [Appium][] which supports testing 
 * If you find any issue which is bottleneck for you, [search the issue tracker][] to see if it is already raised.
 * If not raised, then you can create a [new issue][] with required details as mentioned in the issue template.
 
+## What you do if you like the project?
+* Spread the word with your network.
+* **Star** the project to make the project popular.
+* Stay updated with the project progress by **Watching** it.
+
 ## Depending coteafs projects
 Since **coteafs-appium** is a part of **coteafs** suite, hence it also depends on some of the other coteafs projects:
 
