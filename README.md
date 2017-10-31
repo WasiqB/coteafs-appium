@@ -13,6 +13,8 @@ A Mobile Automation Framework built on top of [Appium][] which supports testing 
 ## Getting Started
 * The [wiki][] of coteafs-appium includes all the information you need to get started including usage, advantages, sample test.
 * For sample project, have a look at the [unit tests][] for coteafs-appium.
+* To know what changes are Released, check out the [change log][] for complete list of changes.
+* Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
 ## What to do when you need help?
 * Join the discussion on our [Gitter][] chats.
@@ -46,3 +48,5 @@ Name | Description
 [coteafs-error]: https://github.com/WasiqB/coteafs-error
 [coteafs-parent]: https://github.com/WasiqB/coteafs-parent
 [Appium]: https://github.com/appium/java-client/releases
+[change log]: CHANGELOG.md
+[milestones]: https://github.com/WasiqB/coteafs-appium/milestones
