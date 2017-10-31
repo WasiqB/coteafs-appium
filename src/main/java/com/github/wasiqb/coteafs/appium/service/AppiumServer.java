@@ -40,6 +40,7 @@ import java.net.MalformedURLException;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.StringUtils;
@@ -52,6 +53,7 @@ import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerAlreadyRunningError;
+import com.github.wasiqb.coteafs.appium.error.AppiumServerLogFileError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotRunningError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotStartingError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotStoppingError;
@@ -131,7 +133,6 @@ public final class AppiumServer {
 		final SocketAddress addr = new InetSocketAddress (this.setting.getIp (), this.setting.getPort ());
 		try (Socket socket = new Socket ()) {
 			socket.connect (addr, 2000);
-			socket.close ();
 		}
 		catch (final IOException e) {
 			fail (AppiumServerNotRunningError.class, "Error connecting to Server...", e);
@@ -304,7 +305,12 @@ public final class AppiumServer {
 		final String logFilePath = this.setting.getLogFilePath ();
 		if (logFilePath != null) {
 			final File logFile = new File (logFilePath);
-			logFile.delete ();
+			try {
+				Files.delete (logFile.toPath ());
+			}
+			catch (final IOException e) {
+				fail (AppiumServerLogFileError.class, "Error while deleting log file!", e);
+			}
 			this.builder = this.builder.withLogFile (logFile);
 		}
 	}
