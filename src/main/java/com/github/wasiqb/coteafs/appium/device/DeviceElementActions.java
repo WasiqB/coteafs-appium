@@ -40,7 +40,6 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	private final E				device;
 	private final D				driver;
 	private final MobileElement	element;
-	// private final MultiTouchAction multiTouch;
 	private final String		name;
 	private final TouchAction	touch;
 
@@ -57,7 +56,6 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		this.element = element;
 		this.driver = this.device.getDriver ();
 		this.touch = new TouchAction (this.driver);
-		// this.multiTouch = new MultiTouchAction (this.driver);
 		DeviceChecker.checkDeviceElementDisplayed (element, name);
 	}
 
