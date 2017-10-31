@@ -306,7 +306,9 @@ public final class AppiumServer {
 		if (logFilePath != null) {
 			final File logFile = new File (logFilePath);
 			try {
-				Files.delete (logFile.toPath ());
+				if (logFile.exists ()) {
+					Files.delete (logFile.toPath ());
+				}
 			}
 			catch (final IOException e) {
 				fail (AppiumServerLogFileError.class, "Error while deleting log file!", e);
