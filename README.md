@@ -37,7 +37,7 @@ Name | Description
 [coteafs-error][] | Custom Error with categorization of errors.
 [coteafs-parent][] | Common Parent POM file with build and release configuration.
 
-## Verioning ideology
+## Versioning ideology
 The project release versioning ideology is adopted from [SemVer][semver].
 
 [wiki]: https://github.com/WasiqB/coteafs-appium/wiki
