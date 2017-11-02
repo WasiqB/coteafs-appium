@@ -28,6 +28,7 @@ import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_LAUNC
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_READY_TIMEOUT;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.APP_NAME;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.BUNDLE_ID;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.SHOW_XCODE_LOG;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_NEW_WDA;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_PREBUILT_WDA;
@@ -334,6 +335,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		setCapability (UPDATE_WDA_BUNDLEID, this.setting.getUpdatedWdaBundleId (), this.capabilities);
 		setCapability (USE_NEW_WDA, this.setting.isUseNewWda (), this.capabilities);
 		setCapability (USE_PREBUILT_WDA, this.setting.isUsePrebuiltWda (), this.capabilities);
+		setCapability (SHOW_XCODE_LOG, this.setting.isShowXcodeLog (), this.capabilities);
 	}
 
 	private void startDriver (final String platform) {
