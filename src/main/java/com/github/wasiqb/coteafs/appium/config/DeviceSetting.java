@@ -52,6 +52,7 @@ public class DeviceSetting {
 	private String			screenShotPath;
 	private String			screenShotPrefix;
 	private int				sessionTimeout;
+	private boolean			showXcodeLog;
 	private String			signingId;
 	private String			teamId;
 	private String			udid;
@@ -85,6 +86,7 @@ public class DeviceSetting {
 		this.delayAfterSwipe = 0;
 		this.screenShotPath = format ("%s/screenshots", System.getProperty ("user.dir"));
 		this.screenShotPrefix = "SCR";
+		this.showXcodeLog = false;
 	}
 
 	/**
@@ -413,6 +415,15 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 2, 2017 8:08:07 PM
+	 * @return the showXcodeLog
+	 */
+	public boolean isShowXcodeLog () {
+		return this.showXcodeLog;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 23-May-2017 6:33:48 PM
 	 * @return the useNewWda
 	 */
@@ -727,6 +738,16 @@ public class DeviceSetting {
 	 */
 	public void setSessionTimeout (final int sessionTimeout) {
 		this.sessionTimeout = sessionTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 2, 2017 8:08:07 PM
+	 * @param showXcodeLog
+	 *            the showXcodeLog to set
+	 */
+	public void setShowXcodeLog (final boolean showXcodeLog) {
+		this.showXcodeLog = showXcodeLog;
 	}
 
 	/**
