@@ -2,8 +2,8 @@
 
 A Mobile Automation Framework built on top of [Appium][] which supports testing web and native apps for Android, iOS and Windows Mobiles and Tablets whether real or emulators.
 
-[![GitHub license](https://img.shields.io/github/license/wasiqb/coteafs-appium.svg)](http://www.apache.org/licenses/LICENSE-2.0)
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)](https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium)
+[![license](https://img.shields.io/github/license/wasiqb/coteafs-appium.svg)][license]
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
 
 ## Why to create yet-another Appium wrapper Framework?
 * I couldn't find an easy-to-use framework which had underlying Appium when I started Mobile Automation.
@@ -40,6 +40,10 @@ Name | Description
 ## Versioning ideology
 The project release versioning ideology is adopted from [SemVer][semver].
 
+## Contributors
+* [Wasiq Amjad Bhamla][dev]: Framework developer and maintainer
+* [Mohammad Faisal Khatri][tester]: Framework Tester
+
 [wiki]: https://github.com/WasiqB/coteafs-appium/wiki
 [unit tests]: https://github.com/WasiqB/coteafs-appium/tree/master/src/test
 [Gitter]: https://gitter.im/wasiqb/coteafs-appium
@@ -54,3 +58,7 @@ The project release versioning ideology is adopted from [SemVer][semver].
 [change log]: CHANGELOG.md
 [milestones]: https://github.com/WasiqB/coteafs-appium/milestones
 [semver]: http://semver.org/
+[license]: http://www.apache.org/licenses/LICENSE-2.0
+[maven]: https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium
+[dev]: https://github.com/WasiqB/
+[tester]: https://github.com/mfaisalkhatri
