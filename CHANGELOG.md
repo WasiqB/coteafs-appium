@@ -1,6 +1,8 @@
 ## Version-2.0.0
+* [#1][1] **- [NEW] -** Add unit tests for the Framework for Android.
 * [#5][5] **- [NEW] -** Allow multiple inline verification on an element.
 * [#9][9] **- [NEW] -** Required:New feature in the Framework - Dynamic Screenshot Naming Convention.
+* [#11][11] **- [NEW] -** Incorporate latest Appium Java client v-5.0.0 for device level actions.
 * [#12][12] **- [NEW] -** Provide support for Windows devices.
 * [#13][13] **- [FIXED] -** Error "Missing artifact com.github.wasiqb.coteafs:configs:jar:${coteafs.config.version}"
 * [#14][14] **-[NEW] -** Require configurable delay between user actions.
@@ -20,6 +22,7 @@
 ## Initial Version 0.0.1
 See README file for details.
 
+[1]: https://github.com/WasiqB/coteafs-appium/issues/1
 [2]: https://github.com/WasiqB/coteafs-appium/issues/2
 [3]: https://github.com/WasiqB/coteafs-appium/issues/3
 [4]: https://github.com/WasiqB/coteafs-appium/issues/4
@@ -29,6 +32,7 @@ See README file for details.
 [8]: https://github.com/WasiqB/coteafs-appium/issues/8
 [9]: https://github.com/WasiqB/coteafs-appium/issues/9
 [10]: https://github.com/WasiqB/coteafs-appium/issues/10
+[11]: https://github.com/WasiqB/coteafs-appium/issues/11
 [12]: https://github.com/WasiqB/coteafs-appium/issues/12
 [13]: https://github.com/WasiqB/coteafs-appium/issues/13
 [14]: https://github.com/WasiqB/coteafs-appium/issues/14
