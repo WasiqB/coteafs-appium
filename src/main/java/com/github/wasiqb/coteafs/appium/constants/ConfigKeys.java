@@ -23,7 +23,7 @@ public interface ConfigKeys {
 	/**
 	 * Default config file name.
 	 */
-	String	COTEAFS_CONFIG_DEFAULT_FILE	= "appium-config.yaml";
+	String	COTEAFS_CONFIG_DEFAULT_FILE	= "/appium-config.yaml";
 	/**
 	 * Config key to use.
 	 */
