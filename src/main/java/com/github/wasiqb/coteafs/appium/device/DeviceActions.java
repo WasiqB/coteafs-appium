@@ -95,7 +95,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 			.getScreenShotPath ();
 		final String prefix = this.device.getSetting ()
 			.getScreenShotPrefix ();
-		final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-hhmmss");
+		final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-HHmmss");
 		final String timeStamp = date.format (Calendar.getInstance ()
 			.getTime ());
 		final String fileName = "%s/%s-%s.%s";
