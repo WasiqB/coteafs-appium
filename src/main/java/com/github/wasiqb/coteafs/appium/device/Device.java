@@ -73,7 +73,6 @@ import com.github.wasiqb.coteafs.appium.error.DeviceDriverDefaultWaitError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverInitializationFailedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverNotStartingError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverNotStoppingError;
-import com.github.wasiqb.coteafs.appium.error.DeviceTypeNotSupportedError;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import com.github.wasiqb.coteafs.config.loader.ConfigLoader;
 import com.google.common.reflect.TypeToken;
@@ -302,8 +301,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 				break;
 			case WINDOWS:
 			default:
-				final String msg = "[%s] device type not supported.";
-				fail (DeviceTypeNotSupportedError.class, String.format (msg, this.setting.getPlatformType ()));
+				break;
 		}
 	}
 
