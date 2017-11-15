@@ -259,12 +259,6 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	}
 
 	private void setAndroidCapabilities () {
-		final String packageName = this.setting.getAppPackage ();
-		final String app = this.setting.getAppLocation ();
-		if (packageName == null && app == null) {
-			fail (DeviceDesiredCapabilitiesNotSetError.class, "Either App or Package name is mandatory...");
-		}
-
 		if (this.setting.getDeviceType () == DeviceType.SIMULATOR) {
 			setCapability (AVD, this.setting.getAvd (), this.capabilities, true);
 			setCapability (AVD_READY_TIMEOUT, SECONDS.toMillis (this.setting.getAvdReadyTimeout ()), this.capabilities);
@@ -272,6 +266,11 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 					this.capabilities);
 		}
 		if (this.setting.getAppType () != ApplicationType.WEB) {
+			final String packageName = this.setting.getAppPackage ();
+			final String app = this.setting.getAppLocation ();
+			if (packageName == null && app == null) {
+				fail (DeviceDesiredCapabilitiesNotSetError.class, "Either App or Package name is mandatory...");
+			}
 			setCapability (APP_ACTIVITY, this.setting.getAppActivity (), this.capabilities);
 			setCapability (APP_PACKAGE, this.setting.getAppPackage (), this.capabilities);
 			setCapability (APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity (), this.capabilities);
