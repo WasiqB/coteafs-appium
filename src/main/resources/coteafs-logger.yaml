@@ -26,8 +26,7 @@ appenders:
     plugin: RollingFile
     attributes:
       fileName: ${log-path}/${all-log}.log
-      filePattern: ${log-path}/${all-log}-%d{yyyy-MM-dd}.log
-      append: false
+      filePattern: ${log-path}/${all-log}-%d{yyyy-MM-dd}-%i.log
       immediateFlush: true
     layout:
       plugin: PatternLayout
@@ -42,13 +41,13 @@ appenders:
             modulate: true
         - plugin: SizeBasedTriggeringPolicy
           attributes:
-            size: 50 MB
+            size: 5 MB
+        - plugin: OnStartupTriggeringPolicy
   - name: test-log-appender
     plugin: RollingFile
     attributes:
       fileName: ${log-path}/${test-log}.log
-      filePattern: ${log-path}/${test-log}-%d{yyyy-MM-dd}.log
-      append: false
+      filePattern: ${log-path}/${test-log}-%d{yyyy-MM-dd}-%i.log
       immediateFlush: true
     layout:
       plugin: PatternLayout
@@ -63,13 +62,13 @@ appenders:
             modulate: true
         - plugin: SizeBasedTriggeringPolicy
           attributes:
-            size: 50 MB
+            size: 5 MB
+        - plugin: OnStartupTriggeringPolicy
   - name: error-log-appender
     plugin: RollingFile
     attributes:
       fileName: ${log-path}/${error-log}.log
-      filePattern: ${log-path}/${error-log}-%d{yyyy-MM-dd}.log
-      append: false
+      filePattern: ${log-path}/${error-log}-%d{yyyy-MM-dd}-%i.log
       immediateFlush: true
     layout:
       plugin: PatternLayout
@@ -84,7 +83,8 @@ appenders:
             modulate: true
         - plugin: SizeBasedTriggeringPolicy
           attributes:
-            size: 50 MB
+            size: 5 MB
+        - plugin: OnStartupTriggeringPolicy
   - name: async
     plugin: Async
     appender_ref:
