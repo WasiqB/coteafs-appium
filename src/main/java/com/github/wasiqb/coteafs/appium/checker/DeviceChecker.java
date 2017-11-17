@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.checker;
 
-import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 
 import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementDisabledError;
@@ -36,7 +36,7 @@ public final class DeviceChecker {
 	 */
 	public static void checkCapabilitiesParams (final String key, final Object value) {
 		if (value == null) {
-			String msg = "Device Desired Capabilities value for [%s] key not set.";
+			final String msg = "Device Desired Capabilities value for [%s] key not set.";
 			fail (DeviceDesiredCapabilitiesNotSetError.class, String.format (msg, key));
 		}
 	}
@@ -49,7 +49,7 @@ public final class DeviceChecker {
 	 */
 	public static void checkDeviceElementDisplayed (final MobileElement element, final String name) {
 		if (!element.isDisplayed ()) {
-			String msg = "Device element [%s] is not displayed.";
+			final String msg = "Device element [%s] is not displayed.";
 			fail (DeviceElementNotDisplayedError.class, String.format (msg, name));
 		}
 	}
@@ -62,7 +62,7 @@ public final class DeviceChecker {
 	 */
 	public static void checkDeviceElementEnabled (final MobileElement element, final String name) {
 		if (!element.isEnabled ()) {
-			String msg = "Device element [%s] is disabled.";
+			final String msg = "Device element [%s] is disabled.";
 			fail (DeviceElementDisabledError.class, String.format (msg, name));
 		}
 	}

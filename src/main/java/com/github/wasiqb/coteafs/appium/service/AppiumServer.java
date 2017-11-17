@@ -18,7 +18,7 @@ package com.github.wasiqb.coteafs.appium.service;
 import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_DEFAULT_FILE;
 import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_KEY;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
-import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.BOOTSTRAP_PORT_NUMBER;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME_DRIVER_EXECUTABLE;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME_DRIVER_PORT;

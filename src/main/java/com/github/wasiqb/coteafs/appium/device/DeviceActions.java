@@ -16,7 +16,7 @@
 package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
-import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 

@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.checker;
 
-import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 
 import com.github.wasiqb.coteafs.appium.error.AppiumConfigParameterNotFoundError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotRunningError;
@@ -34,7 +34,7 @@ public final class ServerChecker {
 	 */
 	public static void checkServerConfigParams (final String key, final Object value) {
 		if (value == null) {
-			String msg = "Server Config value for %s key not set.";
+			final String msg = "Server Config value for %s key not set.";
 			fail (AppiumConfigParameterNotFoundError.class, String.format (msg, key));
 		}
 	}
