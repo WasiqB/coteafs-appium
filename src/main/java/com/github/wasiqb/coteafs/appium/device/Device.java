@@ -19,7 +19,7 @@ import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONF
 import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_KEY;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
-import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_ACTIVITY;
@@ -61,6 +61,7 @@ import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
+import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
@@ -111,6 +112,17 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 			.load (AppiumSetting.class)
 			.getDevice (name);
 		buildCapabilities ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 17, 2017 3:34:33 PM
+	 * @return device actions
+	 */
+	public DeviceActions <D, Device <D>> action () {
+		ServerChecker.checkServerRunning (this.server);
+		log.info ("Preparing to perform actions on device...");
+		return new DeviceActions <> (this);
 	}
 
 	/**

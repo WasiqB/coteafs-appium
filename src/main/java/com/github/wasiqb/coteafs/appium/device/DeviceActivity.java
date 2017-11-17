@@ -68,10 +68,15 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	}
 
 	/**
+	 * Use <code>
+	 * action
+	 * </code> method in device instead.
+	 *
 	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:41:07 PM
 	 * @return device actions
 	 */
+	@Deprecated
 	public DeviceActions <D, E> onDevice () {
 		ServerChecker.checkServerRunning (this.device.server);
 		log.info ("Preparing to perform actions on device...");
