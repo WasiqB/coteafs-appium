@@ -15,6 +15,8 @@
  */
 package com.github.wasiqb.coteafs.appium.utils;
 
+import static java.lang.String.format;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -51,6 +53,15 @@ public final class ErrorUtils {
 	 */
 	public static <E extends CoteafsError> void fail (final Class <E> error, final String message, final Throwable ex) {
 		log.error (error);
+		final StackTraceElement [] traces = ex.getStackTrace ();
+		for (final StackTraceElement s : traces) {
+			log.error (format ("\tat %s", s));
+		}
+		final Throwable cause = ex.getCause ();
+		if (cause != null) {
+			log.error ("Caused by:");
+			fail (error, message, cause);
+		}
 		ErrorUtil.fail (error, message, ex);
 	}
 
