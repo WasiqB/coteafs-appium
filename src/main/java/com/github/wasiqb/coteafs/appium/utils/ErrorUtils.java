@@ -52,17 +52,31 @@ public final class ErrorUtils {
 	 * @param ex
 	 */
 	public static <E extends CoteafsError> void fail (final Class <E> error, final String message, final Throwable ex) {
+		try {
+			ErrorUtil.fail (error, message, ex);
+		}
+		catch (final CoteafsError err) {
+			logError (err, message);
+			throw err;
+		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 21, 2017 2:27:40 PM
+	 * @param err
+	 */
+	private static void logError (final Throwable error, final String message) {
 		log.error (error);
-		final StackTraceElement [] traces = ex.getStackTrace ();
+		final StackTraceElement [] traces = error.getStackTrace ();
 		for (final StackTraceElement s : traces) {
 			log.error (format ("\tat %s", s));
 		}
-		final Throwable cause = ex.getCause ();
-		if (cause != null) {
+		final Throwable root = error.getCause ();
+		if (root != null) {
 			log.error ("Caused by:");
-			fail (error, message, cause);
+			logError (root, message);
 		}
-		ErrorUtil.fail (error, message, ex);
 	}
 
 	private ErrorUtils () {
