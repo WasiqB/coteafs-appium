@@ -61,6 +61,6 @@ To run the build,
 [branch]: https://www.atlassian.com/git/tutorials/using-branches
 [setup]: https://help.github.com/articles/setting-your-commit-email-address-in-git
 [groupdDevs]: https://groups.google.com/forum/#!forum/coteafs-appium-devs
-[changelogs]: /CHANGELOG.md
+[changelogs]: ../CHANGELOG.md
 [commitHelp]: https://github.com/erlang/otp/wiki/Writing-good-commit-messages
 [pr]: https://help.github.com/articles/creating-a-pull-request
