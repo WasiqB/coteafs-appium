@@ -53,7 +53,7 @@ To run the build,
 2. Connect Android/iOS devices to your machine or start the emulators.
 3. Run the tests from the command prompt by executing `mvn clean install`.
 
-[mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium
+[mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium-users
 [Stack Overflow]: http://stackoverflow.com/questions/tagged/coteafs-appium
 [tracker]: https://github.com/WasiqB/coteafs-appium/issues?q=something
 [new issue]: https://github.com/WasiqB/coteafs-appium/issues/new
