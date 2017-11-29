@@ -50,8 +50,8 @@ Sending Pull Request will be the last step of your contribution. To know how to 
 
 To run the build,
 1. Configure your device details in 'appium-config.yaml' file available at `src/test/resources` under `devices/test`.
-1. Connect Android devices to your machine or start the emulators.
-1. Run the tests from the command prompt by executing `mvn clean install`.
+2. Connect Android/iOS devices to your machine or start the emulators.
+3. Run the tests from the command prompt by executing `mvn clean install`.
 
 [mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium
 [Stack Overflow]: http://stackoverflow.com/questions/tagged/coteafs-appium
