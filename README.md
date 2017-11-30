@@ -1,3 +1,7 @@
+<p align="center">
+  ![coteafs-appium](./coteafs-appium.png)
+</p>
+
 # coteafs-appium
 
 A Mobile Automation Framework built on top of [Appium][] which supports testing web and native apps for Android, iOS and Windows Mobiles and Tablets whether real or emulators.
