@@ -1,12 +1,12 @@
 <p align="center">
-  ![coteafs-appium](./coteafs-appium.png)
+  <img src="./coteafs-appium.png" width=300 />
 </p>
-
-# coteafs-appium
 
 A Mobile Automation Framework built on top of [Appium][] which supports testing web and native apps for Android, iOS and Windows Mobiles and Tablets whether real or emulators.
 
-[![license](https://img.shields.io/github/license/wasiqb/coteafs-appium.svg)][license]
+[![Coverage](https://sonarcloud.io/api/badges/measure?key=com.github.wasiqb.coteafs%3Aappium&metric=coverage)](https://sonarcloud.io/dashboard/index/com.github.wasiqb.coteafs%3Aappium)
+[![Code smells](https://sonarcloud.io/api/badges/measure?key=com.github.wasiqb.coteafs%3Aappium&metric=code_smells)](https://sonarcloud.io/dashboard/index/com.github.wasiqb.coteafs%3Aappium)
+[![Vulnerabilities](https://sonarcloud.io/api/badges/measure?key=com.github.wasiqb.coteafs%3Aappium&metric=vulnerabilities)](https://sonarcloud.io/dashboard/index/com.github.wasiqb.coteafs%3Aappium)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
 
 ## Why to create yet-another Appium wrapper Framework?
@@ -15,8 +15,7 @@ A Mobile Automation Framework built on top of [Appium][] which supports testing 
 * So I came up with this solution for myself and made it open source so everyone can benefit from it.
 
 ## Getting Started
-* The [wiki][] of coteafs-appium includes all the information you need to get started including usage, advantages, sample test.
-* For sample project, have a look at the [unit tests][] for coteafs-appium.
+* The [wiki][] of coteafs-appium includes all the information you need to get started including setup, usage, advantages, sample test.
 * To know what changes are Released, check out the [change log][] for complete list of changes.
 * Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
@@ -30,6 +29,7 @@ A Mobile Automation Framework built on top of [Appium][] which supports testing 
 * Spread the word with your network.
 * **Star** the project to make the project popular.
 * Stay updated with the project progress by **Watching** it.
+* Contribute to fix open issues, documentations or add new features. To know more, see our [contributing][] page.
 
 ## Depending coteafs projects
 Since **coteafs-appium** is a part of **coteafs** suite, hence it also depends on some of the other coteafs projects:
@@ -51,7 +51,7 @@ The project release versioning ideology is adopted from [SemVer][semver].
 [wiki]: https://github.com/WasiqB/coteafs-appium/wiki
 [unit tests]: https://github.com/WasiqB/coteafs-appium/tree/master/src/test
 [Gitter]: https://gitter.im/wasiqb/coteafs-appium
-[mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium
+[mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium-users
 [search the issue tracker]: https://github.com/WasiqB/coteafs-appium/issues?q=something
 [new issue]: https://github.com/WasiqB/coteafs-appium/issues/new
 [coteafs-logger]: https://github.com/WasiqB/coteafs-logger
@@ -66,3 +66,4 @@ The project release versioning ideology is adopted from [SemVer][semver].
 [maven]: https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium
 [dev]: https://github.com/WasiqB/
 [tester]: https://github.com/mfaisalkhatri
+[contributing]: .github/CONTRIBUTING.md
