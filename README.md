@@ -4,6 +4,7 @@
 
 A Mobile Automation Framework built on top of [Appium][] which supports testing web and native apps for Android, iOS and Windows Mobiles and Tablets whether real or emulators.
 
+[![Build Status](https://travis-ci.org/WasiqB/coteafs-appium.svg)](https://travis-ci.org/WasiqB/coteafs-appium)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c6c2b874d1ffde0f8e20/test_coverage)](https://codeclimate.com/github/WasiqB/coteafs-appium/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c6c2b874d1ffde0f8e20/maintainability)](https://codeclimate.com/github/WasiqB/coteafs-appium/maintainability)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
