@@ -76,11 +76,10 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 * @since 26-Apr-2017 8:41:07 PM
 	 * @return device actions
 	 */
+	@SuppressWarnings ("unchecked")
 	@Deprecated
 	public DeviceActions <D, E> onDevice () {
-		ServerChecker.checkServerRunning (this.device.server);
-		log.info ("Preparing to perform actions on device...");
-		return new DeviceActions <> (this.device);
+		return (DeviceActions <D, E>) this.device.action ();
 	}
 
 	/**
@@ -125,6 +124,14 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 */
 	protected abstract DeviceElement prepare ();
 
+	private void captureScreenshotOnError () {
+		if (this.device.getSetting ()
+			.isScreenshotOnError ()) {
+			this.device.action ()
+				.captureScreenshot ();
+		}
+	}
+
 	private MobileElement find (final D deviceDriver, final By locator, final int index) {
 		String message = "Finding root element using [%s] at index [%d]...";
 		log.trace (String.format (message, locator, index));
@@ -134,6 +141,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 			return result.get (index);
 		}
 		catch (final TimeoutException e) {
+			captureScreenshotOnError ();
 			message = "[%s] locator timed out.";
 			fail (DeviceElementFindTimedOutError.class, String.format (message, locator), e);
 		}
@@ -141,6 +149,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		catch (final Exception e) {
+			captureScreenshotOnError ();
 			message = "Error occured while finding root device element with locator [%s] at index [%d].";
 			fail (DeviceElementNotFoundError.class, String.format (message, locator, index), e);
 		}
@@ -157,6 +166,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 			return result.get (index);
 		}
 		catch (final TimeoutException e) {
+			captureScreenshotOnError ();
 			message = "[%s] locator timed out.";
 			fail (DeviceElementFindTimedOutError.class, String.format (message, locator), e);
 		}
@@ -164,6 +174,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		catch (final Exception e) {
+			captureScreenshotOnError ();
 			message = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
 			fail (DeviceElementNotFoundError.class, String.format (message, locator, index, parent.name ()), e);
 		}
