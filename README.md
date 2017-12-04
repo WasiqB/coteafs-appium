@@ -4,9 +4,8 @@
 
 A Mobile Automation Framework built on top of [Appium][] which supports testing web and native apps for Android, iOS and Windows Mobiles and Tablets whether real or emulators.
 
-[![Coverage](https://sonarcloud.io/api/badges/measure?key=com.github.wasiqb.coteafs%3Aappium&metric=coverage)](https://sonarcloud.io/dashboard/index/com.github.wasiqb.coteafs%3Aappium)
-[![Code smells](https://sonarcloud.io/api/badges/measure?key=com.github.wasiqb.coteafs%3Aappium&metric=code_smells)](https://sonarcloud.io/dashboard/index/com.github.wasiqb.coteafs%3Aappium)
-[![Vulnerabilities](https://sonarcloud.io/api/badges/measure?key=com.github.wasiqb.coteafs%3Aappium&metric=vulnerabilities)](https://sonarcloud.io/dashboard/index/com.github.wasiqb.coteafs%3Aappium)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/c6c2b874d1ffde0f8e20/test_coverage)](https://codeclimate.com/github/WasiqB/coteafs-appium/test_coverage)
+[![Maintainability](https://api.codeclimate.com/v1/badges/c6c2b874d1ffde0f8e20/maintainability)](https://codeclimate.com/github/WasiqB/coteafs-appium/maintainability)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
 
 ## Why to create yet-another Appium wrapper Framework?
