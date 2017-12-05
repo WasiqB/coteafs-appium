@@ -23,6 +23,8 @@ import static io.appium.java_client.service.local.flags.AndroidServerFlag.BOOTST
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME_DRIVER_EXECUTABLE;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME_DRIVER_PORT;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.SUPPRESS_ADB_KILL_SERVER;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_PORT;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CONFIGURATION_FILE;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.LOCAL_TIMEZONE;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.LOG_LEVEL;
@@ -278,6 +280,8 @@ public final class AppiumServer {
 			setArgument (SAFARI, args.isSafari ());
 			setArgument (SUPPRESS_ADB_KILL_SERVER, args.isSuppressAdbKillServer ());
 			setArgument (WEBKIT_DEBUG_PROXY_PORT, args.getWebkitDebugProxyPort ());
+			setArgument (CALLBACK_ADDRESS, args.getCallbackIp ());
+			setArgument (CALLBACK_PORT, args.getCallbackPort ());
 		}
 	}
 
