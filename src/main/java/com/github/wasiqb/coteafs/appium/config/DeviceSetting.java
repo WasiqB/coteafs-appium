@@ -61,6 +61,7 @@ public class DeviceSetting {
 	private long			launchTimeout;
 	private boolean			noReset;
 	private PlatformType	platformType;
+	private boolean			screenshotOnError;
 	private String			screenShotPath;
 	private String			screenShotPrefix;
 	private int				sessionTimeout;
@@ -102,6 +103,7 @@ public class DeviceSetting {
 		this.screenShotPath = format ("%s/screenshots", System.getProperty ("user.dir"));
 		this.screenShotPrefix = "SCR";
 		this.showXcodeLog = false;
+		this.screenshotOnError = false;
 	}
 
 	/**
@@ -565,6 +567,15 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Dec 4, 2017 2:58:54 PM
+	 * @return the screenshotOnError
+	 */
+	public boolean isScreenshotOnError () {
+		return this.screenshotOnError;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since Nov 2, 2017 8:08:07 PM
 	 * @return the showXcodeLog
 	 */
@@ -978,6 +989,16 @@ public class DeviceSetting {
 	 */
 	public void setPlatformType (final PlatformType deviceType) {
 		this.platformType = deviceType;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Dec 4, 2017 2:58:54 PM
+	 * @param screenshotOnError
+	 *            the screenshotOnError to set
+	 */
+	public void setScreenshotOnError (final boolean screenshotOnError) {
+		this.screenshotOnError = screenshotOnError;
 	}
 
 	/**
