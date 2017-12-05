@@ -1,4 +1,13 @@
-## Version-2.0.0
+## Version-2.1.0 - 08/12/2017
+### Enhancements
+* [#20][20] - Log file should be backedup and new logs should be created on every run.
+* [#21][21] - Screenshot should be captured on UI action failure.
+
+### Bug fixes
+* [#19][19] - Error displayed in the console is not captured in log file.
+* [#22][22] - Unable to run the tests using Chrome browser on Android mobile.
+
+## Version-2.0.0 - 09/11/2017
 * [#1][1] **- [NEW] -** Add unit tests for the Framework for Android.
 * [#5][5] **- [NEW] -** Allow multiple inline verification on an element.
 * [#9][9] **- [NEW] -** Required:New feature in the Framework - Dynamic Screenshot Naming Convention.
@@ -39,3 +48,7 @@ See README file for details.
 [15]: https://github.com/WasiqB/coteafs-appium/issues/15
 [16]: https://github.com/WasiqB/coteafs-appium/issues/16
 [17]: https://github.com/WasiqB/coteafs-appium/issues/17
+[19]: https://github.com/WasiqB/coteafs-appium/issues/17
+[20]: https://github.com/WasiqB/coteafs-appium/issues/17
+[21]: https://github.com/WasiqB/coteafs-appium/issues/17
+[22]: https://github.com/WasiqB/coteafs-appium/issues/17
