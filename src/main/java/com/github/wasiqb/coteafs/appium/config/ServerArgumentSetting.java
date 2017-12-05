@@ -22,6 +22,8 @@ package com.github.wasiqb.coteafs.appium.config;
 public class ServerArgumentSetting {
 	private int			backendRetries;
 	private int			bootstrapPort;
+	private String		callbackIp;
+	private int			callbackPort;
 	private String		chromeDriverExePath;
 	private int			chromeDriverPort;
 	private String		ipaAbsolutePath;
@@ -61,6 +63,24 @@ public class ServerArgumentSetting {
 	 */
 	public int getBootstrapPort () {
 		return this.bootstrapPort;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 20, 2017 11:26:54 PM
+	 * @return the callbackIp
+	 */
+	public String getCallbackIp () {
+		return this.callbackIp;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 20, 2017 11:26:54 PM
+	 * @return the callbackPort
+	 */
+	public int getCallbackPort () {
+		return this.callbackPort;
 	}
 
 	/**
@@ -189,6 +209,26 @@ public class ServerArgumentSetting {
 	 */
 	public void setBootstrapPort (final int bootstrapPort) {
 		this.bootstrapPort = bootstrapPort;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 20, 2017 11:26:54 PM
+	 * @param callbackIp
+	 *            the callbackIp to set
+	 */
+	public void setCallbackIp (final String callbackIp) {
+		this.callbackIp = callbackIp;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 20, 2017 11:26:54 PM
+	 * @param callbackPort
+	 *            the callbackPort to set
+	 */
+	public void setCallbackPort (final int callbackPort) {
+		this.callbackPort = callbackPort;
 	}
 
 	/**

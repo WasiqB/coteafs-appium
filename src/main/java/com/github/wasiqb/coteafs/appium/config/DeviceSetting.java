@@ -22,20 +22,28 @@ import static java.lang.String.format;
  * @since 12-Apr-2017 8:34:28 PM
  */
 public class DeviceSetting {
+	private int				adbPort;
 	private String			agentPath;
+	private long			apkInstallTimeout;
 	private String			appActivity;
 	private String			appLocation;
 	private String			appName;
 	private String			appPackage;
 	private ApplicationType	appType;
 	private String			appWaitActivity;
+	private String			appWaitPackage;
+	private long			appWaitTimeout;
+	private boolean			autoAcceptAlerts;
+	private boolean			autoDismissAlerts;
+	private boolean			autoGrantPermissions;
 	private AutomationName	automationName;
 	private String			avd;
-	private int				avdLaunchTimeout;
-	private int				avdReadyTimeout;
+	private long			avdLaunchTimeout;
+	private long			avdReadyTimeout;
 	private String			bootstrapPath;
 	private Browser			browser;
 	private String			bundleId;
+	private String			chromeDriverPath;
 	private boolean			clearSystemFiles;
 	private int				defaultWait;
 	private int				delayAfterSwipe;
@@ -43,10 +51,14 @@ public class DeviceSetting {
 	private int				delayBeforeSwipe;
 	private int				delayBeforeTap;
 	private String			deviceName;
+	private int				deviceReadyTimeout;
 	private DeviceType		deviceType;
 	private String			deviceVersion;
+	private boolean			eventTimings;
 	private boolean			externalApp;
 	private boolean			fullReset;
+	private long			keyTypingDelay;
+	private long			launchTimeout;
 	private boolean			noReset;
 	private PlatformType	platformType;
 	private String			screenShotPath;
@@ -54,6 +66,7 @@ public class DeviceSetting {
 	private int				sessionTimeout;
 	private boolean			showXcodeLog;
 	private String			signingId;
+	private int				systemPort;
 	private String			teamId;
 	private String			udid;
 	private String			updatedWdaBundleId;
@@ -61,6 +74,8 @@ public class DeviceSetting {
 	private boolean			usePrebuiltWda;
 	private int				waitForElementUntil;
 	private long			wdaConnectionTimeout;
+	private int				wdaStartupRetries;
+	private long			wdaStartupRetryInterval;
 
 	/**
 	 * @author wasiq.bhamla
@@ -91,11 +106,29 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the adbPort
+	 */
+	public int getAdbPort () {
+		return this.adbPort;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @return the agentPath
 	 */
 	public String getAgentPath () {
 		return this.agentPath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the apkInstallTimeout
+	 */
+	public long getApkInstallTimeout () {
+		return this.apkInstallTimeout;
 	}
 
 	/**
@@ -154,6 +187,24 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the appWaitPackage
+	 */
+	public String getAppWaitPackage () {
+		return this.appWaitPackage;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the appWaitTimeout
+	 */
+	public long getAppWaitTimeout () {
+		return this.appWaitTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @return the automationName
 	 */
@@ -175,7 +226,7 @@ public class DeviceSetting {
 	 * @since Aug 1, 2017 4:43:20 PM
 	 * @return the avdLaunchTimeout
 	 */
-	public int getAvdLaunchTimeout () {
+	public long getAvdLaunchTimeout () {
 		return this.avdLaunchTimeout;
 	}
 
@@ -184,7 +235,7 @@ public class DeviceSetting {
 	 * @since Aug 1, 2017 4:43:20 PM
 	 * @return the avdReadyTimeout
 	 */
-	public int getAvdReadyTimeout () {
+	public long getAvdReadyTimeout () {
 		return this.avdReadyTimeout;
 	}
 
@@ -213,6 +264,15 @@ public class DeviceSetting {
 	 */
 	public String getBundleId () {
 		return this.bundleId;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the chromeDriverPath
+	 */
+	public String getChromeDriverPath () {
+		return this.chromeDriverPath;
 	}
 
 	/**
@@ -271,6 +331,15 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the deviceReadyTimeout
+	 */
+	public int getDeviceReadyTimeout () {
+		return this.deviceReadyTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since Aug 1, 2017 3:57:48 PM
 	 * @return the deviceType
 	 */
@@ -285,6 +354,24 @@ public class DeviceSetting {
 	 */
 	public String getDeviceVersion () {
 		return this.deviceVersion;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the keyTypingDelay
+	 */
+	public long getKeyTypingDelay () {
+		return this.keyTypingDelay;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the launchTimeout
+	 */
+	public long getLaunchTimeout () {
+		return this.launchTimeout;
 	}
 
 	/**
@@ -334,6 +421,15 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the systemPort
+	 */
+	public int getSystemPort () {
+		return this.systemPort;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 12-May-2017 7:08:19 PM
 	 * @return the teamId
 	 */
@@ -379,11 +475,65 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the wdaStartupRetries
+	 */
+	public int getWdaStartupRetries () {
+		return this.wdaStartupRetries;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the wdaStartupRetryInterval
+	 */
+	public long getWdaStartupRetryInterval () {
+		return this.wdaStartupRetryInterval;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the autoAcceptAlerts
+	 */
+	public boolean isAutoAcceptAlerts () {
+		return this.autoAcceptAlerts;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the autoDismissAlerts
+	 */
+	public boolean isAutoDismissAlerts () {
+		return this.autoDismissAlerts;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the autoGrantPermissions
+	 */
+	public boolean isAutoGrantPermissions () {
+		return this.autoGrantPermissions;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 23-May-2017 4:45:23 PM
 	 * @return the clearSystemFiles
 	 */
 	public boolean isClearSystemFiles () {
 		return this.clearSystemFiles;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @return the eventTimings
+	 */
+	public boolean isEventTimings () {
+		return this.eventTimings;
 	}
 
 	/**
@@ -442,12 +592,32 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param adbPort
+	 *            the adbPort to set
+	 */
+	public void setAdbPort (final int adbPort) {
+		this.adbPort = adbPort;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @param agentPath
 	 *            the agentPath to set
 	 */
 	public void setAgentPath (final String agentPath) {
 		this.agentPath = agentPath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param apkInstallTimeout
+	 *            the apkInstallTimeout to set
+	 */
+	public void setApkInstallTimeout (final long apkInstallTimeout) {
+		this.apkInstallTimeout = apkInstallTimeout;
 	}
 
 	/**
@@ -512,6 +682,56 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param appWaitPackage
+	 *            the appWaitPackage to set
+	 */
+	public void setAppWaitPackage (final String appWaitPackage) {
+		this.appWaitPackage = appWaitPackage;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param appWaitTimeout
+	 *            the appWaitTimeout to set
+	 */
+	public void setAppWaitTimeout (final long appWaitTimeout) {
+		this.appWaitTimeout = appWaitTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param autoAcceptAlerts
+	 *            the autoAcceptAlerts to set
+	 */
+	public void setAutoAcceptAlerts (final boolean autoAcceptAlerts) {
+		this.autoAcceptAlerts = autoAcceptAlerts;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param autoDismissAlerts
+	 *            the autoDismissAlerts to set
+	 */
+	public void setAutoDismissAlerts (final boolean autoDismissAlerts) {
+		this.autoDismissAlerts = autoDismissAlerts;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param autoGrantPermissions
+	 *            the autoGrantPermissions to set
+	 */
+	public void setAutoGrantPermissions (final boolean autoGrantPermissions) {
+		this.autoGrantPermissions = autoGrantPermissions;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @param automationName
 	 *            the automationName to set
@@ -536,7 +756,7 @@ public class DeviceSetting {
 	 * @param avdLaunchTimeout
 	 *            the avdLaunchTimeout to set
 	 */
-	public void setAvdLaunchTimeout (final int avdLaunchTimeout) {
+	public void setAvdLaunchTimeout (final long avdLaunchTimeout) {
 		this.avdLaunchTimeout = avdLaunchTimeout;
 	}
 
@@ -546,7 +766,7 @@ public class DeviceSetting {
 	 * @param avdReadyTimeout
 	 *            the avdReadyTimeout to set
 	 */
-	public void setAvdReadyTimeout (final int avdReadyTimeout) {
+	public void setAvdReadyTimeout (final long avdReadyTimeout) {
 		this.avdReadyTimeout = avdReadyTimeout;
 	}
 
@@ -578,6 +798,16 @@ public class DeviceSetting {
 	 */
 	public void setBundleId (final String bundleId) {
 		this.bundleId = bundleId;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param chromeDriverPath
+	 *            the chromeDriverPath to set
+	 */
+	public void setChromeDriverPath (final String chromeDriverPath) {
+		this.chromeDriverPath = chromeDriverPath;
 	}
 
 	/**
@@ -652,6 +882,16 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param deviceReadyTimeout
+	 *            the deviceReadyTimeout to set
+	 */
+	public void setDeviceReadyTimeout (final int deviceReadyTimeout) {
+		this.deviceReadyTimeout = deviceReadyTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since Aug 1, 2017 3:57:48 PM
 	 * @param deviceType
 	 *            the deviceType to set
@@ -672,6 +912,16 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param eventTimings
+	 *            the eventTimings to set
+	 */
+	public void setEventTimings (final boolean eventTimings) {
+		this.eventTimings = eventTimings;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 30-Apr-2017 8:00:43 PM
 	 * @param externalApp
 	 *            the externalApp to set
@@ -688,6 +938,26 @@ public class DeviceSetting {
 	 */
 	public void setFullReset (final boolean fullReset) {
 		this.fullReset = fullReset;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param keyTypingDelay
+	 *            the keyTypingDelay to set
+	 */
+	public void setKeyTypingDelay (final long keyTypingDelay) {
+		this.keyTypingDelay = keyTypingDelay;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param launchTimeout
+	 *            the launchTimeout to set
+	 */
+	public void setLaunchTimeout (final long launchTimeout) {
+		this.launchTimeout = launchTimeout;
 	}
 
 	/**
@@ -762,6 +1032,16 @@ public class DeviceSetting {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param systemPort
+	 *            the systemPort to set
+	 */
+	public void setSystemPort (final int systemPort) {
+		this.systemPort = systemPort;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 12-May-2017 7:08:19 PM
 	 * @param teamId
 	 *            the teamId to set
@@ -828,5 +1108,25 @@ public class DeviceSetting {
 	 */
 	public void setWdaConnectionTimeout (final long wdaConnectionTimeout) {
 		this.wdaConnectionTimeout = wdaConnectionTimeout;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param wdaStartupRetries
+	 *            the wdaStartupRetries to set
+	 */
+	public void setWdaStartupRetries (final int wdaStartupRetries) {
+		this.wdaStartupRetries = wdaStartupRetries;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Nov 19, 2017 9:54:14 PM
+	 * @param wdaStartupRetryInterval
+	 *            the wdaStartupRetryInterval to set
+	 */
+	public void setWdaStartupRetryInterval (final long wdaStartupRetryInterval) {
+		this.wdaStartupRetryInterval = wdaStartupRetryInterval;
 	}
 }
