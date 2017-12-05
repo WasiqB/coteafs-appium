@@ -48,7 +48,7 @@ See README file for details.
 [15]: https://github.com/WasiqB/coteafs-appium/issues/15
 [16]: https://github.com/WasiqB/coteafs-appium/issues/16
 [17]: https://github.com/WasiqB/coteafs-appium/issues/17
-[19]: https://github.com/WasiqB/coteafs-appium/issues/17
-[20]: https://github.com/WasiqB/coteafs-appium/issues/17
-[21]: https://github.com/WasiqB/coteafs-appium/issues/17
-[22]: https://github.com/WasiqB/coteafs-appium/issues/17
+[19]: https://github.com/WasiqB/coteafs-appium/issues/19
+[20]: https://github.com/WasiqB/coteafs-appium/issues/20
+[21]: https://github.com/WasiqB/coteafs-appium/issues/21
+[22]: https://github.com/WasiqB/coteafs-appium/issues/22
