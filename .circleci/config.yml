@@ -6,7 +6,7 @@ defaults: &defaults
   working_directory: ~/code
   docker:
     - image: appium/appium
-    - image: maven/maven:3.5.2
+    - image: circleci/openjdk:8-jdk
 version: 2
 jobs:
   setup:
