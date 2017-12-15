@@ -1,0 +1,47 @@
+# Java Maven CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-java/ for more details
+#
+version: 2
+jobs:
+  build:
+    docker:
+      - image: appium
+      
+    working_directory: ~/code
+
+    steps:
+      - run:
+          name: Setup emulator
+          command: sdkmanager "system-images;android-24;default;armeabi-v7a" && echo "no" | avdmanager create avd -n test -k "system-images;android-24;default;armeabi-v7a"
+      - run:
+          name: Launch emulator
+          command: export LD_LIBRARY_PATH=${ANDROID_HOME}/emulator/lib64:${ANDROID_HOME}/emulator/lib64/qt/lib && emulator64-arm -avd test -noaudio -no-boot-anim -no-window -accel on
+          background: true
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "pom.xml" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run:
+          name: Resolve dependencies
+          command: mvn dependency:go-offline
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+        
+      - run:
+          name: Wait for emulator
+          command: |
+            chmod +x ~/code/script/android-wait-for-boot.sh;
+            ~/code/script/android-wait-for-boot.sh;
+          environment:
+            TERM: dumb
+      # run tests!
+      - run:
+          name: Run UI Tests
+          command: mvn integration-test
+
