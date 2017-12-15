@@ -5,13 +5,16 @@
 defaults: &defaults
   working_directory: ~/code
   docker:
-    - image: circleci/android:api-26-alpha
     - image: circleci/node
+    - image: circleci/android:api-26-alpha
 version: 2
 jobs:
   setup:
     <<: *defaults
     steps:
+      - run:
+          name: Update npm
+          command: 'sudo npm install -g npm@latest'
       - run:
           name: Install Appium
           command: npm install -g appium
