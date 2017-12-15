@@ -6,7 +6,7 @@ defaults: &defaults
   working_directory: ~/code
   docker:
     - image: appium/appium
-    - image: maven/maven
+    - image: maven/maven:3.5.2
 version: 2
 jobs:
   setup:
