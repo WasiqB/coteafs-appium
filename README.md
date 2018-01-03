@@ -1,13 +1,17 @@
 <p align="center">
-  <img src="./coteafs-appium.png" width=300 />
+  <img src="./coteafs-appium.png" width=300 padding=10 />
 </p>
 
 A Mobile Automation Framework built on top of [Appium][] which supports testing web and native apps for Android, iOS and Windows Mobiles and Tablets whether real or emulators.
 
-[![Build Status](https://travis-ci.org/WasiqB/coteafs-appium.svg)](https://travis-ci.org/WasiqB/coteafs-appium)
+[![Travis](https://img.shields.io/travis/WasiqB/coteafs-appium.svg?style=for-the-badge)](https://travis-ci.org/WasiqB/coteafs-appium)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/c6c2b874d1ffde0f8e20/test_coverage)](https://codeclimate.com/github/WasiqB/coteafs-appium/test_coverage)
 [![Maintainability](https://api.codeclimate.com/v1/badges/c6c2b874d1ffde0f8e20/maintainability)](https://codeclimate.com/github/WasiqB/coteafs-appium/maintainability)
-[![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
+[![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg?style=for-the-badge)][maven]
+[![Github Releases](https://img.shields.io/github/downloads/WasiqB/coteafs-appium/total.svg?style=for-the-badge)](https://github.com/WasiqB/coteafs-appium/releases)
+[![Github search hit counter](https://img.shields.io/github/search/WasiqB/coteafs-appium/goto.svg?style=for-the-badge)](https://github.com/WasiqB/coteafs-appium)
+[![GitHub commit activity the past week, 4 weeks, year](https://img.shields.io/github/commit-activity/w/WasiqB/coteafs-appium.svg?style=for-the-badge)](https://github.com/WasiqB/coteafs-appium)
+[![GitHub last commit](https://img.shields.io/github/last-commit/WasiqB/coteafs-appium.svg?style=for-the-badge)](https://github.com/WasiqB/coteafs-appium)
 
 ## Why to create yet-another Appium wrapper Framework?
 * I couldn't find an easy-to-use framework which had underlying Appium when I started Mobile Automation.
