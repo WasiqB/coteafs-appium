@@ -72,7 +72,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param text
 	 */
 	public void appendText (final String text) {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		checkElementEnabled ();
 		tap ();
 		log.info (String.format ("Appending text [%s] in element [%s]...", text, this.name));
 		try {
@@ -88,7 +88,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:49:52 PM
 	 */
 	public void clear () {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		checkElementEnabled ();
 		log.info (String.format ("Clearing element [%s]...", this.name));
 		try {
 			this.element.clear ();
@@ -129,7 +129,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param text
 	 */
 	public void enterText (final String text) {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		checkElementEnabled ();
 		tap ();
 		clear ();
 		log.info (String.format ("Entering text [%s] in element [%s]...", text, this.name));
@@ -164,7 +164,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:54:58 PM
 	 */
 	public void longPress () {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		checkElementEnabled ();
 		log.info (String.format ("Performing long press on element [%s]...", this.name));
 		try {
 			final int beforeTap = this.device.getSetting ()
@@ -186,7 +186,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:49:08 PM
 	 */
 	public void pinch () {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		checkElementEnabled ();
 		log.info (String.format ("Pinching on element [%s]...", this.name));
 		try {
 			fail (NotImplementedError.class, "Pinch! Coming Soon!!");
@@ -217,7 +217,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 06-May-2017 4:56:42 PM
 	 */
 	public void submit () {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		checkElementEnabled ();
 		log.info (String.format ("Performing submit on element [%s]...", this.name));
 		try {
 			this.element.submit ();
@@ -233,7 +233,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param direction
 	 */
 	public void swipe (final SwipeDirection direction) {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		checkElementEnabled ();
 		log.info (String.format ("Swiping [%s] on element [%s]...", direction, this.name));
 		try {
 			fail (NotImplementedError.class, "Swipe! Coming Soon!!");
@@ -248,7 +248,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 12-May-2017 10:08:55 PM
 	 */
 	public void tap () {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		checkElementEnabled ();
 		log.info (String.format ("Tapping on element [%s]...", this.name));
 		try {
 			final int beforeTap = this.device.getSetting ()
@@ -311,7 +311,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:48:10 PM
 	 */
 	public void zoom () {
-		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+		checkElementEnabled ();
 		log.info (String.format ("Zooming on element [%s]...", this.name));
 		try {
 			fail (NotImplementedError.class, "Zoom! Coming Soon!!");
@@ -319,5 +319,9 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+	}
+
+	private void checkElementEnabled () {
+		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
 	}
 }
