@@ -67,7 +67,6 @@ import com.github.wasiqb.coteafs.appium.config.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.DeviceType;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
-import com.github.wasiqb.coteafs.appium.error.DeviceAppNotClosingError;
 import com.github.wasiqb.coteafs.appium.error.DeviceAppNotFoundError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverDefaultWaitError;
@@ -166,7 +165,6 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		final String platform = this.setting.getPlatformType ()
 			.getName ();
 		if (this.driver != null) {
-			closeApp (platform);
 			quitApp (platform);
 			this.driver = null;
 		}
@@ -213,25 +211,6 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		log.trace ("Building Device capabilities completed...");
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @param platform
-	 * @since Oct 16, 2017 8:07:53 PM
-	 */
-	private void closeApp (final String platform) {
-		final String message = "Closign app on [%s] device...";
-		log.trace (String.format (message, platform));
-		try {
-			this.driver.closeApp ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
-		catch (final Exception e) {
-			fail (DeviceAppNotClosingError.class, "Error occured while closing app.", e);
-		}
-	}
-
 	@SuppressWarnings ("unchecked")
 	private D init (final URL url, final Capabilities capability) {
 		log.trace ("Initializing driver...");
@@ -257,9 +236,10 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	 * @since Oct 16, 2017 8:14:56 PM
 	 */
 	private void quitApp (final String platform) {
-		final String message = "Quitting [%s] device driver...";
+		final String message = "Closing & Quitting [%s] device driver...";
 		log.trace (String.format (message, platform));
 		try {
+			this.driver.closeApp ();
 			this.driver.quit ();
 		}
 		catch (final NoSuchSessionException e) {

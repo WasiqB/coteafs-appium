@@ -133,11 +133,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 */
 	public void pinch (final SwipeDistance distance) {
 		log.info (format ("Pinching on device screen by [%s] distance...", distance));
-		final TouchAction firstFinger = swipeTo (SwipeDirection.DOWN, distance);
-		final TouchAction secondFinger = swipeTo (SwipeDirection.UP, distance);
-		this.multiTouch.add (firstFinger)
-			.add (secondFinger)
-			.perform ();
+		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, distance);
 	}
 
 	/**
@@ -158,11 +154,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 */
 	public void zoom (final SwipeDistance distance) {
 		log.info (format ("Zooming in device screen by [%s] distance...", distance));
-		final TouchAction firstFinger = swipeTo (SwipeDirection.UP, distance);
-		final TouchAction secondFinger = swipeTo (SwipeDirection.DOWN, distance);
-		this.multiTouch.add (firstFinger)
-			.add (secondFinger)
-			.perform ();
+		doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN, distance);
 	}
 
 	/**
@@ -180,6 +172,15 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+	}
+
+	private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
+			final SwipeDistance distance) {
+		final TouchAction firstFinger = swipeTo (finger1, distance);
+		final TouchAction secondFinger = swipeTo (finger2, distance);
+		this.multiTouch.add (firstFinger)
+			.add (secondFinger)
+			.perform ();
 	}
 
 	private TouchAction swipeTo (final SwipeDirection direction, final SwipeDistance distance) {
