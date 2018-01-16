@@ -72,6 +72,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 * action
 	 * </code> method in device instead.
 	 *
+	 * @deprecated
 	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:41:07 PM
 	 * @return device actions

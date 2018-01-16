@@ -19,6 +19,9 @@ import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STO
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static java.time.Duration.ofSeconds;
 
+import java.util.function.Consumer;
+import java.util.function.Function;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
@@ -72,15 +75,11 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param text
 	 */
 	public void appendText (final String text) {
-		checkElementEnabled ();
-		tap ();
-		log.info (String.format ("Appending text [%s] in element [%s]...", text, this.name));
-		try {
-			this.element.sendKeys (text);
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
+		final String actionType = String.format ("Appending text [%s] in", text);
+		perform (actionType, e -> {
+			tap ();
+			e.sendKeys (text);
+		});
 	}
 
 	/**
@@ -88,14 +87,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:49:52 PM
 	 */
 	public void clear () {
-		checkElementEnabled ();
-		log.info (String.format ("Clearing element [%s]...", this.name));
-		try {
-			this.element.clear ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
+		perform ("Clearing", e -> e.clear ());
 	}
 
 	/**
@@ -103,8 +95,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since Jul 15, 2017 6:12:00 PM
 	 */
 	public void click () {
-		log.info (String.format ("Clicking on element [%s]...", this.name));
-		this.element.click ();
+		perform ("Clicking on", e -> e.click ());
 	}
 
 	/**
@@ -113,14 +104,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return enabled
 	 */
 	public boolean enabled () {
-		log.info (String.format ("Checking if element [%s] is enabled...", this.name));
-		try {
-			return this.element.isEnabled ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
-		return false;
+		return getValue ("Checking if element [%s] is enabled...", e -> e.isEnabled ());
 	}
 
 	/**
@@ -129,16 +113,12 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param text
 	 */
 	public void enterText (final String text) {
-		checkElementEnabled ();
-		tap ();
-		clear ();
-		log.info (String.format ("Entering text [%s] in element [%s]...", text, this.name));
-		try {
-			this.element.sendKeys (text);
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
+		final String actionType = String.format ("Entering text [%s] in", text);
+		perform (actionType, e -> {
+			tap ();
+			clear ();
+			e.sendKeys (text);
+		});
 	}
 
 	/**
@@ -164,21 +144,16 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:54:58 PM
 	 */
 	public void longPress () {
-		checkElementEnabled ();
-		log.info (String.format ("Performing long press on element [%s]...", this.name));
-		try {
+		perform ("Performing long press on", e -> {
 			final int beforeTap = this.device.getSetting ()
 				.getDelayBeforeTap ();
 			final int afterTap = this.device.getSetting ()
 				.getDelayAfterTap ();
 			this.touch.waitAction (ofSeconds (beforeTap))
-				.longPress (this.element)
+				.longPress (e)
 				.waitAction (ofSeconds (afterTap))
 				.perform ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
+		});
 	}
 
 	/**
@@ -202,14 +177,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return selected
 	 */
 	public boolean selected () {
-		log.info (String.format ("Checking if element [%s] is selected...", this.name));
-		try {
-			return this.element.isSelected ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
-		return false;
+		return getValue ("Checking if element [%s] is selected...", e -> e.isSelected ());
 	}
 
 	/**
@@ -217,14 +185,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 06-May-2017 4:56:42 PM
 	 */
 	public void submit () {
-		checkElementEnabled ();
-		log.info (String.format ("Performing submit on element [%s]...", this.name));
-		try {
-			this.element.submit ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
+		perform ("Performing submit", e -> e.submit ());
 	}
 
 	/**
@@ -248,21 +209,16 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 12-May-2017 10:08:55 PM
 	 */
 	public void tap () {
-		checkElementEnabled ();
-		log.info (String.format ("Tapping on element [%s]...", this.name));
-		try {
+		perform ("Tapping on", e -> {
 			final int beforeTap = this.device.getSetting ()
 				.getDelayBeforeTap ();
 			final int afterTap = this.device.getSetting ()
 				.getDelayAfterTap ();
 			this.touch.waitAction (ofSeconds (beforeTap))
-				.tap (this.element)
+				.tap (e)
 				.waitAction (ofSeconds (afterTap))
 				.perform ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
+		});
 	}
 
 	/**
@@ -271,14 +227,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return text
 	 */
 	public String text () {
-		log.info (String.format ("Getting text on element [%s]...", this.name));
-		try {
-			return this.element.getText ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
-		return null;
+		return getValue ("Getting text on element [%s]...", e -> e.getText ());
 	}
 
 	/**
@@ -296,14 +245,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return visible
 	 */
 	public boolean visible () {
-		log.info (String.format ("Checking if element [%s] is visible...", this.name));
-		try {
-			return this.element.isDisplayed ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
-		return false;
+		return getValue ("Checking if element [%s] is visible...", e -> e.isDisplayed ());
 	}
 
 	/**
@@ -323,5 +265,27 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 
 	private void checkElementEnabled () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+	}
+
+	private <R> R getValue (final String message, final Function <MobileElement, R> func) {
+		log.info (String.format (message, this.name));
+		try {
+			return func.apply (this.element);
+		}
+		catch (final NoSuchSessionException e) {
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
+		return null;
+	}
+
+	private void perform (final String action, final Consumer <MobileElement> consumer) {
+		checkElementEnabled ();
+		log.info (String.format ("%s element [%s]...", action, this.name));
+		try {
+			consumer.accept (this.element);
+		}
+		catch (final NoSuchSessionException e) {
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
 	}
 }
