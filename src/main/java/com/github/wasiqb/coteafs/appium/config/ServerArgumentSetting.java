@@ -20,22 +20,15 @@ package com.github.wasiqb.coteafs.appium.config;
  * @since Oct 27, 2017 1:26:27 PM
  */
 public class ServerArgumentSetting {
-	private int			backendRetries;
-	private int			bootstrapPort;
-	private String		callbackIp;
-	private int			callbackPort;
-	private String		chromeDriverExePath;
-	private int			chromeDriverPort;
-	private String		ipaAbsolutePath;
-	private boolean		localTimeZone;
-	private LogLevel	logLevel;
-	private boolean		logTimeStamp;
-	private String		nodeConfigFile;
-	private boolean		safari;
-	private boolean		sessionOverride;
-	private boolean		suppressAdbKillServer;
-	private int			wdaPort;
-	private int			webkitDebugProxyPort;
+	private AndroidArgumentSetting	android;
+	private String					callbackIp;
+	private int						callbackPort;
+	private IOSArgumentSetting		ios;
+	private boolean					localTimeZone;
+	private LogLevel				logLevel;
+	private boolean					logTimeStamp;
+	private String					nodeConfigFile;
+	private boolean					sessionOverride;
 
 	/**
 	 * @author wasiq.bhamla
@@ -43,26 +36,15 @@ public class ServerArgumentSetting {
 	 */
 	public ServerArgumentSetting () {
 		this.logLevel = LogLevel.ERROR;
-		this.backendRetries = 3;
-		this.wdaPort = 8100;
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @return the backendRetries
+	 * @since Jan 18, 2018 9:02:13 PM
+	 * @return the android
 	 */
-	public int getBackendRetries () {
-		return this.backendRetries;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @return the bootstrapPort
-	 */
-	public int getBootstrapPort () {
-		return this.bootstrapPort;
+	public AndroidArgumentSetting getAndroid () {
+		return this.android;
 	}
 
 	/**
@@ -85,29 +67,11 @@ public class ServerArgumentSetting {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @return the chromeDriverExePath
+	 * @since Jan 18, 2018 9:02:13 PM
+	 * @return the ios
 	 */
-	public String getChromeDriverExePath () {
-		return this.chromeDriverExePath;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @return the chromeDriverPort
-	 */
-	public int getChromeDriverPort () {
-		return this.chromeDriverPort;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @return the ipaAbsolutePath
-	 */
-	public String getIpaAbsolutePath () {
-		return this.ipaAbsolutePath;
+	public IOSArgumentSetting getIos () {
+		return this.ios;
 	}
 
 	/**
@@ -126,24 +90,6 @@ public class ServerArgumentSetting {
 	 */
 	public String getNodeConfigFile () {
 		return this.nodeConfigFile;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 2:59:11 PM
-	 * @return the wdaPort
-	 */
-	public int getWdaPort () {
-		return this.wdaPort;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @return the webkitDebugProxyPort
-	 */
-	public int getWebkitDebugProxyPort () {
-		return this.webkitDebugProxyPort;
 	}
 
 	/**
@@ -167,15 +113,6 @@ public class ServerArgumentSetting {
 	/**
 	 * @author wasiq.bhamla
 	 * @since Oct 27, 2017 1:37:02 PM
-	 * @return the safari
-	 */
-	public boolean isSafari () {
-		return this.safari;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
 	 * @return the sessionOverride
 	 */
 	public boolean isSessionOverride () {
@@ -184,31 +121,12 @@ public class ServerArgumentSetting {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @return the suppressAdbKillServer
+	 * @since Jan 18, 2018 9:02:13 PM
+	 * @param android
+	 *            the android to set
 	 */
-	public boolean isSuppressAdbKillServer () {
-		return this.suppressAdbKillServer;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @param backendRetries
-	 *            the backendRetries to set
-	 */
-	public void setBackendRetries (final int backendRetries) {
-		this.backendRetries = backendRetries;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @param bootstrapPort
-	 *            the bootstrapPort to set
-	 */
-	public void setBootstrapPort (final int bootstrapPort) {
-		this.bootstrapPort = bootstrapPort;
+	public void setAndroid (final AndroidArgumentSetting android) {
+		this.android = android;
 	}
 
 	/**
@@ -233,32 +151,12 @@ public class ServerArgumentSetting {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @param chromeDriverExePath
-	 *            the chromeDriverExePath to set
+	 * @since Jan 18, 2018 9:02:13 PM
+	 * @param ios
+	 *            the ios to set
 	 */
-	public void setChromeDriverExePath (final String chromeDriverExePath) {
-		this.chromeDriverExePath = chromeDriverExePath;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @param chromeDriverPort
-	 *            the chromeDriverPort to set
-	 */
-	public void setChromeDriverPort (final int chromeDriverPort) {
-		this.chromeDriverPort = chromeDriverPort;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @param ipaAbsolutePath
-	 *            the ipaAbsolutePath to set
-	 */
-	public void setIpaAbsolutePath (final String ipaAbsolutePath) {
-		this.ipaAbsolutePath = ipaAbsolutePath;
+	public void setIos (final IOSArgumentSetting ios) {
+		this.ios = ios;
 	}
 
 	/**
@@ -304,50 +202,10 @@ public class ServerArgumentSetting {
 	/**
 	 * @author wasiq.bhamla
 	 * @since Oct 27, 2017 1:37:02 PM
-	 * @param safari
-	 *            the safari to set
-	 */
-	public void setSafari (final boolean safari) {
-		this.safari = safari;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
 	 * @param sessionOverride
 	 *            the sessionOverride to set
 	 */
 	public void setSessionOverride (final boolean sessionOverride) {
 		this.sessionOverride = sessionOverride;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @param suppressAdbKillServer
-	 *            the suppressAdbKillServer to set
-	 */
-	public void setSuppressAdbKillServer (final boolean suppressAdbKillServer) {
-		this.suppressAdbKillServer = suppressAdbKillServer;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 3:20:32 PM
-	 * @param wdaPort
-	 *            the wdaPort to set
-	 */
-	public void setWdaPort (final int wdaPort) {
-		this.wdaPort = wdaPort;
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 1:37:02 PM
-	 * @param webkitDebugProxyPort
-	 *            the webkitDebugProxyPort to set
-	 */
-	public void setWebkitDebugProxyPort (final int webkitDebugProxyPort) {
-		this.webkitDebugProxyPort = webkitDebugProxyPort;
 	}
 }

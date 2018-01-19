@@ -20,19 +20,33 @@ import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONF
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.ADB_PORT;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_PACKAGE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_ACTIVITY;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_DURATION;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_PACKAGE;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_READY_TIMEOUT;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.DEVICE_READY_TIMEOUT;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.SYSTEM_PORT;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.APP_NAME;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.AUTO_DISMISS_ALERTS;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.BUNDLE_ID;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.LAUNCH_TIMEOUT;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.SHOW_XCODE_LOG;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_NEW_WDA;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_PREBUILT_WDA;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_CONNECTION_TIMEOUT;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_LOCAL_PORT;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_RETRIES;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_RETRY_INTERVAL;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_ORG_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_SIGNING_ID;
 import static io.appium.java_client.remote.MobileCapabilityType.APP;
@@ -40,6 +54,7 @@ import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.BROWSER_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.CLEAR_SYSTEM_FILES;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
+import static io.appium.java_client.remote.MobileCapabilityType.EVENT_TIMINGS;
 import static io.appium.java_client.remote.MobileCapabilityType.FULL_RESET;
 import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIMEOUT;
 import static io.appium.java_client.remote.MobileCapabilityType.NO_RESET;
@@ -62,10 +77,12 @@ import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
+import com.github.wasiqb.coteafs.appium.config.AndroidDeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.DeviceType;
+import com.github.wasiqb.coteafs.appium.config.IOSDeviceSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceAppNotFoundError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
@@ -196,7 +213,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 				path = String.format (path, getProperty ("user.dir"), appPath);
 
 				if (this.setting.isExternalApp ()) {
-					path = this.setting.getAppLocation ();
+					path = appPath;
 				}
 
 				final File file = new File (path);
@@ -251,21 +268,34 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	}
 
 	private void setAndroidCapabilities () {
-		if (this.setting.getDeviceType () == DeviceType.SIMULATOR) {
-			setCapability (AVD, this.setting.getAvd (), this.capabilities, true);
-			setCapability (AVD_READY_TIMEOUT, SECONDS.toMillis (this.setting.getAvdReadyTimeout ()), this.capabilities);
-			setCapability (AVD_LAUNCH_TIMEOUT, SECONDS.toMillis (this.setting.getAvdLaunchTimeout ()),
-					this.capabilities);
-		}
-		if (this.setting.getAppType () != ApplicationType.WEB) {
-			final String packageName = this.setting.getAppPackage ();
-			final String app = this.setting.getAppLocation ();
-			if (packageName == null && app == null) {
-				fail (DeviceDesiredCapabilitiesNotSetError.class, "Either App or Package name is mandatory...");
+		final AndroidDeviceSetting android = this.setting.getAndroid ();
+		if (android != null) {
+			if (this.setting.getDeviceType () == DeviceType.SIMULATOR) {
+				setCapability (AVD, android.getAvd (), this.capabilities, true);
+				setCapability (AVD_READY_TIMEOUT, SECONDS.toMillis (android.getAvdReadyTimeout ()), this.capabilities);
+				setCapability (AVD_LAUNCH_TIMEOUT, SECONDS.toMillis (android.getAvdLaunchTimeout ()),
+						this.capabilities);
 			}
-			setCapability (APP_ACTIVITY, this.setting.getAppActivity (), this.capabilities);
-			setCapability (APP_PACKAGE, this.setting.getAppPackage (), this.capabilities);
-			setCapability (APP_WAIT_ACTIVITY, this.setting.getAppWaitActivity (), this.capabilities);
+			if (this.setting.getAppType () != ApplicationType.WEB) {
+				final String packageName = android.getAppPackage ();
+				final String app = this.setting.getAppLocation ();
+				if (packageName == null && app == null) {
+					fail (DeviceDesiredCapabilitiesNotSetError.class, "Either App or Package name is mandatory...");
+				}
+				setCapability (APP_ACTIVITY, android.getAppActivity (), this.capabilities);
+				setCapability (APP_PACKAGE, android.getAppPackage (), this.capabilities);
+				setCapability (APP_WAIT_ACTIVITY, android.getAppWaitActivity (), this.capabilities);
+				setCapability (APP_WAIT_DURATION, android.getAppWaitTimeout (), this.capabilities);
+				setCapability (APP_WAIT_PACKAGE, android.getAppWaitPackage (), this.capabilities);
+				setCapability (ANDROID_INSTALL_TIMEOUT, android.getApkInstallTimeout (), this.capabilities);
+				setCapability (AUTO_GRANT_PERMISSIONS, android.isAutoGrantPermissions (), this.capabilities);
+			}
+			else {
+				setCapability (CHROMEDRIVER_EXECUTABLE, android.getChromeDriverPath (), this.capabilities);
+			}
+			setCapability (SYSTEM_PORT, android.getSystemPort (), this.capabilities);
+			setCapability (ADB_PORT, android.getAdbPort (), this.capabilities);
+			setCapability (DEVICE_READY_TIMEOUT, android.getDeviceReadyTimeout (), this.capabilities);
 		}
 	}
 
@@ -280,6 +310,8 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		setCapability (CLEAR_SYSTEM_FILES, this.setting.isClearSystemFiles (), this.capabilities);
 		setCapability (AUTOMATION_NAME, this.setting.getAutomationName ()
 			.getName (), this.capabilities, true);
+		setCapability (UDID, this.setting.getUdid (), this.capabilities);
+		setCapability (EVENT_TIMINGS, this.setting.isEventTimings (), this.capabilities);
 	}
 
 	private void setDeviceSpecificCapabilities () {
@@ -300,7 +332,8 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		try {
 			this.driver.manage ()
 				.timeouts ()
-				.implicitlyWait (this.setting.getDefaultWait (), TimeUnit.SECONDS);
+				.implicitlyWait (this.setting.getPlayback ()
+					.getDefaultWait (), TimeUnit.SECONDS);
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
@@ -311,20 +344,28 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	}
 
 	private void setIOSCapabilities () {
-		if (this.setting.getAppType () != ApplicationType.WEB) {
-			setCapability (BUNDLE_ID, this.setting.getBundleId (), this.capabilities, true);
+		final IOSDeviceSetting ios = this.setting.getIos ();
+		if (ios != null) {
+			if (this.setting.getAppType () != ApplicationType.WEB) {
+				setCapability (BUNDLE_ID, ios.getBundleId (), this.capabilities, true);
+			}
+			setCapability (XCODE_ORG_ID, ios.getTeamId (), this.capabilities, true);
+			setCapability (XCODE_SIGNING_ID, ios.getSigningId (), this.capabilities, true);
+			setCapability (APP_NAME, ios.getAppName (), this.capabilities, true);
+			setCapability (WDA_CONNECTION_TIMEOUT, ios.getWdaConnectionTimeout (), this.capabilities, true);
+			setCapability ("bootstrapPath", ios.getBootstrapPath (), this.capabilities);
+			setCapability ("agentPath", ios.getAgentPath (), this.capabilities);
+			setCapability (UPDATE_WDA_BUNDLEID, ios.getUpdatedWdaBundleId (), this.capabilities);
+			setCapability (USE_NEW_WDA, ios.isUseNewWda (), this.capabilities);
+			setCapability (USE_PREBUILT_WDA, ios.isUsePrebuiltWda (), this.capabilities);
+			setCapability (SHOW_XCODE_LOG, ios.isShowXcodeLog (), this.capabilities);
+			setCapability (WDA_STARTUP_RETRIES, ios.getWdaStartupRetries (), this.capabilities);
+			setCapability (WDA_STARTUP_RETRY_INTERVAL, ios.getWdaStartupRetryInterval (), this.capabilities);
+			setCapability (AUTO_ACCEPT_ALERTS, ios.isAutoAcceptAlerts (), this.capabilities);
+			setCapability (AUTO_DISMISS_ALERTS, ios.isAutoDismissAlerts (), this.capabilities);
+			setCapability (WDA_LOCAL_PORT, ios.getWdaLocalPort (), this.capabilities);
+			setCapability (LAUNCH_TIMEOUT, ios.getLaunchTimeout (), this.capabilities);
 		}
-		setCapability (XCODE_ORG_ID, this.setting.getTeamId (), this.capabilities, true);
-		setCapability (XCODE_SIGNING_ID, this.setting.getSigningId (), this.capabilities, true);
-		setCapability (APP_NAME, this.setting.getAppName (), this.capabilities, true);
-		setCapability (UDID, this.setting.getUdid (), this.capabilities, true);
-		setCapability (WDA_CONNECTION_TIMEOUT, this.setting.getWdaConnectionTimeout (), this.capabilities, true);
-		setCapability ("bootstrapPath", this.setting.getBootstrapPath (), this.capabilities);
-		setCapability ("agentPath", this.setting.getAgentPath (), this.capabilities);
-		setCapability (UPDATE_WDA_BUNDLEID, this.setting.getUpdatedWdaBundleId (), this.capabilities);
-		setCapability (USE_NEW_WDA, this.setting.isUseNewWda (), this.capabilities);
-		setCapability (USE_PREBUILT_WDA, this.setting.isUsePrebuiltWda (), this.capabilities);
-		setCapability (SHOW_XCODE_LOG, this.setting.isShowXcodeLog (), this.capabilities);
 	}
 
 	private void startDriver (final String platform) {

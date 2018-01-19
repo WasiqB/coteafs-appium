@@ -31,6 +31,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
+import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementFindTimedOutError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementNameNotFoundError;
@@ -54,6 +55,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 
 	protected final E							device;
 	protected final Map <String, DeviceElement>	deviceElements;
+	private final PlaybackSetting				setting;
 	private final WebDriverWait					wait;
 
 	/**
@@ -64,21 +66,17 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	public DeviceActivity (final E device) {
 		this.device = device;
 		this.deviceElements = new HashMap <> ();
-		this.wait = new WebDriverWait (device.getDriver (), device.setting.getWaitForElementUntil ());
+		this.setting = device.getSetting ()
+			.getPlayback ();
+		this.wait = new WebDriverWait (device.getDriver (), this.setting.getWaitForElementUntil ());
 	}
 
 	/**
-	 * Use <code>
-	 * action
-	 * </code> method in device instead.
-	 *
-	 * @deprecated
 	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:41:07 PM
 	 * @return device actions
 	 */
 	@SuppressWarnings ("unchecked")
-	@Deprecated
 	public DeviceActions <D, E> onDevice () {
 		return (DeviceActions <D, E>) this.device.action ();
 	}
@@ -126,8 +124,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	protected abstract DeviceElement prepare ();
 
 	private void captureScreenshotOnError () {
-		if (this.device.getSetting ()
-			.isScreenshotOnError ()) {
+		if (this.setting.isScreenshotOnError ()) {
 			this.device.action ()
 				.captureScreenshot ();
 		}

@@ -33,6 +33,7 @@ import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
 import io.appium.java_client.AppiumDriver;
@@ -73,6 +74,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	protected final D				driver;
 	protected final WebDriverWait	wait;
 	private final MultiTouchAction	multiTouch;
+	private final PlaybackSetting	setting;
 
 	/**
 	 * @author wasiq.bhamla
@@ -82,7 +84,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	public DeviceActions (final E device) {
 		this.device = device;
 		this.driver = this.device.getDriver ();
-		this.wait = new WebDriverWait (this.driver, device.setting.getWaitForElementUntil ());
+		this.setting = device.setting.getPlayback ();
+		this.wait = new WebDriverWait (this.driver, this.setting.getWaitForElementUntil ());
 		this.multiTouch = new MultiTouchAction (this.driver);
 	}
 
@@ -91,10 +94,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @since Oct 9, 2017 9:32:56 PM
 	 */
 	public void captureScreenshot () {
-		final String path = this.device.getSetting ()
-			.getScreenShotPath ();
-		final String prefix = this.device.getSetting ()
-			.getScreenShotPrefix ();
+		final String path = this.setting.getScreenShotPath ();
+		final String prefix = this.setting.getScreenShotPrefix ();
 		final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-HHmmss");
 		final String timeStamp = date.format (Calendar.getInstance ()
 			.getTime ());
@@ -191,10 +192,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		final int startY = size.getHeight () / 2;
 		final int endX = (int) (startX * direction.getX () * distance.getDistance ());
 		final int endY = (int) (startY * direction.getY () * distance.getDistance ());
-		final int beforeSwipe = this.device.getSetting ()
-			.getDelayBeforeSwipe ();
-		final int afterSwipe = this.device.getSetting ()
-			.getDelayAfterSwipe ();
+		final int beforeSwipe = this.setting.getDelayBeforeSwipe ();
+		final int afterSwipe = this.setting.getDelayAfterSwipe ();
 		final TouchAction returnAction = new TouchAction (this.driver);
 		returnAction.press (startX, startY)
 			.waitAction (ofSeconds (beforeSwipe))

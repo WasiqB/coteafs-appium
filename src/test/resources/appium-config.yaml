@@ -8,7 +8,8 @@ servers:
       log_time_stamp: true
       local_time_zone: true
       session_override: true
-      suppress_adb_kill_server: true
+      android:
+        suppress_adb_kill_server: true
 
 devices:
   test:
@@ -19,4 +20,5 @@ devices:
     automation_name: APPIUM
     app_location: apps/android/com.vinsol.expensetracker.apk
     session_timeout: 6000
-    delay_after_swipe: 2
+    playback:
+      delay_after_swipe: 2
