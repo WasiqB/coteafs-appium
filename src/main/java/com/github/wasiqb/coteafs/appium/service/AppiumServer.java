@@ -51,7 +51,9 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
+import com.github.wasiqb.coteafs.appium.config.AndroidArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
+import com.github.wasiqb.coteafs.appium.config.IOSArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerAlreadyRunningError;
@@ -265,24 +267,29 @@ public final class AppiumServer {
 	 */
 	private void setArguments () {
 		final ServerArgumentSetting args = this.setting.getArguments ();
-		if (args != null) {
-			setArgument (LOG_LEVEL, args.getLogLevel ()
-				.getLevel ());
-			setArgument (SESSION_OVERRIDE, args.isSessionOverride ());
-			setArgument (BACK_END_RETRIES, args.getBackendRetries ());
-			setArgument (BOOTSTRAP_PORT_NUMBER, args.getBootstrapPort ());
-			setArgument (CHROME_DRIVER_PORT, args.getChromeDriverPort ());
-			setArgument (CHROME_DRIVER_EXECUTABLE, args.getChromeDriverExePath ());
-			setArgument (IPA_ABSOLUTE_PATH, args.getIpaAbsolutePath ());
-			setArgument (LOG_TIMESTAMP, args.isLogTimeStamp ());
-			setArgument (LOCAL_TIMEZONE, args.isLocalTimeZone ());
-			setArgument (CONFIGURATION_FILE, args.getNodeConfigFile ());
-			setArgument (SAFARI, args.isSafari ());
-			setArgument (SUPPRESS_ADB_KILL_SERVER, args.isSuppressAdbKillServer ());
-			setArgument (WEBKIT_DEBUG_PROXY_PORT, args.getWebkitDebugProxyPort ());
-			setArgument (CALLBACK_ADDRESS, args.getCallbackIp ());
-			setArgument (CALLBACK_PORT, args.getCallbackPort ());
+		final IOSArgumentSetting ios = args.getIos ();
+		final AndroidArgumentSetting android = args.getAndroid ();
+
+		if (ios != null) {
+			setArgument (BACK_END_RETRIES, ios.getBackendRetries ());
+			setArgument (IPA_ABSOLUTE_PATH, ios.getIpaAbsolutePath ());
+			setArgument (SAFARI, ios.isSafari ());
+			setArgument (WEBKIT_DEBUG_PROXY_PORT, ios.getWebkitDebugProxyPort ());
 		}
+		if (android != null) {
+			setArgument (BOOTSTRAP_PORT_NUMBER, android.getBootstrapPort ());
+			setArgument (CHROME_DRIVER_PORT, android.getChromeDriverPort ());
+			setArgument (CHROME_DRIVER_EXECUTABLE, android.getChromeDriverExePath ());
+			setArgument (SUPPRESS_ADB_KILL_SERVER, android.isSuppressAdbKillServer ());
+		}
+		setArgument (LOG_LEVEL, args.getLogLevel ()
+			.getLevel ());
+		setArgument (SESSION_OVERRIDE, args.isSessionOverride ());
+		setArgument (LOG_TIMESTAMP, args.isLogTimeStamp ());
+		setArgument (LOCAL_TIMEZONE, args.isLocalTimeZone ());
+		setArgument (CONFIGURATION_FILE, args.getNodeConfigFile ());
+		setArgument (CALLBACK_ADDRESS, args.getCallbackIp ());
+		setArgument (CALLBACK_PORT, args.getCallbackPort ());
 	}
 
 	/**

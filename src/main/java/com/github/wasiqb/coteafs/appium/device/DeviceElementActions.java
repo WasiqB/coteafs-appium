@@ -27,6 +27,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
+import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.error.NotImplementedError;
 
@@ -47,11 +48,12 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		log = LogManager.getLogger (DeviceElementActions.class);
 	}
 
-	private final E				device;
-	private final D				driver;
-	private final MobileElement	element;
-	private final String		name;
-	private final TouchAction	touch;
+	private final E					device;
+	private final D					driver;
+	private final MobileElement		element;
+	private final String			name;
+	private final PlaybackSetting	setting;
+	private final TouchAction		touch;
 
 	/**
 	 * @author wasiq.bhamla
@@ -66,6 +68,8 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		this.element = element;
 		this.driver = this.device.getDriver ();
 		this.touch = new TouchAction (this.driver);
+		this.setting = device.getSetting ()
+			.getPlayback ();
 		DeviceChecker.checkDeviceElementDisplayed (element, name);
 	}
 
@@ -145,10 +149,8 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void longPress () {
 		perform ("Performing long press on", e -> {
-			final int beforeTap = this.device.getSetting ()
-				.getDelayBeforeTap ();
-			final int afterTap = this.device.getSetting ()
-				.getDelayAfterTap ();
+			final int beforeTap = this.setting.getDelayBeforeTap ();
+			final int afterTap = this.setting.getDelayAfterTap ();
 			this.touch.waitAction (ofSeconds (beforeTap))
 				.longPress (e)
 				.waitAction (ofSeconds (afterTap))
@@ -210,10 +212,8 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void tap () {
 		perform ("Tapping on", e -> {
-			final int beforeTap = this.device.getSetting ()
-				.getDelayBeforeTap ();
-			final int afterTap = this.device.getSetting ()
-				.getDelayAfterTap ();
+			final int beforeTap = this.setting.getDelayBeforeTap ();
+			final int afterTap = this.setting.getDelayAfterTap ();
 			this.touch.waitAction (ofSeconds (beforeTap))
 				.tap (e)
 				.waitAction (ofSeconds (afterTap))
