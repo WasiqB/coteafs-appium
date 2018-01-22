@@ -83,6 +83,7 @@ import com.github.wasiqb.coteafs.appium.config.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.DeviceType;
 import com.github.wasiqb.coteafs.appium.config.IOSDeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.PlatformType;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceAppNotFoundError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
@@ -147,8 +148,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	 * @return driver
 	 */
 	public D getDriver () {
-		final String platform = this.setting.getPlatformType ()
-			.getName ();
+		final PlatformType platform = this.setting.getPlatformType ();
 		final String msg = "Getting [%s] device driver...";
 		log.trace (String.format (msg, platform));
 		return this.driver;
@@ -168,8 +168,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	 * @since 17-Apr-2017 4:46:12 PM
 	 */
 	public void start () {
-		final String platform = this.setting.getPlatformType ()
-			.getName ();
+		final PlatformType platform = this.setting.getPlatformType ();
 		startDriver (platform);
 		setImplicitWait ();
 	}
@@ -179,8 +178,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	 * @since 17-Apr-2017 4:46:02 PM
 	 */
 	public void stop () {
-		final String platform = this.setting.getPlatformType ()
-			.getName ();
+		final PlatformType platform = this.setting.getPlatformType ();
 		if (this.driver != null) {
 			quitApp (platform);
 			this.driver = null;
@@ -251,7 +249,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 	 * @param platform
 	 * @since Oct 16, 2017 8:14:56 PM
 	 */
-	private void quitApp (final String platform) {
+	private void quitApp (final PlatformType platform) {
 		final String message = "Closing & Quitting [%s] device driver...";
 		log.trace (String.format (message, platform));
 		try {
@@ -300,15 +298,13 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 
 	private void setCommonCapabilities () {
 		setCapability (DEVICE_NAME, this.setting.getDeviceName (), this.capabilities, true);
-		setCapability (PLATFORM_NAME, this.setting.getPlatformType ()
-			.getName (), this.capabilities, true);
+		setCapability (PLATFORM_NAME, this.setting.getPlatformType (), this.capabilities, true);
 		setCapability (PLATFORM_VERSION, this.setting.getDeviceVersion (), this.capabilities);
 		setCapability (NO_RESET, this.setting.isNoReset (), this.capabilities);
 		setCapability (FULL_RESET, this.setting.isFullReset (), this.capabilities);
 		setCapability (NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
 		setCapability (CLEAR_SYSTEM_FILES, this.setting.isClearSystemFiles (), this.capabilities);
-		setCapability (AUTOMATION_NAME, this.setting.getAutomationName ()
-			.getName (), this.capabilities, true);
+		setCapability (AUTOMATION_NAME, this.setting.getAutomationName (), this.capabilities, true);
 		setCapability (UDID, this.setting.getUdid (), this.capabilities);
 		setCapability (EVENT_TIMINGS, this.setting.isEventTimings (), this.capabilities);
 	}
@@ -367,7 +363,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		}
 	}
 
-	private void startDriver (final String platform) {
+	private void startDriver (final PlatformType platform) {
 		final String msg = "Starting [%s] device driver...";
 		log.trace (String.format (msg, platform));
 		try {

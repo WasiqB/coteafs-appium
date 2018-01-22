@@ -41,12 +41,12 @@ public enum PlatformType {
 		this.name = name;
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 24-Apr-2017 9:17:44 PM
-	 * @return the name
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
 	 */
-	public String getName () {
+	@Override
+	public String toString () {
 		return this.name;
 	}
 }

@@ -31,6 +31,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
+import com.github.wasiqb.coteafs.appium.config.PlatformType;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementFindTimedOutError;
@@ -204,8 +205,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 
 	private void load () {
 		if (this.deviceElements.size () == 0) {
-			final String platform = this.device.setting.getPlatformType ()
-				.getName ();
+			final PlatformType platform = this.device.setting.getPlatformType ();
 			final String msg = "Loading elements on [%s] activity...";
 			log.info (String.format (msg, platform));
 			loadElements (prepare ());
