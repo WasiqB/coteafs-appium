@@ -5,6 +5,7 @@
 version: 2
 jobs:
   build:
+    machine: true
     working_directory: ~/code
     steps:
       - run:
