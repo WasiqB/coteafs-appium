@@ -4,8 +4,8 @@
 #
 version: 2
 jobs:
-  working_directory: ~/code
   build:
+    working_directory: ~/code
     steps:
       - run:
           name: Install Docker Compose
