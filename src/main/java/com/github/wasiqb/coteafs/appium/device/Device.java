@@ -203,8 +203,7 @@ public class Device <D extends AppiumDriver <MobileElement>> {
 		setDeviceSpecificCapabilities ();
 
 		if (this.setting.getAppType () == ApplicationType.WEB) {
-			setCapability (BROWSER_NAME, this.setting.getBrowser ()
-				.getBrowser (), this.capabilities, true);
+			setCapability (BROWSER_NAME, this.setting.getBrowser (), this.capabilities, true);
 		}
 		else {
 			final String appPath = this.setting.getAppLocation ();

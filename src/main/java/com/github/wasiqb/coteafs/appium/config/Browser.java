@@ -50,7 +50,8 @@ public enum Browser {
 	 * @since Jul 15, 2017 5:04:12 PM
 	 * @return the browser
 	 */
-	public String getBrowser () {
+	@Override
+	public String toString () {
 		return this.name;
 	}
 }
