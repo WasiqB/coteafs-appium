@@ -111,12 +111,12 @@ public enum LogLevel {
 		this.level = level;
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 27, 2017 3:12:03 PM
-	 * @return the level
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
 	 */
-	public String getLevel () {
+	@Override
+	public String toString () {
 		return this.level;
 	}
 }

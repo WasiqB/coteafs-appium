@@ -283,7 +283,7 @@ public final class AppiumServer {
 			setArgument (SUPPRESS_ADB_KILL_SERVER, android.isSuppressAdbKillServer ());
 		}
 		setArgument (LOG_LEVEL, args.getLogLevel ()
-			.getLevel ());
+			.toString ());
 		setArgument (SESSION_OVERRIDE, args.isSessionOverride ());
 		setArgument (LOG_TIMESTAMP, args.isLogTimeStamp ());
 		setArgument (LOCAL_TIMEZONE, args.isLocalTimeZone ());
