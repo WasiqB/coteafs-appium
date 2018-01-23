@@ -36,6 +36,7 @@ public class ServerSetting {
 	private boolean					fullReset;
 	private String					ip;
 	private String					logFilePath;
+	private String					nodePath;
 	private boolean					noReset;
 	private int						port;
 	private int						sessionTimeout;
@@ -99,6 +100,15 @@ public class ServerSetting {
 	 */
 	public String getLogFilePath () {
 		return this.logFilePath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jan 23, 2018 11:18:22 PM
+	 * @return the nodePath
+	 */
+	public String getNodePath () {
+		return this.nodePath;
 	}
 
 	/**
@@ -223,6 +233,16 @@ public class ServerSetting {
 	 */
 	public void setLogFilePath (final String logFilePath) {
 		this.logFilePath = logFilePath;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jan 23, 2018 11:18:22 PM
+	 * @param nodePath
+	 *            the nodePath to set
+	 */
+	public void setNodePath (final String nodePath) {
+		this.nodePath = nodePath;
 	}
 
 	/**

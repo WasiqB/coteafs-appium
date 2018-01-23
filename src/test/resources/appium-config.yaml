@@ -18,7 +18,7 @@ devices:
     device_version: 7.0
     app_type: NATIVE
     automation_name: APPIUM
-    app_location: apps/android/com.vinsol.expensetracker.apk
+    app_location: apps/android/VodQA.apk
     session_timeout: 6000
     playback:
       delay_after_swipe: 2

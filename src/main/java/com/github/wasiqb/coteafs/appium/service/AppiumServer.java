@@ -213,6 +213,7 @@ public final class AppiumServer {
 		setPort ();
 		setLogFile ();
 		setAppiumJS ();
+		setNodeExe ();
 		setCapabilities ();
 		setArguments ();
 		setEnvironmentVariables ();
@@ -325,6 +326,13 @@ public final class AppiumServer {
 				fail (AppiumServerLogFileError.class, "Error while deleting log file!", e);
 			}
 			this.builder = this.builder.withLogFile (logFile);
+		}
+	}
+
+	private void setNodeExe () {
+		if (this.setting.getNodePath () != null) {
+			final File nde = new File (this.setting.getNodePath ());
+			this.builder = this.builder.usingDriverExecutable (nde);
 		}
 	}
 
