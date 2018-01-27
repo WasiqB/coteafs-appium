@@ -134,7 +134,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 */
 	public void pinch (final SwipeDistance distance) {
 		log.info (format ("Pinching on device screen by [%s] distance...", distance));
-		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, distance);
+		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, distance, false);
 	}
 
 	/**
@@ -145,7 +145,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 */
 	public void swipe (final SwipeDirection direction, final SwipeDistance distance) {
 		log.info (format ("Swiping [%s] on device screen by [%s] distance...", direction, distance));
-		swipeTo (direction, distance).perform ();
+		swipeTo (direction, distance, true).perform ();
 	}
 
 	/**
@@ -155,7 +155,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 */
 	public void zoom (final SwipeDistance distance) {
 		log.info (format ("Zooming in device screen by [%s] distance...", distance));
-		doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN, distance);
+		doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN, distance, true);
 	}
 
 	/**
@@ -176,22 +176,31 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	}
 
 	private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
-			final SwipeDistance distance) {
-		final TouchAction firstFinger = swipeTo (finger1, distance);
-		final TouchAction secondFinger = swipeTo (finger2, distance);
+			final SwipeDistance distance, final boolean centerStart) {
+		final TouchAction firstFinger = swipeTo (finger1, distance, centerStart);
+		final TouchAction secondFinger = swipeTo (finger2, distance, centerStart);
 		this.multiTouch.add (firstFinger)
 			.add (secondFinger)
 			.perform ();
 	}
 
-	private TouchAction swipeTo (final SwipeDirection direction, final SwipeDistance distance) {
+	private TouchAction swipeTo (final SwipeDirection direction, final SwipeDistance distance,
+			final boolean centerStart) {
 		final Dimension size = this.driver.manage ()
 			.window ()
 			.getSize ();
-		final int startX = size.getWidth () / 2;
-		final int startY = size.getHeight () / 2;
-		final int endX = (int) (startX * direction.getX () * distance.getDistance ());
-		final int endY = (int) (startY * direction.getY () * distance.getDistance ());
+		int startX = size.getWidth () / 2;
+		int startY = size.getHeight () / 2;
+		int endX = (int) (startX * direction.getX () * distance.getDistance ());
+		int endY = (int) (startY * direction.getY () * distance.getDistance ());
+		if (!centerStart) {
+			final int tempX = startX;
+			final int tempY = startY;
+			startX = endX;
+			startY = endY;
+			endX = tempX;
+			endY = tempY;
+		}
 		final int beforeSwipe = this.setting.getDelayBeforeSwipe ();
 		final int afterSwipe = this.setting.getDelayAfterSwipe ();
 		final TouchAction returnAction = new TouchAction (this.driver);
