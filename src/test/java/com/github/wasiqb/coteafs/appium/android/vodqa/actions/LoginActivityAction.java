@@ -44,6 +44,8 @@ public class LoginActivityAction extends AndroidActivityActions {
 			.enterText (value ("UserName"));
 		login.onElement ("Password")
 			.enterText (value ("Password"));
+		login.onDevice ()
+			.hideKeyboard ();
 		login.onElement ("Login")
 			.tap ();
 	}

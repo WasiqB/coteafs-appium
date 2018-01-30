@@ -28,6 +28,7 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
@@ -91,7 +92,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	public DeviceElementActions <D, E> onElement (final String name) {
 		ServerChecker.checkServerRunning (this.device.server);
 		final String msg = "Preparing to perform actions on device element [%s]...";
-		log.info (String.format (msg, name));
+		log.trace (String.format (msg, name));
 		return new DeviceElementActions <> (this.device, name, getElement (name));
 	}
 
@@ -105,7 +106,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	public DeviceElementActions <D, E> onElement (final String name, final int index) {
 		ServerChecker.checkServerRunning (this.device.server);
 		final String msg = "Preparing to perform actions on dynamic device element [%s] on index [%d]...";
-		log.info (String.format (msg, name, index));
+		log.trace (String.format (msg, name, index));
 		final DeviceElement element = getDeviceElement (name).index (index);
 		return new DeviceElementActions <> (this.device, name, findElements (element));
 	}
@@ -126,16 +127,15 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 
 	private void captureScreenshotOnError () {
 		if (this.setting.isScreenshotOnError ()) {
-			this.device.action ()
-				.captureScreenshot ();
+			onDevice ().captureScreenshot ();
 		}
 	}
 
-	private MobileElement find (final D deviceDriver, final By locator, final int index) {
+	private MobileElement find (final D deviceDriver, final By locator, final int index, final WaitStrategy strategy) {
 		String message = "Finding root element using [%s] at index [%d]...";
 		log.trace (String.format (message, locator, index));
 		try {
-			this.wait.until (visibilityOfAllElementsLocatedBy (locator));
+			wait (locator, strategy);
 			final List <MobileElement> result = deviceDriver.findElements (locator);
 			return result.get (index);
 		}
@@ -155,12 +155,13 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		return null;
 	}
 
-	private MobileElement find (final DeviceElement parent, final By locator, final int index) {
+	private MobileElement find (final DeviceElement parent, final By locator, final int index,
+			final WaitStrategy strategy) {
 		String message = "Finding child element of [%s] parent using [%s] at index [%d]...";
 		log.trace (String.format (message, parent.name (), locator, index));
 		final MobileElement mobileElement = getElement (parent.name ());
 		try {
-			this.wait.until (visibilityOfAllElementsLocatedBy (locator));
+			wait (locator, strategy);
 			final List <MobileElement> result = mobileElement.findElements (locator);
 			return result.get (index);
 		}
@@ -184,12 +185,13 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		final DeviceElement parent = element.parent ();
 		final By locator = element.locator ();
 		final int index = element.index ();
+		final WaitStrategy strategy = element.waitStrategy ();
 		MobileElement elem = null;
 		if (parent != null) {
-			elem = find (parent, locator, index);
+			elem = find (parent, locator, index, strategy);
 		}
 		else {
-			elem = find (this.device.getDriver (), locator, index);
+			elem = find (this.device.getDriver (), locator, index, strategy);
 		}
 		return elem;
 	}
@@ -207,7 +209,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		if (this.deviceElements.size () == 0) {
 			final PlatformType platform = this.device.setting.getPlatformType ();
 			final String msg = "Loading elements on [%s] activity...";
-			log.info (String.format (msg, platform));
+			log.trace (String.format (msg, platform));
 			loadElements (prepare ());
 		}
 	}
@@ -220,6 +222,27 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		final List <DeviceElement> childs = rootElement.childs ();
 		for (final DeviceElement child : childs) {
 			loadElements (child);
+		}
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jan 30, 2018 7:33:47 PM
+	 * @param locator
+	 * @param waitStrategy
+	 */
+	private void wait (final By locator, final WaitStrategy waitStrategy) {
+		switch (waitStrategy) {
+			case ENABLED:
+				this.wait.until (ExpectedConditions.elementToBeClickable (locator));
+				break;
+			case PRESENT:
+				this.wait.until (ExpectedConditions.presenceOfAllElementsLocatedBy (locator));
+				break;
+			case VISIBLE:
+			default:
+				this.wait.until (visibilityOfAllElementsLocatedBy (locator));
+				break;
 		}
 	}
 }

@@ -49,7 +49,7 @@ public abstract class AndroidActivity extends DeviceActivity <AndroidDriver <Mob
 	 */
 	@Override
 	public AndroidDeviceActions onDevice () {
-		log.info ("Preparing to perform actions on Android device...");
+		log.trace ("Preparing to perform actions on Android device...");
 		return new AndroidDeviceActions (this.device);
 	}
 
@@ -59,8 +59,8 @@ public abstract class AndroidActivity extends DeviceActivity <AndroidDriver <Mob
 	 */
 	@Override
 	public AndroidDeviceElementActions onElement (final String name) {
-		String msg = "Preparing to perform actions on Android device element [%s]...";
-		log.info (String.format (msg, name));
+		final String msg = "Preparing to perform actions on Android device element [%s]...";
+		log.trace (String.format (msg, name));
 		return new AndroidDeviceElementActions (this.device, name, getElement (name));
 	}
 }

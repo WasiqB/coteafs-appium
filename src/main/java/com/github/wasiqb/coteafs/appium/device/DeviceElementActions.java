@@ -48,6 +48,8 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		log = LogManager.getLogger (DeviceElementActions.class);
 	}
 
+	private final int				afterTap;
+	private final int				beforeTap;
 	private final E					device;
 	private final D					driver;
 	private final MobileElement		element;
@@ -71,6 +73,8 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		this.setting = device.getSetting ()
 			.getPlayback ();
 		DeviceChecker.checkDeviceElementDisplayed (element, name);
+		this.beforeTap = this.setting.getDelayBeforeTap ();
+		this.afterTap = this.setting.getDelayAfterTap ();
 	}
 
 	/**
@@ -79,9 +83,9 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param text
 	 */
 	public void appendText (final String text) {
+		tap ();
 		final String actionType = String.format ("Appending text [%s] in", text);
 		perform (actionType, e -> {
-			tap ();
 			e.sendKeys (text);
 		});
 	}
@@ -99,7 +103,13 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since Jul 15, 2017 6:12:00 PM
 	 */
 	public void click () {
-		perform ("Clicking on", e -> e.click ());
+		perform ("Clicking on", e -> {
+			this.touch.waitAction (ofSeconds (this.beforeTap))
+				.perform ();
+			e.click ();
+			this.touch.waitAction (ofSeconds (this.afterTap))
+				.perform ();
+		});
 	}
 
 	/**
@@ -117,10 +127,10 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param text
 	 */
 	public void enterText (final String text) {
+		tap ();
+		clear ();
 		final String actionType = String.format ("Entering text [%s] in", text);
 		perform (actionType, e -> {
-			tap ();
-			clear ();
 			e.sendKeys (text);
 		});
 	}
@@ -149,11 +159,9 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void longPress () {
 		perform ("Performing long press on", e -> {
-			final int beforeTap = this.setting.getDelayBeforeTap ();
-			final int afterTap = this.setting.getDelayAfterTap ();
-			this.touch.waitAction (ofSeconds (beforeTap))
+			this.touch.waitAction (ofSeconds (this.beforeTap))
 				.longPress (e)
-				.waitAction (ofSeconds (afterTap))
+				.waitAction (ofSeconds (this.afterTap))
 				.perform ();
 		});
 	}
@@ -212,11 +220,9 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void tap () {
 		perform ("Tapping on", e -> {
-			final int beforeTap = this.setting.getDelayBeforeTap ();
-			final int afterTap = this.setting.getDelayAfterTap ();
-			this.touch.waitAction (ofSeconds (beforeTap))
+			this.touch.waitAction (ofSeconds (this.beforeTap))
 				.tap (e)
-				.waitAction (ofSeconds (afterTap))
+				.waitAction (ofSeconds (this.afterTap))
 				.perform ();
 		});
 	}
