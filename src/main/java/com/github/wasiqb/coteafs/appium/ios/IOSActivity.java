@@ -49,7 +49,7 @@ public abstract class IOSActivity extends DeviceActivity <IOSDriver <MobileEleme
 	 */
 	@Override
 	public IOSDeviceActions onDevice () {
-		log.info ("Preparing to perform actions on iOS device...");
+		log.trace ("Preparing to perform actions on iOS device...");
 		return new IOSDeviceActions (this.device);
 	}
 
@@ -59,8 +59,8 @@ public abstract class IOSActivity extends DeviceActivity <IOSDriver <MobileEleme
 	 */
 	@Override
 	public IOSDeviceElementActions onElement (final String name) {
-		String msg = "Preparing to perform actions on iOS device element [%s]...";
-		log.info (String.format (msg, name));
+		final String msg = "Preparing to perform actions on iOS device element [%s]...";
+		log.trace (String.format (msg, name));
 		return new IOSDeviceElementActions (this.device, name, getElement (name));
 	}
 }

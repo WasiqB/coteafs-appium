@@ -22,15 +22,15 @@ import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 
 /**
  * @author wasiq.bhamla
- * @since Jan 22, 2018 8:51:26 PM
+ * @since Jan 24, 2018 5:17:36 PM
  */
-public class LoginActivity extends DefaultActivity {
+public class ChainedViewActivity extends DefaultActivity {
 	/**
 	 * @author wasiq.bhamla
-	 * @since Jan 22, 2018 8:51:27 PM
+	 * @since Jan 24, 2018 5:17:36 PM
 	 * @param device
 	 */
-	public LoginActivity (final AndroidDevice device) {
+	public ChainedViewActivity (final AndroidDevice device) {
 		super (device);
 	}
 
@@ -41,15 +41,31 @@ public class LoginActivity extends DefaultActivity {
 	@Override
 	protected DeviceElement prepare () {
 		final DeviceElement main = super.prepare ();
-		DeviceElement.create ("UserName")
-			.using (By.id ("username"))
-			.parent (main);
-		DeviceElement.create ("Password")
-			.using (By.id ("password"))
-			.parent (main);
-		DeviceElement.create ("Login")
-			.using (By.id ("login"))
-			.parent (main);
+
+		final DeviceElement scroll = DeviceElement.create ("Main")
+			.parent (main)
+			.using (By.id ("scrollView"));
+
+		final DeviceElement view1 = DeviceElement.create ("View1")
+			.parent (scroll)
+			.using (By.id ("viewgroup1"));
+		final DeviceElement view2 = DeviceElement.create ("View2")
+			.parent (scroll)
+			.using (By.id ("viewgroup2"));
+		final DeviceElement view3 = DeviceElement.create ("View3")
+			.parent (scroll)
+			.using (By.id ("viewgroup3"));
+
+		DeviceElement.create ("Text1")
+			.parent (view1)
+			.using (By.className ("android.widget.TextView"));
+		DeviceElement.create ("Text2")
+			.parent (view2)
+			.using (By.className ("android.widget.TextView"));
+		DeviceElement.create ("Text3")
+			.parent (view3)
+			.using (By.className ("android.widget.TextView"));
+
 		return main;
 	}
 }

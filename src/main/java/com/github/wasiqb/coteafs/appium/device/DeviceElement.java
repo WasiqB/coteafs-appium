@@ -40,10 +40,12 @@ public class DeviceElement {
 	private int							index;
 	private final String				name;
 	private DeviceElement				parent;
+	private WaitStrategy				wait;
 
 	private DeviceElement (final String name) {
 		this.childs = new ArrayList <> ();
 		this.name = name;
+		this.wait = WaitStrategy.VISIBLE;
 	}
 
 	/**
@@ -125,10 +127,10 @@ public class DeviceElement {
 	 */
 	@Override
 	public String toString () {
-		String line1 = "Name: %s";
-		String line2 = "By: %s";
-		String line4 = "Index: %d";
-		String line3 = "Childs: %s";
+		final String line1 = "Name: %s";
+		final String line2 = "By: %s";
+		final String line4 = "Index: %d";
+		final String line3 = "Childs: %s";
 		final StringBuilder sb = new StringBuilder (String.format (line1, this.name)).append ("\n");
 		sb.append (String.format (line2, this.by))
 			.append ("\n");
@@ -147,6 +149,26 @@ public class DeviceElement {
 	 */
 	public DeviceElement using (final By findBy) {
 		this.by = findBy;
+		return this;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jan 30, 2018 7:32:07 PM
+	 * @return {@link WaitStrategy}
+	 */
+	public WaitStrategy waitStrategy () {
+		return this.wait;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jan 30, 2018 7:32:23 PM
+	 * @param strategy
+	 * @return instance
+	 */
+	public DeviceElement waitStrategy (final WaitStrategy strategy) {
+		this.wait = strategy;
 		return this;
 	}
 

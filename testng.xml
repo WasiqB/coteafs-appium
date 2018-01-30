@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="coteafs-appium Test Suite" parallel="none" preserve-order="true">
-<!-- 	<listeners>
+<!-- <listeners>
 		<listener class-name="org.uncommons.reportng.HTMLReporter" />
 		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />
 	</listeners> -->
 	<test name="Android Test">
 		<classes>
-			<class name="com.github.wasiqb.coteafs.appium.android.ExpenseTrackerTest" />
+			<class name="com.github.wasiqb.coteafs.appium.android.VodQATest" />
 		</classes>
 	</test> <!-- Android Test -->
 </suite> <!-- coteafs-appium Test Suite -->

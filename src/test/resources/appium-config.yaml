@@ -2,7 +2,7 @@ servers:
   android:
     ip: 127.0.0.1
     port: 4723
-    external: false
+    external: true
     arguments:
       log_level: DEBUG
       log_time_stamp: true
@@ -16,9 +16,13 @@ devices:
     platform_type: ANDROID
     device_name: MI Redmi Note 4
     device_version: 7.0
-    app_type: NATIVE
+    app_type: HYBRID
+    device_type: REAL
     automation_name: APPIUM
     app_location: apps/android/VodQA.apk
-    session_timeout: 6000
+    session_timeout: 120000
     playback:
-      delay_after_swipe: 2
+      delay_before_swipe: 2
+      delay_after_swipe: 1
+      delay_before_tap: 2
+      delay_after_tap: 1

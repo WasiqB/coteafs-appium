@@ -15,17 +15,17 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
-import org.openqa.selenium.By;
-
-import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
+import com.github.wasiqb.coteafs.appium.device.WaitStrategy;
+
+import io.appium.java_client.MobileBy;
 
 /**
  * @author wasiq.bhamla
  * @since Jan 23, 2018 8:54:51 PM
  */
-public class MainActivity extends AndroidActivity {
+public class MainActivity extends DefaultActivity {
 	/**
 	 * @author wasiq.bhamla
 	 * @since Jan 23, 2018 8:54:51 PM
@@ -41,11 +41,32 @@ public class MainActivity extends AndroidActivity {
 	 */
 	@Override
 	protected DeviceElement prepare () {
-		final DeviceElement main = DeviceElement.create ("Main");
+		final DeviceElement main = super.prepare ();
 
-		DeviceElement.create ("Back")
+		final DeviceElement scroll = DeviceElement.create ("ScrollView")
 			.parent (main)
-			.using (By.linkText ("Native View Demo"));
+			.using (MobileBy.AccessibilityId ("scrollView"));
+
+		DeviceElement.create ("ChainedView")
+			.parent (scroll)
+			.waitStrategy (WaitStrategy.ENABLED)
+			.using (MobileBy.AccessibilityId ("chainedView"));
+		DeviceElement.create ("Slider")
+			.parent (scroll)
+			.waitStrategy (WaitStrategy.ENABLED)
+			.using (MobileBy.AccessibilityId ("slider1"));
+		DeviceElement.create ("VerticalSwipe")
+			.parent (scroll)
+			.waitStrategy (WaitStrategy.ENABLED)
+			.using (MobileBy.AccessibilityId ("verticalSwipe"));
+		DeviceElement.create ("DragDrop")
+			.parent (scroll)
+			.waitStrategy (WaitStrategy.ENABLED)
+			.using (MobileBy.AccessibilityId ("dragAndDrop"));
+		DeviceElement.create ("WebView")
+			.parent (scroll)
+			.waitStrategy (WaitStrategy.ENABLED)
+			.using (MobileBy.AccessibilityId ("webView"));
 
 		return main;
 	}

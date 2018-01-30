@@ -17,20 +17,21 @@ package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
 import org.openqa.selenium.By;
 
+import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 
 /**
  * @author wasiq.bhamla
- * @since Jan 22, 2018 8:51:26 PM
+ * @since Jan 24, 2018 5:22:20 PM
  */
-public class LoginActivity extends DefaultActivity {
+public class DefaultActivity extends AndroidActivity {
 	/**
 	 * @author wasiq.bhamla
-	 * @since Jan 22, 2018 8:51:27 PM
+	 * @since Jan 24, 2018 5:22:20 PM
 	 * @param device
 	 */
-	public LoginActivity (final AndroidDevice device) {
+	public DefaultActivity (final AndroidDevice device) {
 		super (device);
 	}
 
@@ -40,16 +41,11 @@ public class LoginActivity extends DefaultActivity {
 	 */
 	@Override
 	protected DeviceElement prepare () {
-		final DeviceElement main = super.prepare ();
-		DeviceElement.create ("UserName")
-			.using (By.id ("username"))
-			.parent (main);
-		DeviceElement.create ("Password")
-			.using (By.id ("password"))
-			.parent (main);
-		DeviceElement.create ("Login")
-			.using (By.id ("login"))
-			.parent (main);
+		final DeviceElement main = DeviceElement.create ("Main")
+			.using (By.id ("android:id/content"));
+		DeviceElement.create ("Back")
+			.parent (main)
+			.using (By.linkText ("Back"));
 		return main;
 	}
 }

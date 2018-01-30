@@ -18,6 +18,7 @@ package com.github.wasiqb.coteafs.appium.android;
 import org.testng.annotations.Test;
 
 import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
+import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.MainActivity;
 
 /**
@@ -39,12 +40,38 @@ public class VodQATest extends DefaultTest {
 
 	/**
 	 * @author wasiq.bhamla
+	 * @throws InterruptedException
 	 * @since Jan 23, 2018 9:39:20 PM
 	 */
 	@Test
-	public void testNativeView () {
+	public void testNativeView () throws InterruptedException {
 		final MainActivity main = new MainActivity (this.androidDevice);
-		main.onElement ("Back")
-			.tap ();
+		main.onElement ("ChainedView")
+			.click ();
+
+		final ChainedViewActivity chained = new ChainedViewActivity (this.androidDevice);
+		chained.onElement ("Text1")
+			.verifyThat ()
+			.textShouldBeEqualTo ("Hello World, I'm View one");
+		chained.onElement ("Text2")
+			.verifyThat ()
+			.textShouldBeEqualTo ("Hello World, I'm View two");
+		chained.onElement ("Text3")
+			.verifyThat ()
+			.textShouldBeEqualTo ("Hello World, I'm View three");
+		chained.onElement ("Back")
+			.click ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jan 27, 2018 7:45:48 PM
+	 */
+	@Test
+	public void testSlider () {
+		final MainActivity main = new MainActivity (this.androidDevice);
+		main.onElement ("Slider")
+			.click ();
+		System.out.println ("");
 	}
 }
