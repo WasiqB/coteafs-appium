@@ -24,15 +24,18 @@ import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchSessionException;
+import org.openqa.selenium.Point;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
-import com.github.wasiqb.coteafs.error.NotImplementedError;
+import com.github.wasiqb.coteafs.appium.utils.SwipeUtils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
 
 /**
@@ -53,6 +56,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	private final E					device;
 	private final D					driver;
 	private final MobileElement		element;
+	private final MultiTouchAction	multiTouch;
 	private final String			name;
 	private final PlaybackSetting	setting;
 	private final TouchAction		touch;
@@ -70,6 +74,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		this.element = element;
 		this.driver = this.device.getDriver ();
 		this.touch = new TouchAction (this.driver);
+		this.multiTouch = new MultiTouchAction (this.driver);
 		this.setting = device.getSetting ()
 			.getPlayback ();
 		DeviceChecker.checkDeviceElementDisplayed (element, name);
@@ -168,17 +173,14 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 
 	/**
 	 * @author wasiq.bhamla
+	 * @param distance
 	 * @since 26-Apr-2017 8:49:08 PM
 	 */
-	public void pinch () {
-		checkElementEnabled ();
-		log.info (String.format ("Pinching on element [%s]...", this.name));
-		try {
-			fail (NotImplementedError.class, "Pinch! Coming Soon!!");
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
+	public void pinch (final int distance) {
+		perform ("Pinching on", e -> {
+			doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, SwipeStartPosition.TOP,
+					SwipeStartPosition.BOTTOM, distance);
+		});
 	}
 
 	/**
@@ -202,16 +204,13 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @author wasiq.bhamla
 	 * @since 12-May-2017 10:07:14 PM
 	 * @param direction
+	 * @param start
+	 * @param distance
 	 */
-	public void swipe (final SwipeDirection direction) {
-		checkElementEnabled ();
-		log.info (String.format ("Swiping [%s] on element [%s]...", direction, this.name));
-		try {
-			fail (NotImplementedError.class, "Swipe! Coming Soon!!");
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
+	public void swipe (final SwipeDirection direction, final SwipeStartPosition start, final int distance) {
+		perform ("Swiping on", e -> {
+			swipeTo (direction, start, distance).perform ();
+		});
 	}
 
 	/**
@@ -256,21 +255,27 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 
 	/**
 	 * @author wasiq.bhamla
+	 * @param distance
 	 * @since 26-Apr-2017 8:48:10 PM
 	 */
-	public void zoom () {
-		checkElementEnabled ();
-		log.info (String.format ("Zooming on element [%s]...", this.name));
-		try {
-			fail (NotImplementedError.class, "Zoom! Coming Soon!!");
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
+	public void zoom (final int distance) {
+		perform ("Zooming on", e -> {
+			doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN, SwipeStartPosition.CENTER,
+					SwipeStartPosition.CENTER, distance);
+		});
 	}
 
 	private void checkElementEnabled () {
 		DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+	}
+
+	private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
+			final SwipeStartPosition start1, final SwipeStartPosition start2, final int distancePercent) {
+		final TouchAction firstFinger = swipeTo (finger1, start1, distancePercent);
+		final TouchAction secondFinger = swipeTo (finger2, start2, distancePercent);
+		this.multiTouch.add (firstFinger)
+			.add (secondFinger)
+			.perform ();
 	}
 
 	private <R> R getValue (final String message, final Function <MobileElement, R> func) {
@@ -293,5 +298,14 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+	}
+
+	private TouchAction swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
+			final int distancePercent) {
+		final Dimension size = this.element.getSize ();
+		final Point location = this.element.getLocation ();
+
+		return SwipeUtils.swipeTo (size, location, direction, start, distancePercent, this.setting, this.driver,
+				this.element);
 	}
 }

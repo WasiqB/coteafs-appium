@@ -18,7 +18,6 @@ package com.github.wasiqb.coteafs.appium.device;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static java.lang.String.format;
-import static java.time.Duration.ofSeconds;
 
 import java.io.File;
 import java.io.IOException;
@@ -31,10 +30,12 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
+import com.github.wasiqb.coteafs.appium.utils.SwipeUtils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -132,20 +133,23 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @since Oct 20, 2017 8:45:31 PM
 	 * @param distance
 	 */
-	public void pinch (final SwipeDistance distance) {
-		log.info (format ("Pinching on device screen by [%s] distance...", distance));
-		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, distance, false);
+	public void pinch (final int distance) {
+		log.info (format ("Pinching on device screen by [%d]% distance...", distance));
+		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, SwipeStartPosition.TOP, SwipeStartPosition.BOTTOM,
+				distance);
 	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since Oct 20, 2017 7:52:29 PM
 	 * @param direction
+	 * @param start
 	 * @param distance
 	 */
-	public void swipe (final SwipeDirection direction, final SwipeDistance distance) {
-		log.info (format ("Swiping [%s] on device screen by [%s] distance...", direction, distance));
-		swipeTo (direction, distance, true).perform ();
+	public void swipe (final SwipeDirection direction, final SwipeStartPosition start, final int distance) {
+		log.info (format ("Swiping [%s] on device screen by [%d] perc distance from [%s] of the screen...", direction,
+				distance, start));
+		swipeTo (direction, start, distance).perform ();
 	}
 
 	/**
@@ -153,9 +157,10 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @since Oct 20, 2017 8:44:00 PM
 	 * @param distance
 	 */
-	public void zoom (final SwipeDistance distance) {
-		log.info (format ("Zooming in device screen by [%s] distance...", distance));
-		doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN, distance, true);
+	public void zoom (final int distance) {
+		log.info (format ("Zooming in device screen by [%d]% distance...", distance));
+		doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN, SwipeStartPosition.CENTER,
+				SwipeStartPosition.CENTER, distance);
 	}
 
 	/**
@@ -176,39 +181,21 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	}
 
 	private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
-			final SwipeDistance distance, final boolean centerStart) {
-		final TouchAction firstFinger = swipeTo (finger1, distance, centerStart);
-		final TouchAction secondFinger = swipeTo (finger2, distance, centerStart);
+			final SwipeStartPosition start1, final SwipeStartPosition start2, final int distancePercent) {
+		final TouchAction firstFinger = swipeTo (finger1, start1, distancePercent);
+		final TouchAction secondFinger = swipeTo (finger2, start2, distancePercent);
 		this.multiTouch.add (firstFinger)
 			.add (secondFinger)
 			.perform ();
 	}
 
-	private TouchAction swipeTo (final SwipeDirection direction, final SwipeDistance distance,
-			final boolean centerStart) {
+	private TouchAction swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
+			final int distancePercent) {
 		final Dimension size = this.driver.manage ()
 			.window ()
 			.getSize ();
-		int startX = size.getWidth () / 2;
-		int startY = size.getHeight () / 2;
-		int endX = (int) (startX * direction.getX () * distance.getDistance ());
-		int endY = (int) (startY * direction.getY () * distance.getDistance ());
-		if (!centerStart) {
-			final int tempX = startX;
-			final int tempY = startY;
-			startX = endX;
-			startY = endY;
-			endX = tempX;
-			endY = tempY;
-		}
-		final int beforeSwipe = this.setting.getDelayBeforeSwipe ();
-		final int afterSwipe = this.setting.getDelayAfterSwipe ();
-		final TouchAction returnAction = new TouchAction (this.driver);
-		returnAction.press (startX, startY)
-			.waitAction (ofSeconds (beforeSwipe))
-			.moveTo (endX, endY)
-			.waitAction (ofSeconds (afterSwipe))
-			.release ();
-		return returnAction;
+		final Point location = new Point (0, 0);
+
+		return SwipeUtils.swipeTo (size, location, direction, start, distancePercent, this.setting, this.driver, null);
 	}
 }
