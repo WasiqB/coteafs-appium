@@ -26,6 +26,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.InvalidSelectorException;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -34,6 +35,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.PlatformType;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
+import com.github.wasiqb.coteafs.appium.error.AppiumSelectorNotImplementedError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementFindTimedOutError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementNameNotFoundError;
@@ -75,6 +77,19 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Feb 2, 2018 1:44:52 PM
+	 * @param name
+	 * @return element
+	 */
+	public MobileElement getElement (final String name) {
+		load ();
+		final String msg = "Getting element with name [%s]...";
+		log.trace (String.format (msg, name));
+		return findElements (getDeviceElement (name));
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:41:07 PM
 	 * @return device actions
 	 */
@@ -111,13 +126,6 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		return new DeviceElementActions <> (this.device, name, findElements (element));
 	}
 
-	protected MobileElement getElement (final String name) {
-		load ();
-		final String msg = "Getting element with name [%s]...";
-		log.trace (String.format (msg, name));
-		return findElements (getDeviceElement (name));
-	}
-
 	/**
 	 * @author wasiq.bhamla
 	 * @return element
@@ -147,6 +155,9 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
+		catch (final InvalidSelectorException e) {
+			fail (AppiumSelectorNotImplementedError.class, "Selector not supported", e);
+		}
 		catch (final Exception e) {
 			captureScreenshotOnError ();
 			message = "Error occured while finding root device element with locator [%s] at index [%d].";
@@ -172,6 +183,9 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
+		catch (final InvalidSelectorException e) {
+			fail (AppiumSelectorNotImplementedError.class, "Selector not supported", e);
 		}
 		catch (final Exception e) {
 			captureScreenshotOnError ();
