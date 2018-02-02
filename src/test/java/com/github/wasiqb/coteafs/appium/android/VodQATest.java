@@ -17,8 +17,8 @@ package com.github.wasiqb.coteafs.appium.android;
 
 import org.testng.annotations.Test;
 
-import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
+import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DragDropActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.MainActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.SliderActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.VerticleSwipeActivity;
@@ -32,14 +32,21 @@ import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
 public class VodQATest extends DefaultTest {
 	/**
 	 * @author wasiq.bhamla
-	 * @since Jan 23, 2018 8:16:56 PM
+	 * @since Feb 2, 2018 2:59:25 PM
 	 */
-	@Test
-	public void testLogin () {
-		final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
-		login.addInputValue ("UserName", "admin")
-			.addInputValue ("Password", "admin")
-			.perform ();
+	@Test (enabled = false)
+	public void testDragDrop () {
+		final MainActivity main = new MainActivity (this.androidDevice);
+		main.onDevice ()
+			.swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 5);
+		main.onDevice ()
+			.swipe (SwipeDirection.DOWN, SwipeStartPosition.CENTER, 5);
+		main.onElement ("DragDrop")
+			.click ();
+
+		final DragDropActivity dd = new DragDropActivity (this.androidDevice);
+		dd.onElement ("DropMe")
+			.dragDrop (dd.getElement ("DropZone"));
 	}
 
 	/**
@@ -93,18 +100,13 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testVerticleSwipe () {
 		final MainActivity main = new MainActivity (this.androidDevice);
-		main.onDevice ()
-			.swipe (SwipeDirection.UP, SwipeStartPosition.CENTER, 10);
 		main.onElement ("VerticalSwipe")
 			.click ();
 
 		final VerticleSwipeActivity slider = new VerticleSwipeActivity (this.androidDevice);
-		// slider.onElement ("List")
-		slider.onDevice ()
+		slider.onElement ("List")
 			.swipe (SwipeDirection.UP, SwipeStartPosition.CENTER, 10);
-		slider.onDevice ()
+		slider.onElement ("List")
 			.swipe (SwipeDirection.DOWN, SwipeStartPosition.CENTER, 10);
-
-		System.out.println ();
 	}
 }

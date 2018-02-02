@@ -119,6 +119,18 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Feb 2, 2018 1:45:15 PM
+	 * @param dropElement
+	 */
+	public void dragDrop (final MobileElement dropElement) {
+		perform ("Performing drag on", e -> {
+			SwipeUtils.dragTo (this.driver, this.setting, e, dropElement)
+				.perform ();
+		});
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 8:51:07 PM
 	 * @return enabled
 	 */

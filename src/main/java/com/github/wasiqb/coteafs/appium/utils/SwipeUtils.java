@@ -35,6 +35,26 @@ import io.appium.java_client.TouchAction;
 public final class SwipeUtils {
 	/**
 	 * @author wasiq.bhamla
+	 * @since Feb 2, 2018 3:25:54 PM
+	 * @param driver
+	 * @param setting
+	 * @param fromElement
+	 * @param toElement
+	 * @return touch action
+	 */
+	public static TouchAction dragTo (final PerformsTouchActions driver, final PlaybackSetting setting,
+			final MobileElement fromElement, final MobileElement toElement) {
+		final TouchAction returnAction = new TouchAction (driver);
+		returnAction.waitAction (ofSeconds (setting.getDelayBeforeSwipe ()))
+			.press (fromElement)
+			.moveTo (toElement)
+			.waitAction (ofSeconds (setting.getDelayAfterSwipe ()))
+			.release ();
+		return returnAction;
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since Feb 1, 2018 12:30:56 PM
 	 * @param size
 	 * @param location
@@ -69,16 +89,16 @@ public final class SwipeUtils {
 		final int afterSwipe = setting.getDelayAfterSwipe ();
 		final TouchAction returnAction = new TouchAction (driver);
 		if (element == null) {
-			returnAction.press (startX, startY)
-				.waitAction (ofSeconds (beforeSwipe))
+			returnAction.waitAction (ofSeconds (beforeSwipe))
+				.press (startX, startY)
 				.moveTo (endX, endY)
 				.waitAction (ofSeconds (afterSwipe))
 				.release ();
 		}
 		else {
-			returnAction.press (element, startX, startY)
-				.waitAction (ofSeconds (beforeSwipe))
-				.moveTo (element, endX, endY)
+			returnAction.waitAction (ofSeconds (beforeSwipe))
+				.press (element, startX, startY)
+				.moveTo (element, startX + endX, startY + endY)
 				.waitAction (ofSeconds (afterSwipe))
 				.release ();
 		}
@@ -88,27 +108,29 @@ public final class SwipeUtils {
 
 	private static Point getStartPoint (final SwipeStartPosition start, final int w, final int h,
 			final Point location) {
-		int x = location.getX ();
-		int y = location.getY ();
+		int x = 0;
+		int y = 0;
 		switch (start) {
 			case BOTTOM:
-				x += w / 2;
-				y += h - 5;
+				x = w / 2;
+				y = h - 5;
 				break;
 			case CENTER:
-				x += w / 2;
-				y += h / 2;
+				x = w / 2;
+				y = h / 2;
 				break;
 			case LEFT:
-				y += h / 2;
+				x += 5;
+				y = h / 2;
 				break;
 			case RIGHT:
-				x += w - 5;
-				y += h / 2;
+				x = w - 5;
+				y = h / 2;
 				break;
 			case TOP:
 			default:
 				x = w / 2;
+				y += 5;
 				break;
 		}
 		return new Point (x, y);
