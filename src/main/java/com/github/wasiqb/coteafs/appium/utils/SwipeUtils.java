@@ -57,7 +57,6 @@ public final class SwipeUtils {
 	 * @author wasiq.bhamla
 	 * @since Feb 1, 2018 12:30:56 PM
 	 * @param size
-	 * @param location
 	 * @param direction
 	 * @param start
 	 * @param distancePercent
@@ -66,24 +65,21 @@ public final class SwipeUtils {
 	 * @param element
 	 * @return touch action
 	 */
-	public static TouchAction swipeTo (final Dimension size, final Point location, final SwipeDirection direction,
+	public static TouchAction swipeTo (final Dimension size, final SwipeDirection direction,
 			final SwipeStartPosition start, final int distancePercent, final PlaybackSetting setting,
 			final PerformsTouchActions driver, final MobileElement element) {
 		print (size);
-		print (location);
 		final double distance = distancePercent / 100.0;
 		final int w = size.getWidth ();
 		final int h = size.getHeight ();
 
-		final Point startPosition = getStartPoint (start, w, h, location);
+		final Point startPosition = getStartPoint (start, w, h);
 		print (startPosition);
 		final int startX = startPosition.getX ();
 		final int startY = startPosition.getY ();
 
-		final int endX = (int) (startX * direction.getX () * distance);
-		final int endY = (int) (startY * direction.getY () * distance);
-		print (endX);
-		print (endY);
+		int endX = (int) (startX * direction.getX () * distance);
+		int endY = (int) (startY * direction.getY () * distance);
 
 		final int beforeSwipe = setting.getDelayBeforeSwipe ();
 		final int afterSwipe = setting.getDelayAfterSwipe ();
@@ -92,22 +88,26 @@ public final class SwipeUtils {
 			returnAction.waitAction (ofSeconds (beforeSwipe))
 				.press (startX, startY)
 				.moveTo (endX, endY)
-				.waitAction (ofSeconds (afterSwipe))
-				.release ();
+				.release ()
+				.waitAction (ofSeconds (afterSwipe));
 		}
 		else {
+			endX = startX + (int) (w * direction.getX () * distance);
+			endY = startY + (int) (h * direction.getY () * distance);
+			print (endX);
+			print (endY);
+
 			returnAction.waitAction (ofSeconds (beforeSwipe))
 				.press (element, startX, startY)
-				.moveTo (element, startX + endX, startY + endY)
-				.waitAction (ofSeconds (afterSwipe))
-				.release ();
+				.moveTo (element, endX, endY)
+				.release ()
+				.waitAction (ofSeconds (afterSwipe));
 		}
 
 		return returnAction;
 	}
 
-	private static Point getStartPoint (final SwipeStartPosition start, final int w, final int h,
-			final Point location) {
+	private static Point getStartPoint (final SwipeStartPosition start, final int w, final int h) {
 		int x = 0;
 		int y = 0;
 		switch (start) {
@@ -120,7 +120,7 @@ public final class SwipeUtils {
 				y = h / 2;
 				break;
 			case LEFT:
-				x += 5;
+				// x += 5;
 				y = h / 2;
 				break;
 			case RIGHT:
@@ -130,7 +130,7 @@ public final class SwipeUtils {
 			case TOP:
 			default:
 				x = w / 2;
-				y += 5;
+				// y += 5;
 				break;
 		}
 		return new Point (x, y);
