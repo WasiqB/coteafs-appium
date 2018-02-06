@@ -26,7 +26,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchSessionException;
-import org.openqa.selenium.Point;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
@@ -315,9 +314,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	private TouchAction swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
 			final int distancePercent) {
 		final Dimension size = this.element.getSize ();
-		final Point location = this.element.getLocation ();
 
-		return SwipeUtils.swipeTo (size, location, direction, start, distancePercent, this.setting, this.driver,
-				this.element);
+		return SwipeUtils.swipeTo (size, direction, start, distancePercent, this.setting, this.driver, this.element);
 	}
 }

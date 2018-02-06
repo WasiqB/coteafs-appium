@@ -47,6 +47,10 @@ public class SliderActivity extends DefaultActivity {
 			.parent (main)
 			.waitStrategy (WaitStrategy.ENABLED)
 			.using (By.id ("slider"));
+		DeviceElement.create ("Slider1")
+			.parent (main)
+			.waitStrategy (WaitStrategy.ENABLED)
+			.using (By.id ("slider1"));
 
 		return main;
 	}

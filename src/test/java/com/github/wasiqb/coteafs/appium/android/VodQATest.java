@@ -15,6 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import java.time.Duration;
+
+import org.openqa.selenium.Dimension;
 import org.testng.annotations.Test;
 
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
@@ -25,11 +28,52 @@ import com.github.wasiqb.coteafs.appium.android.vodqa.activities.VerticleSwipeAc
 import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
 
+import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
+import io.appium.java_client.android.AndroidDriver;
+
 /**
  * @author wasiq.bhamla
  * @since Jan 23, 2018 8:14:51 PM
  */
 public class VodQATest extends DefaultTest {
+	/**
+	 * @author wasiq.bhamla
+	 * @since Feb 2, 2018 9:56:28 PM
+	 */
+	@Test
+	public void test1 () {
+		final MainActivity main = new MainActivity (this.androidDevice);
+		main.onElement ("VerticalSwipe")
+			.click ();
+
+		final AndroidDriver <MobileElement> driver = this.androidDevice.getDriver ();
+		final MobileElement slider = driver.findElementByAccessibilityId ("listview");
+		final Dimension size = slider.getSize ();
+		System.out.println (size);
+
+		final int startX = size.width / 2;
+		final int startY = size.height - 20;
+		System.out.println ("Starting at x: " + startX + ", y: " + startY);
+
+		final int endX = size.width / 2;
+		final int endY = size.height / 2 + 50;
+		System.out.println ("ending at x: " + endX + ", y: " + endY);
+
+		final TouchAction swipe = new TouchAction (driver).press (slider, startX, startY)
+			.waitAction (Duration.ofSeconds (2))
+			.moveTo (slider, endX, endY)
+			.release ()
+			.waitAction (Duration.ofSeconds (1));
+		swipe.perform ();
+
+		final VerticleSwipeActivity vs = new VerticleSwipeActivity (this.androidDevice);
+		vs.onDevice ()
+			.swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
+		vs.onElement ("List")
+			.swipe (SwipeDirection.DOWN, SwipeStartPosition.CENTER, 25);
+	}
+
 	/**
 	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 2:59:25 PM
@@ -78,26 +122,41 @@ public class VodQATest extends DefaultTest {
 	 * @author wasiq.bhamla
 	 * @since Jan 27, 2018 7:45:48 PM
 	 */
-	@Test (enabled = false)
+	@Test
 	public void testSlider () {
 		final MainActivity main = new MainActivity (this.androidDevice);
 		main.onElement ("Slider")
 			.click ();
 
-		final SliderActivity slider = new SliderActivity (this.androidDevice);
-		slider.onElement ("Slider")
-			.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 10);
-		slider.onElement ("Slider")
-			.swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 10);
+		// final AndroidDriver <MobileElement> driver = this.androidDevice.getDriver ();
+		// final MobileElement slider = driver.findElementByAccessibilityId ("slider");
+		// final Dimension size = slider.getSize ();
+		// System.out.println (size);
+		//
+		// final int startX = 0;
+		// final int startY = size.height / 2;
+		// System.out.println ("Starting at x: " + startX + ", y: " + startY);
+		//
+		// final int endX = size.width / 2;
+		// final int endY = size.height / 2;
+		// System.out.println ("ending at x: " + endX + ", y: " + endY);
+		//
+		// final TouchAction swipe = new TouchAction (driver).press (slider, startX, startY)
+		// .waitAction (Duration.ofSeconds (3))
+		// .moveTo (slider, endX, endY)
+		// .release ();
+		// swipe.perform ();
 
-		System.out.println ();
+		final SliderActivity slide = new SliderActivity (this.androidDevice);
+		slide.onElement ("Slider1")
+			.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 50);
 	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since Feb 1, 2018 3:15:23 PM
 	 */
-	@Test
+	@Test (enabled = false)
 	public void testVerticleSwipe () {
 		final MainActivity main = new MainActivity (this.androidDevice);
 		main.onElement ("VerticalSwipe")

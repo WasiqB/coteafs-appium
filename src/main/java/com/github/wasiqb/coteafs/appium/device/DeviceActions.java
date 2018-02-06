@@ -30,7 +30,6 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.Point;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
@@ -194,8 +193,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		final Dimension size = this.driver.manage ()
 			.window ()
 			.getSize ();
-		final Point location = new Point (0, 0);
 
-		return SwipeUtils.swipeTo (size, location, direction, start, distancePercent, this.setting, this.driver, null);
+		return SwipeUtils.swipeTo (size, direction, start, distancePercent, this.setting, this.driver, null);
 	}
 }
