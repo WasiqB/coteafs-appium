@@ -18,6 +18,7 @@ package com.github.wasiqb.coteafs.appium.android;
 import java.time.Duration;
 
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.Point;
 import org.testng.annotations.Test;
 
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
@@ -52,26 +53,28 @@ public class VodQATest extends DefaultTest {
 		final Dimension size = slider.getSize ();
 		System.out.println (size);
 
+		final Point loc = slider.getLocation ();
+		System.out.println (loc);
+
 		final int startX = size.width / 2;
-		final int startY = size.height - 20;
+		final int startY = size.height - 5;
 		System.out.println ("Starting at x: " + startX + ", y: " + startY);
 
 		final int endX = size.width / 2;
-		final int endY = size.height / 2 + 50;
+		final int endY = size.height / 2;
 		System.out.println ("ending at x: " + endX + ", y: " + endY);
 
 		final TouchAction swipe = new TouchAction (driver).press (slider, startX, startY)
 			.waitAction (Duration.ofSeconds (2))
 			.moveTo (slider, endX, endY)
-			.release ()
-			.waitAction (Duration.ofSeconds (1));
+			.release ();
 		swipe.perform ();
 
 		final VerticleSwipeActivity vs = new VerticleSwipeActivity (this.androidDevice);
-		vs.onDevice ()
+		vs.onElement ("List")
 			.swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
 		vs.onElement ("List")
-			.swipe (SwipeDirection.DOWN, SwipeStartPosition.CENTER, 25);
+			.swipe (SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
 	}
 
 	/**
@@ -107,13 +110,13 @@ public class VodQATest extends DefaultTest {
 		final ChainedViewActivity chained = new ChainedViewActivity (this.androidDevice);
 		chained.onElement ("Text1")
 			.verifyThat ()
-			.textShouldBeEqualTo ("Hello World, I'm View one");
+			.textShouldBeEqualTo ("Hello World, I'm View one ");
 		chained.onElement ("Text2")
 			.verifyThat ()
-			.textShouldBeEqualTo ("Hello World, I'm View two");
+			.textShouldBeEqualTo ("Hello World, I'm View two ");
 		chained.onElement ("Text3")
 			.verifyThat ()
-			.textShouldBeEqualTo ("Hello World, I'm View three");
+			.textShouldBeEqualTo ("Hello World, I'm View three ");
 		chained.onElement ("Back")
 			.click ();
 	}
@@ -122,34 +125,17 @@ public class VodQATest extends DefaultTest {
 	 * @author wasiq.bhamla
 	 * @since Jan 27, 2018 7:45:48 PM
 	 */
-	@Test
+	@Test (enabled = true)
 	public void testSlider () {
 		final MainActivity main = new MainActivity (this.androidDevice);
 		main.onElement ("Slider")
 			.click ();
 
-		// final AndroidDriver <MobileElement> driver = this.androidDevice.getDriver ();
-		// final MobileElement slider = driver.findElementByAccessibilityId ("slider");
-		// final Dimension size = slider.getSize ();
-		// System.out.println (size);
-		//
-		// final int startX = 0;
-		// final int startY = size.height / 2;
-		// System.out.println ("Starting at x: " + startX + ", y: " + startY);
-		//
-		// final int endX = size.width / 2;
-		// final int endY = size.height / 2;
-		// System.out.println ("ending at x: " + endX + ", y: " + endY);
-		//
-		// final TouchAction swipe = new TouchAction (driver).press (slider, startX, startY)
-		// .waitAction (Duration.ofSeconds (3))
-		// .moveTo (slider, endX, endY)
-		// .release ();
-		// swipe.perform ();
-
 		final SliderActivity slide = new SliderActivity (this.androidDevice);
+		slide.onElement ("Slider")
+			.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 25);
 		slide.onElement ("Slider1")
-			.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 50);
+			.swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 25);
 	}
 
 	/**

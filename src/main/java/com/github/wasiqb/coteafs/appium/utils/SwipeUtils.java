@@ -45,11 +45,11 @@ public final class SwipeUtils {
 	public static TouchAction dragTo (final PerformsTouchActions driver, final PlaybackSetting setting,
 			final MobileElement fromElement, final MobileElement toElement) {
 		final TouchAction returnAction = new TouchAction (driver);
-		returnAction.waitAction (ofSeconds (setting.getDelayBeforeSwipe ()))
-			.press (fromElement)
+		returnAction.press (fromElement)
+			.waitAction (ofSeconds (setting.getDelayBeforeSwipe ()))
 			.moveTo (toElement)
-			.waitAction (ofSeconds (setting.getDelayAfterSwipe ()))
-			.release ();
+			.release ()
+			.waitAction (ofSeconds (setting.getDelayAfterSwipe ()));
 		return returnAction;
 	}
 
@@ -73,7 +73,7 @@ public final class SwipeUtils {
 		final int w = size.getWidth ();
 		final int h = size.getHeight ();
 
-		final Point startPosition = getStartPoint (start, w, h);
+		final Point startPosition = getStartPoint (start, w, h, element != null);
 		print (startPosition);
 		final int startX = startPosition.getX ();
 		final int startY = startPosition.getY ();
@@ -85,8 +85,8 @@ public final class SwipeUtils {
 		final int afterSwipe = setting.getDelayAfterSwipe ();
 		final TouchAction returnAction = new TouchAction (driver);
 		if (element == null) {
-			returnAction.waitAction (ofSeconds (beforeSwipe))
-				.press (startX, startY)
+			returnAction.press (startX, startY)
+				.waitAction (ofSeconds (beforeSwipe))
 				.moveTo (endX, endY)
 				.release ()
 				.waitAction (ofSeconds (afterSwipe));
@@ -97,40 +97,40 @@ public final class SwipeUtils {
 			print (endX);
 			print (endY);
 
-			returnAction.waitAction (ofSeconds (beforeSwipe))
-				.press (element, startX, startY)
+			returnAction.press (element, startX, startY)
+				.waitAction (ofSeconds (beforeSwipe))
 				.moveTo (element, endX, endY)
-				.release ()
-				.waitAction (ofSeconds (afterSwipe));
+				.release ();
 		}
 
 		return returnAction;
 	}
 
-	private static Point getStartPoint (final SwipeStartPosition start, final int w, final int h) {
+	private static Point getStartPoint (final SwipeStartPosition start, final int w, final int h,
+			final boolean onElement) {
 		int x = 0;
 		int y = 0;
 		switch (start) {
 			case BOTTOM:
 				x = w / 2;
-				y = h - 5;
+				y = onElement ? h : h - 5;
 				break;
 			case CENTER:
 				x = w / 2;
 				y = h / 2;
 				break;
 			case LEFT:
-				// x += 5;
+				x = onElement ? 0 : 5;
 				y = h / 2;
 				break;
 			case RIGHT:
-				x = w - 5;
+				x = onElement ? w : w - 5;
 				y = h / 2;
 				break;
 			case TOP:
 			default:
 				x = w / 2;
-				// y += 5;
+				y = onElement ? 0 : 5;
 				break;
 		}
 		return new Point (x, y);
