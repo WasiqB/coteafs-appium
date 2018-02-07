@@ -24,6 +24,7 @@ import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
 
+import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.PerformsTouchActions;
 import io.appium.java_client.TouchAction;
@@ -56,7 +57,6 @@ public final class SwipeUtils {
 	/**
 	 * @author wasiq.bhamla
 	 * @since Feb 1, 2018 12:30:56 PM
-	 * @param size
 	 * @param direction
 	 * @param start
 	 * @param distancePercent
@@ -65,16 +65,19 @@ public final class SwipeUtils {
 	 * @param element
 	 * @return touch action
 	 */
-	public static TouchAction swipeTo (final Dimension size, final SwipeDirection direction,
-			final SwipeStartPosition start, final int distancePercent, final PlaybackSetting setting,
-			final PerformsTouchActions driver, final MobileElement element) {
-		print (size);
+	public static TouchAction swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
+			final int distancePercent, final PlaybackSetting setting, final AppiumDriver <MobileElement> driver,
+			final MobileElement element) {
+		final Dimension screenSize = driver.manage ()
+			.window ()
+			.getSize ();
+		print ("Screen: " + screenSize);
 		final double distance = distancePercent / 100.0;
-		final int w = size.getWidth ();
-		final int h = size.getHeight ();
+		final int w = screenSize.getWidth ();
+		final int h = screenSize.getHeight ();
 
-		final Point startPosition = getStartPoint (start, w, h, element != null);
-		print (startPosition);
+		final Point startPosition = getStartPoint (start, w, h, element);
+		print ("Start: " + startPosition);
 		final int startX = startPosition.getX ();
 		final int startY = startPosition.getY ();
 
@@ -92,10 +95,11 @@ public final class SwipeUtils {
 				.waitAction (ofSeconds (afterSwipe));
 		}
 		else {
-			endX = startX + (int) (w * direction.getX () * distance);
-			endY = startY + (int) (h * direction.getY () * distance);
-			print (endX);
-			print (endY);
+			final Dimension elementSize = element.getSize ();
+			print ("Element: " + elementSize);
+			endX = startX + (int) (elementSize.getWidth () * direction.getX () * distance);
+			endY = startY + (int) (elementSize.getHeight () * direction.getY () * distance);
+			print ("End: " + new Point (endX, endY));
 
 			returnAction.press (element, startX, startY)
 				.waitAction (ofSeconds (beforeSwipe))
@@ -107,30 +111,40 @@ public final class SwipeUtils {
 	}
 
 	private static Point getStartPoint (final SwipeStartPosition start, final int w, final int h,
-			final boolean onElement) {
+			final MobileElement element) {
 		int x = 0;
 		int y = 0;
+		int width = w;
+		int height = h;
+		Point location = new Point (0, 0);
+
+		if (element != null) {
+			final Dimension size = element.getSize ();
+			width = size.getWidth ();
+			height = size.getHeight ();
+			location = element.getLocation ();
+		}
 		switch (start) {
 			case BOTTOM:
-				x = w / 2;
-				y = onElement ? h : h - 5;
+				x = width / 2;
+				y = element != null && height + location.getY () < h ? height : height - 5;
 				break;
 			case CENTER:
-				x = w / 2;
-				y = h / 2;
+				x = width / 2;
+				y = height / 2;
 				break;
 			case LEFT:
-				x = onElement ? 0 : 5;
-				y = h / 2;
+				x = element != null && width + location.getX () > 0 ? 0 : 5;
+				y = height / 2;
 				break;
 			case RIGHT:
-				x = onElement ? w : w - 5;
-				y = h / 2;
+				x = element != null && width + location.getX () < w ? width : width - 5;
+				y = height / 2;
 				break;
 			case TOP:
 			default:
-				x = w / 2;
-				y = onElement ? 0 : 5;
+				x = width / 2;
+				y = 5;
 				break;
 		}
 		return new Point (x, y);
