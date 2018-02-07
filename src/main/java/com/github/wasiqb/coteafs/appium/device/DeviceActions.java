@@ -27,7 +27,6 @@ import java.util.Calendar;
 import org.apache.commons.io.FileUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.Dimension;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -190,10 +189,6 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 
 	private TouchAction swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
 			final int distancePercent) {
-		final Dimension size = this.driver.manage ()
-			.window ()
-			.getSize ();
-
-		return SwipeUtils.swipeTo (size, direction, start, distancePercent, this.setting, this.driver, null);
+		return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting, this.driver, null);
 	}
 }
