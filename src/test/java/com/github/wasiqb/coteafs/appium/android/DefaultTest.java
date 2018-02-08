@@ -21,6 +21,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 
 import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
+import com.github.wasiqb.coteafs.appium.android.vodqa.activities.MainActivity;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 /**
@@ -29,6 +30,7 @@ import com.github.wasiqb.coteafs.appium.service.AppiumServer;
  */
 public class DefaultTest {
 	protected AndroidDevice	androidDevice;
+	protected MainActivity	main;
 	private AppiumServer	androidServer;
 
 	/**
@@ -41,6 +43,8 @@ public class DefaultTest {
 		this.androidDevice.start ();
 
 		login ();
+
+		this.main = new MainActivity (this.androidDevice);
 	}
 
 	/**

@@ -117,6 +117,22 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Feb 8, 2018 3:31:41 PM
+	 */
+	public void doubleTap () {
+		perform ("Double Tapping on", e -> {
+			this.touch.waitAction (ofSeconds (this.beforeTap))
+				.press (e)
+				.release ()
+				.press (e)
+				.release ()
+				.waitAction (ofSeconds (this.afterTap))
+				.perform ();
+		});
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 1:45:15 PM
 	 * @param dropElement
 	 */

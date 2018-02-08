@@ -63,10 +63,22 @@ public class MainActivity extends DefaultActivity {
 			.parent (scroll)
 			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("dragAndDrop"));
+		DeviceElement.create ("DoubleTap")
+			.parent (scroll)
+			.waitStrategy (WaitStrategy.ENABLED)
+			.using (MobileBy.AccessibilityId ("doubleTap"));
 		DeviceElement.create ("WebView")
 			.parent (scroll)
 			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("webView"));
+		DeviceElement.create ("LongPress")
+			.parent (scroll)
+			.waitStrategy (WaitStrategy.ENABLED)
+			.using (MobileBy.AccessibilityId ("longPress"));
+		DeviceElement.create ("PhotoView")
+			.parent (scroll)
+			.waitStrategy (WaitStrategy.ENABLED)
+			.using (MobileBy.AccessibilityId ("photoView"));
 
 		return main;
 	}

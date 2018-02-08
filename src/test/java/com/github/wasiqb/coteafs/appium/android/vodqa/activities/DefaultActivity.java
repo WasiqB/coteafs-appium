@@ -45,7 +45,9 @@ public class DefaultActivity extends AndroidActivity {
 			.using (By.id ("android:id/content"));
 		DeviceElement.create ("Back")
 			.parent (main)
-			.using (By.linkText ("Back"));
+			.using (By.xpath (
+					"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[2]/android.view.ViewGroup[1]/android.view.ViewGroup/android.widget.TextView"));
+
 		return main;
 	}
 }
