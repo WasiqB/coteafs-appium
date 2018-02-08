@@ -23,15 +23,15 @@ import com.github.wasiqb.coteafs.appium.device.WaitStrategy;
 
 /**
  * @author wasiq.bhamla
- * @since Feb 2, 2018 1:11:54 PM
+ * @since Feb 8, 2018 3:34:06 PM
  */
-public class DragDropActivity extends DefaultActivity {
+public class DoubleTapActivity extends DefaultActivity {
 	/**
 	 * @author wasiq.bhamla
-	 * @since Feb 2, 2018 1:11:55 PM
+	 * @since Feb 8, 2018 3:34:07 PM
 	 * @param device
 	 */
-	public DragDropActivity (final AndroidDevice device) {
+	public DoubleTapActivity (final AndroidDevice device) {
 		super (device);
 	}
 
@@ -43,17 +43,10 @@ public class DragDropActivity extends DefaultActivity {
 	protected DeviceElement prepare () {
 		final DeviceElement main = super.prepare ();
 
-		DeviceElement.create ("Success")
+		DeviceElement.create ("Button")
 			.parent (main)
-			.using (By.id ("success"));
-		DeviceElement.create ("DropZone")
-			.parent (main)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (By.id ("dropzone"));
-		DeviceElement.create ("DropMe")
-			.parent (main)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (By.id ("dragMe"));
+			.using (By.id ("doubleTapMe"))
+			.waitStrategy (WaitStrategy.ENABLED);
 
 		return main;
 	}

@@ -13,48 +13,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
+package com.github.wasiqb.coteafs.appium.android.system;
 
 import org.openqa.selenium.By;
 
+import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-import com.github.wasiqb.coteafs.appium.device.WaitStrategy;
 
 /**
  * @author wasiq.bhamla
- * @since Feb 2, 2018 1:11:54 PM
+ * @since Feb 8, 2018 3:44:36 PM
  */
-public class DragDropActivity extends DefaultActivity {
+public class AlertActivity extends AndroidActivity {
 	/**
 	 * @author wasiq.bhamla
-	 * @since Feb 2, 2018 1:11:55 PM
+	 * @since Feb 8, 2018 3:44:36 PM
 	 * @param device
 	 */
-	public DragDropActivity (final AndroidDevice device) {
+	public AlertActivity (final AndroidDevice device) {
 		super (device);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
 	 */
 	@Override
 	protected DeviceElement prepare () {
-		final DeviceElement main = super.prepare ();
+		final DeviceElement alert = DeviceElement.create ("Alert")
+			.using (By.id ("android:id/parentPanel"));
 
-		DeviceElement.create ("Success")
-			.parent (main)
-			.using (By.id ("success"));
-		DeviceElement.create ("DropZone")
-			.parent (main)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (By.id ("dropzone"));
-		DeviceElement.create ("DropMe")
-			.parent (main)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (By.id ("dragMe"));
+		DeviceElement.create ("Title")
+			.parent (alert)
+			.using (By.id ("android:id/alertTitle"));
+		DeviceElement.create ("Message")
+			.parent (alert)
+			.using (By.id ("android:id/message"));
+		DeviceElement.create ("OK")
+			.parent (alert)
+			.using (By.id ("android:id/button1"));
 
-		return main;
+		return alert;
 	}
 }
