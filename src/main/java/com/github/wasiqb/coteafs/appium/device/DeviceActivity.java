@@ -139,46 +139,27 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		}
 	}
 
-	private MobileElement find (final D deviceDriver, final By locator, final int index, final WaitStrategy strategy) {
-		String message = "Finding root element using [%s] at index [%d]...";
-		log.trace (String.format (message, locator, index));
-		try {
-			wait (locator, strategy);
-			final List <MobileElement> result = deviceDriver.findElements (locator);
-			return result.get (index);
-		}
-		catch (final TimeoutException e) {
-			captureScreenshotOnError ();
-			message = "[%s] locator timed out.";
-			fail (DeviceElementFindTimedOutError.class, String.format (message, locator), e);
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
-		catch (final InvalidSelectorException e) {
-			fail (AppiumSelectorNotImplementedError.class, "Selector not supported", e);
-		}
-		catch (final Exception e) {
-			captureScreenshotOnError ();
-			message = "Error occured while finding root device element with locator [%s] at index [%d].";
-			fail (DeviceElementNotFoundError.class, String.format (message, locator, index), e);
-		}
-		return null;
-	}
-
-	private MobileElement find (final DeviceElement parent, final By locator, final int index,
+	private MobileElement find (final D deviceDriver, final DeviceElement parent, final By locator, final int index,
 			final WaitStrategy strategy) {
-		String message = "Finding child element of [%s] parent using [%s] at index [%d]...";
-		log.trace (String.format (message, parent.name (), locator, index));
-		final MobileElement mobileElement = getElement (parent.name ());
 		try {
 			wait (locator, strategy);
-			final List <MobileElement> result = mobileElement.findElements (locator);
+			List <MobileElement> result = null;
+			if (parent != null) {
+				final String message = "Finding child element of [%s] parent using [%s] at index [%d]...";
+				log.trace (String.format (message, parent.name (), locator, index));
+				final MobileElement mobileElement = getElement (parent.name ());
+				result = mobileElement.findElements (locator);
+			}
+			else {
+				final String message = "Finding root element using [%s] at index [%d]...";
+				log.trace (String.format (message, locator, index));
+				result = deviceDriver.findElements (locator);
+			}
 			return result.get (index);
 		}
 		catch (final TimeoutException e) {
 			captureScreenshotOnError ();
-			message = "[%s] locator timed out.";
+			final String message = "[%s] locator timed out.";
 			fail (DeviceElementFindTimedOutError.class, String.format (message, locator), e);
 		}
 		catch (final NoSuchSessionException e) {
@@ -189,8 +170,15 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		}
 		catch (final Exception e) {
 			captureScreenshotOnError ();
-			message = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
-			fail (DeviceElementNotFoundError.class, String.format (message, locator, index, parent.name ()), e);
+			String message = "";
+			if (parent == null) {
+				message = "Error occured while finding root device element with locator [%s] at index [%d].";
+				fail (DeviceElementNotFoundError.class, String.format (message, locator, index), e);
+			}
+			else {
+				message = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
+				fail (DeviceElementNotFoundError.class, String.format (message, locator, index, parent.name ()), e);
+			}
 		}
 		return null;
 	}
@@ -200,14 +188,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		final By locator = element.locator ();
 		final int index = element.index ();
 		final WaitStrategy strategy = element.waitStrategy ();
-		MobileElement elem = null;
-		if (parent != null) {
-			elem = find (parent, locator, index, strategy);
-		}
-		else {
-			elem = find (this.device.getDriver (), locator, index, strategy);
-		}
-		return elem;
+		return find (this.device.getDriver (), parent, locator, index, strategy);
 	}
 
 	private DeviceElement getDeviceElement (final String name) {

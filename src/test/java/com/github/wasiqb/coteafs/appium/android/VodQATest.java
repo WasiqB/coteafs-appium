@@ -22,7 +22,6 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DoubleTapActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DragDropActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LongPressActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.PhotoViewActivity;
@@ -45,7 +44,7 @@ public class VodQATest extends DefaultTest {
 	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 9:56:28 PM
 	 */
-	@Test (enabled = true)
+	@Test (enabled = false)
 	public void test1 () {
 		this.main.onElement ("PhotoView")
 			.click ();
@@ -84,26 +83,9 @@ public class VodQATest extends DefaultTest {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since Feb 8, 2018 4:03:52 PM
-	 */
-	@Test (enabled = false)
-	public void testDoubleTap () {
-		this.main.onElement ("DoubleTap")
-			.click ();
-
-		final DoubleTapActivity dt = new DoubleTapActivity (this.androidDevice);
-		dt.onElement ("Button")
-			.doubleTap ();
-		final String message = dt.onDevice ()
-			.handleAlert ();
-		Assert.assertEquals (message, "Double tap successful!");
-	}
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 2:59:25 PM
 	 */
-	@Test (enabled = false)
+	@Test
 	public void testDragDrop () {
 		this.main.onElement ("DragDrop")
 			.click ();
@@ -120,7 +102,7 @@ public class VodQATest extends DefaultTest {
 	 * @author wasiq.bhamla
 	 * @since Feb 8, 2018 4:15:53 PM
 	 */
-	@Test (enabled = false)
+	@Test
 	public void testLongPress () {
 		this.main.onElement ("LongPress")
 			.click ();
@@ -138,7 +120,7 @@ public class VodQATest extends DefaultTest {
 	 * @throws InterruptedException
 	 * @since Jan 23, 2018 9:39:20 PM
 	 */
-	@Test (enabled = false)
+	@Test
 	public void testNativeView () throws InterruptedException {
 		this.main.onElement ("ChainedView")
 			.click ();
@@ -159,7 +141,7 @@ public class VodQATest extends DefaultTest {
 	 * @author wasiq.bhamla
 	 * @since Jan 27, 2018 7:45:48 PM
 	 */
-	@Test (enabled = false)
+	@Test
 	public void testSlider () {
 		this.main.onElement ("Slider")
 			.click ();
@@ -175,7 +157,7 @@ public class VodQATest extends DefaultTest {
 	 * @author wasiq.bhamla
 	 * @since Feb 1, 2018 3:15:23 PM
 	 */
-	@Test (enabled = false)
+	@Test
 	public void testVerticleSwipe () {
 		this.main.onElement ("VerticalSwipe")
 			.click ();
@@ -191,7 +173,7 @@ public class VodQATest extends DefaultTest {
 	 * @author wasiq.bhamla
 	 * @since Feb 8, 2018 4:21:19 PM
 	 */
-	@Test (enabled = false)
+	@Test
 	public void testZoomPinch () {
 		this.main.onElement ("PhotoView")
 			.click ();

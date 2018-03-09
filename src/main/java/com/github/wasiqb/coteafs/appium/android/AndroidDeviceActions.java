@@ -62,7 +62,7 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @return activity
 	 */
 	public String currentActivity () {
-		return getValue ("Getting current activity name...", d -> d.currentActivity ());
+		return getValue ("Getting current activity name...", AndroidDriver <MobileElement>::currentActivity);
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @return isLocked
 	 */
 	public boolean isLocked () {
-		return getValue ("Checking if device is locked...", d -> d.isLocked ());
+		return getValue ("Checking if device is locked...", AndroidDriver <MobileElement>::isLocked);
 	}
 
 	/**
@@ -130,7 +130,7 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @since 26-Apr-2017 9:11:45 PM
 	 */
 	public void lock () {
-		perform ("Locking the Android device...", d -> d.lockDevice ());
+		perform ("Locking the Android device...", AndroidDriver <MobileElement>::lockDevice);
 	}
 
 	/**
@@ -143,10 +143,18 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 
 	/**
 	 * @author wasiq.bhamla
+	 * @since Mar 5, 2018 10:50:09 PM
+	 */
+	public void pressEnter () {
+		perform ("Pressing Enter button on Android device...", d -> d.pressKeyCode (AndroidKeyCode.ENTER));
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 9:11:52 PM
 	 */
 	public void unlock () {
-		perform ("Unlocking the Android device...", d -> d.unlockDevice ());
+		perform ("Unlocking the Android device...", AndroidDriver <MobileElement>::unlockDevice);
 	}
 
 	private <T> T getValue (final String message, final Function <AndroidDriver <MobileElement>, T> action,
