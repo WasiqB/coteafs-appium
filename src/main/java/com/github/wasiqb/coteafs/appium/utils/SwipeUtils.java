@@ -71,13 +71,11 @@ public final class SwipeUtils {
 		final Dimension screenSize = driver.manage ()
 			.window ()
 			.getSize ();
-		print ("Screen: " + screenSize);
 		final double distance = distancePercent / 100.0;
 		final int w = screenSize.getWidth ();
 		final int h = screenSize.getHeight ();
 
 		final Point startPosition = getStartPoint (start, w, h, element);
-		print ("Start: " + startPosition);
 		final int startX = startPosition.getX ();
 		final int startY = startPosition.getY ();
 
@@ -96,10 +94,8 @@ public final class SwipeUtils {
 		}
 		else {
 			final Dimension elementSize = element.getSize ();
-			print ("Element: " + elementSize);
 			endX = startX + (int) (elementSize.getWidth () * direction.getX () * distance);
 			endY = startY + (int) (elementSize.getHeight () * direction.getY () * distance);
-			print ("End: " + new Point (endX, endY));
 
 			returnAction.press (element, startX, startY)
 				.waitAction (ofSeconds (beforeSwipe))
@@ -148,15 +144,6 @@ public final class SwipeUtils {
 				break;
 		}
 		return new Point (x, y);
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 1, 2018 3:19:17 PM
-	 * @param size
-	 */
-	private static void print (final Object obj) {
-		System.out.println (obj);
 	}
 
 	private SwipeUtils () {

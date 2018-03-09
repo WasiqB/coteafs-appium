@@ -88,9 +88,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	public void appendText (final String text) {
 		tap ();
 		final String actionType = String.format ("Appending text [%s] in", text);
-		perform (actionType, e -> {
-			e.sendKeys (text);
-		});
+		perform (actionType, e -> e.sendKeys (text));
 	}
 
 	/**
@@ -98,7 +96,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:49:52 PM
 	 */
 	public void clear () {
-		perform ("Clearing", e -> e.clear ());
+		perform ("Clearing", MobileElement::clear);
 	}
 
 	/**
@@ -117,30 +115,12 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since Feb 8, 2018 3:31:41 PM
-	 */
-	public void doubleTap () {
-		perform ("Double Tapping on", e -> {
-			this.touch.waitAction (ofSeconds (this.beforeTap))
-				.press (e)
-				.release ()
-				.press (e)
-				.release ()
-				.waitAction (ofSeconds (this.afterTap))
-				.perform ();
-		});
-	}
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 1:45:15 PM
 	 * @param dropElement
 	 */
 	public void dragDrop (final MobileElement dropElement) {
-		perform ("Performing drag on", e -> {
-			SwipeUtils.dragTo (this.driver, this.setting, e, dropElement)
-				.perform ();
-		});
+		perform ("Performing drag on", e -> SwipeUtils.dragTo (this.driver, this.setting, e, dropElement)
+			.perform ());
 	}
 
 	/**
@@ -149,7 +129,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return enabled
 	 */
 	public boolean enabled () {
-		return getValue ("Checking if element [%s] is enabled...", e -> e.isEnabled ());
+		return getValue ("Checking if element [%s] is enabled...", MobileElement::isEnabled);
 	}
 
 	/**
@@ -161,9 +141,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		tap ();
 		clear ();
 		final String actionType = String.format ("Entering text [%s] in", text);
-		perform (actionType, e -> {
-			e.sendKeys (text);
-		});
+		perform (actionType, e -> e.sendKeys (text));
 	}
 
 	/**
@@ -189,12 +167,10 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:54:58 PM
 	 */
 	public void longPress () {
-		perform ("Performing long press on", e -> {
-			this.touch.waitAction (ofSeconds (this.beforeTap))
-				.longPress (e)
-				.waitAction (ofSeconds (this.afterTap))
-				.perform ();
-		});
+		perform ("Performing long press on", e -> this.touch.waitAction (ofSeconds (this.beforeTap))
+			.longPress (e)
+			.waitAction (ofSeconds (this.afterTap))
+			.perform ());
 	}
 
 	/**
@@ -203,10 +179,8 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:49:08 PM
 	 */
 	public void pinch (final int distance) {
-		perform ("Pinching on", e -> {
-			doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, SwipeStartPosition.TOP,
-					SwipeStartPosition.BOTTOM, distance);
-		});
+		perform ("Pinching on", e -> doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP,
+				SwipeStartPosition.TOP, SwipeStartPosition.BOTTOM, distance));
 	}
 
 	/**
@@ -215,7 +189,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return selected
 	 */
 	public boolean selected () {
-		return getValue ("Checking if element [%s] is selected...", e -> e.isSelected ());
+		return getValue ("Checking if element [%s] is selected...", MobileElement::isSelected);
 	}
 
 	/**
@@ -223,7 +197,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 06-May-2017 4:56:42 PM
 	 */
 	public void submit () {
-		perform ("Performing submit", e -> e.submit ());
+		perform ("Performing submit", MobileElement::submit);
 	}
 
 	/**
@@ -246,12 +220,10 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 12-May-2017 10:08:55 PM
 	 */
 	public void tap () {
-		perform ("Tapping on", e -> {
-			this.touch.waitAction (ofSeconds (this.beforeTap))
-				.tap (e)
-				.waitAction (ofSeconds (this.afterTap))
-				.perform ();
-		});
+		perform ("Tapping on", e -> this.touch.waitAction (ofSeconds (this.beforeTap))
+			.tap (e)
+			.waitAction (ofSeconds (this.afterTap))
+			.perform ());
 	}
 
 	/**
@@ -260,7 +232,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return text
 	 */
 	public String text () {
-		return getValue ("Getting text on element [%s]...", e -> e.getText ());
+		return getValue ("Getting text on element [%s]...", MobileElement::getText);
 	}
 
 	/**
@@ -278,7 +250,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return visible
 	 */
 	public boolean visible () {
-		return getValue ("Checking if element [%s] is visible...", e -> e.isDisplayed ());
+		return getValue ("Checking if element [%s] is visible...", MobileElement::isDisplayed);
 	}
 
 	/**
@@ -287,10 +259,8 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 8:48:10 PM
 	 */
 	public void zoom (final int distance) {
-		perform ("Zooming on", e -> {
-			doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN, SwipeStartPosition.CENTER,
-					SwipeStartPosition.CENTER, distance);
-		});
+		perform ("Zooming on", e -> doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN,
+				SwipeStartPosition.CENTER, SwipeStartPosition.CENTER, distance));
 	}
 
 	private void checkElementEnabled () {
