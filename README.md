@@ -14,7 +14,6 @@ A Mobile Automation Framework built on top of [Appium][] which supports testing 
 [![Security](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=security_rating)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Security)
 [![Vulnurability](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=vulnerabilities)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=new_vulnerabilities)
 [![Duplicate Code](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Duplications)
-
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
 [![Github Releases](https://img.shields.io/github/downloads/WasiqB/coteafs-appium/total.svg)](https://github.com/WasiqB/coteafs-appium/releases)
 [![Github search hit counter](https://img.shields.io/github/search/WasiqB/coteafs-appium/goto.svg)](https://github.com/WasiqB/coteafs-appium)
