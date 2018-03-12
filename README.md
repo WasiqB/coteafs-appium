@@ -4,10 +4,17 @@
 
 A Mobile Automation Framework built on top of [Appium][] which supports testing web and native apps for Android, iOS and Windows Mobiles and Tablets whether real or emulators.
 
-[![Travis](https://img.shields.io/travis/WasiqB/coteafs-appium.svg)](https://travis-ci.org/WasiqB/coteafs-appium)
+[![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)](https://circleci.com/gh/WasiqB/coteafs-appium)
 [![Dependency Status](https://beta.gemnasium.com/badges/github.com/WasiqB/coteafs-appium.svg)](https://beta.gemnasium.com/projects/github.com/WasiqB/coteafs-appium)
-[![Test Coverage](https://api.codeclimate.com/v1/badges/c6c2b874d1ffde0f8e20/test_coverage)](https://codeclimate.com/github/WasiqB/coteafs-appium/test_coverage)
-[![Maintainability](https://api.codeclimate.com/v1/badges/c6c2b874d1ffde0f8e20/maintainability)](https://codeclimate.com/github/WasiqB/coteafs-appium/maintainability)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=bugs)](https://sonarcloud.io/project/issues?id=com.github.wasiqb.coteafs%3Aappium&resolved=false)
+[![Test Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=coverage)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Coverage)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.github.wasiqb.coteafs%3Aappium)
+[![Maintainability](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=sqale_rating)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Maintainability)
+[![Reliability](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=reliability_rating)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Reliability)
+[![Security](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=security_rating)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Security)
+[![Vulnurability](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=vulnerabilities)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=new_vulnerabilities)
+[![Duplicate Code](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Duplications)
+
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
 [![Github Releases](https://img.shields.io/github/downloads/WasiqB/coteafs-appium/total.svg)](https://github.com/WasiqB/coteafs-appium/releases)
 [![Github search hit counter](https://img.shields.io/github/search/WasiqB/coteafs-appium/goto.svg)](https://github.com/WasiqB/coteafs-appium)
@@ -52,7 +59,7 @@ The project release versioning ideology is adopted from [SemVer][semver].
 * [Wasiq Amjad Bhamla][dev]: Framework developer and maintainer
 * [Mohammad Faisal Khatri][tester]: Framework Tester
 
-[wiki]: https://github.com/WasiqB/coteafs-appium/wiki
+[wiki]: https://wasiqb.github.io/coteafs/appium/intro/
 [unit tests]: https://github.com/WasiqB/coteafs-appium/tree/master/src/test
 [Gitter]: https://gitter.im/wasiqb/coteafs-appium
 [mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium-users
