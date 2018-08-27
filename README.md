@@ -58,6 +58,14 @@ The project release versioning ideology is adopted from [SemVer][semver].
 * [Wasiq Amjad Bhamla][dev]: Framework developer and maintainer
 * [Mohammad Faisal Khatri][tester]: Framework Tester
 
+## Thanks
+
+<p align="center">
+  <a href="http://browserstack.com">
+    <img src="./browserstack-logo-600x315.png" width=600 height=315 padding=10 />
+  </a>
+</p>
+
 [wiki]: https://wasiqb.github.io/coteafs/appium/intro/
 [unit tests]: https://github.com/WasiqB/coteafs-appium/tree/master/src/test
 [Gitter]: https://gitter.im/wasiqb/coteafs-appium
