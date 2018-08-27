@@ -5,7 +5,6 @@
 A Mobile Automation Framework built on top of [Appium][] which supports testing web and native apps for Android, iOS and Windows Mobiles and Tablets whether real or emulators.
 
 [![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)](https://circleci.com/gh/WasiqB/coteafs-appium)
-[![Dependency Status](https://beta.gemnasium.com/badges/github.com/WasiqB/coteafs-appium.svg)](https://beta.gemnasium.com/projects/github.com/WasiqB/coteafs-appium)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=bugs)](https://sonarcloud.io/project/issues?id=com.github.wasiqb.coteafs%3Aappium&resolved=false)
 [![Test Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=coverage)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Coverage)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.github.wasiqb.coteafs%3Aappium)
@@ -62,9 +61,10 @@ The project release versioning ideology is adopted from [SemVer][semver].
 
 <p align="center">
   <a href="http://browserstack.com">
-    <img src="./browserstack-logo-600x315.png" width=600 height=315 padding=10 />
+    <img src="./browserstack-logo-600x315.png" width=300 />
   </a>
 </p>
+For allowing us to run our unit tests on different platforms.
 
 [wiki]: https://wasiqb.github.io/coteafs/appium/intro/
 [unit tests]: https://github.com/WasiqB/coteafs-appium/tree/master/src/test
