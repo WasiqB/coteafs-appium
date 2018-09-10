@@ -29,7 +29,7 @@ A Mobile Automation Framework built on top of [Appium][] which supports testing 
 * Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
 ## What to do when you need help?
-* Join the discussion on our [Gitter][] chats.
+* **Directly chat with me on my [site][] and I'll revert to you as soon as possible.**
 * Discuss your queries by writing to us on our [mailing list][]
 * If you find any issue which is bottleneck for you, [search the issue tracker][] to see if it is already raised.
 * If not raised, then you can create a [new issue][] with required details as mentioned in the issue template.
@@ -68,7 +68,7 @@ For allowing us to run our unit tests on different platforms.
 
 [wiki]: https://wasiqb.github.io/coteafs/appium/intro/
 [unit tests]: https://github.com/WasiqB/coteafs-appium/tree/master/src/test
-[Gitter]: https://gitter.im/wasiqb/coteafs-appium
+[site]: https://wasiqb.github.io
 [mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium-users
 [search the issue tracker]: https://github.com/WasiqB/coteafs-appium/issues?q=something
 [new issue]: https://github.com/WasiqB/coteafs-appium/issues/new
