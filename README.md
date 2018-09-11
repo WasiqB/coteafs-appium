@@ -29,16 +29,11 @@ A Mobile Automation Framework built on top of [Appium][] which supports testing 
 * Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
 ## What to do when you need help?
-* **Directly chat with me on my [site][] and I'll revert to you as soon as possible.**
+* Directly chat with me on my [site][] and I'll revert to you as soon as possible.
+* Join our discussion on Slack [here][slack].
 * Discuss your queries by writing to us on our [mailing list][]
 * If you find any issue which is bottleneck for you, [search the issue tracker][] to see if it is already raised.
 * If not raised, then you can create a [new issue][] with required details as mentioned in the issue template.
-
-## What you do if you like the project?
-* Spread the word with your network.
-* **Star** the project to make the project popular.
-* Stay updated with the project progress by **Watching** it.
-* Contribute to fix open issues, documentations or add new features. To know more, see our [contributing][] page.
 
 ## Depending coteafs projects
 Since **coteafs-appium** is a part of **coteafs** suite, hence it also depends on some of the other coteafs projects:
@@ -55,7 +50,14 @@ The project release versioning ideology is adopted from [SemVer][semver].
 
 ## Contributors
 * [Wasiq Amjad Bhamla][dev]: Framework developer and maintainer
+  * **_Live chat with me on my [site][]._**
 * [Mohammad Faisal Khatri][tester]: Framework Tester
+
+## What you do if you like the project?
+* Spread the word with your network.
+* **Star** the project to make the project popular.
+* Stay updated with the project progress by **Watching** it.
+* Contribute to fix open issues, documentations or add new features. To know more, see our [contributing][] page.
 
 ## Thanks
 
@@ -85,3 +87,4 @@ For allowing us to run our unit tests on different platforms.
 [dev]: https://github.com/WasiqB/
 [tester]: https://github.com/mfaisalkhatri
 [contributing]: .github/CONTRIBUTING.md
+[slack]: https://join.slack.com/t/wizonsoft/shared_invite/enQtNDMzMjE3NjgzOTQxLWY0MTMwMDliY2MyNDc5ZGYxOGE3NDY0NTg4Zjg3MTc3NzZlOGIxZmZiNTYwZWJhYjcwOTg5YWUzNWE1MTlmZWU
