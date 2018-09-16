@@ -31,7 +31,7 @@
 
 	<properties>
 		<appium-version>5.0.4</appium-version>
-		<selenium-version>3.10.0</selenium-version>
+		<selenium-version>3.14.0</selenium-version>
 		<coteafs.config.version>1.5.0</coteafs.config.version>
 		<coteafs.error.version>1.4.0</coteafs.error.version>
 		<coteafs.logger.version>1.5.0</coteafs.logger.version>
