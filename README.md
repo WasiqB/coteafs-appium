@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="./coteafs-appium.png" width=300 padding=10 />
+  <img src="assets/coteafs-appium.png" width=300 padding=10 />
 </p>
 
 A Mobile Automation Framework built on top of [Appium][] which supports testing web and native apps for Android, iOS and Windows Mobiles and Tablets whether real or emulators.
@@ -63,13 +63,12 @@ The project release versioning ideology is adopted from [SemVer][semver].
 
 <p align="center">
   <a href="http://browserstack.com">
-    <img src="./browserstack-logo-600x315.png" width=300 />
+    <img src="assets/browserstack-logo-600x315.png" width=300 />
   </a>
 </p>
 For allowing us to run our unit tests on different platforms.
 
 [wiki]: https://wasiqb.github.io/coteafs/appium/intro/
-[unit tests]: https://github.com/WasiqB/coteafs-appium/tree/master/src/test
 [site]: https://wasiqb.github.io
 [mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium-users
 [search the issue tracker]: https://github.com/WasiqB/coteafs-appium/issues?q=something
