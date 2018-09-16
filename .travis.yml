@@ -1,7 +1,0 @@
-language: java
-
-jdk:
-- oraclejdk8
-
-script:
-- echo "Test skipped at the moment!!"
