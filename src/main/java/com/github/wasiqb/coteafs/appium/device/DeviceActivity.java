@@ -43,14 +43,16 @@ import com.github.wasiqb.coteafs.appium.error.DeviceElementNotFoundError;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 
 /**
  * @author wasiq.bhamla
  * @param <D>
  * @param <E>
+ * @param <T>
  * @since 26-Apr-2017 4:31:24 PM
  */
-public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E extends Device <D>> {
+public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E extends Device <D>, T extends TouchAction <T>> {
 	private static final Logger log;
 
 	static {
@@ -60,18 +62,21 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	protected final E							device;
 	protected final Map <String, DeviceElement>	deviceElements;
 	private final PlaybackSetting				setting;
+	private final T								touch;
 	private final WebDriverWait					wait;
 
 	/**
 	 * @author wasiq.bhamla
 	 * @param device
+	 * @param touch
 	 * @since 26-Apr-2017 4:32:45 PM
 	 */
-	public DeviceActivity (final E device) {
+	public DeviceActivity (final E device, final T touch) {
 		this.device = device;
+		this.touch = touch;
 		this.deviceElements = new HashMap <> ();
 		this.setting = device.getSetting ()
-			.getPlayback ();
+				.getPlayback ();
 		this.wait = new WebDriverWait (device.getDriver (), this.setting.getWaitForElementUntil ());
 	}
 
@@ -104,11 +109,11 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 * @param name
 	 * @return element actions
 	 */
-	public DeviceElementActions <D, E> onElement (final String name) {
+	public DeviceElementActions <D, E, T> onElement (final String name) {
 		ServerChecker.checkServerRunning (this.device.server);
 		final String msg = "Preparing to perform actions on device element [%s]...";
 		log.trace (String.format (msg, name));
-		return new DeviceElementActions <> (this.device, name, getElement (name));
+		return new DeviceElementActions <> (this.device, name, getElement (name), this.touch);
 	}
 
 	/**
@@ -118,12 +123,12 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 * @param index
 	 * @return actions
 	 */
-	public DeviceElementActions <D, E> onElement (final String name, final int index) {
+	public DeviceElementActions <D, E, T> onElement (final String name, final int index) {
 		ServerChecker.checkServerRunning (this.device.server);
 		final String msg = "Preparing to perform actions on dynamic device element [%s] on index [%d]...";
 		log.trace (String.format (msg, name, index));
 		final DeviceElement element = getDeviceElement (name).index (index);
-		return new DeviceElementActions <> (this.device, name, findElements (element));
+		return new DeviceElementActions <> (this.device, name, findElements (element), this.touch);
 	}
 
 	/**
@@ -139,8 +144,8 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		}
 	}
 
-	private MobileElement find (final D deviceDriver, final DeviceElement parent, final By locator, final int index,
-			final WaitStrategy strategy) {
+	private MobileElement find (final D deviceDriver, final DeviceElement parent, final By locator,
+			final int index, final WaitStrategy strategy) {
 		try {
 			wait (locator, strategy);
 			List <MobileElement> result = null;
@@ -149,35 +154,30 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 				log.trace (String.format (message, parent.name (), locator, index));
 				final MobileElement mobileElement = getElement (parent.name ());
 				result = mobileElement.findElements (locator);
-			}
-			else {
+			} else {
 				final String message = "Finding root element using [%s] at index [%d]...";
 				log.trace (String.format (message, locator, index));
 				result = deviceDriver.findElements (locator);
 			}
 			return result.get (index);
-		}
-		catch (final TimeoutException e) {
+		} catch (final TimeoutException e) {
 			captureScreenshotOnError ();
 			final String message = "[%s] locator timed out.";
 			fail (DeviceElementFindTimedOutError.class, String.format (message, locator), e);
-		}
-		catch (final NoSuchSessionException e) {
+		} catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
-		catch (final InvalidSelectorException e) {
+		} catch (final InvalidSelectorException e) {
 			fail (AppiumSelectorNotImplementedError.class, "Selector not supported", e);
-		}
-		catch (final Exception e) {
+		} catch (final Exception e) {
 			captureScreenshotOnError ();
 			String message = "";
 			if (parent == null) {
 				message = "Error occured while finding root device element with locator [%s] at index [%d].";
 				fail (DeviceElementNotFoundError.class, String.format (message, locator, index), e);
-			}
-			else {
+			} else {
 				message = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
-				fail (DeviceElementNotFoundError.class, String.format (message, locator, index, parent.name ()), e);
+				fail (DeviceElementNotFoundError.class,
+						String.format (message, locator, index, parent.name ()), e);
 			}
 		}
 		return null;
@@ -192,9 +192,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	}
 
 	private DeviceElement getDeviceElement (final String name) {
-		if (this.deviceElements.containsKey (name)) {
-			return this.deviceElements.get (name);
-		}
+		if (this.deviceElements.containsKey (name)) { return this.deviceElements.get (name); }
 		final String msg = "DeviceElement with name [%s] not found.";
 		fail (DeviceElementNameNotFoundError.class, String.format (msg, name));
 		return null;

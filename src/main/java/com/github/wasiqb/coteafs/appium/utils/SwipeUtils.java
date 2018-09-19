@@ -15,10 +15,13 @@
  */
 package com.github.wasiqb.coteafs.appium.utils;
 
-import static java.time.Duration.ofSeconds;
+import java.time.Duration;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.interactions.PointerInput;
+import org.openqa.selenium.interactions.PointerInput.Kind;
+import org.openqa.selenium.interactions.Sequence;
 
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
@@ -26,8 +29,6 @@ import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.PerformsTouchActions;
-import io.appium.java_client.TouchAction;
 
 /**
  * @author wasiq.bhamla
@@ -37,73 +38,68 @@ public final class SwipeUtils {
 	/**
 	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 3:25:54 PM
-	 * @param driver
 	 * @param setting
 	 * @param fromElement
 	 * @param toElement
 	 * @return touch action
 	 */
-	public static TouchAction dragTo (final PerformsTouchActions driver, final PlaybackSetting setting,
-			final MobileElement fromElement, final MobileElement toElement) {
-		final TouchAction returnAction = new TouchAction (driver);
-		returnAction.press (fromElement)
-			.waitAction (ofSeconds (setting.getDelayBeforeSwipe ()))
-			.moveTo (toElement)
-			.release ()
-			.waitAction (ofSeconds (setting.getDelayAfterSwipe ()));
-		return returnAction;
+	public static Sequence dragTo (final PlaybackSetting setting, final MobileElement fromElement,
+			final MobileElement toElement) {
+		final Point source = fromElement.getCenter ();
+		final Point target = toElement.getCenter ();
+		final PointerInput finger = new PointerInput (Kind.TOUCH, "finger");
+		final Sequence sequence = new Sequence (finger, 0);
+		sequence.addAction (
+				finger.createPointerMove (Duration.ofMillis (setting.getDelayBeforeSwipe ()),
+						PointerInput.Origin.viewport (), source.getX (), source.getY ()));
+		sequence.addAction (finger.createPointerDown (PointerInput.MouseButton.MIDDLE.asArg ()));
+		sequence.addAction (
+				finger.createPointerMove (Duration.ofMillis (setting.getDelayAfterSwipe ()),
+						PointerInput.Origin.viewport (), target.getX (), target.getY ()));
+		sequence.addAction (finger.createPointerUp (PointerInput.MouseButton.MIDDLE.asArg ()));
+		return sequence;
 	}
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since Feb 1, 2018 12:30:56 PM
+	 * @since Sep 18, 2018 8:03:55 PM
 	 * @param direction
-	 * @param start
+	 * @param startPosition
 	 * @param distancePercent
 	 * @param setting
 	 * @param driver
 	 * @param element
-	 * @return touch action
+	 * @return sequence
 	 */
-	public static TouchAction swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
-			final int distancePercent, final PlaybackSetting setting, final AppiumDriver <MobileElement> driver,
+	public static Sequence swipeTo (final SwipeDirection direction,
+			final SwipeStartPosition startPosition, final int distancePercent,
+			final PlaybackSetting setting, final AppiumDriver <MobileElement> driver,
 			final MobileElement element) {
-		final Dimension screenSize = driver.manage ()
-			.window ()
-			.getSize ();
 		final double distance = distancePercent / 100.0;
-		final int w = screenSize.getWidth ();
-		final int h = screenSize.getHeight ();
+		final Dimension size = driver.manage ()
+				.window ()
+				.getSize ();
+		final Point source = getStartPoint (startPosition, size.getWidth (), size.getHeight (),
+				element);
+		final PointerInput finger = new PointerInput (Kind.TOUCH, "finger");
+		int endX = (int) (source.getX () * direction.getX () * distance);
+		int endY = (int) (source.getY () * direction.getY () * distance);
 
-		final Point startPosition = getStartPoint (start, w, h, element);
-		final int startX = startPosition.getX ();
-		final int startY = startPosition.getY ();
-
-		int endX = (int) (startX * direction.getX () * distance);
-		int endY = (int) (startY * direction.getY () * distance);
-
-		final int beforeSwipe = setting.getDelayBeforeSwipe ();
-		final int afterSwipe = setting.getDelayAfterSwipe ();
-		final TouchAction returnAction = new TouchAction (driver);
-		if (element == null) {
-			returnAction.press (startX, startY)
-				.waitAction (ofSeconds (beforeSwipe))
-				.moveTo (endX, endY)
-				.release ()
-				.waitAction (ofSeconds (afterSwipe));
-		}
-		else {
+		if (element != null) {
 			final Dimension elementSize = element.getSize ();
-			endX = startX + (int) (elementSize.getWidth () * direction.getX () * distance);
-			endY = startY + (int) (elementSize.getHeight () * direction.getY () * distance);
-
-			returnAction.press (element, startX, startY)
-				.waitAction (ofSeconds (beforeSwipe))
-				.moveTo (element, endX, endY)
-				.release ();
+			endX = source.getX () + (int) (elementSize.getWidth () * direction.getX () * distance);
+			endY = source.getY () + (int) (elementSize.getHeight () * direction.getY () * distance);
 		}
-
-		return returnAction;
+		final Sequence sequence = new Sequence (finger, 0);
+		sequence.addAction (
+				finger.createPointerMove (Duration.ofMillis (setting.getDelayBeforeSwipe ()),
+						PointerInput.Origin.viewport (), source.getX (), source.getY ()));
+		sequence.addAction (finger.createPointerDown (PointerInput.MouseButton.MIDDLE.asArg ()));
+		sequence.addAction (
+				finger.createPointerMove (Duration.ofMillis (setting.getDelayAfterSwipe ()),
+						PointerInput.Origin.viewport (), endX, endY));
+		sequence.addAction (finger.createPointerUp (PointerInput.MouseButton.MIDDLE.asArg ()));
+		return sequence;
 	}
 
 	private static Point getStartPoint (final SwipeStartPosition start, final int w, final int h,
@@ -115,9 +111,9 @@ public final class SwipeUtils {
 		Point location = new Point (0, 0);
 
 		if (element != null) {
-			final Dimension size = element.getSize ();
-			width = size.getWidth ();
-			height = size.getHeight ();
+			final Point size = element.getCenter ();
+			width = size.getX ();
+			height = size.getY ();
 			location = element.getLocation ();
 		}
 		switch (start) {

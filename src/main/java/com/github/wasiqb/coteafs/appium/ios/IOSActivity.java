@@ -22,12 +22,14 @@ import com.github.wasiqb.coteafs.appium.device.DeviceActivity;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSTouchAction;
 
 /**
  * @author wasiq.bhamla
  * @since 26-Apr-2017 7:41:49 PM
  */
-public abstract class IOSActivity extends DeviceActivity <IOSDriver <MobileElement>, IOSDevice> {
+public abstract class IOSActivity
+		extends DeviceActivity <IOSDriver <MobileElement>, IOSDevice, IOSTouchAction> {
 	private static final Logger log;
 
 	static {
@@ -40,7 +42,7 @@ public abstract class IOSActivity extends DeviceActivity <IOSDriver <MobileEleme
 	 * @param device
 	 */
 	public IOSActivity (final IOSDevice device) {
-		super (device);
+		super (device, new IOSTouchAction (device.getDriver ()));
 	}
 
 	/*
