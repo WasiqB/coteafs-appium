@@ -34,13 +34,15 @@ import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidKeyCode;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 
 /**
  * @author wasiq.bhamla
  * @since 26-Apr-2017 9:05:27 PM
  */
-public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileElement>, AndroidDevice> {
+public class AndroidDeviceActions
+		extends DeviceActions <AndroidDriver <MobileElement>, AndroidDevice> {
 	private static final Logger log;
 
 	static {
@@ -62,7 +64,8 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @return activity
 	 */
 	public String currentActivity () {
-		return getValue ("Getting current activity name...", AndroidDriver <MobileElement>::currentActivity);
+		return getValue ("Getting current activity name...",
+				AndroidDriver <MobileElement>::currentActivity);
 	}
 
 	/**
@@ -76,13 +79,12 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 			try {
 				final AlertActivity perm = new AlertActivity (this.device);
 				final String description = perm.onElement ("Message")
-					.text ();
+						.text ();
 				log.trace (String.format (msg, description));
 				perm.onElement ("OK")
-					.tap ();
+						.tap ();
 				return description;
-			}
-			catch (final TimeoutException e) {
+			} catch (final TimeoutException e) {
 				log.warn ("Expected Alert not displayed...");
 				log.warn (e.getMessage ());
 			}
@@ -102,13 +104,12 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 			try {
 				final PermissionActivity perm = new PermissionActivity (this.device);
 				final String description = perm.onElement ("Message")
-					.text ();
+						.text ();
 				log.trace (String.format (msg, description));
 				perm.onElement (buttonText)
-					.tap ();
+						.tap ();
 				return description;
-			}
-			catch (final TimeoutException e) {
+			} catch (final TimeoutException e) {
 				log.warn ("Expected Alert not displayed...");
 				log.warn (e.getMessage ());
 			}
@@ -122,7 +123,8 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @return isLocked
 	 */
 	public boolean isLocked () {
-		return getValue ("Checking if device is locked...", AndroidDriver <MobileElement>::isLocked);
+		return getValue ("Checking if device is locked...",
+				AndroidDriver <MobileElement>::isDeviceLocked);
 	}
 
 	/**
@@ -138,7 +140,8 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @since Oct 21, 2017 8:27:50 PM
 	 */
 	public void pressBack () {
-		perform ("Pressing Back button on Android device...", d -> d.pressKeyCode (AndroidKeyCode.BACK));
+		perform ("Pressing Back button on Android device...",
+				d -> d.pressKey (new KeyEvent (AndroidKey.BACK)));
 	}
 
 	/**
@@ -146,7 +149,8 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @since Mar 5, 2018 10:50:09 PM
 	 */
 	public void pressEnter () {
-		perform ("Pressing Enter button on Android device...", d -> d.pressKeyCode (AndroidKeyCode.ENTER));
+		perform ("Pressing Enter button on Android device...",
+				d -> d.pressKey (new KeyEvent (AndroidKey.ENTER)));
 	}
 
 	/**
@@ -157,25 +161,23 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 		perform ("Unlocking the Android device...", AndroidDriver <MobileElement>::unlockDevice);
 	}
 
-	private <T> T getValue (final String message, final Function <AndroidDriver <MobileElement>, T> action,
-			final Object... args) {
+	private <T> T getValue (final String message,
+			final Function <AndroidDriver <MobileElement>, T> action, final Object... args) {
 		log.info (format (message, args));
 		try {
 			return action.apply (this.driver);
-		}
-		catch (final NoSuchSessionException e) {
+		} catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		return null;
 	}
 
-	private void perform (final String message, final Consumer <AndroidDriver <MobileElement>> action,
-			final Object... args) {
+	private void perform (final String message,
+			final Consumer <AndroidDriver <MobileElement>> action, final Object... args) {
 		log.info (format (message, args));
 		try {
 			action.accept (this.driver);
-		}
-		catch (final NoSuchSessionException e) {
+		} catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}

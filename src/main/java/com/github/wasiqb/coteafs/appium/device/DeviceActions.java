@@ -22,6 +22,7 @@ import static java.lang.String.format;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import org.apache.commons.io.FileUtils;
@@ -29,6 +30,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
@@ -37,8 +39,6 @@ import com.github.wasiqb.coteafs.appium.utils.SwipeUtils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.MultiTouchAction;
-import io.appium.java_client.TouchAction;
 
 /**
  * @author wasiq.bhamla
@@ -62,8 +62,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	private static void copyFile (final File source, final String destination) {
 		try {
 			FileUtils.copyFile (source, new File (destination));
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			log.error ("Error occurred while capturing screensshot...");
 			log.catching (e);
 		}
@@ -72,7 +71,6 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	protected final E				device;
 	protected final D				driver;
 	protected final WebDriverWait	wait;
-	private final MultiTouchAction	multiTouch;
 	private final PlaybackSetting	setting;
 
 	/**
@@ -85,7 +83,6 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		this.driver = this.device.getDriver ();
 		this.setting = device.setting.getPlayback ();
 		this.wait = new WebDriverWait (this.driver, this.setting.getWaitForElementUntil ());
-		this.multiTouch = new MultiTouchAction (this.driver);
 	}
 
 	/**
@@ -97,7 +94,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		final String prefix = this.setting.getScreenShotPrefix ();
 		final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-HHmmss");
 		final String timeStamp = date.format (Calendar.getInstance ()
-			.getTime ());
+				.getTime ());
 		final String fileName = "%s/%s-%s.%s";
 		captureScreenshot (format (fileName, path, prefix, timeStamp, "jpeg"));
 	}
@@ -110,8 +107,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		log.info ("Hiding the keyboard...");
 		try {
 			this.driver.hideKeyboard ();
-		}
-		catch (final NoSuchSessionException e) {
+		} catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
@@ -133,8 +129,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 */
 	public void pinch (final int distance) {
 		log.info (format ("Pinching on device screen by [%d]% distance...", distance));
-		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, SwipeStartPosition.TOP, SwipeStartPosition.BOTTOM,
-				distance);
+		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, SwipeStartPosition.TOP,
+				SwipeStartPosition.BOTTOM, distance);
 	}
 
 	/**
@@ -144,10 +140,12 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @param start
 	 * @param distance
 	 */
-	public void swipe (final SwipeDirection direction, final SwipeStartPosition start, final int distance) {
-		log.info (format ("Swiping [%s] on device screen by [%d] perc distance from [%s] of the screen...", direction,
-				distance, start));
-		swipeTo (direction, start, distance).perform ();
+	public void swipe (final SwipeDirection direction, final SwipeStartPosition start,
+			final int distance) {
+		log.info (format (
+				"Swiping [%s] on device screen by [%d] perc distance from [%s] of the screen...",
+				direction, distance, start));
+		this.driver.perform (Arrays.asList (swipeTo (direction, start, distance)));
 	}
 
 	/**
@@ -172,23 +170,22 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		try {
 			final File srcFiler = this.driver.getScreenshotAs (OutputType.FILE);
 			copyFile (srcFiler, path);
-		}
-		catch (final NoSuchSessionException e) {
+		} catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
 	private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
-			final SwipeStartPosition start1, final SwipeStartPosition start2, final int distancePercent) {
-		final TouchAction firstFinger = swipeTo (finger1, start1, distancePercent);
-		final TouchAction secondFinger = swipeTo (finger2, start2, distancePercent);
-		this.multiTouch.add (firstFinger)
-			.add (secondFinger)
-			.perform ();
+			final SwipeStartPosition start1, final SwipeStartPosition start2,
+			final int distancePercent) {
+		final Sequence firstFinger = swipeTo (finger1, start1, distancePercent);
+		final Sequence secondFinger = swipeTo (finger2, start2, distancePercent);
+		this.driver.perform (Arrays.asList (firstFinger, secondFinger));
 	}
 
-	private TouchAction swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
+	private Sequence swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
 			final int distancePercent) {
-		return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting, this.driver, null);
+		return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting, this.driver,
+				null);
 	}
 }
