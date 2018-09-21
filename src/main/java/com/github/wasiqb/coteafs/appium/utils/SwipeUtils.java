@@ -106,8 +106,8 @@ public final class SwipeUtils {
 			final MobileElement element) {
 		int x = 0;
 		int y = 0;
-		int width = w;
-		int height = h;
+		int width = w / 2;
+		int height = h / 2;
 		Point location = new Point (0, 0);
 
 		if (element != null) {
@@ -118,24 +118,24 @@ public final class SwipeUtils {
 		}
 		switch (start) {
 			case BOTTOM:
-				x = width / 2;
+				x = width;
 				y = element != null && height + location.getY () < h ? height : height - 5;
 				break;
 			case CENTER:
-				x = width / 2;
-				y = height / 2;
+				x = width;
+				y = height;
 				break;
 			case LEFT:
 				x = element != null && width + location.getX () > 0 ? 0 : 5;
-				y = height / 2;
+				y = height;
 				break;
 			case RIGHT:
 				x = element != null && width + location.getX () < w ? width : width - 5;
-				y = height / 2;
+				y = height;
 				break;
 			case TOP:
 			default:
-				x = width / 2;
+				x = width;
 				y = 5;
 				break;
 		}
