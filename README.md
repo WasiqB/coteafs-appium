@@ -1,5 +1,7 @@
 <p align="center">
-  <img src="assets/coteafs-appium-logo.png" width=300 padding=10 />
+  <a href="https://wasiqb.github.io/coteafs/appium/">
+    <img src="assets/coteafs-appium-logo.png" width=300 padding=10 />
+  </a>
 </p>
 
 <h1 align="center">Wrapper Appium Framework which supports Automation of Mobile and Tablet apps for Android and iOS Real Devices / Emulators.</h1>
@@ -121,9 +123,9 @@ import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 
 public class LoginActivity extends AndroidActivity {
-	public LoginActivity (final AndroidDevice device) {
-		super (device);
-	}
+  public LoginActivity (final AndroidDevice device) {
+    super (device);
+  }
 
   @Override
   protected DeviceElement prepare () {
@@ -156,22 +158,22 @@ import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LoginActivity;
 
 public class LoginActivityAction extends AndroidActivityActions {
-	public LoginActivityAction (final AndroidDevice device) {
-		super (device);
-	}
+  public LoginActivityAction (final AndroidDevice device) {
+    super (device);
+  }
 
-	@Override
-	public void perform () {
+  @Override
+  public void perform () {
     final LoginActivity login = new LoginActivity (getDevice ());
-		login.onElement ("UserName")
-		  .enterText (value ("UserName"));
-		login.onElement ("Password")
-			.enterText (value ("Password"));
-		login.onDevice ()
-			.hideKeyboard ();
-		login.onElement ("Login")
-			.tap ();
-	}
+    login.onElement ("UserName")
+      .enterText (value ("UserName"));
+    login.onElement ("Password")
+      .enterText (value ("Password"));
+    login.onDevice ()
+      .hideKeyboard ();
+    login.onElement ("Login")
+      .tap ();
+  }
 }
 ```
 
