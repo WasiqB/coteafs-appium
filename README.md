@@ -5,6 +5,7 @@
 <h1 align="center">Wrapper Appium Framework which supports Automation of Mobile and Tablet apps for Android and iOS Real Devices / Emulators.</h1>
 
 <div align="center">
+
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)][home]
 [![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)][circleci]
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=bugs)](https://sonarcloud.io/project/issues?id=com.github.wasiqb.coteafs%3Aappium&resolved=false)
@@ -17,7 +18,13 @@
 [![Duplicate Code](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Duplications)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
 [![Github Releases](https://img.shields.io/github/downloads/WasiqB/coteafs-appium/total.svg)](https://github.com/WasiqB/coteafs-appium/releases)
+
 </div>
+
+## Getting Started
+* The [wiki][] of coteafs-appium includes all the information you need to get started including setup, usage, advantages, sample test.
+* To know what changes are Released, check out the [change log][] for complete list of changes.
+* Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
 ## [How to configure the tests?][config-doc]
 
@@ -100,36 +107,6 @@ public class SampleTest {
 }
 ```
 
-## [How to create your Activity action class?][action-doc]
-
-There is abstract action class provided by framework where Activity specific flow is implemented in perform method.
-See the sample Activity action class below.
-
-```java
-import com.github.wasiqb.coteafs.appium.android.AndroidActivityActions;
-import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LoginActivity;
-
-public class LoginActivityAction extends AndroidActivityActions {
-	public LoginActivityAction (final AndroidDevice device) {
-		super (device);
-	}
-
-	@Override
-	public void perform () {
-    final LoginActivity login = new LoginActivity (getDevice ());
-		login.onElement ("UserName")
-		  .enterText (value ("UserName"));
-		login.onElement ("Password")
-			.enterText (value ("Password"));
-		login.onDevice ()
-			.hideKeyboard ();
-		login.onElement ("Login")
-			.tap ();
-	}
-}
-```
-
 ## [How to create Activity class?][activity-doc]
 
 New class needs to be created for each Activity. There's an abstract activity class for each type of device.
@@ -168,6 +145,36 @@ public class LoginActivity extends AndroidActivity {
 }
 ```
 
+## [How to create your Activity action class?][action-doc]
+
+There is abstract action class provided by framework where Activity specific flow is implemented in perform method.
+See the sample Activity action class below.
+
+```java
+import com.github.wasiqb.coteafs.appium.android.AndroidActivityActions;
+import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
+import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LoginActivity;
+
+public class LoginActivityAction extends AndroidActivityActions {
+	public LoginActivityAction (final AndroidDevice device) {
+		super (device);
+	}
+
+	@Override
+	public void perform () {
+    final LoginActivity login = new LoginActivity (getDevice ());
+		login.onElement ("UserName")
+		  .enterText (value ("UserName"));
+		login.onElement ("Password")
+			.enterText (value ("Password"));
+		login.onDevice ()
+			.hideKeyboard ();
+		login.onElement ("Login")
+			.tap ();
+	}
+}
+```
+
 ## Liked the framework until now?
 ### Add dependency to your projects POM.
 
@@ -190,11 +197,6 @@ In order to use a framework, it's important to know it's advantages. Let's see w
 * Provides pre-defined errors which wraps the Appium exceptions in a meaningful way.
 * Provides inbuilt assertions to verify the device elements.
 * Supports any Testing frameworks like TestNG, JUnit or Cucumber.
-
-## Getting Started
-* The [wiki][] of coteafs-appium includes all the information you need to get started including setup, usage, advantages, sample test.
-* To know what changes are Released, check out the [change log][] for complete list of changes.
-* Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
 ## What to do when you need help?
 * Directly chat with me on my [site][] and I'll revert to you as soon as possible.
