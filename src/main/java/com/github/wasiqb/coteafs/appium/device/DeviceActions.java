@@ -22,7 +22,6 @@ import static java.lang.String.format;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Calendar;
 
 import org.apache.commons.io.FileUtils;
@@ -30,7 +29,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.interactions.Sequence;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
@@ -39,14 +37,17 @@ import com.github.wasiqb.coteafs.appium.utils.SwipeUtils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.MultiTouchAction;
+import io.appium.java_client.TouchAction;
 
 /**
  * @author wasiq.bhamla
  * @param <D>
  * @param <E>
+ * @param <T>
  * @since 26-Apr-2017 8:39:17 PM
  */
-public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends Device <D>> {
+public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
 	private static final Logger log;
 
 	static {
@@ -71,15 +72,18 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	protected final E				device;
 	protected final D				driver;
 	protected final WebDriverWait	wait;
+	private final T					actions;
 	private final PlaybackSetting	setting;
 
 	/**
 	 * @author wasiq.bhamla
 	 * @param device
+	 * @param actions
 	 * @since 26-Apr-2017 8:39:17 PM
 	 */
-	public DeviceActions (final E device) {
+	public DeviceActions (final E device, final T actions) {
 		this.device = device;
+		this.actions = actions;
 		this.driver = this.device.getDriver ();
 		this.setting = device.setting.getPlayback ();
 		this.wait = new WebDriverWait (this.driver, this.setting.getWaitForElementUntil ());
@@ -145,7 +149,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		log.info (format (
 				"Swiping [%s] on device screen by [%d] perc distance from [%s] of the screen...",
 				direction, distance, start));
-		this.driver.perform (Arrays.asList (swipeTo (direction, start, distance)));
+		swipeTo (direction, start, distance).perform ();
 	}
 
 	/**
@@ -178,14 +182,20 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
 			final SwipeStartPosition start1, final SwipeStartPosition start2,
 			final int distancePercent) {
-		final Sequence firstFinger = swipeTo (finger1, start1, distancePercent);
-		final Sequence secondFinger = swipeTo (finger2, start2, distancePercent);
-		this.driver.perform (Arrays.asList (firstFinger, secondFinger));
+		final T firstFinger = swipeTo (finger1, start1, distancePercent);
+		final T secondFinger = swipeTo (finger2, start2, distancePercent);
+		final MultiTouchAction multiTouch = new MultiTouchAction (this.driver);
+		multiTouch.add (firstFinger)
+				.add (secondFinger)
+				.perform ();
 	}
 
-	private Sequence swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
+	private T swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
 			final int distancePercent) {
-		return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting, this.driver,
-				null);
+		return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting,
+				this.driver.manage ()
+						.window ()
+						.getSize (),
+				null, null, this.actions);
 	}
 }

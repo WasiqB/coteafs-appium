@@ -19,13 +19,14 @@ import com.github.wasiqb.coteafs.appium.device.DeviceActivityActions;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidTouchAction;
 
 /**
  * @author wasiq.bhamla
  * @since Oct 23, 2017 11:04:31 PM
  */
-public abstract class AndroidActivityActions
-		extends DeviceActivityActions <AndroidDriver <MobileElement>, AndroidDevice> {
+public abstract class AndroidActivityActions extends
+		DeviceActivityActions <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
 	/**
 	 * @author wasiq.bhamla
 	 * @since Oct 23, 2017 11:05:14 PM

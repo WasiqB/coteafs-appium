@@ -20,6 +20,7 @@ import java.util.Map;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 
 /**
  * @author wasiq.bhamla
@@ -27,9 +28,10 @@ import io.appium.java_client.MobileElement;
  *            Driver
  * @param <E>
  *            Device
+ * @param <T>
  * @since Oct 23, 2017 10:51:31 PM
  */
-public abstract class DeviceActivityActions <D extends AppiumDriver <MobileElement>, E extends Device <D>> {
+public abstract class DeviceActivityActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
 	private final E						device;
 	private final Map <String, Object>	values;
 
@@ -50,7 +52,8 @@ public abstract class DeviceActivityActions <D extends AppiumDriver <MobileEleme
 	 * @param value
 	 * @return instance
 	 */
-	public DeviceActivityActions <D, E> addInputValue (final String element, final Object value) {
+	public DeviceActivityActions <D, E, T> addInputValue (final String element,
+			final Object value) {
 		this.values.put (element, value);
 		return this;
 	}
@@ -71,7 +74,7 @@ public abstract class DeviceActivityActions <D extends AppiumDriver <MobileEleme
 	public abstract void perform ();
 
 	@SuppressWarnings ("unchecked")
-	protected <T> T value (final String element) {
-		return (T) this.values.get (element);
+	protected <X> X value (final String element) {
+		return (X) this.values.get (element);
 	}
 }

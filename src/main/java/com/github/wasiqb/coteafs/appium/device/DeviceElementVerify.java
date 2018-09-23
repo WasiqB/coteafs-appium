@@ -31,7 +31,7 @@ import io.appium.java_client.TouchAction;
  * @param <T>
  * @since 19-May-2017 9:57:58 PM
  */
-public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E extends Device <D>, T extends TouchAction <T>> {
+public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
 	private static final Logger log;
 
 	static {

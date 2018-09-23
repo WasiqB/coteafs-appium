@@ -52,7 +52,7 @@ import io.appium.java_client.TouchAction;
  * @param <T>
  * @since 26-Apr-2017 4:31:24 PM
  */
-public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E extends Device <D>, T extends TouchAction <T>> {
+public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
 	private static final Logger log;
 
 	static {
@@ -98,9 +98,10 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	 * @since 26-Apr-2017 8:41:07 PM
 	 * @return device actions
 	 */
-	@SuppressWarnings ("unchecked")
-	public DeviceActions <D, E> onDevice () {
-		return (DeviceActions <D, E>) this.device.action ();
+	public DeviceActions <D, E, T> onDevice () {
+		this.device.checkServerRunning ();
+		log.info ("Preparing to perform actions on device...");
+		return new DeviceActions <> (this.device, this.touch);
 	}
 
 	/**
@@ -192,7 +193,8 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	}
 
 	private DeviceElement getDeviceElement (final String name) {
-		if (this.deviceElements.containsKey (name)) { return this.deviceElements.get (name); }
+		if (this.deviceElements.containsKey (name))
+			return this.deviceElements.get (name);
 		final String msg = "DeviceElement with name [%s] not found.";
 		fail (DeviceElementNameNotFoundError.class, String.format (msg, name));
 		return null;

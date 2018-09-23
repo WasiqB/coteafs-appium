@@ -19,14 +19,12 @@ import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STO
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static java.time.Duration.ofSeconds;
 
-import java.util.Arrays;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
-import org.openqa.selenium.interactions.Sequence;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
@@ -35,6 +33,7 @@ import com.github.wasiqb.coteafs.appium.utils.SwipeUtils;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
 import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.TapOptions;
@@ -48,7 +47,7 @@ import io.appium.java_client.touch.offset.ElementOption;
  * @param <T>
  * @since 26-Apr-2017 6:39:03 PM
  */
-public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E extends Device <D>, T extends TouchAction <T>> {
+public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
 	private static final Logger log;
 
 	static {
@@ -121,8 +120,9 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param dropElement
 	 */
 	public void dragDrop (final MobileElement dropElement) {
-		perform ("Performing drag on", e -> this.driver
-				.perform (Arrays.asList (SwipeUtils.dragTo (this.setting, e, dropElement))));
+		perform ("Performing drag on",
+				e -> SwipeUtils.dragTo (this.setting, e, dropElement, this.touch)
+						.perform ());
 	}
 
 	/**
@@ -213,13 +213,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void swipe (final SwipeDirection direction, final SwipeStartPosition start,
 			final int distance) {
-		perform ("Swiping on", e -> {
-			this.driver.perform (Arrays.asList (swipeTo (direction, start, distance)));
-			this.touch
-					.waitAction (WaitOptions
-							.waitOptions (ofSeconds (this.setting.getDelayAfterSwipe ())))
-					.perform ();
-		});
+		perform ("Swiping on", e -> swipeTo (direction, start, distance).perform ());
 	}
 
 	/**
@@ -279,9 +273,12 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
 			final SwipeStartPosition start1, final SwipeStartPosition start2,
 			final int distancePercent) {
-		final Sequence firstFinger = swipeTo (finger1, start1, distancePercent);
-		final Sequence secondFinger = swipeTo (finger2, start2, distancePercent);
-		this.driver.perform (Arrays.asList (firstFinger, secondFinger));
+		final T firstFinger = swipeTo (finger1, start1, distancePercent);
+		final T secondFinger = swipeTo (finger2, start2, distancePercent);
+		final MultiTouchAction multiTouch = new MultiTouchAction (this.driver);
+		multiTouch.add (firstFinger)
+				.add (secondFinger)
+				.perform ();
 	}
 
 	private <R> R getValue (final String message, final Function <MobileElement, R> func) {
@@ -304,9 +301,12 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		}
 	}
 
-	private Sequence swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
+	private T swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
 			final int distancePercent) {
-		return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting, this.driver,
-				this.element);
+		return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting,
+				this.driver.manage ()
+						.window ()
+						.getSize (),
+				this.element.getSize (), this.element.getLocation (), this.touch);
 	}
 }

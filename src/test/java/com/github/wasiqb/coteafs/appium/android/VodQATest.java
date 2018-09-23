@@ -99,9 +99,9 @@ public class VodQATest extends DefaultTest {
 
 		final SliderActivity slide = new SliderActivity (this.androidDevice);
 		slide.onElement ("Slider")
-				.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 25);
+				.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
 		slide.onElement ("Slider1")
-				.swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 25);
+				.swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
 	}
 
 	/**
