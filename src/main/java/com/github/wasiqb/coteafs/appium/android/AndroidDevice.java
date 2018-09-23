@@ -20,12 +20,13 @@ import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidTouchAction;
 
 /**
  * @author wasiq.bhamla
  * @since 13-Apr-2017 5:32:01 PM
  */
-public class AndroidDevice extends Device <AndroidDriver <MobileElement>> {
+public class AndroidDevice extends Device <AndroidDriver <MobileElement>, AndroidTouchAction> {
 	/**
 	 * @author wasiq.bhamla
 	 * @since 13-Apr-2017 9:12:47 PM

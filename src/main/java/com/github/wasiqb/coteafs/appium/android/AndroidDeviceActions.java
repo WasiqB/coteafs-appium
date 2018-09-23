@@ -34,6 +34,7 @@ import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidTouchAction;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
 
@@ -42,7 +43,7 @@ import io.appium.java_client.android.nativekey.KeyEvent;
  * @since 26-Apr-2017 9:05:27 PM
  */
 public class AndroidDeviceActions
-		extends DeviceActions <AndroidDriver <MobileElement>, AndroidDevice> {
+		extends DeviceActions <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
 	private static final Logger log;
 
 	static {
@@ -55,7 +56,7 @@ public class AndroidDeviceActions
 	 * @param device
 	 */
 	public AndroidDeviceActions (final AndroidDevice device) {
-		super (device);
+		super (device, new AndroidTouchAction (device.getDriver ()));
 	}
 
 	/**
