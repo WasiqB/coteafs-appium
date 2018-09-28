@@ -19,12 +19,14 @@ import com.github.wasiqb.coteafs.appium.device.DeviceElementActions;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSTouchAction;
 
 /**
  * @author wasiq.bhamla
  * @since 02-May-2017 6:37:57 PM
  */
-public class IOSDeviceElementActions extends DeviceElementActions <IOSDriver <MobileElement>, IOSDevice> {
+public class IOSDeviceElementActions
+		extends DeviceElementActions <IOSDriver <MobileElement>, IOSDevice, IOSTouchAction> {
 	/**
 	 * @author wasiq.bhamla
 	 * @since 02-May-2017 6:38:12 PM
@@ -32,8 +34,9 @@ public class IOSDeviceElementActions extends DeviceElementActions <IOSDriver <Mo
 	 * @param name
 	 * @param element
 	 */
-	public IOSDeviceElementActions (final IOSDevice device, final String name, final MobileElement element) {
-		super (device, name, element);
+	public IOSDeviceElementActions (final IOSDevice device, final String name,
+			final MobileElement element) {
+		super (device, name, element, new IOSTouchAction (device.getDriver ()));
 	}
 
 	/*
