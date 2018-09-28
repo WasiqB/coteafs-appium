@@ -29,12 +29,14 @@ import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSTouchAction;
 
 /**
  * @author wasiq.bhamla
  * @since 26-Apr-2017 11:34:39 PM
  */
-public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, IOSDevice> {
+public class IOSDeviceActions
+		extends DeviceActions <IOSDriver <MobileElement>, IOSDevice, IOSTouchAction> {
 	private static final Logger log;
 
 	static {
@@ -47,7 +49,7 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 	 * @param device
 	 */
 	public IOSDeviceActions (final IOSDevice device) {
-		super (device);
+		super (device, new IOSTouchAction (device.getDriver ()));
 	}
 
 	/**
@@ -59,18 +61,16 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 		log.trace ("Handling iOS Alert pop-up...");
 		try {
 			final Alert alert = this.wait.until (d -> d.switchTo ()
-				.alert ());
+					.alert ());
 			final String description = alert.getText ();
 			final String msg = "Alert Text: [%s]";
 			log.info (String.format (msg, description));
 			alert.accept ();
 			return description;
-		}
-		catch (final TimeoutException e) {
+		} catch (final TimeoutException e) {
 			log.warn ("Expecting Alert not displayed...");
 			log.warn (e.getMessage ());
-		}
-		catch (final NoSuchSessionException e) {
+		} catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		return null;
@@ -87,8 +87,7 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 		log.info (String.format (msg, strategy, keyName));
 		try {
 			this.driver.hideKeyboard (strategy, keyName);
-		}
-		catch (final NoSuchSessionException e) {
+		} catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
@@ -101,8 +100,7 @@ public class IOSDeviceActions extends DeviceActions <IOSDriver <MobileElement>, 
 		log.info ("Shaking the device...");
 		try {
 			this.driver.shake ();
-		}
-		catch (final NoSuchSessionException e) {
+		} catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}

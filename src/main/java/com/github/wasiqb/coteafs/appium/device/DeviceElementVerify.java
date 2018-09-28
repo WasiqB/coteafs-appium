@@ -22,28 +22,30 @@ import org.apache.logging.log4j.Logger;
 
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.TouchAction;
 
 /**
  * @author wasiq.bhamla
  * @param <D>
  * @param <E>
+ * @param <T>
  * @since 19-May-2017 9:57:58 PM
  */
-public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E extends Device <D>> {
+public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
 	private static final Logger log;
 
 	static {
 		log = LogManager.getLogger (DeviceElementActions.class);
 	}
 
-	private final DeviceElementActions <D, E> actions;
+	private final DeviceElementActions <D, E, T> actions;
 
 	/**
 	 * @author wasiq.bhamla
 	 * @param actions
 	 * @since 19-May-2017 9:59:32 PM
 	 */
-	public DeviceElementVerify (final DeviceElementActions <D, E> actions) {
+	public DeviceElementVerify (final DeviceElementActions <D, E, T> actions) {
 		this.actions = actions;
 	}
 
@@ -52,7 +54,7 @@ public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E exte
 	 * @since 19-May-2017 10:07:53 PM
 	 * @return instance
 	 */
-	public DeviceElementVerify <D, E> shouldBeDisabled () {
+	public DeviceElementVerify <D, E, T> shouldBeDisabled () {
 		log.info ("Verifying if element is disabled...");
 		assertThat (this.actions.enabled ()).isFalse ();
 		return this;
@@ -63,7 +65,7 @@ public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E exte
 	 * @since 19-May-2017 10:08:28 PM
 	 * @return instance
 	 */
-	public DeviceElementVerify <D, E> shouldBeDisplayed () {
+	public DeviceElementVerify <D, E, T> shouldBeDisplayed () {
 		log.info ("Verifying if element is displayed...");
 		assertThat (this.actions.visible ()).isTrue ();
 		return this;
@@ -74,7 +76,7 @@ public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E exte
 	 * @since 19-May-2017 10:07:22 PM
 	 * @return instance
 	 */
-	public DeviceElementVerify <D, E> shouldBeEnabled () {
+	public DeviceElementVerify <D, E, T> shouldBeEnabled () {
 		log.info ("Verifying if element is enabled...");
 		assertThat (this.actions.enabled ()).isTrue ();
 		return this;
@@ -85,7 +87,7 @@ public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E exte
 	 * @since 20-May-2017 12:24:26 PM
 	 * @return instance
 	 */
-	public DeviceElementVerify <D, E> shouldNotBeDisplayed () {
+	public DeviceElementVerify <D, E, T> shouldNotBeDisplayed () {
 		log.info ("Verifying if element is not displayed...");
 		assertThat (this.actions.visible ()).isFalse ();
 		return this;
@@ -97,7 +99,7 @@ public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E exte
 	 * @param expected
 	 * @return instance
 	 */
-	public DeviceElementVerify <D, E> textShouldBeEqualTo (final String expected) {
+	public DeviceElementVerify <D, E, T> textShouldBeEqualTo (final String expected) {
 		final String msg = "Verifying if element text is equal to [%s]...";
 		log.info (String.format (msg, expected));
 		assertThat (this.actions.text ()).isEqualTo (expected);
