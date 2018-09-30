@@ -33,8 +33,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
-import com.github.wasiqb.coteafs.appium.config.PlatformType;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
+import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.error.AppiumSelectorNotImplementedError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementFindTimedOutError;

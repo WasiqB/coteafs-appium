@@ -15,6 +15,12 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
+import com.github.wasiqb.coteafs.appium.config.enums.ApplicationType;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationName;
+import com.github.wasiqb.coteafs.appium.config.enums.Browser;
+import com.github.wasiqb.coteafs.appium.config.enums.DeviceType;
+import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
+
 /**
  * @author wasiq.bhamla
  * @since 12-Apr-2017 8:34:28 PM
@@ -26,6 +32,7 @@ public class DeviceSetting {
 	private AutomationName			automationName;
 	private Browser					browser;
 	private boolean					clearSystemFiles;
+	private boolean					cloudApp;
 	private String					deviceName;
 	private DeviceType				deviceType;
 	private String					deviceVersion;
@@ -54,6 +61,7 @@ public class DeviceSetting {
 		this.externalApp = false;
 		this.clearSystemFiles = false;
 		this.sessionTimeout = 120;
+		this.cloudApp = false;
 	}
 
 	/**
@@ -192,6 +200,15 @@ public class DeviceSetting {
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @return the cloudApp
+	 */
+	public boolean isCloudApp () {
+		return this.cloudApp;
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since Nov 19, 2017 9:54:14 PM
 	 * @return the eventTimings
@@ -285,6 +302,16 @@ public class DeviceSetting {
 	 */
 	public void setClearSystemFiles (final boolean clearSystemFiles) {
 		this.clearSystemFiles = clearSystemFiles;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @param cloudApp
+	 *            the cloudApp to set
+	 */
+	public void setCloudApp (final boolean cloudApp) {
+		this.cloudApp = cloudApp;
 	}
 
 	/**

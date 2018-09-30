@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017, Wasiq Bhamla.
+ * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
+package com.github.wasiqb.coteafs.appium.config.enums;
 
 /**
- * @author wasiq.bhamla
- * @since 12-Apr-2017 8:37:00 PM
+ * @author wasiqb
+ * @since Sep 29, 2018
  */
-public enum ApplicationType {
+public enum Protocol {
 	/**
-	 * Hybrid App.
+	 * HTTP protocol.
 	 */
-	HYBRID,
+	HTTP ("http"),
 	/**
-	 * Native App.
+	 * HTTPS protocol.
 	 */
-	NATIVE,
+	HTTPS ("https");
+
+	private final String protocol;
+
+	private Protocol (final String protocol) {
+		this.protocol = protocol;
+	}
+
 	/**
-	 * Web App.
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @return the protocol
 	 */
-	WEB;
+	public String getProtocol () {
+		return this.protocol;
+	}
 }

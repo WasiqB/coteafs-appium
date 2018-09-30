@@ -13,37 +13,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
+package com.github.wasiqb.coteafs.appium.config.enums;
 
-import io.appium.java_client.remote.MobilePlatform;
+import io.appium.java_client.remote.MobileBrowserType;
 
 /**
  * @author wasiq.bhamla
- * @since 12-Apr-2017 8:34:59 PM
+ * @since Jul 15, 2017 4:50:08 PM
  */
-public enum PlatformType {
+public enum Browser {
 	/**
-	 * Android Device.
+	 * System browser.
 	 */
-	ANDROID (MobilePlatform.ANDROID),
+	BROWSER (MobileBrowserType.BROWSER),
 	/**
-	 * iOS Device.
+	 * Chrome browser.
 	 */
-	IOS (MobilePlatform.IOS),
+	CHROME (MobileBrowserType.CHROME),
 	/**
-	 * Windows Device.
+	 * Chromiuim browser.
 	 */
-	WINDOWS (MobilePlatform.WINDOWS);
+	CHROMIUM (MobileBrowserType.CHROMIUM),
+	/**
+	 * Safari browser.
+	 */
+	SAFARI (MobileBrowserType.SAFARI);
 
 	private final String name;
 
-	private PlatformType (final String name) {
+	private Browser (final String name) {
 		this.name = name;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Enum#toString()
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jul 15, 2017 5:04:12 PM
+	 * @return the browser
 	 */
 	@Override
 	public String toString () {

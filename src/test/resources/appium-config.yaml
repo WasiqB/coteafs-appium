@@ -1,10 +1,15 @@
 servers:
   android:
-    ip: 127.0.0.1
+#    protocol: HTTP
+    host: 0.0.0.0
     port: 4723
+#    cloud: true
+#    external: true
+    user_name: wasiqbhamla1
+    password: CDbp8qTdCa7nVtxur9fp
     appium_js_path: C:\Users\wasiqb\AppData\Roaming\npm\node_modules\appium\build\lib\main.js
     node_path: C:\Program Files\nodejs\node.exe
-    external: true
+#    external: true
     arguments:
       log_level: DEBUG
       log_time_stamp: true
@@ -16,12 +21,14 @@ servers:
 devices:
   test:
     platform_type: ANDROID
-    device_name: MI Redmi Note 4
+    device_name: Samsung Galaxy S8
     device_version: 7.0
     app_type: HYBRID
     device_type: REAL
     automation_name: APPIUM
     app_location: apps/android/VodQA.apk
+#    app_location: bs://d5fbc8a52dd7bad1535da8d2c7a4bbc2178c8081
+#    cloud_app: true
     session_timeout: 120000
     playback:
       delay_before_swipe: 2
