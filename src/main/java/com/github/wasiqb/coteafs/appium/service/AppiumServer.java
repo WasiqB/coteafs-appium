@@ -217,7 +217,7 @@ public final class AppiumServer {
 
 	private String getUrl () {
 		final StringBuilder sb = new StringBuilder (this.setting.getProtocol ()
-				.getProtocol ()).append ("://");
+				.getName ()).append ("://");
 		if (this.setting.isCloud ()) {
 			checkServerConfigParams ("User Name", this.setting.getUserName ());
 			checkServerConfigParams ("Password", this.setting.getPassword ());

@@ -29,18 +29,18 @@ public enum Protocol {
 	 */
 	HTTPS ("https");
 
-	private final String protocol;
+	private final String name;
 
-	private Protocol (final String protocol) {
-		this.protocol = protocol;
+	private Protocol (final String name) {
+		this.name = name;
 	}
 
 	/**
 	 * @author wasiqb
 	 * @since Sep 29, 2018
-	 * @return the protocol
+	 * @return the protocol name
 	 */
-	public String getProtocol () {
-		return this.protocol;
+	public String getName () {
+		return this.name;
 	}
 }
