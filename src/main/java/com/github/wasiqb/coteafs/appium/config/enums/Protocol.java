@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017, Wasiq Bhamla.
+ * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,19 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
+package com.github.wasiqb.coteafs.appium.config.enums;
 
 /**
- * @author wasiq.bhamla
- * @since Aug 1, 2017 3:56:25 PM
+ * @author wasiqb
+ * @since Sep 29, 2018
  */
-public enum DeviceType {
+public enum Protocol {
 	/**
-	 * Indicates real device.
+	 * HTTP protocol.
 	 */
-	REAL,
+	HTTP ("http"),
 	/**
-	 * Indicates simulator / emulators.
+	 * HTTPS protocol.
 	 */
-	SIMULATOR;
+	HTTPS ("https");
+
+	private final String name;
+
+	private Protocol (final String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @return the protocol name
+	 */
+	public String getName () {
+		return this.name;
+	}
 }

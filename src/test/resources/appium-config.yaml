@@ -1,10 +1,9 @@
 servers:
   android:
-    ip: 127.0.0.1
+    host: 0.0.0.0
     port: 4723
     appium_js_path: C:\Users\wasiqb\AppData\Roaming\npm\node_modules\appium\build\lib\main.js
     node_path: C:\Program Files\nodejs\node.exe
-    external: true
     arguments:
       log_level: DEBUG
       log_time_stamp: true
@@ -12,16 +11,39 @@ servers:
       session_override: true
       android:
         suppress_adb_kill_server: true
+  browserstack:
+    protocol: HTTPS
+    host: hub-cloud.browserstack.com
+    cloud: true
+    external: true
+    user_name: ${env.user}
+    password: ${env.pass}
 
 devices:
-  test:
+  test_local:
     platform_type: ANDROID
-    device_name: MI Redmi Note 4
+    device_name: Samsung Galaxy S8
     device_version: 7.0
     app_type: HYBRID
     device_type: REAL
     automation_name: APPIUM
     app_location: apps/android/VodQA.apk
+    session_timeout: 120000
+    playback:
+      delay_before_swipe: 2
+      delay_after_swipe: 1
+      delay_before_tap: 2
+      delay_after_tap: 1
+  test_browserstack:
+    platform_type: ANDROID
+    device_name: Samsung Galaxy S8
+    device_version: 7.0
+    app_type: HYBRID
+    device_type: REAL
+    automation_name: APPIUM
+    app_location: apps/android/VodQA.apk
+    app_location: ${env.app}
+    cloud_app: true
     session_timeout: 120000
     playback:
       delay_before_swipe: 2

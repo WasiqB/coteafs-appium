@@ -13,34 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
+package com.github.wasiqb.coteafs.appium.config.enums;
 
 /**
  * @author wasiq.bhamla
- * @since 24-Apr-2017 9:11:30 PM
+ * @since Aug 1, 2017 3:56:25 PM
  */
-public enum AutomationName {
+public enum DeviceType {
 	/**
-	 * Appium.
+	 * Indicates real device.
 	 */
-	APPIUM ("Appium"),
+	REAL,
 	/**
-	 * XCUITest.
+	 * Indicates simulator / emulators.
 	 */
-	XCUI ("XCUITest");
-
-	private final String name;
-
-	private AutomationName (final String name) {
-		this.name = name;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Enum#toString()
-	 */
-	@Override
-	public String toString () {
-		return this.name;
-	}
+	SIMULATOR;
 }
