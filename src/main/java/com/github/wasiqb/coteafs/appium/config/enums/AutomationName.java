@@ -13,31 +13,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
-
-import io.appium.java_client.remote.MobilePlatform;
+package com.github.wasiqb.coteafs.appium.config.enums;
 
 /**
  * @author wasiq.bhamla
- * @since 12-Apr-2017 8:34:59 PM
+ * @since 24-Apr-2017 9:11:30 PM
  */
-public enum PlatformType {
+public enum AutomationName {
 	/**
-	 * Android Device.
+	 * Appium.
 	 */
-	ANDROID (MobilePlatform.ANDROID),
+	APPIUM ("Appium"),
 	/**
-	 * iOS Device.
+	 * XCUITest.
 	 */
-	IOS (MobilePlatform.IOS),
-	/**
-	 * Windows Device.
-	 */
-	WINDOWS (MobilePlatform.WINDOWS);
+	XCUI ("XCUITest");
 
 	private final String name;
 
-	private PlatformType (final String name) {
+	private AutomationName (final String name) {
 		this.name = name;
 	}
 

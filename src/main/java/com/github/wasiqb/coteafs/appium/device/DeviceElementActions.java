@@ -109,9 +109,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since Jul 15, 2017 6:12:00 PM
 	 */
 	public void click () {
-		perform ("Clicking on", e -> {
-			e.click ();
-		});
+		perform ("Clicking on", MobileElement::click);
 	}
 
 	/**

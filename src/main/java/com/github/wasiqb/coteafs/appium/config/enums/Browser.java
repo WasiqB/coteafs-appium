@@ -13,23 +13,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
+package com.github.wasiqb.coteafs.appium.config.enums;
+
+import io.appium.java_client.remote.MobileBrowserType;
 
 /**
  * @author wasiq.bhamla
- * @since 12-Apr-2017 8:37:00 PM
+ * @since Jul 15, 2017 4:50:08 PM
  */
-public enum ApplicationType {
+public enum Browser {
 	/**
-	 * Hybrid App.
+	 * System browser.
 	 */
-	HYBRID,
+	BROWSER (MobileBrowserType.BROWSER),
 	/**
-	 * Native App.
+	 * Chrome browser.
 	 */
-	NATIVE,
+	CHROME (MobileBrowserType.CHROME),
 	/**
-	 * Web App.
+	 * Chromiuim browser.
 	 */
-	WEB;
+	CHROMIUM (MobileBrowserType.CHROMIUM),
+	/**
+	 * Safari browser.
+	 */
+	SAFARI (MobileBrowserType.SAFARI);
+
+	private final String name;
+
+	private Browser (final String name) {
+		this.name = name;
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Jul 15, 2017 5:04:12 PM
+	 * @return the browser
+	 */
+	@Override
+	public String toString () {
+		return this.name;
+	}
 }

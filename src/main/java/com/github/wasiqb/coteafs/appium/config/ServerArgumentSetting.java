@@ -15,6 +15,8 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
+import com.github.wasiqb.coteafs.appium.config.enums.LogLevel;
+
 /**
  * @author wasiq.bhamla
  * @since Oct 27, 2017 1:26:27 PM
