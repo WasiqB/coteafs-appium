@@ -79,11 +79,11 @@ import org.openqa.selenium.remote.DesiredCapabilities;
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.AndroidDeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
-import com.github.wasiqb.coteafs.appium.config.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
-import com.github.wasiqb.coteafs.appium.config.DeviceType;
 import com.github.wasiqb.coteafs.appium.config.IOSDeviceSetting;
-import com.github.wasiqb.coteafs.appium.config.PlatformType;
+import com.github.wasiqb.coteafs.appium.config.enums.ApplicationType;
+import com.github.wasiqb.coteafs.appium.config.enums.DeviceType;
+import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceAppNotFoundError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
@@ -201,8 +201,8 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 		if (this.setting.getAppType () == ApplicationType.WEB) {
 			setCapability (BROWSER_NAME, this.setting.getBrowser (), this.capabilities, true);
 		} else {
-			final String appPath = this.setting.getAppLocation ();
-			if (appPath != null) {
+			String appPath = this.setting.getAppLocation ();
+			if (appPath != null && !this.setting.isCloudApp ()) {
 				String path = "%s/src/test/resources/%s";
 				path = String.format (path, getProperty ("user.dir"), appPath);
 
@@ -216,8 +216,9 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 					log.error (String.format (msg, path));
 					fail (DeviceAppNotFoundError.class, String.format (msg, path));
 				}
-				setCapability (APP, path, this.capabilities, true);
+				appPath = path;
 			}
+			setCapability (APP, appPath, this.capabilities, true);
 		}
 		log.trace ("Building Device capabilities completed...");
 	}

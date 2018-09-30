@@ -89,3 +89,7 @@ workflows:
           filters: *all_branches
           requires:
             - resolve_dependencies
+      - code_analysis:
+          filters: *all_branches
+          requires:
+            - build

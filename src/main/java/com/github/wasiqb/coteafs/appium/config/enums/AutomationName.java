@@ -13,42 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
-
-import io.appium.java_client.remote.MobileBrowserType;
+package com.github.wasiqb.coteafs.appium.config.enums;
 
 /**
  * @author wasiq.bhamla
- * @since Jul 15, 2017 4:50:08 PM
+ * @since 24-Apr-2017 9:11:30 PM
  */
-public enum Browser {
+public enum AutomationName {
 	/**
-	 * System browser.
+	 * Appium.
 	 */
-	BROWSER (MobileBrowserType.BROWSER),
+	APPIUM ("Appium"),
 	/**
-	 * Chrome browser.
+	 * XCUITest.
 	 */
-	CHROME (MobileBrowserType.CHROME),
-	/**
-	 * Chromiuim browser.
-	 */
-	CHROMIUM (MobileBrowserType.CHROMIUM),
-	/**
-	 * Safari browser.
-	 */
-	SAFARI (MobileBrowserType.SAFARI);
+	XCUI ("XCUITest");
 
 	private final String name;
 
-	private Browser (final String name) {
+	private AutomationName (final String name) {
 		this.name = name;
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Jul 15, 2017 5:04:12 PM
-	 * @return the browser
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
 	 */
 	@Override
 	public String toString () {
