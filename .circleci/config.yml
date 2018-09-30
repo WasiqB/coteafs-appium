@@ -65,7 +65,7 @@ jobs:
             - repo-reports-{{ .Branch }}-{{ .Revision }}
       - run:
           name: Update Sonar Analysis
-          command: mvn sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.organization=$SONAR_ORG -Dsonar.login=$SONAR_KEY
+          command: mvn package sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.organization=$SONAR_ORG -Dsonar.login=$SONAR_KEY -DskipTests=true
 
 filters: &all_branches
   branches:
