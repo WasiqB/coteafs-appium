@@ -39,7 +39,7 @@ public class DefaultTest {
 	 */
 	@BeforeMethod
 	public void setupMethod () {
-		this.androidDevice = new AndroidDevice (this.androidServer, "test");
+		this.androidDevice = new AndroidDevice (this.androidServer, "test_browserstack");
 		this.androidDevice.start ();
 
 		login ();
@@ -53,7 +53,7 @@ public class DefaultTest {
 	 */
 	@BeforeClass (alwaysRun = true)
 	public void setupTestSuite () {
-		this.androidServer = new AppiumServer ("android");
+		this.androidServer = new AppiumServer ("browserstack");
 		this.androidServer.start ();
 	}
 
@@ -82,7 +82,7 @@ public class DefaultTest {
 	private void login () {
 		final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
 		login.addInputValue ("UserName", "admin")
-			.addInputValue ("Password", "admin")
-			.perform ();
+				.addInputValue ("Password", "admin")
+				.perform ();
 	}
 }
