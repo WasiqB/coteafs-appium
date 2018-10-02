@@ -28,11 +28,7 @@ import com.github.wasiqb.coteafs.error.util.ErrorUtil;
  * @since Nov 17, 2017 2:42:29 PM
  */
 public final class ErrorUtils {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (ErrorUtils.class);
-	}
+	private static final Logger log = LogManager.getLogger (ErrorUtils.class);
 
 	/**
 	 * @author wasiq.bhamla
@@ -51,11 +47,11 @@ public final class ErrorUtils {
 	 * @param message
 	 * @param ex
 	 */
-	public static <E extends CoteafsError> void fail (final Class <E> error, final String message, final Throwable ex) {
+	public static <E extends CoteafsError> void fail (final Class <E> error, final String message,
+			final Throwable ex) {
 		try {
 			ErrorUtil.fail (error, message, ex);
-		}
-		catch (final CoteafsError err) {
+		} catch (final CoteafsError err) {
 			logError (err, message);
 			throw err;
 		}

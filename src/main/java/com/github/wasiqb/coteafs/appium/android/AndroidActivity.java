@@ -15,12 +15,15 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import static com.github.wasiqb.coteafs.appium.utils.BatteryHealth.check;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceActivity;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidBatteryInfo;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidTouchAction;
 
@@ -51,6 +54,7 @@ public abstract class AndroidActivity
 	 */
 	@Override
 	public AndroidDeviceActions onDevice () {
+		checkBattery ();
 		log.trace ("Preparing to perform actions on Android device...");
 		return new AndroidDeviceActions (this.device);
 	}
@@ -61,8 +65,16 @@ public abstract class AndroidActivity
 	 */
 	@Override
 	public AndroidDeviceElementActions onElement (final String name) {
+		checkBattery ();
 		final String msg = "Preparing to perform actions on Android device element [%s]...";
 		log.trace (String.format (msg, name));
 		return new AndroidDeviceElementActions (this.device, name, getElement (name));
+	}
+
+	private void checkBattery () {
+		final AndroidBatteryInfo battery = this.device.getDriver ()
+				.getBatteryInfo ();
+		check (battery.getState ()
+				.name (), battery.getLevel ());
 	}
 }

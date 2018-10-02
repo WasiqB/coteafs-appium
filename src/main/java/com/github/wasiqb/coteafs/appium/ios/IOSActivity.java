@@ -15,12 +15,15 @@
  */
 package com.github.wasiqb.coteafs.appium.ios;
 
+import static com.github.wasiqb.coteafs.appium.utils.BatteryHealth.check;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceActivity;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.ios.IOSBatteryInfo;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSTouchAction;
 
@@ -30,11 +33,7 @@ import io.appium.java_client.ios.IOSTouchAction;
  */
 public abstract class IOSActivity
 		extends DeviceActivity <IOSDriver <MobileElement>, IOSDevice, IOSTouchAction> {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (IOSActivity.class);
-	}
+	private static final Logger log = LogManager.getLogger (IOSActivity.class);
 
 	/**
 	 * @author wasiq.bhamla
@@ -51,6 +50,7 @@ public abstract class IOSActivity
 	 */
 	@Override
 	public IOSDeviceActions onDevice () {
+		checkBattery ();
 		log.trace ("Preparing to perform actions on iOS device...");
 		return new IOSDeviceActions (this.device);
 	}
@@ -61,8 +61,16 @@ public abstract class IOSActivity
 	 */
 	@Override
 	public IOSDeviceElementActions onElement (final String name) {
+		checkBattery ();
 		final String msg = "Preparing to perform actions on iOS device element [%s]...";
 		log.trace (String.format (msg, name));
 		return new IOSDeviceElementActions (this.device, name, getElement (name));
+	}
+
+	private void checkBattery () {
+		final IOSBatteryInfo battery = this.device.getDriver ()
+				.getBatteryInfo ();
+		check (battery.getState ()
+				.name (), battery.getLevel ());
 	}
 }
