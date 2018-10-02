@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
-import static org.apache.commons.text.StringSubstitutor.replaceSystemProperties;
+import static com.github.wasiqb.coteafs.appium.utils.StringUtil.replaceSystemProperty;
 
 import com.github.wasiqb.coteafs.appium.config.enums.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationName;
@@ -81,9 +81,7 @@ public class DeviceSetting {
 	 * @return the appLocation
 	 */
 	public String getAppLocation () {
-		return this.appLocation.startsWith ("${")
-				? replaceSystemProperties (this.appLocation)
-				: this.appLocation;
+		return replaceSystemProperty (this.appLocation);
 	}
 
 	/**
