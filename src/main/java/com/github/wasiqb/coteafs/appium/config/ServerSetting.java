@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
-import static org.apache.commons.text.StringSubstitutor.replaceSystemProperties;
+import static com.github.wasiqb.coteafs.appium.utils.StringUtil.replaceSystemProperty;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -128,9 +128,7 @@ public class ServerSetting {
 	 * @return the password
 	 */
 	public String getPassword () {
-		return this.password.startsWith ("${")
-				? replaceSystemProperties (this.password)
-				: this.password;
+		return replaceSystemProperty (this.password);
 	}
 
 	/**
@@ -175,9 +173,7 @@ public class ServerSetting {
 	 * @return the userName
 	 */
 	public String getUserName () {
-		return this.userName.startsWith ("${")
-				? replaceSystemProperties (this.userName)
-				: this.userName;
+		return replaceSystemProperty (this.userName);
 	}
 
 	/**

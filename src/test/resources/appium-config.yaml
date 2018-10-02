@@ -41,7 +41,6 @@ devices:
     app_type: HYBRID
     device_type: REAL
     automation_name: APPIUM
-    app_location: apps/android/VodQA.apk
     app_location: ${env.app}
     cloud_app: true
     session_timeout: 120000
