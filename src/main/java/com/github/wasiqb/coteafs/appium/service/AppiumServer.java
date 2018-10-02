@@ -227,8 +227,10 @@ public final class AppiumServer {
 					.append ("@")
 					.append (this.setting.getHost ());
 		} else {
-			sb.append (this.setting.getHost ())
-					.append (":")
+			sb.append (this.setting.getHost ());
+		}
+		if (this.setting.getPort () > 0) {
+			sb.append (":")
 					.append (this.setting.getPort ());
 		}
 		return sb.toString ();
