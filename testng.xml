@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="coteafs-appium Test Suite" parallel="none" preserve-order="true">
-<!-- <listeners>
-		<listener class-name="org.uncommons.reportng.HTMLReporter" />
-		<listener class-name="org.uncommons.reportng.JUnitXMLReporter" />
+	<!-- <listeners>
+		<listener class-name="com.github.wasiqb.coteafs.listeners.ConfigListener" />
+		<listener class-name="com.github.wasiqb.coteafs.listeners.SuiteListener" />
+		<listener class-name="com.github.wasiqb.coteafs.listeners.TestListener" />
 	</listeners> -->
 	<test name="Android Test">
 		<classes>
-			<class name="com.github.wasiqb.coteafs.appium.android.VodQATest" />
+			<class name="com.github.wasiqb.coteafs.appium.android.VodQATest">
+				<methods>
+					<include name="testDragDrop" />
+					<include name="testLongPress" />
+					<include name="testNativeView" />
+					<include name="testSlider" />
+					<include name="testVerticleSwipe" />
+					<exclude name="testZoomPinch" />
+				</methods>
+			</class>
 		</classes>
 	</test> <!-- Android Test -->
 </suite> <!-- coteafs-appium Test Suite -->

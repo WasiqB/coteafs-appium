@@ -43,17 +43,16 @@ public final class SwipeUtils {
 	 * @param actions
 	 * @return touch action
 	 */
-	public static <T extends TouchAction <T>> T dragTo (final PlaybackSetting setting,
+	public static <T extends TouchAction <T>> void dragTo (final PlaybackSetting setting,
 			final MobileElement fromElement, final MobileElement toElement, final T actions) {
 		final Point source = fromElement.getCenter ();
 		final Point target = toElement.getCenter ();
-		return actions.press (PointOption.point (source.getX (), source.getY ()))
+		actions.press (PointOption.point (source.getX (), source.getY ()))
 				.waitAction (WaitOptions
 						.waitOptions (Duration.ofMillis (setting.getDelayBeforeSwipe ())))
 				.moveTo (PointOption.point (target.getX (), target.getY ()))
 				.release ()
-				.waitAction (WaitOptions
-						.waitOptions (Duration.ofMillis (setting.getDelayAfterSwipe ())));
+				.perform ();
 	}
 
 	/**

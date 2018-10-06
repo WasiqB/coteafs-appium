@@ -4,6 +4,7 @@ servers:
     port: 4723
     appium_js_path: C:\Users\wasiqb\AppData\Roaming\npm\node_modules\appium\build\lib\main.js
     node_path: C:\Program Files\nodejs\node.exe
+    external: true
     arguments:
       log_level: DEBUG
       log_time_stamp: true

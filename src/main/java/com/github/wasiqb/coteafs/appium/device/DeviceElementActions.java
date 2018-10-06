@@ -119,8 +119,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void dragDrop (final MobileElement dropElement) {
 		perform ("Performing drag on",
-				e -> SwipeUtils.dragTo (this.setting, e, dropElement, this.touch)
-						.perform ());
+				e -> SwipeUtils.dragTo (this.setting, e, dropElement, this.touch));
 	}
 
 	/**
