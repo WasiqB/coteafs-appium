@@ -15,23 +15,29 @@
  */
 package com.github.wasiqb.coteafs.appium.config.enums;
 
+import io.appium.java_client.remote.AutomationName;
+
 /**
  * @author wasiq.bhamla
  * @since 24-Apr-2017 9:11:30 PM
  */
-public enum AutomationName {
+public enum AutomationType {
 	/**
 	 * Appium.
 	 */
-	APPIUM ("Appium"),
+	APPIUM (AutomationName.APPIUM),
+	/**
+	 * Android UIAutomator2.
+	 */
+	UIAUTOMATOR_2 (AutomationName.ANDROID_UIAUTOMATOR2),
 	/**
 	 * XCUITest.
 	 */
-	XCUI ("XCUITest");
+	XCUI (AutomationName.IOS_XCUI_TEST);
 
 	private final String name;
 
-	private AutomationName (final String name) {
+	private AutomationType (final String name) {
 		this.name = name;
 	}
 

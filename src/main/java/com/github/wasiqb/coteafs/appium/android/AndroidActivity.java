@@ -20,6 +20,7 @@ import static com.github.wasiqb.coteafs.appium.utils.BatteryHealth.check;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.device.DeviceActivity;
 
 import io.appium.java_client.MobileElement;
@@ -33,11 +34,7 @@ import io.appium.java_client.android.AndroidTouchAction;
  */
 public abstract class AndroidActivity
 		extends DeviceActivity <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (AndroidActivity.class);
-	}
+	private static final Logger log = LogManager.getLogger (AndroidActivity.class);
 
 	/**
 	 * @author wasiq.bhamla
@@ -72,9 +69,12 @@ public abstract class AndroidActivity
 	}
 
 	private void checkBattery () {
-		final AndroidBatteryInfo battery = this.device.getDriver ()
-				.getBatteryInfo ();
-		check (battery.getState ()
-				.name (), battery.getLevel ());
+		if (this.device.getSetting ()
+				.getAutomationName () == AutomationType.UIAUTOMATOR_2) {
+			final AndroidBatteryInfo battery = this.device.getDriver ()
+					.getBatteryInfo ();
+			check (battery.getState ()
+					.name (), battery.getLevel ());
+		}
 	}
 }
