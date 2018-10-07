@@ -70,7 +70,7 @@ public abstract class AndroidActivity
 
 	private void checkBattery () {
 		if (this.device.getSetting ()
-				.getAutomationName () == AutomationType.UIAUTOMATOR_2) {
+				.getAutomationName () == AutomationType.UIAUTOMATOR2) {
 			final AndroidBatteryInfo battery = this.device.getDriver ()
 					.getBatteryInfo ();
 			check (battery.getState ()

@@ -37,7 +37,7 @@ public final class BatteryHealth {
 	 * @param level
 	 */
 	public static void check (final String state, final double level) {
-		log.info (format ("Current Battery status is [{0}] with charge level as [{1}%]...", state,
+		log.trace (format ("Current Battery status is [{0}] with charge level as [{1}%]...", state,
 				level * 100));
 		if (!state.equals ("CHARGING") && !state.equals ("FULL") && level < 0.2) {
 			fail (NotEnoughBatteryChargeError.class,

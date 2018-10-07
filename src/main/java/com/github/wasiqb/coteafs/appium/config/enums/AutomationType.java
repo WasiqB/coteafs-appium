@@ -29,7 +29,7 @@ public enum AutomationType {
 	/**
 	 * Android UIAutomator2.
 	 */
-	UIAUTOMATOR_2 (AutomationName.ANDROID_UIAUTOMATOR2),
+	UIAUTOMATOR2 (AutomationName.ANDROID_UIAUTOMATOR2),
 	/**
 	 * XCUITest.
 	 */
