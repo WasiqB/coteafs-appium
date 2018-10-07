@@ -15,10 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
-import org.testng.annotations.AfterClass;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 
 import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.MainActivity;
@@ -35,11 +34,17 @@ public class DefaultTest {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since Feb 2, 2018 3:37:06 PM
+	 * @param server
+	 * @param device
+	 * @since 13-Apr-2017 10:10:45 PM
 	 */
-	@BeforeMethod
-	public void setupMethod () {
-		this.androidDevice = new AndroidDevice (this.androidServer, "test_browserstack");
+	@Parameters ({ "server", "device" })
+	@BeforeTest
+	public void setupTest (final String server, final String device) {
+		this.androidServer = new AppiumServer (server);
+		this.androidServer.start ();
+
+		this.androidDevice = new AndroidDevice (this.androidServer, device);
 		this.androidDevice.start ();
 
 		login ();
@@ -49,34 +54,12 @@ public class DefaultTest {
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 13-Apr-2017 10:10:45 PM
-	 */
-	@BeforeClass (alwaysRun = true)
-	public void setupTestSuite () {
-		this.androidServer = new AppiumServer ("browserstack");
-		this.androidServer.start ();
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 2, 2018 3:38:26 PM
-	 */
-	@AfterMethod
-	public void tearDownMethod () {
-		if (this.androidDevice != null) {
-			this.androidDevice.stop ();
-		}
-	}
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since 17-Apr-2017 3:47:41 PM
 	 */
-	@AfterClass (alwaysRun = true)
-	public void tearDownTestSuite () {
-		if (this.androidServer != null) {
-			this.androidServer.stop ();
-		}
+	@AfterTest
+	public void tearDownTest () {
+		this.androidDevice.stop ();
+		this.androidServer.stop ();
 	}
 
 	private void login () {
