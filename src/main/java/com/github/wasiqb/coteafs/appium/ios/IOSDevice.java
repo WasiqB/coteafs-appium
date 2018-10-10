@@ -15,6 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.ios;
 
+import static io.appium.java_client.ios.IOSStartScreenRecordingOptions.startScreenRecordingOptions;
+import static io.appium.java_client.ios.IOSStopScreenRecordingOptions.stopScreenRecordingOptions;
+
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
@@ -35,5 +38,30 @@ public class IOSDevice extends Device <IOSDriver <MobileElement>, IOSTouchAction
 	 */
 	public IOSDevice (final AppiumServer server, final String name) {
 		super (server, name);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.Device#startRecord()
+	 */
+	@Override
+	protected void startRecord () {
+		if (this.setting.getPlayback ()
+			.isRecord ()) {
+			this.driver.startRecordingScreen (startScreenRecordingOptions ());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.Device#stopRecord()
+	 */
+	@Override
+	protected void stopRecord () {
+		if (this.setting.getPlayback ()
+			.isRecord ()) {
+			final String content = this.driver.stopRecordingScreen (stopScreenRecordingOptions ());
+			saveRecording (content);
+		}
 	}
 }

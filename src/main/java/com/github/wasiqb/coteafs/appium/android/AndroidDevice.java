@@ -15,6 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import static io.appium.java_client.android.AndroidStartScreenRecordingOptions.startScreenRecordingOptions;
+import static io.appium.java_client.android.AndroidStopScreenRecordingOptions.stopScreenRecordingOptions;
+
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
@@ -35,5 +38,30 @@ public class AndroidDevice extends Device <AndroidDriver <MobileElement>, Androi
 	 */
 	public AndroidDevice (final AppiumServer server, final String name) {
 		super (server, name);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.Device#startRecord()
+	 */
+	@Override
+	protected void startRecord () {
+		if (this.setting.getPlayback ()
+			.isRecord ()) {
+			this.driver.startRecordingScreen (startScreenRecordingOptions ());
+		}
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.Device#stopRecord()
+	 */
+	@Override
+	protected void stopRecord () {
+		if (this.setting.getPlayback ()
+			.isRecord ()) {
+			final String content = this.driver.stopRecordingScreen (stopScreenRecordingOptions ());
+			saveRecording (content);
+		}
 	}
 }

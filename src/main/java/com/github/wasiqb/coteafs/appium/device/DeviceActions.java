@@ -48,11 +48,7 @@ import io.appium.java_client.TouchAction;
  * @since 26-Apr-2017 8:39:17 PM
  */
 public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (DeviceActions.class);
-	}
+	private static final Logger log = LogManager.getLogger (DeviceActions.class);
 
 	/**
 	 * @author wasiq.bhamla
@@ -63,7 +59,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	private static void copyFile (final File source, final String destination) {
 		try {
 			FileUtils.copyFile (source, new File (destination));
-		} catch (final IOException e) {
+		}
+		catch (final IOException e) {
 			log.error ("Error occurred while capturing screensshot...");
 			log.catching (e);
 		}
@@ -98,7 +95,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		final String prefix = this.setting.getScreenShotPrefix ();
 		final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-HHmmss");
 		final String timeStamp = date.format (Calendar.getInstance ()
-				.getTime ());
+			.getTime ());
 		final String fileName = "%s/%s-%s.%s";
 		captureScreenshot (format (fileName, path, prefix, timeStamp, "jpeg"));
 	}
@@ -111,7 +108,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		log.info ("Hiding the keyboard...");
 		try {
 			this.driver.hideKeyboard ();
-		} catch (final NoSuchSessionException e) {
+		}
+		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
@@ -134,7 +132,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	public void pinch (final int distance) {
 		log.info (format ("Pinching on device screen by [%d]% distance...", distance));
 		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, SwipeStartPosition.TOP,
-				SwipeStartPosition.BOTTOM, distance);
+			SwipeStartPosition.BOTTOM, distance);
 	}
 
 	/**
@@ -145,10 +143,10 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @param distance
 	 */
 	public void swipe (final SwipeDirection direction, final SwipeStartPosition start,
-			final int distance) {
+		final int distance) {
 		log.info (format (
-				"Swiping [%s] on device screen by [%d] perc distance from [%s] of the screen...",
-				direction, distance, start));
+			"Swiping [%s] on device screen by [%d] perc distance from [%s] of the screen...",
+			direction, distance, start));
 		swipeTo (direction, start, distance).perform ();
 	}
 
@@ -160,7 +158,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	public void zoom (final int distance) {
 		log.info (format ("Zooming in device screen by [%d]% distance...", distance));
 		doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN, SwipeStartPosition.CENTER,
-				SwipeStartPosition.CENTER, distance);
+			SwipeStartPosition.CENTER, distance);
 	}
 
 	/**
@@ -174,28 +172,29 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		try {
 			final File srcFiler = this.driver.getScreenshotAs (OutputType.FILE);
 			copyFile (srcFiler, path);
-		} catch (final NoSuchSessionException e) {
+		}
+		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
 	private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
-			final SwipeStartPosition start1, final SwipeStartPosition start2,
-			final int distancePercent) {
+		final SwipeStartPosition start1, final SwipeStartPosition start2,
+		final int distancePercent) {
 		final T firstFinger = swipeTo (finger1, start1, distancePercent);
 		final T secondFinger = swipeTo (finger2, start2, distancePercent);
 		final MultiTouchAction multiTouch = new MultiTouchAction (this.driver);
 		multiTouch.add (firstFinger)
-				.add (secondFinger)
-				.perform ();
+			.add (secondFinger)
+			.perform ();
 	}
 
 	private T swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
-			final int distancePercent) {
+		final int distancePercent) {
 		return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting,
-				this.driver.manage ()
-						.window ()
-						.getSize (),
-				null, null, this.actions);
+			this.driver.manage ()
+				.window ()
+				.getSize (),
+			null, null, this.actions);
 	}
 }

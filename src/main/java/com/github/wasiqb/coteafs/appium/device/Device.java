@@ -59,15 +59,21 @@ import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIME
 import static io.appium.java_client.remote.MobileCapabilityType.NO_RESET;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION;
 import static io.appium.java_client.remote.MobileCapabilityType.UDID;
+import static java.lang.String.format;
 import static java.lang.System.getProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
 import static org.openqa.selenium.remote.CapabilityType.BROWSER_NAME;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Base64;
+import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
@@ -105,12 +111,8 @@ import io.appium.java_client.TouchAction;
  * @param <T>
  * @since 12-Apr-2017 9:38:38 PM
  */
-public class Device <D extends AppiumDriver <MobileElement>, T extends TouchAction <T>> {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (Device.class);
-	}
+public abstract class Device <D extends AppiumDriver <MobileElement>, T extends TouchAction <T>> {
+	private static final Logger log = LogManager.getLogger (Device.class);
 
 	protected DesiredCapabilities	capabilities;
 	protected D						driver;
@@ -126,10 +128,10 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 	public Device (final AppiumServer server, final String name) {
 		this.server = server;
 		this.setting = ConfigLoader.settings ()
-				.withKey (COTEAFS_CONFIG_KEY)
-				.withDefault (COTEAFS_CONFIG_DEFAULT_FILE)
-				.load (AppiumSetting.class)
-				.getDevice (name);
+			.withKey (COTEAFS_CONFIG_KEY)
+			.withDefault (COTEAFS_CONFIG_DEFAULT_FILE)
+			.load (AppiumSetting.class)
+			.getDevice (name);
 		buildCapabilities ();
 	}
 
@@ -170,6 +172,7 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 		final PlatformType platform = this.setting.getPlatformType ();
 		startDriver (platform);
 		setImplicitWait ();
+		startRecord ();
 	}
 
 	/**
@@ -179,13 +182,40 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 	public void stop () {
 		final PlatformType platform = this.setting.getPlatformType ();
 		if (this.driver != null) {
+			stopRecord ();
 			quitApp (platform);
 			this.driver = null;
-		} else {
+		}
+		else {
 			final String message = "[%s] device driver already stopped...";
 			log.trace (String.format (message, platform));
 		}
 	}
+
+	protected void saveRecording (final String content) {
+		final byte [] decode = Base64.getDecoder ()
+			.decode (content);
+		try {
+			final String path = this.setting.getPlayback ()
+				.getRecordPath ();
+			final String prefix = this.setting.getPlayback ()
+				.getRecordPrefix ();
+			final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-HHmmss");
+			final String timeStamp = date.format (Calendar.getInstance ()
+				.getTime ());
+			final String fileName = "%s/%s-%s.%s";
+			writeByteArrayToFile (new File (format (fileName, path, prefix, timeStamp, "mp4")),
+				decode);
+		}
+		catch (final IOException e) {
+			log.error ("Error occurred while saving video recording...");
+			log.catching (e);
+		}
+	}
+
+	protected abstract void startRecord ();
+
+	protected abstract void stopRecord ();
 
 	/**
 	 * @author wasiq.bhamla
@@ -200,7 +230,8 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 
 		if (this.setting.getAppType () == ApplicationType.WEB) {
 			setCapability (BROWSER_NAME, this.setting.getBrowser (), this.capabilities, true);
-		} else {
+		}
+		else {
 			String appPath = this.setting.getAppLocation ();
 			if (appPath != null && !this.setting.isCloudApp ()) {
 				String path = "%s/src/test/resources/%s";
@@ -234,10 +265,11 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 		try {
 			final Constructor <D> ctor = cls.getDeclaredConstructor (argTypes);
 			return ctor.newInstance (url, capability);
-		} catch (NoSuchMethodException | SecurityException | InstantiationException
-				| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+		}
+		catch (NoSuchMethodException | SecurityException | InstantiationException
+			| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			fail (DeviceDriverInitializationFailedError.class,
-					"Error occured while initializing device driver.", e);
+				"Error occured while initializing device driver.", e);
 		}
 		return null;
 	}
@@ -253,11 +285,13 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 		try {
 			this.driver.closeApp ();
 			this.driver.quit ();
-		} catch (final NoSuchSessionException e) {
+		}
+		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 			fail (DeviceDriverNotStoppingError.class, "Error occured while stopping device driver.",
-					e);
+				e);
 		}
 	}
 
@@ -267,16 +301,16 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 			if (this.setting.getDeviceType () == DeviceType.SIMULATOR) {
 				setCapability (AVD, android.getAvd (), this.capabilities, true);
 				setCapability (AVD_READY_TIMEOUT, SECONDS.toMillis (android.getAvdReadyTimeout ()),
-						this.capabilities);
+					this.capabilities);
 				setCapability (AVD_LAUNCH_TIMEOUT,
-						SECONDS.toMillis (android.getAvdLaunchTimeout ()), this.capabilities);
+					SECONDS.toMillis (android.getAvdLaunchTimeout ()), this.capabilities);
 			}
 			if (this.setting.getAppType () != ApplicationType.WEB) {
 				final String packageName = android.getAppPackage ();
 				final String app = this.setting.getAppLocation ();
 				if (packageName == null && app == null) {
 					fail (DeviceDesiredCapabilitiesNotSetError.class,
-							"Either App or Package name is mandatory...");
+						"Either App or Package name is mandatory...");
 				}
 				setCapability (APP_ACTIVITY, android.getAppActivity (), this.capabilities);
 				setCapability (APP_PACKAGE, android.getAppPackage (), this.capabilities);
@@ -284,17 +318,18 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 				setCapability (APP_WAIT_DURATION, android.getAppWaitTimeout (), this.capabilities);
 				setCapability (APP_WAIT_PACKAGE, android.getAppWaitPackage (), this.capabilities);
 				setCapability (ANDROID_INSTALL_TIMEOUT, android.getApkInstallTimeout (),
-						this.capabilities);
+					this.capabilities);
 				setCapability (AUTO_GRANT_PERMISSIONS, android.isAutoGrantPermissions (),
-						this.capabilities);
-			} else {
+					this.capabilities);
+			}
+			else {
 				setCapability (CHROMEDRIVER_EXECUTABLE, android.getChromeDriverPath (),
-						this.capabilities);
+					this.capabilities);
 			}
 			setCapability (SYSTEM_PORT, android.getSystemPort (), this.capabilities);
 			setCapability (ADB_PORT, android.getAdbPort (), this.capabilities);
 			setCapability (DEVICE_READY_TIMEOUT, android.getDeviceReadyTimeout (),
-					this.capabilities);
+				this.capabilities);
 		}
 	}
 
@@ -328,14 +363,16 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 	private void setImplicitWait () {
 		try {
 			this.driver.manage ()
-					.timeouts ()
-					.implicitlyWait (this.setting.getPlayback ()
-							.getDefaultWait (), TimeUnit.SECONDS);
-		} catch (final NoSuchSessionException e) {
+				.timeouts ()
+				.implicitlyWait (this.setting.getPlayback ()
+					.getDefaultWait (), TimeUnit.SECONDS);
+		}
+		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 			fail (DeviceDriverDefaultWaitError.class,
-					"Error occured while setting device driver default wait.", e);
+				"Error occured while setting device driver default wait.", e);
 		}
 	}
 
@@ -349,7 +386,7 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 			setCapability (XCODE_SIGNING_ID, ios.getSigningId (), this.capabilities, true);
 			setCapability (APP_NAME, ios.getAppName (), this.capabilities, true);
 			setCapability (WDA_CONNECTION_TIMEOUT, ios.getWdaConnectionTimeout (),
-					this.capabilities, true);
+				this.capabilities, true);
 			setCapability ("bootstrapPath", ios.getBootstrapPath (), this.capabilities);
 			setCapability ("agentPath", ios.getAgentPath (), this.capabilities);
 			setCapability (UPDATE_WDA_BUNDLEID, ios.getUpdatedWdaBundleId (), this.capabilities);
@@ -358,7 +395,7 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 			setCapability (SHOW_XCODE_LOG, ios.isShowXcodeLog (), this.capabilities);
 			setCapability (WDA_STARTUP_RETRIES, ios.getWdaStartupRetries (), this.capabilities);
 			setCapability (WDA_STARTUP_RETRY_INTERVAL, ios.getWdaStartupRetryInterval (),
-					this.capabilities);
+				this.capabilities);
 			setCapability (AUTO_ACCEPT_ALERTS, ios.isAutoAcceptAlerts (), this.capabilities);
 			setCapability (AUTO_DISMISS_ALERTS, ios.isAutoDismissAlerts (), this.capabilities);
 			setCapability (WDA_LOCAL_PORT, ios.getWdaLocalPort (), this.capabilities);
@@ -371,7 +408,8 @@ public class Device <D extends AppiumDriver <MobileElement>, T extends TouchActi
 		log.trace (String.format (msg, platform));
 		try {
 			this.driver = init (this.server.getServiceUrl (), this.capabilities);
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 			fail (DeviceDriverNotStartingError.class, "Error occured starting device driver", e);
 		}
 	}

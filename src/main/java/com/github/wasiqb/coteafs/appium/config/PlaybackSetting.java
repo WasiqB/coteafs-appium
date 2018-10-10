@@ -27,6 +27,9 @@ public class PlaybackSetting {
 	private int		delayAfterTap;
 	private int		delayBeforeSwipe;
 	private int		delayBeforeTap;
+	private boolean	record;
+	private String	recordPath;
+	private String	recordPrefix;
 	private boolean	screenshotOnError;
 	private String	screenShotPath;
 	private String	screenShotPrefix;
@@ -46,6 +49,9 @@ public class PlaybackSetting {
 		this.screenShotPath = format ("%s/screenshots", System.getProperty ("user.dir"));
 		this.screenShotPrefix = "SCR";
 		this.screenshotOnError = false;
+		this.record = false;
+		this.recordPath = format ("%s/video", System.getProperty ("user.dir"));
+		this.recordPrefix = "VID";
 	}
 
 	/**
@@ -94,6 +100,24 @@ public class PlaybackSetting {
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Oct 9, 2018
+	 * @return the recordPath
+	 */
+	public String getRecordPath () {
+		return this.recordPath;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 9, 2018
+	 * @return the recordPrefix
+	 */
+	public String getRecordPrefix () {
+		return this.recordPrefix;
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since Jan 18, 2018 9:35:15 PM
 	 * @return the screenShotPath
@@ -118,6 +142,15 @@ public class PlaybackSetting {
 	 */
 	public int getWaitForElementUntil () {
 		return this.waitForElementUntil;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 9, 2018
+	 * @return the record
+	 */
+	public boolean isRecord () {
+		return this.record;
 	}
 
 	/**
@@ -177,6 +210,36 @@ public class PlaybackSetting {
 	 */
 	public void setDelayBeforeTap (final int delayBeforeTap) {
 		this.delayBeforeTap = delayBeforeTap;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 9, 2018
+	 * @param record
+	 *            the record to set
+	 */
+	public void setRecord (final boolean record) {
+		this.record = record;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 9, 2018
+	 * @param recordPath
+	 *            the recordPath to set
+	 */
+	public void setRecordPath (final String recordPath) {
+		this.recordPath = recordPath;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 9, 2018
+	 * @param recordPrefix
+	 *            the recordPrefix to set
+	 */
+	public void setRecordPrefix (final String recordPrefix) {
+		this.recordPrefix = recordPrefix;
 	}
 
 	/**
