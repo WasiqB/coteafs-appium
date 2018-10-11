@@ -53,11 +53,7 @@ import io.appium.java_client.TouchAction;
  * @since 26-Apr-2017 4:31:24 PM
  */
 public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (DeviceActivity.class);
-	}
+	private static final Logger log = LogManager.getLogger (DeviceActivity.class);
 
 	protected final E							device;
 	protected final Map <String, DeviceElement>	deviceElements;
@@ -76,7 +72,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 		this.touch = touch;
 		this.deviceElements = new HashMap <> ();
 		this.setting = device.getSetting ()
-				.getPlayback ();
+			.getPlayback ();
 		this.wait = new WebDriverWait (device.getDriver (), this.setting.getWaitForElementUntil ());
 	}
 
@@ -146,7 +142,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 	}
 
 	private MobileElement find (final D deviceDriver, final DeviceElement parent, final By locator,
-			final int index, final WaitStrategy strategy) {
+		final int index, final WaitStrategy strategy) {
 		try {
 			wait (locator, strategy);
 			List <MobileElement> result = null;
@@ -155,30 +151,36 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 				log.trace (String.format (message, parent.name (), locator, index));
 				final MobileElement mobileElement = getElement (parent.name ());
 				result = mobileElement.findElements (locator);
-			} else {
+			}
+			else {
 				final String message = "Finding root element using [%s] at index [%d]...";
 				log.trace (String.format (message, locator, index));
 				result = deviceDriver.findElements (locator);
 			}
 			return result.get (index);
-		} catch (final TimeoutException e) {
+		}
+		catch (final TimeoutException e) {
 			captureScreenshotOnError ();
 			final String message = "[%s] locator timed out.";
 			fail (DeviceElementFindTimedOutError.class, String.format (message, locator), e);
-		} catch (final NoSuchSessionException e) {
+		}
+		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		} catch (final InvalidSelectorException e) {
+		}
+		catch (final InvalidSelectorException e) {
 			fail (AppiumSelectorNotImplementedError.class, "Selector not supported", e);
-		} catch (final Exception e) {
+		}
+		catch (final Exception e) {
 			captureScreenshotOnError ();
 			String message = "";
 			if (parent == null) {
 				message = "Error occured while finding root device element with locator [%s] at index [%d].";
 				fail (DeviceElementNotFoundError.class, String.format (message, locator, index), e);
-			} else {
+			}
+			else {
 				message = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
 				fail (DeviceElementNotFoundError.class,
-						String.format (message, locator, index, parent.name ()), e);
+					String.format (message, locator, index, parent.name ()), e);
 			}
 		}
 		return null;

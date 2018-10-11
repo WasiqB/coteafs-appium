@@ -15,21 +15,21 @@ servers:
     protocol: HTTPS
     host: hub-cloud.browserstack.com
     cloud: true
-    external: true
     user_name: ${env.user}
     password: ${env.pass}
 
 devices:
   test_local:
     platform_type: ANDROID
-    device_name: Samsung Galaxy S8
+    device_name: MI Redmi Note 4
     device_version: 7.0
     app_type: HYBRID
     device_type: REAL
-    automation_name: UIAUTOMATOR2
+    automation_name: APPIUM
     app_location: apps/android/VodQA.apk
     session_timeout: 120000
     playback:
+      record: true
       delay_before_swipe: 2
       delay_after_swipe: 1
       delay_before_tap: 2
@@ -40,11 +40,12 @@ devices:
     device_version: 7.0
     app_type: HYBRID
     device_type: REAL
-    automation_name: UIAUTOMATOR2
+    automation_name: APPIUM
     app_location: ${env.app}
     cloud_app: true
     session_timeout: 120000
     playback:
+      record: true
       delay_before_swipe: 2
       delay_after_swipe: 1
       delay_before_tap: 2

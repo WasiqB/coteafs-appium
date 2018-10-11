@@ -50,7 +50,7 @@ public class PlaybackSetting {
 		this.screenShotPrefix = "SCR";
 		this.screenshotOnError = false;
 		this.record = false;
-		this.recordPath = format ("%s/video", System.getProperty ("user.dir"));
+		this.recordPath = format ("%s/videos", System.getProperty ("user.dir"));
 		this.recordPrefix = "VID";
 	}
 

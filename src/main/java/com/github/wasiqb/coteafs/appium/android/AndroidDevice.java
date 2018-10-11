@@ -15,14 +15,13 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
-import static io.appium.java_client.android.AndroidStartScreenRecordingOptions.startScreenRecordingOptions;
-import static io.appium.java_client.android.AndroidStopScreenRecordingOptions.stopScreenRecordingOptions;
-
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
+import io.appium.java_client.android.AndroidStartScreenRecordingOptions;
+import io.appium.java_client.android.AndroidStopScreenRecordingOptions;
 import io.appium.java_client.android.AndroidTouchAction;
 
 /**
@@ -42,26 +41,21 @@ public class AndroidDevice extends Device <AndroidDriver <MobileElement>, Androi
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.Device#startRecord()
+	 * @see com.github.wasiqb.coteafs.appium.device.Device#startRecordSetting()
 	 */
+	@SuppressWarnings ("unchecked")
 	@Override
-	protected void startRecord () {
-		if (this.setting.getPlayback ()
-			.isRecord ()) {
-			this.driver.startRecordingScreen (startScreenRecordingOptions ());
-		}
+	protected AndroidStartScreenRecordingOptions startRecordSetting () {
+		return AndroidStartScreenRecordingOptions.startScreenRecordingOptions ();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.Device#stopRecord()
+	 * @see com.github.wasiqb.coteafs.appium.device.Device#stopRecordSetting()
 	 */
+	@SuppressWarnings ("unchecked")
 	@Override
-	protected void stopRecord () {
-		if (this.setting.getPlayback ()
-			.isRecord ()) {
-			final String content = this.driver.stopRecordingScreen (stopScreenRecordingOptions ());
-			saveRecording (content);
-		}
+	protected AndroidStopScreenRecordingOptions stopRecordSetting () {
+		return AndroidStopScreenRecordingOptions.stopScreenRecordingOptions ();
 	}
 }

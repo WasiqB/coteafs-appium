@@ -104,6 +104,9 @@ import com.google.common.reflect.TypeToken;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
+import io.appium.java_client.screenrecording.BaseStartScreenRecordingOptions;
+import io.appium.java_client.screenrecording.BaseStopScreenRecordingOptions;
+import io.appium.java_client.screenrecording.CanRecordScreen;
 
 /**
  * @author wasiq.bhamla
@@ -172,7 +175,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 		final PlatformType platform = this.setting.getPlatformType ();
 		startDriver (platform);
 		setImplicitWait ();
-		startRecord ();
+		startRecord ((CanRecordScreen) this.driver);
 	}
 
 	/**
@@ -182,7 +185,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 	public void stop () {
 		final PlatformType platform = this.setting.getPlatformType ();
 		if (this.driver != null) {
-			stopRecord ();
+			stopRecord ((CanRecordScreen) this.driver);
 			quitApp (platform);
 			this.driver = null;
 		}
@@ -213,9 +216,24 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 		}
 	}
 
-	protected abstract void startRecord ();
+	protected void startRecord (final CanRecordScreen screen) {
+		if (this.setting.getPlayback ()
+			.isRecord () && !this.setting.isCloudApp ()) {
+			screen.startRecordingScreen (startRecordSetting ());
+		}
+	}
 
-	protected abstract void stopRecord ();
+	protected abstract <X extends BaseStartScreenRecordingOptions <X>> X startRecordSetting ();
+
+	protected void stopRecord (final CanRecordScreen screen) {
+		if (this.setting.getPlayback ()
+			.isRecord () && !this.setting.isCloudApp ()) {
+			final String content = screen.stopRecordingScreen (stopRecordSetting ());
+			saveRecording (content);
+		}
+	}
+
+	protected abstract <Y extends BaseStopScreenRecordingOptions <Y>> Y stopRecordSetting ();
 
 	/**
 	 * @author wasiq.bhamla
