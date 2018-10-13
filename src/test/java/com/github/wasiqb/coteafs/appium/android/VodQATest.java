@@ -39,14 +39,14 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testDragDrop () {
 		this.main.onElement ("DragDrop")
-				.click ();
+			.click ();
 
 		final DragDropActivity dd = new DragDropActivity (this.androidDevice);
 		dd.onElement ("DropMe")
-				.dragDrop (dd.getElement ("DropZone"));
+			.dragDrop (dd.getElement ("DropZone"));
 		dd.onElement ("Success")
-				.verifyThat ()
-				.textShouldBeEqualTo ("Circle dropped");
+			.verifyThat ()
+			.textShouldBeEqualTo ("Circle dropped");
 	}
 
 	/**
@@ -56,13 +56,13 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testLongPress () {
 		this.main.onElement ("LongPress")
-				.click ();
+			.click ();
 
 		final LongPressActivity lp = new LongPressActivity (this.androidDevice);
 		lp.onElement ("Button")
-				.longPress ();
+			.longPress ();
 		final String message = lp.onDevice ()
-				.handleAlert ();
+			.handleAlert ();
 		Assert.assertEquals (message, "you pressed me hard :P");
 	}
 
@@ -74,18 +74,18 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testNativeView () throws InterruptedException {
 		this.main.onElement ("ChainedView")
-				.click ();
+			.click ();
 
 		final ChainedViewActivity chained = new ChainedViewActivity (this.androidDevice);
 		chained.onElement ("Text1")
-				.verifyThat ()
-				.textShouldBeEqualTo ("Hello World, I'm View one ");
+			.verifyThat ()
+			.textShouldBeEqualTo ("Hello World, I'm View one ");
 		chained.onElement ("Text2")
-				.verifyThat ()
-				.textShouldBeEqualTo ("Hello World, I'm View two ");
+			.verifyThat ()
+			.textShouldBeEqualTo ("Hello World, I'm View two ");
 		chained.onElement ("Text3")
-				.verifyThat ()
-				.textShouldBeEqualTo ("Hello World, I'm View three ");
+			.verifyThat ()
+			.textShouldBeEqualTo ("Hello World, I'm View three ");
 	}
 
 	/**
@@ -95,13 +95,13 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testSlider () {
 		this.main.onElement ("Slider")
-				.click ();
+			.click ();
 
 		final SliderActivity slide = new SliderActivity (this.androidDevice);
 		slide.onElement ("Slider")
-				.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
+			.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
 		slide.onElement ("Slider1")
-				.swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
+			.swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
 	}
 
 	/**
@@ -111,13 +111,13 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testVerticleSwipe () {
 		this.main.onElement ("VerticalSwipe")
-				.click ();
+			.click ();
 
 		final VerticleSwipeActivity vs = new VerticleSwipeActivity (this.androidDevice);
 		vs.onElement ("List")
-				.swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
+			.swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
 		vs.onElement ("List")
-				.swipe (SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
+			.swipe (SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
 	}
 
 	/**
@@ -127,13 +127,13 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testZoomPinch () {
 		this.main.onElement ("PhotoView")
-				.click ();
+			.click ();
 
 		final PhotoViewActivity p = new PhotoViewActivity (this.androidDevice);
 		p.onElement ("Img")
-				.zoom (25);
+			.zoom (25);
 
 		p.onElement ("Img")
-				.pinch (25);
+			.pinch (25);
 	}
 }

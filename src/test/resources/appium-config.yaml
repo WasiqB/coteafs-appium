@@ -29,7 +29,8 @@ devices:
     app_location: apps/android/VodQA.apk
     session_timeout: 120000
     playback:
-      record: true
+      record:
+        enabled: true
       delay_before_swipe: 2
       delay_after_swipe: 1
       delay_before_tap: 2
@@ -45,7 +46,8 @@ devices:
     cloud_app: true
     session_timeout: 120000
     playback:
-      record: true
+      record:
+        enabled: true
       delay_before_swipe: 2
       delay_after_swipe: 1
       delay_before_tap: 2

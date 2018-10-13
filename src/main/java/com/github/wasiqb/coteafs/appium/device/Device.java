@@ -20,6 +20,7 @@ import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONF
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.appium.utils.ScreenRecorder.saveRecording;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ADB_PORT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
@@ -62,18 +63,14 @@ import static io.appium.java_client.remote.MobileCapabilityType.UDID;
 import static java.lang.String.format;
 import static java.lang.System.getProperty;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
 import static org.openqa.selenium.remote.CapabilityType.BROWSER_NAME;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
 import java.io.File;
-import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Base64;
-import java.util.Calendar;
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
@@ -87,6 +84,7 @@ import com.github.wasiqb.coteafs.appium.config.AndroidDeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.IOSDeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.RecordSetting;
 import com.github.wasiqb.coteafs.appium.config.enums.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.enums.DeviceType;
 import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
@@ -115,12 +113,13 @@ import io.appium.java_client.screenrecording.CanRecordScreen;
  * @since 12-Apr-2017 9:38:38 PM
  */
 public abstract class Device <D extends AppiumDriver <MobileElement>, T extends TouchAction <T>> {
-	private static final Logger log = LogManager.getLogger (Device.class);
+	private static final Logger LOG = LogManager.getLogger (Device.class);
 
 	protected DesiredCapabilities	capabilities;
 	protected D						driver;
 	protected final AppiumServer	server;
 	protected final DeviceSetting	setting;
+	private final PlatformType		platform;
 
 	/**
 	 * @author wasiq.bhamla
@@ -135,6 +134,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 			.withDefault (COTEAFS_CONFIG_DEFAULT_FILE)
 			.load (AppiumSetting.class)
 			.getDevice (name);
+		this.platform = this.setting.getPlatformType ();
 		buildCapabilities ();
 	}
 
@@ -152,9 +152,8 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 	 * @return driver
 	 */
 	public D getDriver () {
-		final PlatformType platform = this.setting.getPlatformType ();
 		final String msg = "Getting [%s] device driver...";
-		log.trace (String.format (msg, platform));
+		LOG.trace (String.format (msg, this.platform));
 		return this.driver;
 	}
 
@@ -172,9 +171,15 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 	 * @since 17-Apr-2017 4:46:12 PM
 	 */
 	public void start () {
-		final PlatformType platform = this.setting.getPlatformType ();
-		startDriver (platform);
+		startDriver ();
 		setImplicitWait ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 13, 2018
+	 */
+	public void startRecording () {
 		startRecord ((CanRecordScreen) this.driver);
 	}
 
@@ -183,64 +188,30 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 	 * @since 17-Apr-2017 4:46:02 PM
 	 */
 	public void stop () {
-		final PlatformType platform = this.setting.getPlatformType ();
 		if (this.driver != null) {
-			stopRecord ((CanRecordScreen) this.driver);
-			quitApp (platform);
+			quitApp ();
 			this.driver = null;
 		}
 		else {
 			final String message = "[%s] device driver already stopped...";
-			log.trace (String.format (message, platform));
+			LOG.trace (String.format (message, this.platform));
 		}
 	}
 
-	protected void saveRecording (final String content) {
-		final byte [] decode = Base64.getDecoder ()
-			.decode (content);
-		try {
-			final String path = this.setting.getPlayback ()
-				.getRecordPath ();
-			final String prefix = this.setting.getPlayback ()
-				.getRecordPrefix ();
-			final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-HHmmss");
-			final String timeStamp = date.format (Calendar.getInstance ()
-				.getTime ());
-			final String fileName = "%s/%s-%s.%s";
-			writeByteArrayToFile (new File (format (fileName, path, prefix, timeStamp, "mp4")),
-				decode);
-		}
-		catch (final IOException e) {
-			log.error ("Error occurred while saving video recording...");
-			log.catching (e);
-		}
-	}
-
-	protected void startRecord (final CanRecordScreen screen) {
-		if (this.setting.getPlayback ()
-			.isRecord () && !this.setting.isCloudApp ()) {
-			screen.startRecordingScreen (startRecordSetting ());
-		}
+	/**
+	 * @author wasiqb
+	 * @since Oct 13, 2018
+	 */
+	public void stopRecording () {
+		stopRecord ((CanRecordScreen) this.driver);
 	}
 
 	protected abstract <X extends BaseStartScreenRecordingOptions <X>> X startRecordSetting ();
 
-	protected void stopRecord (final CanRecordScreen screen) {
-		if (this.setting.getPlayback ()
-			.isRecord () && !this.setting.isCloudApp ()) {
-			final String content = screen.stopRecordingScreen (stopRecordSetting ());
-			saveRecording (content);
-		}
-	}
-
 	protected abstract <Y extends BaseStopScreenRecordingOptions <Y>> Y stopRecordSetting ();
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 13-Apr-2017 3:38:32 PM
-	 */
 	private void buildCapabilities () {
-		log.trace ("Building Device capabilities...");
+		LOG.trace ("Building Device capabilities...");
 		this.capabilities = new DesiredCapabilities ();
 
 		setCommonCapabilities ();
@@ -253,7 +224,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 			String appPath = this.setting.getAppLocation ();
 			if (appPath != null && !this.setting.isCloudApp ()) {
 				String path = "%s/src/test/resources/%s";
-				path = String.format (path, getProperty ("user.dir"), appPath);
+				path = format (path, getProperty ("user.dir"), appPath);
 
 				if (this.setting.isExternalApp ()) {
 					path = appPath;
@@ -262,19 +233,19 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 				final File file = new File (path);
 				if (!file.exists ()) {
 					final String msg = "App not found on mentioned location [%s]...";
-					log.error (String.format (msg, path));
+					LOG.error (String.format (msg, path));
 					fail (DeviceAppNotFoundError.class, String.format (msg, path));
 				}
 				appPath = path;
 			}
 			setCapability (APP, appPath, this.capabilities, true);
 		}
-		log.trace ("Building Device capabilities completed...");
+		LOG.trace ("Building Device capabilities completed...");
 	}
 
 	@SuppressWarnings ("unchecked")
 	private D init (final URL url, final Capabilities capability) {
-		log.trace ("Initializing driver...");
+		LOG.trace ("Initializing driver...");
 		final TypeToken <D> token = new TypeToken <D> (getClass ()) {
 			private static final long serialVersionUID = 1562415938665085306L;
 		};
@@ -292,14 +263,9 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 		return null;
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @param platform
-	 * @since Oct 16, 2017 8:14:56 PM
-	 */
-	private void quitApp (final PlatformType platform) {
+	private void quitApp () {
 		final String message = "Closing & Quitting [%s] device driver...";
-		log.trace (String.format (message, platform));
+		LOG.trace (format (message, this.platform));
 		try {
 			this.driver.closeApp ();
 			this.driver.quit ();
@@ -421,14 +387,36 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 		}
 	}
 
-	private void startDriver (final PlatformType platform) {
+	private void startDriver () {
 		final String msg = "Starting [%s] device driver...";
-		log.trace (String.format (msg, platform));
+		LOG.trace (format (msg, this.platform));
 		try {
 			this.driver = init (this.server.getServiceUrl (), this.capabilities);
 		}
 		catch (final Exception e) {
 			fail (DeviceDriverNotStartingError.class, "Error occured starting device driver", e);
+		}
+	}
+
+	private <X extends BaseStartScreenRecordingOptions <X>> void startRecord (
+		final CanRecordScreen screen) {
+		final RecordSetting record = this.setting.getPlayback ()
+			.getRecord ();
+		if (record.isEnabled () && !this.setting.isCloudApp ()) {
+			LOG.info ("Starting video recording...");
+			final X option = startRecordSetting ();
+			option.withTimeLimit (Duration.ofMinutes (record.getDuration ()));
+			screen.startRecordingScreen (option);
+		}
+	}
+
+	private void stopRecord (final CanRecordScreen screen) {
+		final RecordSetting record = this.setting.getPlayback ()
+			.getRecord ();
+		if (record.isEnabled () && !this.setting.isCloudApp ()) {
+			LOG.info ("Stopping video recording...");
+			final String content = screen.stopRecordingScreen (stopRecordSetting ());
+			saveRecording (content, record);
 		}
 	}
 }

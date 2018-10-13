@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-import com.github.wasiqb.coteafs.appium.device.WaitStrategy;
 
 import io.appium.java_client.MobileBy;
 
@@ -49,35 +48,27 @@ public class MainActivity extends DefaultActivity {
 
 		DeviceElement.create ("ChainedView")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("chainedView"));
 		DeviceElement.create ("Slider")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("slider1"));
 		DeviceElement.create ("VerticalSwipe")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("verticalSwipe"));
 		DeviceElement.create ("DragDrop")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("dragAndDrop"));
 		DeviceElement.create ("DoubleTap")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("doubleTap"));
 		DeviceElement.create ("WebView")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("webView"));
 		DeviceElement.create ("LongPress")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("longPress"));
 		DeviceElement.create ("PhotoView")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
 			.using (MobileBy.AccessibilityId ("photoView"));
 
 		return main;

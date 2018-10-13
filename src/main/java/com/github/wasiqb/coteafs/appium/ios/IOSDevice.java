@@ -15,12 +15,14 @@
  */
 package com.github.wasiqb.coteafs.appium.ios;
 
+import com.github.wasiqb.coteafs.appium.config.RecordSetting;
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions;
+import io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality;
 import io.appium.java_client.ios.IOSStopScreenRecordingOptions;
 import io.appium.java_client.ios.IOSTouchAction;
 
@@ -46,7 +48,14 @@ public class IOSDevice extends Device <IOSDriver <MobileElement>, IOSTouchAction
 	@SuppressWarnings ("unchecked")
 	@Override
 	protected IOSStartScreenRecordingOptions startRecordSetting () {
-		return IOSStartScreenRecordingOptions.startScreenRecordingOptions ();
+		final IOSStartScreenRecordingOptions options = IOSStartScreenRecordingOptions
+			.startScreenRecordingOptions ();
+		final RecordSetting record = this.setting.getPlayback ()
+			.getRecord ();
+		if (record.getQuality () != VideoQuality.MEDIUM) {
+			options.withVideoQuality (record.getQuality ());
+		}
+		return options;
 	}
 
 	/*

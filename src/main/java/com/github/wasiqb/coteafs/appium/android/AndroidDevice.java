@@ -15,6 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import com.github.wasiqb.coteafs.appium.config.RecordSetting;
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
@@ -46,7 +47,17 @@ public class AndroidDevice extends Device <AndroidDriver <MobileElement>, Androi
 	@SuppressWarnings ("unchecked")
 	@Override
 	protected AndroidStartScreenRecordingOptions startRecordSetting () {
-		return AndroidStartScreenRecordingOptions.startScreenRecordingOptions ();
+		final AndroidStartScreenRecordingOptions options = AndroidStartScreenRecordingOptions
+			.startScreenRecordingOptions ();
+		final RecordSetting record = this.setting.getPlayback ()
+			.getRecord ();
+		if (record.getBitRate () != 4) {
+			options.withBitRate (record.getBitRate ());
+		}
+		if (record.getSize () != null) {
+			options.withVideoSize (record.getSize ());
+		}
+		return options;
 	}
 
 	/*
