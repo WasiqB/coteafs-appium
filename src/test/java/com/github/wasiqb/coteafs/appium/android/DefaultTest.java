@@ -15,7 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
@@ -31,6 +33,15 @@ public class DefaultTest {
 	protected AndroidDevice	androidDevice;
 	protected MainActivity	main;
 	private AppiumServer	androidServer;
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 13, 2018
+	 */
+	@BeforeMethod
+	public void setupMethod () {
+		this.androidDevice.startRecording ();
+	}
 
 	/**
 	 * @author wasiq.bhamla
@@ -53,6 +64,15 @@ public class DefaultTest {
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Oct 13, 2018
+	 */
+	@AfterMethod
+	public void teardownMethod () {
+		this.androidDevice.stopRecording ();
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since 17-Apr-2017 3:47:41 PM
 	 */
@@ -65,7 +85,7 @@ public class DefaultTest {
 	private void login () {
 		final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
 		login.addInputValue ("UserName", "admin")
-				.addInputValue ("Password", "admin")
-				.perform ();
+			.addInputValue ("Password", "admin")
+			.perform ();
 	}
 }

@@ -40,13 +40,13 @@ public class LoginActivityAction extends AndroidActivityActions {
 	@Override
 	public void perform () {
 		final LoginActivity login = new LoginActivity (getDevice ());
-		// login.onElement ("UserName")
-		// .enterText (value ("UserName"));
-		// login.onElement ("Password")
-		// .enterText (value ("Password"));
-		// login.onDevice ()
-		// .hideKeyboard ();
+		login.onElement ("UserName")
+				.enterText (value ("UserName"));
+		login.onElement ("Password")
+				.enterText (value ("Password"));
+		login.onDevice ()
+				.hideKeyboard ();
 		login.onElement ("Login")
-			.tap ();
+				.tap ();
 	}
 }

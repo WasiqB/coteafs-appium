@@ -38,14 +38,14 @@ public final class BatteryHealth {
 	 */
 	public static void check (final String state, final double level) {
 		log.trace (format ("Current Battery status is [{0}] with charge level as [{1}%]...", state,
-				level * 100));
+			level * 100));
 		if (!state.equals ("CHARGING") && !state.equals ("FULL") && level < 0.2) {
 			fail (NotEnoughBatteryChargeError.class,
-					"Battery does not have enough charging, to continue, put your device on USB...");
+				"Battery does not have enough charging, to continue, put your device on USB...");
 		}
 	}
 
 	private BatteryHealth () {
-		// TODO Auto-generated constructor stub
+		// Utility class.
 	}
 }
