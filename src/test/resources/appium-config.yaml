@@ -1,16 +1,18 @@
+server:
+  appium_js_path: C:\Users\wasiqb\AppData\Roaming\npm\node_modules\appium\build\lib\main.js
+  node_path: C:\Program Files\nodejs\node.exe
+  arguments:
+    log_level: DEBUG
+    log_time_stamp: true
+    local_time_zone: true
+    session_override: true
+    android:
+      suppress_adb_kill_server: true
+
 servers:
   android:
     host: 0.0.0.0
     port: 4723
-    appium_js_path: C:\Users\wasiqb\AppData\Roaming\npm\node_modules\appium\build\lib\main.js
-    node_path: C:\Program Files\nodejs\node.exe
-    arguments:
-      log_level: DEBUG
-      log_time_stamp: true
-      local_time_zone: true
-      session_override: true
-      android:
-        suppress_adb_kill_server: true
   browserstack:
     protocol: HTTPS
     host: hub-cloud.browserstack.com
