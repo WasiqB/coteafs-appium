@@ -153,7 +153,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 	 */
 	public D getDriver () {
 		final String msg = "Getting [%s] device driver...";
-		LOG.trace (String.format (msg, this.platform));
+		LOG.trace (format (msg, this.platform));
 		return this.driver;
 	}
 
@@ -194,7 +194,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 		}
 		else {
 			final String message = "[%s] device driver already stopped...";
-			LOG.trace (String.format (message, this.platform));
+			LOG.trace (format (message, this.platform));
 		}
 	}
 
@@ -229,16 +229,17 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 				if (this.setting.isExternalApp ()) {
 					path = appPath;
 				}
-
 				final File file = new File (path);
 				if (!file.exists ()) {
 					final String msg = "App not found on mentioned location [%s]...";
-					LOG.error (String.format (msg, path));
-					fail (DeviceAppNotFoundError.class, String.format (msg, path));
+					LOG.error (format (msg, path));
+					fail (DeviceAppNotFoundError.class, format (msg, path));
 				}
 				appPath = path;
 			}
-			setCapability (APP, appPath, this.capabilities, true);
+			if (this.setting.isCloudApp () || appPath != null) {
+				setCapability (APP, appPath, this.capabilities, true);
+			}
 		}
 		LOG.trace ("Building Device capabilities completed...");
 	}
