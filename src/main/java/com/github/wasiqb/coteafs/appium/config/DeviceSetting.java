@@ -64,6 +64,7 @@ public class DeviceSetting {
 		this.clearSystemFiles = false;
 		this.sessionTimeout = 120;
 		this.cloudApp = false;
+		this.playback = new PlaybackSetting ();
 	}
 
 	/**

@@ -50,10 +50,6 @@ public final class ServerChecker {
 		}
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Jul 22, 2017 10:50:03 PM
-	 */
 	private ServerChecker () {
 		// Utility class.
 	}

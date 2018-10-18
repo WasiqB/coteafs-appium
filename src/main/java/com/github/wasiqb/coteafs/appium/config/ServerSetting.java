@@ -27,11 +27,7 @@ import com.github.wasiqb.coteafs.appium.config.enums.Protocol;
  * @since 12-Apr-2017 8:43:22 PM
  */
 public class ServerSetting {
-	private static int countInstance;
-
-	static {
-		countInstance = 0;
-	}
+	private static int countInstance = 0;
 
 	private String					appiumJsPath;
 	private ServerArgumentSetting	arguments;
@@ -65,7 +61,8 @@ public class ServerSetting {
 		this.environmentVariables = new HashMap <> ();
 		this.protocol = Protocol.HTTP;
 		this.logFilePath = String.format ("%s/logs/server-%d.log", System.getProperty ("user.dir"),
-				countInstance);
+			countInstance);
+		this.arguments = new ServerArgumentSetting ();
 	}
 
 	/**
