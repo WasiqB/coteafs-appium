@@ -1,4 +1,4 @@
-server:
+server: &default_server
   appium_js_path: C:\Users\wasiqb\AppData\Roaming\npm\node_modules\appium\build\lib\main.js
   node_path: C:\Program Files\nodejs\node.exe
   arguments:
@@ -13,6 +13,7 @@ servers:
   android:
     host: 0.0.0.0
     port: 4723
+    <<: *default_server
   browserstack:
     protocol: HTTPS
     host: hub-cloud.browserstack.com
@@ -20,37 +21,29 @@ servers:
     user_name: ${env.user}
     password: ${env.pass}
 
+device: &default_device
+  platform_type: ANDROID
+  app_type: HYBRID
+  device_type: REAL
+  automation_name: APPIUM
+  session_timeout: 120000
+  playback:
+    record:
+      enabled: true
+    delay_before_swipe: 2
+    delay_after_swipe: 1
+    delay_before_tap: 2
+    delay_after_tap: 1
+
 devices:
   test_local:
-    platform_type: ANDROID
     device_name: MI Redmi Note 4
     device_version: 7.0
-    app_type: HYBRID
-    device_type: REAL
-    automation_name: APPIUM
     app_location: apps/android/VodQA.apk
-    session_timeout: 120000
-    playback:
-      record:
-        enabled: true
-      delay_before_swipe: 2
-      delay_after_swipe: 1
-      delay_before_tap: 2
-      delay_after_tap: 1
+    <<: *default_device
   test_browserstack:
-    platform_type: ANDROID
     device_name: Samsung Galaxy S8
     device_version: 7.0
-    app_type: HYBRID
-    device_type: REAL
-    automation_name: APPIUM
     app_location: ${env.app}
     cloud_app: true
-    session_timeout: 120000
-    playback:
-      record:
-        enabled: true
-      delay_before_swipe: 2
-      delay_after_swipe: 1
-      delay_before_tap: 2
-      delay_after_tap: 1
+    <<: *default_device
