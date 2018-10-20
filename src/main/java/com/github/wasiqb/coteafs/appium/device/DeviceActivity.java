@@ -35,6 +35,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
+import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.error.AppiumSelectorNotImplementedError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementFindTimedOutError;
@@ -52,7 +53,8 @@ import io.appium.java_client.TouchAction;
  * @param <T>
  * @since 26-Apr-2017 4:31:24 PM
  */
-public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
+public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
+	E extends Device <D, T>, T extends TouchAction <T>> {
 	private static final Logger log = LogManager.getLogger (DeviceActivity.class);
 
 	protected final E							device;
@@ -237,8 +239,10 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>, E 
 				this.wait.until (ExpectedConditions.presenceOfAllElementsLocatedBy (locator));
 				break;
 			case VISIBLE:
-			default:
 				this.wait.until (visibilityOfAllElementsLocatedBy (locator));
+				break;
+			case NONE:
+			default:
 				break;
 		}
 	}

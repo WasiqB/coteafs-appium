@@ -25,7 +25,7 @@ devices:
     device_version: 7.0
     app_type: HYBRID
     device_type: REAL
-    automation_name: APPIUM
+    automation_name: UIAUTOMATOR2
     app_location: apps/android/VodQA.apk
     session_timeout: 120000
     playback:
@@ -41,7 +41,7 @@ devices:
     device_version: 7.0
     app_type: HYBRID
     device_type: REAL
-    automation_name: APPIUM
+    automation_name: UIAUTOMATOR2
     app_location: ${env.app}
     cloud_app: true
     session_timeout: 120000

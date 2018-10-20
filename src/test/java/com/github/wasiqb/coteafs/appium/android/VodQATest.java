@@ -18,14 +18,15 @@ package com.github.wasiqb.coteafs.appium.android;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
+import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DoubleTapActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DragDropActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LongPressActivity;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.PhotoViewActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.SliderActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.VerticleSwipeActivity;
-import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
-import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 
 /**
  * @author wasiq.bhamla
@@ -34,12 +35,33 @@ import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
 public class VodQATest extends DefaultTest {
 	/**
 	 * @author wasiq.bhamla
+	 * @since Feb 8, 2018 4:21:19 PM
+	 */
+	@Test
+	public void testDoubleTap () {
+		this.main.onElement ("DoubleTap")
+			.click ();
+
+		final DoubleTapActivity p = new DoubleTapActivity (this.androidDevice);
+		p.onElement ("Button")
+			.doubleTap ();
+
+		final String message = p.onDevice ()
+			.handleAlert ();
+		Assert.assertEquals (message, "Double tap successful!");
+
+		this.main.onElement ("Back")
+			.tap ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 2:59:25 PM
 	 */
 	@Test
 	public void testDragDrop () {
 		this.main.onElement ("DragDrop")
-			.click ();
+			.tap ();
 
 		final DragDropActivity dd = new DragDropActivity (this.androidDevice);
 		dd.onElement ("DropMe")
@@ -47,6 +69,21 @@ public class VodQATest extends DefaultTest {
 		dd.onElement ("Success")
 			.verifyThat ()
 			.textShouldBeEqualTo ("Circle dropped");
+
+		this.main.onElement ("Back")
+			.tap ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 20, 2018
+	 */
+	@Test
+	public void testLogin () {
+		final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
+		login.addInputValue ("UserName", "admin")
+			.addInputValue ("Password", "admin")
+			.perform ();
 	}
 
 	/**
@@ -56,7 +93,7 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testLongPress () {
 		this.main.onElement ("LongPress")
-			.click ();
+			.tap ();
 
 		final LongPressActivity lp = new LongPressActivity (this.androidDevice);
 		lp.onElement ("Button")
@@ -64,6 +101,9 @@ public class VodQATest extends DefaultTest {
 		final String message = lp.onDevice ()
 			.handleAlert ();
 		Assert.assertEquals (message, "you pressed me hard :P");
+
+		this.main.onElement ("Back")
+			.tap ();
 	}
 
 	/**
@@ -86,6 +126,9 @@ public class VodQATest extends DefaultTest {
 		chained.onElement ("Text3")
 			.verifyThat ()
 			.textShouldBeEqualTo ("Hello World, I'm View three ");
+
+		this.main.onElement ("Back")
+			.tap ();
 	}
 
 	/**
@@ -102,6 +145,9 @@ public class VodQATest extends DefaultTest {
 			.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
 		slide.onElement ("Slider1")
 			.swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
+
+		this.main.onElement ("Back")
+			.tap ();
 	}
 
 	/**
@@ -118,22 +164,8 @@ public class VodQATest extends DefaultTest {
 			.swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
 		vs.onElement ("List")
 			.swipe (SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
-	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 8, 2018 4:21:19 PM
-	 */
-	@Test
-	public void testZoomPinch () {
-		this.main.onElement ("PhotoView")
-			.click ();
-
-		final PhotoViewActivity p = new PhotoViewActivity (this.androidDevice);
-		p.onElement ("Img")
-			.zoom (25);
-
-		p.onElement ("Img")
-			.pinch (25);
+		this.main.onElement ("Back")
+			.tap ();
 	}
 }

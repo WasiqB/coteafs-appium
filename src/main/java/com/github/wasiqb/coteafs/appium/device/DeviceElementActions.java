@@ -17,6 +17,7 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static java.lang.String.format;
 import static java.time.Duration.ofSeconds;
 
 import java.util.function.Consumer;
@@ -25,9 +26,12 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
+import org.openqa.selenium.Point;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.utils.SwipeUtils;
 
@@ -39,6 +43,7 @@ import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
 
 /**
  * @author wasiq.bhamla
@@ -47,12 +52,9 @@ import io.appium.java_client.touch.offset.ElementOption;
  * @param <T>
  * @since 26-Apr-2017 6:39:03 PM
  */
-public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (DeviceElementActions.class);
-	}
+public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>,
+	T extends TouchAction <T>> {
+	private static final Logger log = LogManager.getLogger (DeviceElementActions.class);
 
 	private final int				afterTap;
 	private final int				beforeTap;
@@ -72,14 +74,14 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @since 26-Apr-2017 6:39:03 PM
 	 */
 	public DeviceElementActions (final E device, final String name, final MobileElement element,
-			final T touch) {
+		final T touch) {
 		this.device = device;
 		this.name = name;
 		this.element = element;
 		this.driver = this.device.getDriver ();
 		this.touch = touch;
 		this.setting = device.getSetting ()
-				.getPlayback ();
+			.getPlayback ();
 		DeviceChecker.checkDeviceElementDisplayed (element, name);
 		this.beforeTap = this.setting.getDelayBeforeTap ();
 		this.afterTap = this.setting.getDelayAfterTap ();
@@ -113,14 +115,22 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Oct 18, 2018
+	 */
+	public void doubleTap () {
+		nTaps (2);
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 1:45:15 PM
 	 * @param dropElement
 	 */
 	public void dragDrop (final MobileElement dropElement) {
 		perform ("Performing drag on",
-				e -> SwipeUtils.dragTo (this.setting, e, dropElement, this.touch)
-						.perform ());
+			e -> SwipeUtils.dragTo (this.setting, e, dropElement, this.touch)
+				.perform ());
 	}
 
 	/**
@@ -168,11 +178,27 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void longPress () {
 		perform ("Performing long press on",
-				e -> this.touch.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
-						.longPress (LongPressOptions.longPressOptions ()
-								.withElement (ElementOption.element (e)))
-						.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
-						.perform ());
+			e -> this.touch.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
+				.longPress (LongPressOptions.longPressOptions ()
+					.withElement (ElementOption.element (e)))
+				.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
+				.perform ());
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 18, 2018
+	 * @param times
+	 */
+	public void nTaps (final int times) {
+		perform (format ("Performing [%d] taps on", times), e -> {
+			final Point center = e.getCenter ();
+			for (int index = 0; index < times; index++) {
+				this.touch.press (PointOption.point (center.getX (), center.getY ()))
+					.release ()
+					.perform ();
+			}
+		});
 	}
 
 	/**
@@ -182,7 +208,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void pinch (final int distance) {
 		perform ("Pinching on", e -> doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP,
-				SwipeStartPosition.TOP, SwipeStartPosition.BOTTOM, distance));
+			SwipeStartPosition.TOP, SwipeStartPosition.BOTTOM, distance));
 	}
 
 	/**
@@ -210,7 +236,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @param distance
 	 */
 	public void swipe (final SwipeDirection direction, final SwipeStartPosition start,
-			final int distance) {
+		final int distance) {
 		perform ("Swiping on", e -> swipeTo (direction, start, distance).perform ());
 	}
 
@@ -220,11 +246,11 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void tap () {
 		perform ("Tapping on",
-				e -> this.touch.waitAction (WaitOptions.waitOptions (ofSeconds (this.beforeTap)))
-						.tap (TapOptions.tapOptions ()
-								.withElement (ElementOption.element (e)))
-						.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
-						.perform ());
+			e -> this.touch.waitAction (WaitOptions.waitOptions (ofSeconds (this.beforeTap)))
+				.tap (TapOptions.tapOptions ()
+					.withElement (ElementOption.element (e)))
+				.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
+				.perform ());
 	}
 
 	/**
@@ -261,7 +287,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void zoom (final int distance) {
 		perform ("Zooming on", e -> doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN,
-				SwipeStartPosition.CENTER, SwipeStartPosition.CENTER, distance));
+			SwipeStartPosition.CENTER, SwipeStartPosition.CENTER, distance));
 	}
 
 	private void checkElementEnabled () {
@@ -269,21 +295,22 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	}
 
 	private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
-			final SwipeStartPosition start1, final SwipeStartPosition start2,
-			final int distancePercent) {
+		final SwipeStartPosition start1, final SwipeStartPosition start2,
+		final int distancePercent) {
 		final T firstFinger = swipeTo (finger1, start1, distancePercent);
 		final T secondFinger = swipeTo (finger2, start2, distancePercent);
 		final MultiTouchAction multiTouch = new MultiTouchAction (this.driver);
 		multiTouch.add (firstFinger)
-				.add (secondFinger)
-				.perform ();
+			.add (secondFinger)
+			.perform ();
 	}
 
 	private <R> R getValue (final String message, final Function <MobileElement, R> func) {
 		log.info (String.format (message, this.name));
 		try {
 			return func.apply (this.element);
-		} catch (final NoSuchSessionException e) {
+		}
+		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		return null;
@@ -294,17 +321,18 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 		log.info (String.format ("%s element [%s]...", action, this.name));
 		try {
 			consumer.accept (this.element);
-		} catch (final NoSuchSessionException e) {
+		}
+		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 	}
 
 	private T swipeTo (final SwipeDirection direction, final SwipeStartPosition start,
-			final int distancePercent) {
+		final int distancePercent) {
 		return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting,
-				this.driver.manage ()
-						.window ()
-						.getSize (),
-				this.element.getSize (), this.element.getLocation (), this.touch);
+			this.driver.manage ()
+				.window ()
+				.getSize (),
+			this.element.getSize (), this.element.getLocation (), this.touch);
 	}
 }

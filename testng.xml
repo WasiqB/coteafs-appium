@@ -4,10 +4,24 @@
 	<test name="Android Test">
 		<parameter name="server" value="android" />
 		<parameter name="device" value="test_local" />
+		<!-- <parameter name="server" value="browserstack" />
+		<parameter name="device" value="test_browserstack" /> -->
+		<groups>
+			<define name="Login" />
+			<dependencies>
+				<group depends-on="Login" name="Main" />
+			</dependencies>
+		</groups>
 		<classes>
 			<class name="com.github.wasiqb.coteafs.appium.android.VodQATest">
 				<methods>
+					<include name="testLogin" />
 					<include name="testLongPress" />
+					<include name="testDoubleTap" />
+					<include name="testDragDrop" />
+					<include name="testNativeView" />
+					<include name="testSlider" />
+					<include name="testVerticleSwipe" />
 				</methods>
 			</class>
 		</classes>

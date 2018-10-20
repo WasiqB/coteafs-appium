@@ -48,28 +48,35 @@ public class MainActivity extends DefaultActivity {
 
 		DeviceElement.create ("ChainedView")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("chainedView"));
+			.using (MobileBy.AccessibilityId ("Chained View"));
 		DeviceElement.create ("Slider")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("slider1"));
+			.using (MobileBy.AccessibilityId ("Slide your number"));
 		DeviceElement.create ("VerticalSwipe")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("verticalSwipe"));
+			.using (
+				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"verticalSwipe\");"));
 		DeviceElement.create ("DragDrop")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("dragAndDrop"));
+			.using (MobileBy.AccessibilityId ("Demo drag and drop"));
 		DeviceElement.create ("DoubleTap")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("doubleTap"));
+			.using (MobileBy.AccessibilityId ("Demo double tap button"));
 		DeviceElement.create ("WebView")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("webView"));
+			.using (MobileBy.AccessibilityId ("View hacker news"));
 		DeviceElement.create ("LongPress")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("longPress"));
+			.using (MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"longPress\");"));
 		DeviceElement.create ("PhotoView")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("photoView"));
+			.using (MobileBy.AccessibilityId ("Ping & Zoom"));
+		DeviceElement.create ("HorizontalSwipe")
+			.parent (scroll)
+			.using (MobileBy.AccessibilityId ("Demos swipe left & right"));
+		DeviceElement.create ("WheelPicker")
+			.parent (scroll)
+			.using (MobileBy.AccessibilityId ("Demos wheel picker color"));
 
 		return main;
 	}

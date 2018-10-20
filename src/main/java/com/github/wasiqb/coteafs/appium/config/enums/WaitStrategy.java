@@ -13,8 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.device;
+package com.github.wasiqb.coteafs.appium.config.enums;
 
+/**
+ * @author wasiqb
+ * @since Oct 20, 2018
+ */
 /**
  * @author wasiq.bhamla
  * @since Jan 26, 2018 10:02:12 PM
@@ -24,6 +28,10 @@ public enum WaitStrategy {
 	 * Wait until element is enabled.
 	 */
 	ENABLED,
+	/**
+	 * No wait.
+	 */
+	NONE,
 	/**
 	 * Wait until element is present.
 	 */

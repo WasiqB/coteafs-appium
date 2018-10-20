@@ -15,11 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
-import org.openqa.selenium.By;
-
 import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
+
+import io.appium.java_client.MobileBy;
 
 /**
  * @author wasiq.bhamla
@@ -42,12 +42,11 @@ public class DefaultActivity extends AndroidActivity {
 	@Override
 	protected DeviceElement prepare () {
 		final DeviceElement main = DeviceElement.create ("Main")
-			.using (By.id ("android:id/content"));
+			.using (MobileBy
+				.AndroidUIAutomator ("new UiSelector ().resourceId (\"android:id/content\");"));
 		DeviceElement.create ("Back")
 			.parent (main)
-			.using (By.xpath (
-					"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[2]/android.view.ViewGroup[1]/android.view.ViewGroup/android.widget.TextView"));
-
+			.using (MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
 		return main;
 	}
 }

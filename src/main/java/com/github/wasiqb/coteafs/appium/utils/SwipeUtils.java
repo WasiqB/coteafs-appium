@@ -21,8 +21,8 @@ import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
-import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
-import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;

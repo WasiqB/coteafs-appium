@@ -15,11 +15,10 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
-import org.openqa.selenium.By;
-
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-import com.github.wasiqb.coteafs.appium.device.WaitStrategy;
+
+import io.appium.java_client.MobileBy;
 
 /**
  * @author wasiq.bhamla
@@ -45,8 +44,7 @@ public class VerticleSwipeActivity extends DefaultActivity {
 
 		DeviceElement.create ("List")
 			.parent (main)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (By.id ("listview"));
+			.using (MobileBy.AccessibilityId ("listview"));
 
 		return main;
 	}

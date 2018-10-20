@@ -15,11 +15,10 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
-import org.openqa.selenium.By;
-
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-import com.github.wasiqb.coteafs.appium.device.WaitStrategy;
+
+import io.appium.java_client.MobileBy;
 
 /**
  * @author wasiq.bhamla
@@ -45,12 +44,10 @@ public class SliderActivity extends DefaultActivity {
 
 		DeviceElement.create ("Slider")
 			.parent (main)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (By.id ("slider"));
+			.using (MobileBy.AccessibilityId ("slider"));
 		DeviceElement.create ("Slider1")
 			.parent (main)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (By.id ("slider1"));
+			.using (MobileBy.AccessibilityId ("slider1"));
 
 		return main;
 	}

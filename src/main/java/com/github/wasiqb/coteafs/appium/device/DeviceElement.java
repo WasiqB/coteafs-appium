@@ -20,6 +20,8 @@ import java.util.List;
 
 import org.openqa.selenium.By;
 
+import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
+
 /**
  * @author wasiq.bhamla
  * @since 25-Apr-2017 7:29:23 PM
@@ -45,7 +47,7 @@ public class DeviceElement {
 	private DeviceElement (final String name) {
 		this.childs = new ArrayList <> ();
 		this.name = name;
-		this.wait = WaitStrategy.VISIBLE;
+		this.wait = WaitStrategy.NONE;
 	}
 
 	/**
