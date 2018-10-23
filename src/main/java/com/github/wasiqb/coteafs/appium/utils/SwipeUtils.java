@@ -44,16 +44,16 @@ public final class SwipeUtils {
 	 * @return touch action
 	 */
 	public static <T extends TouchAction <T>> T dragTo (final PlaybackSetting setting,
-			final MobileElement fromElement, final MobileElement toElement, final T actions) {
+		final MobileElement fromElement, final MobileElement toElement, final T actions) {
 		final Point source = fromElement.getCenter ();
 		final Point target = toElement.getCenter ();
 		return actions.press (PointOption.point (source.getX (), source.getY ()))
-				.waitAction (WaitOptions
-						.waitOptions (Duration.ofMillis (setting.getDelayBeforeSwipe ())))
-				.moveTo (PointOption.point (target.getX (), target.getY ()))
-				.release ()
-				.waitAction (WaitOptions
-						.waitOptions (Duration.ofMillis (setting.getDelayAfterSwipe ())));
+			.waitAction (
+				WaitOptions.waitOptions (Duration.ofMillis (setting.getDelayBeforeSwipe ())))
+			.moveTo (PointOption.point (target.getX (), target.getY ()))
+			.release ()
+			.waitAction (
+				WaitOptions.waitOptions (Duration.ofMillis (setting.getDelayAfterSwipe ())));
 	}
 
 	/**
@@ -70,29 +70,34 @@ public final class SwipeUtils {
 	 * @return action
 	 */
 	public static <T extends TouchAction <T>> T swipeTo (final SwipeDirection direction,
-			final SwipeStartPosition startPosition, final int distancePercent,
-			final PlaybackSetting setting, final Dimension screenSize, final Dimension elementSize,
-			final Point elementLocation, final T actions) {
+		final SwipeStartPosition startPosition, final int distancePercent,
+		final PlaybackSetting setting, final Dimension screenSize, final Dimension elementSize,
+		final Point elementLocation, final T actions) {
 		final double distance = distancePercent / 100.0;
 		final Point source = getStartPoint (startPosition, screenSize, elementSize,
-				elementLocation);
-		int endX = (int) (source.getX () * direction.getX () * distance);
-		int endY = (int) (source.getY () * direction.getY () * distance);
+			elementLocation);
+		int endX = source.getX () + (int) (source.getX () * direction.getX () * distance);
+		int endY = source.getY () + (int) (source.getY () * direction.getY () * distance);
 		if (elementSize != null) {
 			endX = source.getX () + (int) (elementSize.getWidth () * direction.getX () * distance);
 			endY = source.getY () + (int) (elementSize.getHeight () * direction.getY () * distance);
 		}
+		System.out.println ("Screen: " + screenSize);
+		System.out.println ("Element: " + elementSize);
+		System.out.println ("Location: " + elementLocation);
+		System.out.println ("Start: " + source);
+		System.out.println ("End: " + new Point (endX, endY));
 		return actions.press (PointOption.point (source.getX (), source.getY ()))
-				.waitAction (WaitOptions
-						.waitOptions (Duration.ofMillis (setting.getDelayBeforeSwipe ())))
-				.moveTo (PointOption.point (endX, endY))
-				.waitAction (
-						WaitOptions.waitOptions (Duration.ofMillis (setting.getDelayAfterSwipe ())))
-				.release ();
+			.waitAction (
+				WaitOptions.waitOptions (Duration.ofMillis (setting.getDelayBeforeSwipe ())))
+			.moveTo (PointOption.point (endX, endY))
+			// .waitAction (
+			// WaitOptions.waitOptions (Duration.ofMillis (setting.getDelayAfterSwipe ())))
+			.release ();
 	}
 
 	private static Point getStartPoint (final SwipeStartPosition start, final Dimension screenSize,
-			final Dimension elementSize, final Point elementLocation) {
+		final Dimension elementSize, final Point elementLocation) {
 		int x = 0;
 		int y = 0;
 		int width = screenSize.getWidth ();
@@ -108,9 +113,8 @@ public final class SwipeUtils {
 		switch (start) {
 			case BOTTOM:
 				x = width / 2;
-				y = elementSize != null && height + location.getY () < screenSize.getHeight ()
-						? height
-						: height - 5;
+				y = elementSize != null
+					&& height + location.getY () < screenSize.getHeight () ? height : height - 5;
 				break;
 			case CENTER:
 				x = width / 2;
@@ -121,9 +125,8 @@ public final class SwipeUtils {
 				y = height / 2;
 				break;
 			case RIGHT:
-				x = elementSize != null && width + location.getX () < screenSize.getWidth ()
-						? width
-						: width - 5;
+				x = elementSize != null
+					&& width + location.getX () < screenSize.getWidth () ? width : width - 5;
 				y = height / 2;
 				break;
 			case TOP:

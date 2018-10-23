@@ -2,16 +2,10 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="coteafs-appium Test Suite" parallel="none" preserve-order="true">
 	<test name="Android Test">
-		<parameter name="server" value="android" />
-		<parameter name="device" value="test_local" />
-		<!-- <parameter name="server" value="browserstack" />
-		<parameter name="device" value="test_browserstack" /> -->
-		<groups>
-			<define name="Login" />
-			<dependencies>
-				<group depends-on="Login" name="Main" />
-			</dependencies>
-		</groups>
+		<!-- <parameter name="server" value="android" />
+		<parameter name="device" value="test_local" /> -->
+		<parameter name="server" value="browserstack" />
+		<parameter name="device" value="test_browserstack" />
 		<classes>
 			<class name="com.github.wasiqb.coteafs.appium.android.VodQATest">
 				<methods>
@@ -22,8 +16,10 @@
 					<include name="testNativeView" />
 					<include name="testSlider" />
 					<include name="testVerticleSwipe" />
+					<include name="testRotation" />
 				</methods>
 			</class>
+			<!-- <class name="com.github.wasiqb.coteafs.appium.android.SampleAppium" /> -->
 		</classes>
 	</test> <!-- Android Test -->
 </suite> <!-- coteafs-appium Test Suite -->

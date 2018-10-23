@@ -32,7 +32,7 @@ import io.appium.java_client.ios.IOSTouchAction;
  * @since 26-Apr-2017 7:41:49 PM
  */
 public abstract class IOSActivity
-		extends DeviceActivity <IOSDriver <MobileElement>, IOSDevice, IOSTouchAction> {
+	extends DeviceActivity <IOSDriver <MobileElement>, IOSDevice, IOSTouchAction> {
 	private static final Logger log = LogManager.getLogger (IOSActivity.class);
 
 	/**
@@ -69,8 +69,11 @@ public abstract class IOSActivity
 
 	private void checkBattery () {
 		final IOSBatteryInfo battery = this.device.getDriver ()
-				.getBatteryInfo ();
-		check (battery.getState ()
+			.getBatteryInfo ();
+		if (!this.device.getSetting ()
+			.isCloudApp ()) {
+			check (battery.getState ()
 				.name (), battery.getLevel ());
+		}
 	}
 }

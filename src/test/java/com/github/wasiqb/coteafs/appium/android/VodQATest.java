@@ -15,7 +15,15 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.openqa.selenium.ScreenOrientation;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
 import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
@@ -33,6 +41,19 @@ import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
  * @since Jan 23, 2018 8:14:51 PM
  */
 public class VodQATest extends DefaultTest {
+	/**
+	 * @author wasiqb
+	 * @since Oct 21, 2018
+	 * @return orientation list
+	 */
+	@DataProvider
+	public static Iterator <Object []> getOrientation () {
+		final List <Object []> data = new ArrayList <> ();
+		data.add (new Object [] { ScreenOrientation.LANDSCAPE });
+		data.add (new Object [] { ScreenOrientation.PORTRAIT });
+		return data.iterator ();
+	}
+
 	/**
 	 * @author wasiq.bhamla
 	 * @since Feb 8, 2018 4:21:19 PM
@@ -92,6 +113,10 @@ public class VodQATest extends DefaultTest {
 	 */
 	@Test
 	public void testLongPress () {
+		this.main.onDevice ()
+			.swipe (SwipeDirection.UP, SwipeStartPosition.CENTER, 50);
+		this.main.onDevice ()
+			.swipe (SwipeDirection.DOWN, SwipeStartPosition.CENTER, 50);
 		this.main.onElement ("LongPress")
 			.tap ();
 
@@ -129,6 +154,20 @@ public class VodQATest extends DefaultTest {
 
 		this.main.onElement ("Back")
 			.tap ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @param orientation
+	 * @since Oct 21, 2018
+	 */
+	@Test (dataProvider = "getOrientation")
+	public void testRotation (final ScreenOrientation orientation) {
+		this.main.onDevice ()
+			.rotate (orientation);
+		assertThat (this.main.onDevice ()
+			.rotation ()
+			.name ()).isEqualTo (orientation.name ());
 	}
 
 	/**
