@@ -47,7 +47,8 @@ public final class DeviceChecker {
 	 * @param element
 	 * @param name
 	 */
-	public static void checkDeviceElementDisplayed (final MobileElement element, final String name) {
+	public static void checkDeviceElementDisplayed (final MobileElement element,
+		final String name) {
 		if (!element.isDisplayed ()) {
 			final String msg = "Device element [%s] is not displayed.";
 			fail (DeviceElementNotDisplayedError.class, String.format (msg, name));
@@ -67,10 +68,6 @@ public final class DeviceChecker {
 		}
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Jul 22, 2017 10:12:20 PM
-	 */
 	private DeviceChecker () {
 		// Utility class.
 	}

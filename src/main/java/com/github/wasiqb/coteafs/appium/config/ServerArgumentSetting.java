@@ -38,6 +38,8 @@ public class ServerArgumentSetting {
 	 */
 	public ServerArgumentSetting () {
 		this.logLevel = LogLevel.ERROR;
+		this.android = new AndroidArgumentSetting ();
+		this.ios = new IOSArgumentSetting ();
 	}
 
 	/**
