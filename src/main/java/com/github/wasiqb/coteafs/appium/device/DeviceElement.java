@@ -16,10 +16,14 @@
 package com.github.wasiqb.coteafs.appium.device;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
 
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
+import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 
 /**
@@ -37,17 +41,18 @@ public class DeviceElement {
 		return new DeviceElement (name);
 	}
 
-	private By							by;
-	private final List <DeviceElement>	childs;
-	private int							index;
-	private final String				name;
-	private DeviceElement				parent;
-	private WaitStrategy				wait;
+	private final List <DeviceElement>							childs;
+	private int													index;
+	private final Map <PlatformType, Map <AutomationType, By>>	locators;
+	private final String										name;
+	private DeviceElement										parent;
+	private WaitStrategy										wait;
 
 	private DeviceElement (final String name) {
 		this.childs = new ArrayList <> ();
 		this.name = name;
 		this.wait = WaitStrategy.NONE;
+		this.locators = new HashMap <> ();
 	}
 
 	/**
@@ -80,12 +85,34 @@ public class DeviceElement {
 	}
 
 	/**
-	 * @author wasiq.bhamla
-	 * @since 25-Apr-2017 7:40:30 PM
-	 * @return locator
+	 * @author wasiqb
+	 * @since Oct 23, 2018
+	 * @return by locator
 	 */
 	public By locator () {
-		return this.by;
+		return locator (AutomationType.APPIUM);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 23, 2018
+	 * @param automation
+	 * @return by locator
+	 */
+	public By locator (final AutomationType automation) {
+		return locator (PlatformType.ANDROID, automation);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 23, 2018
+	 * @param platform
+	 * @param automation
+	 * @return by locator
+	 */
+	public By locator (final PlatformType platform, final AutomationType automation) {
+		return this.locators.get (platform)
+			.get (automation);
 	}
 
 	/**
@@ -134,7 +161,7 @@ public class DeviceElement {
 		final String line4 = "Index: %d";
 		final String line3 = "Childs: %s";
 		final StringBuilder sb = new StringBuilder (String.format (line1, this.name)).append ("\n");
-		sb.append (String.format (line2, this.by))
+		sb.append (String.format (line2, this.locators))
 			.append ("\n");
 		sb.append (String.format (line4, this.index))
 			.append ("\n");
@@ -144,13 +171,42 @@ public class DeviceElement {
 	}
 
 	/**
-	 * @author wasiq.bhamla
-	 * @since 25-Apr-2017 7:36:32 PM
+	 * @author wasiqb
+	 * @since Oct 23, 2018
+	 * @param automation
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement using (final AutomationType automation, final By findBy) {
+		return using (PlatformType.ANDROID, automation, findBy);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 23, 2018
 	 * @param findBy
 	 * @return instance
 	 */
 	public DeviceElement using (final By findBy) {
-		this.by = findBy;
+		return using (AutomationType.APPIUM, findBy);
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @param platform
+	 * @param automation
+	 * @since 25-Apr-2017 7:36:32 PM
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement using (final PlatformType platform, final AutomationType automation,
+		final By findBy) {
+		Map <AutomationType, By> platformLocator = new HashMap <> ();
+		if (this.locators.containsKey (platform)) {
+			platformLocator = this.locators.get (platform);
+		}
+		platformLocator.put (automation, findBy);
+		this.locators.put (platform, platformLocator);
 		return this;
 	}
 

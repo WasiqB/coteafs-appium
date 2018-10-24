@@ -33,7 +33,9 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
+import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.error.AppiumSelectorNotImplementedError;
@@ -57,9 +59,12 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 	E extends Device <D, T>, T extends TouchAction <T>> {
 	private static final Logger log = LogManager.getLogger (DeviceActivity.class);
 
+	protected final AutomationType				automation;
 	protected final E							device;
 	protected final Map <String, DeviceElement>	deviceElements;
-	private final PlaybackSetting				setting;
+	protected final PlatformType				platform;
+	private final DeviceSetting					deviceSetting;
+	private final PlaybackSetting				playSetting;
 	private final T								touch;
 	private final WebDriverWait					wait;
 
@@ -73,9 +78,12 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 		this.device = device;
 		this.touch = touch;
 		this.deviceElements = new HashMap <> ();
-		this.setting = device.getSetting ()
-			.getPlayback ();
-		this.wait = new WebDriverWait (device.getDriver (), this.setting.getWaitForElementUntil ());
+		this.deviceSetting = device.getSetting ();
+		this.automation = this.deviceSetting.getAutomationName ();
+		this.platform = this.deviceSetting.getPlatformType ();
+		this.playSetting = this.deviceSetting.getPlayback ();
+		this.wait = new WebDriverWait (device.getDriver (),
+			this.playSetting.getWaitForElementUntil ());
 	}
 
 	/**
@@ -138,7 +146,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 	protected abstract DeviceElement prepare ();
 
 	private void captureScreenshotOnError () {
-		if (this.setting.isScreenshotOnError ()) {
+		if (this.playSetting.isScreenshotOnError ()) {
 			onDevice ().captureScreenshot ();
 		}
 	}
@@ -190,7 +198,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 
 	private MobileElement findElements (final DeviceElement element) {
 		final DeviceElement parent = element.parent ();
-		final By locator = element.locator ();
+		final By locator = element.locator (this.platform, this.automation);
 		final int index = element.index ();
 		final WaitStrategy strategy = element.waitStrategy ();
 		return find (this.device.getDriver (), parent, locator, index, strategy);
@@ -206,9 +214,8 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 
 	private void load () {
 		if (this.deviceElements.size () == 0) {
-			final PlatformType platform = this.device.setting.getPlatformType ();
 			final String msg = "Loading elements on [%s] activity...";
-			log.trace (String.format (msg, platform));
+			log.trace (String.format (msg, this.platform));
 			loadElements (prepare ());
 		}
 	}
