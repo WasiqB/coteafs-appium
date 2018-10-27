@@ -42,13 +42,13 @@ public class LoginActivity extends DefaultActivity {
 	protected DeviceElement prepare () {
 		final DeviceElement main = super.prepare ();
 		DeviceElement.create ("UserName")
-			.using (MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"username\");"))
+			.using (MobileBy.AccessibilityId ("username"))
 			.parent (main);
 		DeviceElement.create ("Password")
-			.using (MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"password\");"))
+			.using (MobileBy.AccessibilityId ("password"))
 			.parent (main);
 		DeviceElement.create ("Login")
-			.using (MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"LOG IN\");"))
+			.using (MobileBy.AccessibilityId ("login"))
 			.parent (main);
 		return main;
 	}

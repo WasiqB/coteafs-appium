@@ -15,8 +15,10 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
+import static java.lang.String.format;
+
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -52,7 +54,7 @@ public class DeviceElement {
 		this.childs = new ArrayList <> ();
 		this.name = name;
 		this.wait = WaitStrategy.NONE;
-		this.locators = new HashMap <> ();
+		this.locators = new EnumMap <> (PlatformType.class);
 	}
 
 	/**
@@ -160,12 +162,12 @@ public class DeviceElement {
 		final String line2 = "By: %s";
 		final String line4 = "Index: %d";
 		final String line3 = "Childs: %s";
-		final StringBuilder sb = new StringBuilder (String.format (line1, this.name)).append ("\n");
-		sb.append (String.format (line2, this.locators))
+		final StringBuilder sb = new StringBuilder (format (line1, this.name)).append ("\n");
+		sb.append (format (line2, this.locators))
 			.append ("\n");
-		sb.append (String.format (line4, this.index))
+		sb.append (format (line4, this.index))
 			.append ("\n");
-		sb.append (String.format (line3, this.childs))
+		sb.append (format (line3, this.childs))
 			.append ("\n");
 		return sb.toString ();
 	}
@@ -188,7 +190,7 @@ public class DeviceElement {
 	 * @return instance
 	 */
 	public DeviceElement using (final By findBy) {
-		return using (AutomationType.APPIUM, findBy);
+		return using (AutomationType.APPIUM, findBy).using (AutomationType.UIAUTOMATOR2, findBy);
 	}
 
 	/**
@@ -201,7 +203,7 @@ public class DeviceElement {
 	 */
 	public DeviceElement using (final PlatformType platform, final AutomationType automation,
 		final By findBy) {
-		Map <AutomationType, By> platformLocator = new HashMap <> ();
+		Map <AutomationType, By> platformLocator = new EnumMap <> (AutomationType.class);
 		if (this.locators.containsKey (platform)) {
 			platformLocator = this.locators.get (platform);
 		}

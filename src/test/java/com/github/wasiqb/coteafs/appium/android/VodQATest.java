@@ -113,10 +113,6 @@ public class VodQATest extends DefaultTest {
 	 */
 	@Test
 	public void testLongPress () {
-		this.main.onDevice ()
-			.swipe (SwipeDirection.UP, SwipeStartPosition.CENTER, 50);
-		this.main.onDevice ()
-			.swipe (SwipeDirection.DOWN, SwipeStartPosition.CENTER, 50);
 		this.main.onElement ("LongPress")
 			.tap ();
 
@@ -139,7 +135,7 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testNativeView () throws InterruptedException {
 		this.main.onElement ("ChainedView")
-			.click ();
+			.tap ();
 
 		final ChainedViewActivity chained = new ChainedViewActivity (this.androidDevice);
 		chained.onElement ("Text1")
@@ -177,7 +173,7 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testSlider () {
 		this.main.onElement ("Slider")
-			.click ();
+			.tap ();
 
 		final SliderActivity slide = new SliderActivity (this.androidDevice);
 		slide.onElement ("Slider")
@@ -196,7 +192,7 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testVerticleSwipe () {
 		this.main.onElement ("VerticalSwipe")
-			.click ();
+			.tap ();
 
 		final VerticleSwipeActivity vs = new VerticleSwipeActivity (this.androidDevice);
 		vs.onElement ("List")

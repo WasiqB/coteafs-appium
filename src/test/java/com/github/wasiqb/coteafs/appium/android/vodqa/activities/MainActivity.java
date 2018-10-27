@@ -16,6 +16,7 @@
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 
 import io.appium.java_client.MobileBy;
@@ -54,8 +55,9 @@ public class MainActivity extends DefaultActivity {
 			.using (MobileBy.AccessibilityId ("Slide your number"));
 		DeviceElement.create ("VerticalSwipe")
 			.parent (scroll)
-			.using (
-				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"verticalSwipe\");"));
+			.using (AutomationType.UIAUTOMATOR2,
+				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"verticalSwipe\");"))
+			.using (MobileBy.AccessibilityId ("Demos vertical swiping"));
 		DeviceElement.create ("DragDrop")
 			.parent (scroll)
 			.using (MobileBy.AccessibilityId ("Demo drag and drop"));
@@ -67,7 +69,7 @@ public class MainActivity extends DefaultActivity {
 			.using (MobileBy.AccessibilityId ("View hacker news"));
 		DeviceElement.create ("LongPress")
 			.parent (scroll)
-			.using (MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"longPress\");"));
+			.using (MobileBy.AccessibilityId ("Demo Long press button"));
 		DeviceElement.create ("PhotoView")
 			.parent (scroll)
 			.using (MobileBy.AccessibilityId ("Ping & Zoom"));
