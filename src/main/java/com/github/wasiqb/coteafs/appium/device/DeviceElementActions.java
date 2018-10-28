@@ -19,7 +19,6 @@ import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STO
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static java.time.Duration.ofSeconds;
 
-import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -52,13 +51,13 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	T extends TouchAction <T>> {
 	private static final Logger log = LogManager.getLogger (DeviceElementActions.class);
 
+	protected final E				device;
 	protected final MobileElement	element;
 	protected final String			name;
+	protected final PlaybackSetting	setting;
 	private final int				afterTap;
 	private final int				beforeTap;
-	private final E					device;
 	private final D					driver;
-	private final PlaybackSetting	setting;
 	private final T					touch;
 
 	/**
@@ -260,10 +259,6 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	public void zoom (final int distance) {
 		perform ("Zooming on", e -> doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN,
 			SwipeStartPosition.CENTER, SwipeStartPosition.CENTER, distance));
-	}
-
-	protected void executeCommand (final String command, final Map <String, Object> args) {
-		this.driver.executeScript (command, args);
 	}
 
 	private void checkElementEnabled () {

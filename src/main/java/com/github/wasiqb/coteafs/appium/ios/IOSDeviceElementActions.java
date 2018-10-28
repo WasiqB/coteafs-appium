@@ -26,7 +26,6 @@ import org.openqa.selenium.Point;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceElementActions;
 import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
-import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
@@ -66,12 +65,12 @@ public class IOSDeviceElementActions
 		final Point toCenter = dropElement.getCenter ();
 
 		final Map <String, Object> param = new HashMap <> ();
-		param.put ("duration", 1.0);
+		param.put ("duration", this.setting.getDelayBeforeSwipe ());
 		param.put ("fromX", fromCenter.getX () - fromLocation.getX ());
 		param.put ("fromY", fromCenter.getY () - fromLocation.getY ());
 		param.put ("toX", toCenter.getX () - fromLocation.getX ());
 		param.put ("toY", toCenter.getY () - fromLocation.getY ());
-		executeCommand ("mobile: dragFromToForDuration", param);
+		this.device.executeCommand ("mobile: dragFromToForDuration", param);
 	}
 
 	/*
@@ -84,7 +83,7 @@ public class IOSDeviceElementActions
 		final Map <String, Object> param = new HashMap <> ();
 		param.put ("duration", 1.0);
 		param.put ("element", this.element.getId ());
-		executeCommand ("mobile: touchAndHold", param);
+		this.device.executeCommand ("mobile: touchAndHold", param);
 	}
 
 	/*
@@ -98,25 +97,21 @@ public class IOSDeviceElementActions
 		param.put ("scale", 0.5);
 		param.put ("velocity", distance);
 		param.put ("element", this.element.getId ());
-		executeCommand ("mobile: pinch", param);
+		this.device.executeCommand ("mobile: pinch", param);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see
-	 * com.github.wasiqb.coteafs.appium.device.DeviceElementActions#swipe(com.github.wasiqb.coteafs.
-	 * appium.device.SwipeDirection, com.github.wasiqb.coteafs.appium.device.SwipeStartPosition,
-	 * int)
+	/**
+	 * @author wasiqb
+	 * @since Oct 28, 2018
+	 * @param direction
 	 */
-	@Override
-	public void swipe (final SwipeDirection direction, final SwipeStartPosition start,
-		final int distance) {
+	public void swipe (final SwipeDirection direction) {
 		log.info (format ("Swiping on element [%s]...", this.name));
 		final Map <String, Object> param = new HashMap <> ();
 		param.put ("direction", direction.name ()
 			.toLowerCase ());
 		param.put ("element", this.element.getId ());
-		executeCommand ("mobile: swipe", param);
+		this.device.executeCommand ("mobile: swipe", param);
 	}
 
 	/*
@@ -132,7 +127,7 @@ public class IOSDeviceElementActions
 		param.put ("x", center.getX () - location.getX ());
 		param.put ("y", center.getY () - location.getY ());
 		param.put ("element", this.element.getId ());
-		executeCommand ("mobile: tap", param);
+		this.device.executeCommand ("mobile: tap", param);
 	}
 
 	/*
@@ -155,6 +150,6 @@ public class IOSDeviceElementActions
 		param.put ("scale", 1.5);
 		param.put ("velocity", distance);
 		param.put ("element", this.element.getId ());
-		executeCommand ("mobile: pinch", param);
+		this.device.executeCommand ("mobile: pinch", param);
 	}
 }
