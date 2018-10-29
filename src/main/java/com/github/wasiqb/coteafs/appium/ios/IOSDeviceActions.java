@@ -115,7 +115,7 @@ public class IOSDeviceActions
 	 */
 	@Override
 	public void pinch (final int distance) {
-		log.info (format ("Pinching on device screen by [%d]% distance...", distance));
+		log.info (format ("Pinching on device screen by [%d] distance...", distance));
 		final Map <String, Object> param = new HashMap <> ();
 		param.put ("scale", 0.5);
 		param.put ("velocity", distance);
@@ -155,7 +155,7 @@ public class IOSDeviceActions
 	 */
 	@Override
 	public void zoom (final int distance) {
-		log.info (format ("Zooming in device screen by [%d]% distance...", distance));
+		log.info (format ("Zooming in device screen by [%d] distance...", distance));
 		final Map <String, Object> param = new HashMap <> ();
 		param.put ("scale", 1.5);
 		param.put ("velocity", distance);

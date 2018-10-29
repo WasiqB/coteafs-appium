@@ -64,7 +64,7 @@ public class IOSDeviceElementActions
 		final Point fromLocation = this.element.getLocation ();
 		final Point toCenter = dropElement.getCenter ();
 
-		final Map <String, Object> param = new HashMap <> ();
+		final Map <String, Object> param = prepareParam ();
 		param.put ("duration", this.setting.getDelayBeforeSwipe ());
 		param.put ("fromX", fromCenter.getX () - fromLocation.getX ());
 		param.put ("fromY", fromCenter.getY () - fromLocation.getY ());
@@ -80,9 +80,9 @@ public class IOSDeviceElementActions
 	@Override
 	public void longPress () {
 		log.info (format ("Long pressing on element [%s]...", this.name));
-		final Map <String, Object> param = new HashMap <> ();
+
+		final Map <String, Object> param = prepareParam ();
 		param.put ("duration", 1.0);
-		param.put ("element", this.element.getId ());
 		this.device.executeCommand ("mobile: touchAndHold", param);
 	}
 
@@ -93,10 +93,10 @@ public class IOSDeviceElementActions
 	@Override
 	public void pinch (final int distance) {
 		log.info (format ("Pinching on element [%s]...", this.name));
-		final Map <String, Object> param = new HashMap <> ();
+
+		final Map <String, Object> param = prepareParam ();
 		param.put ("scale", 0.5);
 		param.put ("velocity", distance);
-		param.put ("element", this.element.getId ());
 		this.device.executeCommand ("mobile: pinch", param);
 	}
 
@@ -107,10 +107,10 @@ public class IOSDeviceElementActions
 	 */
 	public void swipe (final SwipeDirection direction) {
 		log.info (format ("Swiping on element [%s]...", this.name));
-		final Map <String, Object> param = new HashMap <> ();
+
+		final Map <String, Object> param = prepareParam ();
 		param.put ("direction", direction.name ()
 			.toLowerCase ());
-		param.put ("element", this.element.getId ());
 		this.device.executeCommand ("mobile: swipe", param);
 	}
 
@@ -123,10 +123,10 @@ public class IOSDeviceElementActions
 		log.info (format ("Tapping on element [%s]...", this.name));
 		final Point center = this.element.getCenter ();
 		final Point location = this.element.getLocation ();
-		final Map <String, Object> param = new HashMap <> ();
+
+		final Map <String, Object> param = prepareParam ();
 		param.put ("x", center.getX () - location.getX ());
 		param.put ("y", center.getY () - location.getY ());
-		param.put ("element", this.element.getId ());
 		this.device.executeCommand ("mobile: tap", param);
 	}
 
@@ -146,10 +146,16 @@ public class IOSDeviceElementActions
 	@Override
 	public void zoom (final int distance) {
 		log.info (format ("Zooming on element [%s]...", this.name));
-		final Map <String, Object> param = new HashMap <> ();
+
+		final Map <String, Object> param = prepareParam ();
 		param.put ("scale", 1.5);
 		param.put ("velocity", distance);
-		param.put ("element", this.element.getId ());
 		this.device.executeCommand ("mobile: pinch", param);
+	}
+
+	private Map <String, Object> prepareParam () {
+		final Map <String, Object> param = new HashMap <> ();
+		param.put ("element", this.element.getId ());
+		return param;
 	}
 }
