@@ -71,6 +71,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.Duration;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import org.apache.logging.log4j.LogManager;
@@ -144,6 +145,16 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 	 */
 	public void checkServerRunning () {
 		ServerChecker.checkServerRunning (this.server);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 28, 2018
+	 * @param command
+	 * @param args
+	 */
+	public void executeCommand (final String command, final Map <String, Object> args) {
+		this.driver.executeScript (command, args);
 	}
 
 	/**
