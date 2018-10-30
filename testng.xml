@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="coteafs-appium Test Suite" parallel="none"
-	preserve-order="true">
+<suite name="coteafs-appium Test Suite" preserve-order="true">
 	<listeners>
 		<listener
 			class-name="com.github.wasiqb.coteafs.listeners.ConfigListener" />
@@ -13,8 +12,8 @@
 	<test name="Android Test">
 		<parameter name="server" value="android" />
 		<parameter name="device" value="test_local" />
-		<!-- <parameter name="server" value="browserstack" />
-		<parameter name="device" value="test_browserstack" /> -->
+		<!-- <parameter name="server" value="browserstack" /> <parameter name="device" 
+			value="test_browserstack" /> -->
 		<classes>
 			<class
 				name="com.github.wasiqb.coteafs.appium.android.VodQATest">
@@ -30,5 +29,5 @@
 				</methods>
 			</class>
 		</classes>
-	</test> <!-- Android Test -->
-</suite> <!-- coteafs-appium Test Suite -->
+	</test>
+</suite>

@@ -56,13 +56,13 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	T extends TouchAction <T>> {
 	private static final Logger log = LogManager.getLogger (DeviceElementActions.class);
 
+	protected final E				device;
+	protected final MobileElement	element;
+	protected final String			name;
+	protected final PlaybackSetting	setting;
 	private final int				afterTap;
 	private final int				beforeTap;
-	private final E					device;
 	private final D					driver;
-	private final MobileElement		element;
-	private final String			name;
-	private final PlaybackSetting	setting;
 	private final T					touch;
 
 	/**

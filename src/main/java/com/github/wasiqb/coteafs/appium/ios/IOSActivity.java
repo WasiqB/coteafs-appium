@@ -20,6 +20,7 @@ import static com.github.wasiqb.coteafs.appium.utils.BatteryHealth.check;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.github.wasiqb.coteafs.appium.config.enums.DeviceType;
 import com.github.wasiqb.coteafs.appium.device.DeviceActivity;
 
 import io.appium.java_client.MobileElement;
@@ -71,7 +72,9 @@ public abstract class IOSActivity
 		final IOSBatteryInfo battery = this.device.getDriver ()
 			.getBatteryInfo ();
 		if (!this.device.getSetting ()
-			.isCloudApp ()) {
+			.isCloudApp ()
+			&& this.device.getSetting ()
+				.getDeviceType () == DeviceType.REAL) {
 			check (battery.getState ()
 				.name (), battery.getLevel ());
 		}
