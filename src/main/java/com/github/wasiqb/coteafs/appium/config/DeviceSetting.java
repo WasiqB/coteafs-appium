@@ -17,11 +17,13 @@ package com.github.wasiqb.coteafs.appium.config;
 
 import static com.github.wasiqb.coteafs.appium.utils.StringUtil.replaceSystemProperty;
 
+import com.github.wasiqb.coteafs.appium.config.android.AndroidDeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.enums.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.config.enums.Browser;
 import com.github.wasiqb.coteafs.appium.config.enums.DeviceType;
 import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
+import com.github.wasiqb.coteafs.appium.config.ios.IOSDeviceSetting;
 
 /**
  * @author wasiq.bhamla

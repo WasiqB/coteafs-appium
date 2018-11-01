@@ -18,7 +18,7 @@ package com.github.wasiqb.coteafs.appium.device;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static java.lang.String.format;
-import static java.time.Duration.ofSeconds;
+import static java.time.Duration.ofMillis;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -178,10 +178,10 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void longPress () {
 		perform ("Performing long press on",
-			e -> this.touch.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
+			e -> this.touch.waitAction (WaitOptions.waitOptions (ofMillis (this.afterTap)))
 				.longPress (LongPressOptions.longPressOptions ()
 					.withElement (ElementOption.element (e)))
-				.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
+				.waitAction (WaitOptions.waitOptions (ofMillis (this.afterTap)))
 				.perform ());
 	}
 
@@ -246,10 +246,10 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void tap () {
 		perform ("Tapping on",
-			e -> this.touch.waitAction (WaitOptions.waitOptions (ofSeconds (this.beforeTap)))
+			e -> this.touch.waitAction (WaitOptions.waitOptions (ofMillis (this.beforeTap)))
 				.tap (TapOptions.tapOptions ()
 					.withElement (ElementOption.element (e)))
-				.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
+				.waitAction (WaitOptions.waitOptions (ofMillis (this.afterTap)))
 				.perform ());
 	}
 

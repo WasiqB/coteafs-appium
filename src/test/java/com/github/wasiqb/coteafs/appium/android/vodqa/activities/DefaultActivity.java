@@ -48,8 +48,7 @@ public class DefaultActivity extends AndroidActivity {
 			.using (By.id ("android:id/content"));
 		DeviceElement.create ("Back")
 			.parent (main)
-			.using (By.xpath (
-				"//android.widget.FrameLayout/android.view.ViewGroup[2]/android.view.ViewGroup[1]/android.view.ViewGroup/android.widget.TextView"))
+			.using (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
 			.using (AutomationType.UIAUTOMATOR2,
 				MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
 		return main;

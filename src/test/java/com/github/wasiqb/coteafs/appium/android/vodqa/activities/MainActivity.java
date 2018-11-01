@@ -15,6 +15,8 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
+import org.openqa.selenium.By;
+
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
@@ -55,9 +57,9 @@ public class MainActivity extends DefaultActivity {
 			.using (MobileBy.AccessibilityId ("Slide your number"));
 		DeviceElement.create ("VerticalSwipe")
 			.parent (scroll)
+			.using (By.xpath ("//android.view.ViewGroup[@content-desc=\"verticalSwipe\"]"))
 			.using (AutomationType.UIAUTOMATOR2,
-				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"verticalSwipe\");"))
-			.using (MobileBy.AccessibilityId ("Demos vertical swiping"));
+				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"verticalSwipe\");"));
 		DeviceElement.create ("DragDrop")
 			.parent (scroll)
 			.using (MobileBy.AccessibilityId ("Demo drag and drop"));

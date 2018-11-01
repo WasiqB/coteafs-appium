@@ -91,8 +91,6 @@ public final class SwipeUtils {
 			.waitAction (
 				WaitOptions.waitOptions (Duration.ofMillis (setting.getDelayBeforeSwipe ())))
 			.moveTo (PointOption.point (endX, endY))
-			// .waitAction (
-			// WaitOptions.waitOptions (Duration.ofMillis (setting.getDelayAfterSwipe ())))
 			.release ();
 	}
 

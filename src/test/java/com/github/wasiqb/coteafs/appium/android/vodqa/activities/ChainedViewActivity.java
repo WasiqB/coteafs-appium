@@ -15,7 +15,10 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
+import org.openqa.selenium.By;
+
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 
 import io.appium.java_client.MobileBy;
@@ -58,13 +61,19 @@ public class ChainedViewActivity extends DefaultActivity {
 
 		DeviceElement.create ("Text1")
 			.parent (view1)
-			.using (MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"textView\");"));
+			.using (By.xpath ("//android.widget.TextView[@content-desc=\"textView\"]"))
+			.using (AutomationType.UIAUTOMATOR2,
+				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"textView\");"));
 		DeviceElement.create ("Text2")
 			.parent (view2)
-			.using (MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"textView\");"));
+			.using (By.xpath ("//android.widget.TextView[@content-desc=\"textView\"]"))
+			.using (AutomationType.UIAUTOMATOR2,
+				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"textView\");"));
 		DeviceElement.create ("Text3")
 			.parent (view3)
-			.using (MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"textView\");"));
+			.using (By.xpath ("//android.widget.TextView[@content-desc=\"textView\"]"))
+			.using (AutomationType.UIAUTOMATOR2,
+				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"textView\");"));
 
 		return main;
 	}
