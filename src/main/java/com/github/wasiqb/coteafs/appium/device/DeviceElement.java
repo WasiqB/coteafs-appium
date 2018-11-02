@@ -113,8 +113,10 @@ public class DeviceElement {
 	 * @return by locator
 	 */
 	public By locator (final PlatformType platform, final AutomationType automation) {
-		return this.locators.get (platform)
-			.get (automation);
+		final Map <AutomationType, By> locator = this.locators.get (platform);
+		if (!locator.containsKey (automation) && automation != AutomationType.APPIUM)
+			return locator.get (AutomationType.APPIUM);
+		return locator.get (automation);
 	}
 
 	/**
@@ -190,7 +192,7 @@ public class DeviceElement {
 	 * @return instance
 	 */
 	public DeviceElement using (final By findBy) {
-		return using (AutomationType.APPIUM, findBy).using (AutomationType.UIAUTOMATOR2, findBy);
+		return using (AutomationType.APPIUM, findBy);
 	}
 
 	/**

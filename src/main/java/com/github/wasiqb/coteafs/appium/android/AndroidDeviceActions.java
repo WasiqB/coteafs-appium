@@ -29,6 +29,7 @@ import org.openqa.selenium.TimeoutException;
 
 import com.github.wasiqb.coteafs.appium.android.system.AlertActivity;
 import com.github.wasiqb.coteafs.appium.android.system.PermissionActivity;
+import com.github.wasiqb.coteafs.appium.config.enums.ClipboardType;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
@@ -53,6 +54,27 @@ public class AndroidDeviceActions
 	 */
 	public AndroidDeviceActions (final AndroidDevice device) {
 		super (device, new AndroidTouchAction (device.getDriver ()));
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 * @return clipboard text
+	 */
+	public String clipboard () {
+		log.info ("Getting clipboard text...");
+		return this.driver.getClipboardText ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 * @param type
+	 * @return clipboard
+	 */
+	public String clipboard (final ClipboardType type) {
+		log.info (format ("Getting clipboard for [%s]...", type));
+		return this.driver.getClipboard (type.getType ());
 	}
 
 	/**
@@ -166,6 +188,42 @@ public class AndroidDeviceActions
 	public void pressEnter () {
 		perform ("Pressing Enter button on Android device...",
 			d -> d.pressKey (new KeyEvent (AndroidKey.ENTER)));
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 */
+	public void toggleAirplane () {
+		log.info ("Toggling Airplane...");
+		this.driver.toggleAirplaneMode ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 */
+	public void toggleData () {
+		log.info ("Toggling Data...");
+		this.driver.toggleData ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 */
+	public void toggleLocation () {
+		log.info ("Toggling Location services...");
+		this.driver.toggleLocationServices ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 */
+	public void toggleWifi () {
+		log.info ("Toggling Wifi...");
+		this.driver.toggleWifi ();
 	}
 
 	/**
