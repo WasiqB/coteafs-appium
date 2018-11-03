@@ -33,7 +33,7 @@ import io.appium.java_client.android.AndroidTouchAction;
  * @since 26-Apr-2017 6:19:46 PM
  */
 public abstract class AndroidActivity
-		extends DeviceActivity <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
+	extends DeviceActivity <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
 	private static final Logger log = LogManager.getLogger (AndroidActivity.class);
 
 	/**
@@ -70,11 +70,13 @@ public abstract class AndroidActivity
 
 	private void checkBattery () {
 		if (this.device.getSetting ()
-				.getAutomationName () == AutomationType.UIAUTOMATOR2) {
+			.getAutomationName () == AutomationType.UIAUTOMATOR2
+			&& !this.device.getSetting ()
+				.isCloudApp ()) {
 			final AndroidBatteryInfo battery = this.device.getDriver ()
-					.getBatteryInfo ();
+				.getBatteryInfo ();
 			check (battery.getState ()
-					.name (), battery.getLevel ());
+				.name (), battery.getLevel ());
 		}
 	}
 }

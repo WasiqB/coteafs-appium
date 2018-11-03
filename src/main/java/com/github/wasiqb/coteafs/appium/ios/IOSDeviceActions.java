@@ -28,8 +28,9 @@ import org.openqa.selenium.Alert;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.TimeoutException;
 
+import com.github.wasiqb.coteafs.appium.config.enums.ClipboardType;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
-import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
 import io.appium.java_client.MobileElement;
@@ -51,6 +52,27 @@ public class IOSDeviceActions
 	 */
 	public IOSDeviceActions (final IOSDevice device) {
 		super (device, new IOSTouchAction (device.getDriver ()));
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 * @return clipboard text
+	 */
+	public String clipboard () {
+		log.info ("Getting clipboard text...");
+		return this.driver.getClipboardText ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 * @param type
+	 * @return clipboard
+	 */
+	public String clipboard (final ClipboardType type) {
+		log.info (format ("Getting clipboard for [%s]...", type));
+		return this.driver.getClipboard (type.getType ());
 	}
 
 	/**
@@ -77,17 +99,6 @@ public class IOSDeviceActions
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
 		}
 		return null;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActions#hideKeyboard()
-	 */
-	@Override
-	public void hideKeyboard () {
-		if (this.driver.isKeyboardShown ()) {
-			super.hideKeyboard ();
-		}
 	}
 
 	/**

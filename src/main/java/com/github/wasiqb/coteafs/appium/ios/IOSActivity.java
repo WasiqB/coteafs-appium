@@ -71,8 +71,10 @@ public abstract class IOSActivity
 	private void checkBattery () {
 		final IOSBatteryInfo battery = this.device.getDriver ()
 			.getBatteryInfo ();
-		if (this.device.getSetting ()
-			.getDeviceType () == DeviceType.REAL) {
+		if (!this.device.getSetting ()
+			.isCloudApp ()
+			&& this.device.getSetting ()
+				.getDeviceType () == DeviceType.REAL) {
 			check (battery.getState ()
 				.name (), battery.getLevel ());
 		}

@@ -37,6 +37,7 @@ import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
+import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.error.AppiumSelectorNotImplementedError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementFindTimedOutError;
@@ -245,8 +246,10 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 				this.wait.until (ExpectedConditions.presenceOfAllElementsLocatedBy (locator));
 				break;
 			case VISIBLE:
-			default:
 				this.wait.until (visibilityOfAllElementsLocatedBy (locator));
+				break;
+			case NONE:
+			default:
 				break;
 		}
 	}

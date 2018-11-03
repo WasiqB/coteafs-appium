@@ -17,7 +17,8 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
-import static java.time.Duration.ofSeconds;
+import static java.lang.String.format;
+import static java.time.Duration.ofMillis;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -25,9 +26,12 @@ import java.util.function.Function;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
+import org.openqa.selenium.Point;
 
 import com.github.wasiqb.coteafs.appium.checker.DeviceChecker;
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.utils.SwipeUtils;
 
@@ -39,6 +43,7 @@ import io.appium.java_client.touch.LongPressOptions;
 import io.appium.java_client.touch.TapOptions;
 import io.appium.java_client.touch.WaitOptions;
 import io.appium.java_client.touch.offset.ElementOption;
+import io.appium.java_client.touch.offset.PointOption;
 
 /**
  * @author wasiq.bhamla
@@ -110,6 +115,14 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Oct 18, 2018
+	 */
+	public void doubleTap () {
+		nTaps (2);
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 1:45:15 PM
 	 * @param dropElement
@@ -165,11 +178,27 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void longPress () {
 		perform ("Performing long press on",
-			e -> this.touch.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
+			e -> this.touch.waitAction (WaitOptions.waitOptions (ofMillis (this.afterTap)))
 				.longPress (LongPressOptions.longPressOptions ()
 					.withElement (ElementOption.element (e)))
-				.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
+				.waitAction (WaitOptions.waitOptions (ofMillis (this.afterTap)))
 				.perform ());
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 18, 2018
+	 * @param times
+	 */
+	public void nTaps (final int times) {
+		perform (format ("Performing [%d] taps on", times), e -> {
+			final Point center = e.getCenter ();
+			for (int index = 0; index < times; index++) {
+				this.touch.press (PointOption.point (center.getX (), center.getY ()))
+					.release ()
+					.perform ();
+			}
+		});
 	}
 
 	/**
@@ -217,10 +246,10 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 */
 	public void tap () {
 		perform ("Tapping on",
-			e -> this.touch.waitAction (WaitOptions.waitOptions (ofSeconds (this.beforeTap)))
+			e -> this.touch.waitAction (WaitOptions.waitOptions (ofMillis (this.beforeTap)))
 				.tap (TapOptions.tapOptions ()
 					.withElement (ElementOption.element (e)))
-				.waitAction (WaitOptions.waitOptions (ofSeconds (this.afterTap)))
+				.waitAction (WaitOptions.waitOptions (ofMillis (this.afterTap)))
 				.perform ());
 	}
 

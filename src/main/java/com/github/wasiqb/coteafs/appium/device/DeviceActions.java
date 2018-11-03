@@ -29,9 +29,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.ScreenOrientation;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import com.github.wasiqb.coteafs.appium.utils.SwipeUtils;
 
@@ -47,7 +50,8 @@ import io.appium.java_client.TouchAction;
  * @param <T>
  * @since 26-Apr-2017 8:39:17 PM
  */
-public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
+public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>,
+	T extends TouchAction <T>> {
 	private static final Logger log = LogManager.getLogger (DeviceActions.class);
 
 	/**
@@ -102,20 +106,6 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 
 	/**
 	 * @author wasiq.bhamla
-	 * @since 26-Apr-2017 8:34:05 PM
-	 */
-	public void hideKeyboard () {
-		log.info ("Hiding the keyboard...");
-		try {
-			this.driver.hideKeyboard ();
-		}
-		catch (final NoSuchSessionException e) {
-			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-		}
-	}
-
-	/**
-	 * @author wasiq.bhamla
 	 * @since Jul 15, 2017 5:19:41 PM
 	 * @param url
 	 */
@@ -133,6 +123,26 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		log.info (format ("Pinching on device screen by [%d]% distance...", distance));
 		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, SwipeStartPosition.TOP,
 			SwipeStartPosition.BOTTOM, distance);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 20, 2018
+	 * @param type
+	 */
+	public void rotate (final ScreenOrientation type) {
+		log.info (format ("Rotating device screen as [%s]c...", type));
+		this.driver.rotate (type);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 20, 2018
+	 * @return rotation
+	 */
+	public ScreenOrientation rotation () {
+		log.info ("Getting rotation type for device...");
+		return this.driver.getOrientation ();
 	}
 
 	/**

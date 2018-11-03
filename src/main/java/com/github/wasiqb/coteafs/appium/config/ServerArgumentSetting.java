@@ -15,7 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
+import com.github.wasiqb.coteafs.appium.config.android.AndroidArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.enums.LogLevel;
+import com.github.wasiqb.coteafs.appium.config.ios.IOSArgumentSetting;
 
 /**
  * @author wasiq.bhamla

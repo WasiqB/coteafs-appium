@@ -22,7 +22,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 import com.github.wasiqb.coteafs.appium.ios.vodqa.action.LoginActivityAction;
 import com.github.wasiqb.coteafs.appium.ios.vodqa.activities.DragDropActivity;

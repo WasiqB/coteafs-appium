@@ -24,8 +24,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Point;
 
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.device.DeviceElementActions;
-import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;

@@ -25,25 +25,34 @@ device: &default_device
   platform_type: ANDROID
   app_type: HYBRID
   device_type: REAL
-  automation_name: APPIUM
   session_timeout: 120000
+  clear_system_files: true
+  no_reset: false
+  full_reset: true
   playback:
     record:
-      enabled: true
-    delay_before_swipe: 2
-    delay_after_swipe: 1
-    delay_before_tap: 2
-    delay_after_tap: 1
+      enabled: false
+    delay_before_swipe: 200
+    delay_after_swipe: 100
+    delay_before_tap: 0
+    delay_after_tap: 0
 
 devices:
   test_local:
-    device_name: MI Redmi Note 4
-    device_version: 7.0
+    device_name: pixel2
+    device_version: 8.1
     app_location: apps/android/VodQA.apk
+    automation_name: APPIUM
     <<: *default_device
+    device_type: SIMULATOR
+    android:
+      avd: pixel2
+      avd_launch_timeout: 60000
+      avd_ready_timeout: 60000
   test_browserstack:
     device_name: Samsung Galaxy S8
     device_version: 7.0
     app_location: ${env.app}
     cloud_app: true
+    automation_name: APPIUM
     <<: *default_device

@@ -21,7 +21,6 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
-import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.MainActivity;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
@@ -58,14 +57,12 @@ public class DefaultTest {
 		this.androidDevice = new AndroidDevice (this.androidServer, device);
 		this.androidDevice.start ();
 
-		login ();
-
 		this.main = new MainActivity (this.androidDevice);
 	}
 
 	/**
 	 * @author wasiqb
-	 * @since Oct 13, 2018
+	 * @since Oct 20, 2018
 	 */
 	@AfterMethod
 	public void teardownMethod () {
@@ -80,12 +77,5 @@ public class DefaultTest {
 	public void tearDownTest () {
 		this.androidDevice.stop ();
 		this.androidServer.stop ();
-	}
-
-	private void login () {
-		final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
-		login.addInputValue ("UserName", "admin")
-			.addInputValue ("Password", "admin")
-			.perform ();
 	}
 }
