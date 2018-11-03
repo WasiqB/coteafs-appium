@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.config;
+package com.github.wasiqb.coteafs.appium.config.android;
 
 /**
  * @author wasiq.bhamla
@@ -34,6 +34,15 @@ public class AndroidDeviceSetting {
 	private String	chromeDriverPath;
 	private int		deviceReadyTimeout;
 	private int		systemPort;
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 30, 2018
+	 */
+	public AndroidDeviceSetting () {
+		this.avdLaunchTimeout = 60000;
+		this.avdReadyTimeout = 60000;
+	}
 
 	/**
 	 * @author wasiq.bhamla

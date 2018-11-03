@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017, Wasiq Bhamla.
+ * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,32 +15,38 @@
  */
 package com.github.wasiqb.coteafs.appium.config.enums;
 
+import io.appium.java_client.clipboard.ClipboardContentType;
+
 /**
- * @author wasiq.bhamla
- * @since 24-Apr-2017 9:11:30 PM
+ * @author wasiqb
+ * @since Nov 2, 2018
  */
-public enum AutomationName {
+public enum ClipboardType {
 	/**
-	 * Appium.
+	 * Image.
 	 */
-	APPIUM ("Appium"),
+	IMAGE (ClipboardContentType.IMAGE),
 	/**
-	 * XCUITest.
+	 * Text.
 	 */
-	XCUI ("XCUITest");
+	TEXT (ClipboardContentType.PLAINTEXT),
+	/**
+	 * URL.
+	 */
+	URL (ClipboardContentType.URL);
 
-	private final String name;
+	private final ClipboardContentType type;
 
-	private AutomationName (final String name) {
-		this.name = name;
+	private ClipboardType (final ClipboardContentType type) {
+		this.type = type;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Enum#toString()
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 * @return the type
 	 */
-	@Override
-	public String toString () {
-		return this.name;
+	public ClipboardContentType getType () {
+		return this.type;
 	}
 }

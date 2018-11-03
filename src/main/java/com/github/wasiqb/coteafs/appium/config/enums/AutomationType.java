@@ -13,23 +13,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.device;
+package com.github.wasiqb.coteafs.appium.config.enums;
+
+import io.appium.java_client.remote.AutomationName;
 
 /**
  * @author wasiq.bhamla
- * @since Jan 26, 2018 10:02:12 PM
+ * @since 24-Apr-2017 9:11:30 PM
  */
-public enum WaitStrategy {
+public enum AutomationType {
 	/**
-	 * Wait until element is enabled.
+	 * Appium.
 	 */
-	ENABLED,
+	APPIUM (AutomationName.APPIUM),
 	/**
-	 * Wait until element is present.
+	 * Android UIAutomator2.
 	 */
-	PRESENT,
+	UIAUTOMATOR2 (AutomationName.ANDROID_UIAUTOMATOR2),
 	/**
-	 * Wait until element is displayed.
+	 * XCUITest.
 	 */
-	VISIBLE
+	XCUI (AutomationName.IOS_XCUI_TEST);
+
+	private final String name;
+
+	private AutomationType (final String name) {
+		this.name = name;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Enum#toString()
+	 */
+	@Override
+	public String toString () {
+		return this.name;
+	}
 }

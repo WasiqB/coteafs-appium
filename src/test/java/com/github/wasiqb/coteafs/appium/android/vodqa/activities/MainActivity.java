@@ -15,9 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
+import org.openqa.selenium.By;
+
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-import com.github.wasiqb.coteafs.appium.device.WaitStrategy;
 
 import io.appium.java_client.MobileBy;
 
@@ -49,36 +51,36 @@ public class MainActivity extends DefaultActivity {
 
 		DeviceElement.create ("ChainedView")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("chainedView"));
+			.using (MobileBy.AccessibilityId ("Chained View"));
 		DeviceElement.create ("Slider")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("slider1"));
+			.using (MobileBy.AccessibilityId ("Slide your number"));
 		DeviceElement.create ("VerticalSwipe")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("verticalSwipe"));
+			.using (By.xpath ("//android.view.ViewGroup[@content-desc=\"verticalSwipe\"]"))
+			.using (AutomationType.UIAUTOMATOR2,
+				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"verticalSwipe\");"));
 		DeviceElement.create ("DragDrop")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("dragAndDrop"));
+			.using (MobileBy.AccessibilityId ("Demo drag and drop"));
 		DeviceElement.create ("DoubleTap")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("doubleTap"));
+			.using (MobileBy.AccessibilityId ("Demo double tap button"));
 		DeviceElement.create ("WebView")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("webView"));
+			.using (MobileBy.AccessibilityId ("View hacker news"));
 		DeviceElement.create ("LongPress")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("longPress"));
+			.using (MobileBy.AccessibilityId ("Demo Long press button"));
 		DeviceElement.create ("PhotoView")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("photoView"));
+			.using (MobileBy.AccessibilityId ("Ping & Zoom"));
+		DeviceElement.create ("HorizontalSwipe")
+			.parent (scroll)
+			.using (MobileBy.AccessibilityId ("Demos swipe left & right"));
+		DeviceElement.create ("WheelPicker")
+			.parent (scroll)
+			.using (MobileBy.AccessibilityId ("Demos wheel picker color"));
 
 		return main;
 	}

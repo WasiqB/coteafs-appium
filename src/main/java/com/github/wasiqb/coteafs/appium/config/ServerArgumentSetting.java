@@ -15,7 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
+import com.github.wasiqb.coteafs.appium.config.android.AndroidArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.enums.LogLevel;
+import com.github.wasiqb.coteafs.appium.config.ios.IOSArgumentSetting;
 
 /**
  * @author wasiq.bhamla
@@ -38,6 +40,8 @@ public class ServerArgumentSetting {
 	 */
 	public ServerArgumentSetting () {
 		this.logLevel = LogLevel.ERROR;
+		this.android = new AndroidArgumentSetting ();
+		this.ios = new IOSArgumentSetting ();
 	}
 
 	/**

@@ -15,12 +15,16 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import static com.github.wasiqb.coteafs.appium.utils.BatteryHealth.check;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.device.DeviceActivity;
 
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.android.AndroidBatteryInfo;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidTouchAction;
 
@@ -29,12 +33,8 @@ import io.appium.java_client.android.AndroidTouchAction;
  * @since 26-Apr-2017 6:19:46 PM
  */
 public abstract class AndroidActivity
-		extends DeviceActivity <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (AndroidActivity.class);
-	}
+	extends DeviceActivity <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
+	private static final Logger log = LogManager.getLogger (AndroidActivity.class);
 
 	/**
 	 * @author wasiq.bhamla
@@ -51,6 +51,7 @@ public abstract class AndroidActivity
 	 */
 	@Override
 	public AndroidDeviceActions onDevice () {
+		checkBattery ();
 		log.trace ("Preparing to perform actions on Android device...");
 		return new AndroidDeviceActions (this.device);
 	}
@@ -61,8 +62,21 @@ public abstract class AndroidActivity
 	 */
 	@Override
 	public AndroidDeviceElementActions onElement (final String name) {
+		checkBattery ();
 		final String msg = "Preparing to perform actions on Android device element [%s]...";
 		log.trace (String.format (msg, name));
 		return new AndroidDeviceElementActions (this.device, name, getElement (name));
+	}
+
+	private void checkBattery () {
+		if (this.device.getSetting ()
+			.getAutomationName () == AutomationType.UIAUTOMATOR2
+			&& !this.device.getSetting ()
+				.isCloudApp ()) {
+			final AndroidBatteryInfo battery = this.device.getDriver ()
+				.getBatteryInfo ();
+			check (battery.getState ()
+				.name (), battery.getLevel ());
+		}
 	}
 }

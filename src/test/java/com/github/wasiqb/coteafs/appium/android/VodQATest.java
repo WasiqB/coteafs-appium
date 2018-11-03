@@ -15,17 +15,26 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+import org.openqa.selenium.ScreenOrientation;
 import org.testng.Assert;
+import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
+import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DoubleTapActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DragDropActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LongPressActivity;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.PhotoViewActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.SliderActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.VerticleSwipeActivity;
-import com.github.wasiqb.coteafs.appium.device.SwipeDirection;
-import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 
 /**
  * @author wasiq.bhamla
@@ -33,20 +42,69 @@ import com.github.wasiqb.coteafs.appium.device.SwipeStartPosition;
  */
 public class VodQATest extends DefaultTest {
 	/**
+	 * @author wasiqb
+	 * @since Oct 21, 2018
+	 * @return orientation list
+	 */
+	@DataProvider
+	public static Iterator <Object []> getOrientation () {
+		final List <Object []> data = new ArrayList <> ();
+		data.add (new Object [] { ScreenOrientation.LANDSCAPE });
+		data.add (new Object [] { ScreenOrientation.PORTRAIT });
+		return data.iterator ();
+	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @since Feb 8, 2018 4:21:19 PM
+	 */
+	@Test
+	public void testDoubleTap () {
+		this.main.onElement ("DoubleTap")
+			.click ();
+
+		final DoubleTapActivity p = new DoubleTapActivity (this.androidDevice);
+		p.onElement ("Button")
+			.doubleTap ();
+
+		final String message = p.onDevice ()
+			.handleAlert ();
+		Assert.assertEquals (message, "Double tap successful!");
+
+		this.main.onElement ("Back")
+			.tap ();
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since Feb 2, 2018 2:59:25 PM
 	 */
 	@Test
 	public void testDragDrop () {
 		this.main.onElement ("DragDrop")
-				.click ();
+			.tap ();
 
 		final DragDropActivity dd = new DragDropActivity (this.androidDevice);
 		dd.onElement ("DropMe")
-				.dragDrop (dd.getElement ("DropZone"));
+			.dragDrop (dd.getElement ("DropZone"));
 		dd.onElement ("Success")
-				.verifyThat ()
-				.textShouldBeEqualTo ("Circle dropped");
+			.verifyThat ()
+			.textShouldBeEqualTo ("Circle dropped");
+
+		this.main.onElement ("Back")
+			.tap ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 20, 2018
+	 */
+	@Test
+	public void testLogin () {
+		final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
+		login.addInputValue ("UserName", "admin")
+			.addInputValue ("Password", "admin")
+			.perform ();
 	}
 
 	/**
@@ -56,14 +114,17 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testLongPress () {
 		this.main.onElement ("LongPress")
-				.click ();
+			.tap ();
 
 		final LongPressActivity lp = new LongPressActivity (this.androidDevice);
 		lp.onElement ("Button")
-				.longPress ();
+			.longPress ();
 		final String message = lp.onDevice ()
-				.handleAlert ();
+			.handleAlert ();
 		Assert.assertEquals (message, "you pressed me hard :P");
+
+		this.main.onElement ("Back")
+			.tap ();
 	}
 
 	/**
@@ -74,18 +135,35 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testNativeView () throws InterruptedException {
 		this.main.onElement ("ChainedView")
-				.click ();
+			.tap ();
 
 		final ChainedViewActivity chained = new ChainedViewActivity (this.androidDevice);
 		chained.onElement ("Text1")
-				.verifyThat ()
-				.textShouldBeEqualTo ("Hello World, I'm View one ");
+			.verifyThat ()
+			.textShouldBeEqualTo ("Hello World, I'm View one ");
 		chained.onElement ("Text2")
-				.verifyThat ()
-				.textShouldBeEqualTo ("Hello World, I'm View two ");
+			.verifyThat ()
+			.textShouldBeEqualTo ("Hello World, I'm View two ");
 		chained.onElement ("Text3")
-				.verifyThat ()
-				.textShouldBeEqualTo ("Hello World, I'm View three ");
+			.verifyThat ()
+			.textShouldBeEqualTo ("Hello World, I'm View three ");
+
+		this.main.onElement ("Back")
+			.tap ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @param orientation
+	 * @since Oct 21, 2018
+	 */
+	@Test (dataProvider = "getOrientation")
+	public void testRotation (final ScreenOrientation orientation) {
+		this.main.onDevice ()
+			.rotate (orientation);
+		assertThat (this.main.onDevice ()
+			.rotation ()
+			.name ()).isEqualTo (orientation.name ());
 	}
 
 	/**
@@ -95,13 +173,16 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testSlider () {
 		this.main.onElement ("Slider")
-				.click ();
+			.tap ();
 
 		final SliderActivity slide = new SliderActivity (this.androidDevice);
 		slide.onElement ("Slider")
-				.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
+			.swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
 		slide.onElement ("Slider1")
-				.swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
+			.swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
+
+		this.main.onElement ("Back")
+			.tap ();
 	}
 
 	/**
@@ -111,29 +192,15 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testVerticleSwipe () {
 		this.main.onElement ("VerticalSwipe")
-				.click ();
+			.tap ();
 
 		final VerticleSwipeActivity vs = new VerticleSwipeActivity (this.androidDevice);
 		vs.onElement ("List")
-				.swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
+			.swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
 		vs.onElement ("List")
-				.swipe (SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
-	}
+			.swipe (SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 8, 2018 4:21:19 PM
-	 */
-	@Test
-	public void testZoomPinch () {
-		this.main.onElement ("PhotoView")
-				.click ();
-
-		final PhotoViewActivity p = new PhotoViewActivity (this.androidDevice);
-		p.onElement ("Img")
-				.zoom (25);
-
-		p.onElement ("Img")
-				.pinch (25);
+		this.main.onElement ("Back")
+			.tap ();
 	}
 }

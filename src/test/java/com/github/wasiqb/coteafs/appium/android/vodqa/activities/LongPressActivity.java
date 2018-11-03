@@ -15,10 +15,10 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
-import org.openqa.selenium.By;
-
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
+
+import io.appium.java_client.MobileBy;
 
 /**
  * @author wasiq.bhamla
@@ -44,7 +44,7 @@ public class LongPressActivity extends DefaultActivity {
 
 		DeviceElement.create ("Button")
 			.parent (main)
-			.using (By.id ("longpress"));
+			.using (MobileBy.AccessibilityId ("longpress"));
 
 		return main;
 	}

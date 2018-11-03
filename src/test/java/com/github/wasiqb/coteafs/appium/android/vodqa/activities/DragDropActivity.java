@@ -15,11 +15,10 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
-import org.openqa.selenium.By;
-
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-import com.github.wasiqb.coteafs.appium.device.WaitStrategy;
+
+import io.appium.java_client.MobileBy;
 
 /**
  * @author wasiq.bhamla
@@ -45,15 +44,13 @@ public class DragDropActivity extends DefaultActivity {
 
 		DeviceElement.create ("Success")
 			.parent (main)
-			.using (By.id ("success"));
+			.using (MobileBy.AccessibilityId ("success"));
 		DeviceElement.create ("DropZone")
 			.parent (main)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (By.id ("dropzone"));
+			.using (MobileBy.AccessibilityId ("dropzone"));
 		DeviceElement.create ("DropMe")
 			.parent (main)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (By.id ("dragMe"));
+			.using (MobileBy.AccessibilityId ("dragMe"));
 
 		return main;
 	}

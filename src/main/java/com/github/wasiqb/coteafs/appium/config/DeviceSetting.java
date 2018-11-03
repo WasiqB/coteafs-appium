@@ -17,11 +17,13 @@ package com.github.wasiqb.coteafs.appium.config;
 
 import static com.github.wasiqb.coteafs.appium.utils.StringUtil.replaceSystemProperty;
 
+import com.github.wasiqb.coteafs.appium.config.android.AndroidDeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.enums.ApplicationType;
-import com.github.wasiqb.coteafs.appium.config.enums.AutomationName;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.config.enums.Browser;
 import com.github.wasiqb.coteafs.appium.config.enums.DeviceType;
 import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
+import com.github.wasiqb.coteafs.appium.config.ios.IOSDeviceSetting;
 
 /**
  * @author wasiq.bhamla
@@ -31,7 +33,7 @@ public class DeviceSetting {
 	private AndroidDeviceSetting	android;
 	private String					appLocation;
 	private ApplicationType			appType;
-	private AutomationName			automationName;
+	private AutomationType			automationName;
 	private Browser					browser;
 	private boolean					clearSystemFiles;
 	private boolean					cloudApp;
@@ -54,7 +56,7 @@ public class DeviceSetting {
 	 * @since 24-Apr-2017 9:21:26 PM
 	 */
 	public DeviceSetting () {
-		this.automationName = AutomationName.APPIUM;
+		this.automationName = AutomationType.APPIUM;
 		this.platformType = PlatformType.ANDROID;
 		this.appType = ApplicationType.NATIVE;
 		this.deviceType = DeviceType.REAL;
@@ -64,6 +66,7 @@ public class DeviceSetting {
 		this.clearSystemFiles = false;
 		this.sessionTimeout = 120;
 		this.cloudApp = false;
+		this.playback = new PlaybackSetting ();
 	}
 
 	/**
@@ -98,7 +101,7 @@ public class DeviceSetting {
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @return the automationName
 	 */
-	public AutomationName getAutomationName () {
+	public AutomationType getAutomationName () {
 		return this.automationName;
 	}
 
@@ -282,7 +285,7 @@ public class DeviceSetting {
 	 * @param automationName
 	 *            the automationName to set
 	 */
-	public void setAutomationName (final AutomationName automationName) {
+	public void setAutomationName (final AutomationType automationName) {
 		this.automationName = automationName;
 	}
 

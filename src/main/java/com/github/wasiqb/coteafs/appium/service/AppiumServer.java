@@ -51,11 +51,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.github.wasiqb.coteafs.appium.config.AndroidArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
-import com.github.wasiqb.coteafs.appium.config.IOSArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
+import com.github.wasiqb.coteafs.appium.config.android.AndroidArgumentSetting;
+import com.github.wasiqb.coteafs.appium.config.ios.IOSArgumentSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerAlreadyRunningError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerLogFileError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotRunningError;

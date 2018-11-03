@@ -23,12 +23,12 @@
 
 </div>
 
-## Getting Started
+## :rocket: Getting Started
 * The [wiki][] of coteafs-appium includes all the information you need to get started including setup, usage, advantages, sample test.
 * To know what changes are Released, check out the [change log][] for complete list of changes.
 * Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
-## [How to configure the tests?][config-doc]
+## :factory: [How to configure the tests?][config-doc]
 
 First step in writing tests using coteafs-appium framework is defining a Yaml config file in the `src/test/resources` folder.
 
@@ -66,7 +66,7 @@ devices:
       delay_after_tap: 1
 ```
 
-## [How simple it is to write the tests?][test-doc]
+## :dart: [How simple it is to write the tests?][test-doc]
 
 By using Action classes for each Activity, the flow specific for that activity can be modularized and tests looks much clean and readable.
 See the sample test below.
@@ -109,7 +109,7 @@ public class SampleTest {
 }
 ```
 
-## [How to create Activity class?][activity-doc]
+## :golf: [How to create Activity class?][activity-doc]
 
 New class needs to be created for each Activity. There's an abstract activity class for each type of device.
 Here `prepare` method needs to be implemented with all the elements available on that Activity.
@@ -147,7 +147,7 @@ public class LoginActivity extends AndroidActivity {
 }
 ```
 
-## [How to create your Activity action class?][action-doc]
+## :soccer: [How to create your Activity action class?][action-doc]
 
 There is abstract action class provided by framework where Activity specific flow is implemented in perform method.
 See the sample Activity action class below.
@@ -177,7 +177,7 @@ public class LoginActivityAction extends AndroidActivityActions {
 }
 ```
 
-## Liked the framework until now?
+## :+1: Liked the framework until now?
 ### Add dependency to your projects POM.
 
 ```xml
@@ -188,7 +188,7 @@ public class LoginActivityAction extends AndroidActivityActions {
 </dependency>
 ```
 
-## [Want to know Key Features?][intro-doc]
+## :pushpin: [Want to know Key Features?][intro-doc]
 In order to use a framework, it's important to know it's advantages. Let's see what are the key features of this framework:
 * Supports Android and iOS Real Devices and Emulators.
 * Able to start server on run-time and also can connect to already running server.
@@ -200,19 +200,19 @@ In order to use a framework, it's important to know it's advantages. Let's see w
 * Provides inbuilt assertions to verify the device elements.
 * Supports any Testing frameworks like TestNG, JUnit or Cucumber.
 
-## What to do when you need help?
+## :question: What to do when you need help?
 * Directly chat with me on my [site][] and I'll revert to you as soon as possible.
 * Discuss your queries by writing to us on our [mailing list][]
 * If you find any issue which is bottleneck for you, [search the issue tracker][] to see if it is already raised.
 * If not raised, then you can create a [new issue][] with required details as mentioned in the issue template.
 
-## What you do if you like the project?
+## :star: What you do if you like the project?
 * Spread the word with your network.
 * **Star** the project to make the project popular.
 * Stay updated with the project progress by **Watching** it.
 * Contribute to fix open issues, documentations or add new features. To know more, see our [contributing][] page.
 
-## Contributors
+## :heavy_check_mark: Contributors
 
 <div>
   <ul>
@@ -229,7 +229,7 @@ In order to use a framework, it's important to know it's advantages. Let's see w
   </ul>
 </div>
 
-## Thanks for the support.
+## :gift_heart: Thanks for the support.
 
 <p align="left">
   <a href="http://browserstack.com">
@@ -239,7 +239,7 @@ In order to use a framework, it's important to know it's advantages. Let's see w
 
 For allowing us to run our unit tests on different platforms.
 
-## Versioning ideology
+## :ticket: Versioning ideology
 
 <p align="left">
   <a href="http://semver.org/">
@@ -247,7 +247,7 @@ For allowing us to run our unit tests on different platforms.
   </a>
 </p>
 
-## License
+## :copyright: License
 
 <p align="left">
   <a href="http://www.apache.org/licenses/LICENSE-2.0">

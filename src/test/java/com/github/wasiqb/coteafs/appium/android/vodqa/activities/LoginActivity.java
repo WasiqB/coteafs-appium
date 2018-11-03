@@ -15,10 +15,10 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
-import org.openqa.selenium.By;
-
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
+
+import io.appium.java_client.MobileBy;
 
 /**
  * @author wasiq.bhamla
@@ -42,13 +42,13 @@ public class LoginActivity extends DefaultActivity {
 	protected DeviceElement prepare () {
 		final DeviceElement main = super.prepare ();
 		DeviceElement.create ("UserName")
-			.using (By.id ("username"))
+			.using (MobileBy.AccessibilityId ("username"))
 			.parent (main);
 		DeviceElement.create ("Password")
-			.using (By.id ("password"))
+			.using (MobileBy.AccessibilityId ("password"))
 			.parent (main);
 		DeviceElement.create ("Login")
-			.using (By.id ("login"))
+			.using (MobileBy.AccessibilityId ("login"))
 			.parent (main);
 		return main;
 	}

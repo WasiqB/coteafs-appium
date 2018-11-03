@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017, Wasiq Bhamla.
+ * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,28 +13,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
+package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
 import org.openqa.selenium.By;
 
-import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
-import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
+import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
+import com.github.wasiqb.coteafs.appium.ios.IOSActivity;
+import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 
 import io.appium.java_client.MobileBy;
 
 /**
- * @author wasiq.bhamla
- * @since Jan 24, 2018 5:22:20 PM
+ * @author wasiqb
+ * @since Oct 28, 2018
  */
-public class DefaultActivity extends AndroidActivity {
+public class BaseActivity extends IOSActivity {
 	/**
-	 * @author wasiq.bhamla
-	 * @since Jan 24, 2018 5:22:20 PM
+	 * @author wasiqb
+	 * @since Oct 28, 2018
 	 * @param device
 	 */
-	public DefaultActivity (final AndroidDevice device) {
+	public BaseActivity (final IOSDevice device) {
 		super (device);
 	}
 
@@ -44,13 +45,14 @@ public class DefaultActivity extends AndroidActivity {
 	 */
 	@Override
 	protected DeviceElement prepare () {
-		final DeviceElement main = DeviceElement.create ("Main")
-			.using (By.id ("android:id/content"));
+		final DeviceElement main = DeviceElement.create ("Form")
+			.using (PlatformType.IOS, AutomationType.XCUI, By.className ("XCUIElementTypeWindow"));
+
 		DeviceElement.create ("Back")
 			.parent (main)
-			.using (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
-			.using (AutomationType.UIAUTOMATOR2,
-				MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
+			.using (PlatformType.IOS, AutomationType.XCUI,
+				MobileBy.iOSNsPredicateString ("name == 'Back'"));
+
 		return main;
 	}
 }

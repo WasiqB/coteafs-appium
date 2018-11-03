@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017, Wasiq Bhamla.
+ * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,41 +13,36 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
+package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
-import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
+import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
+import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 
 import io.appium.java_client.MobileBy;
 
 /**
- * @author wasiq.bhamla
- * @since Feb 1, 2018 3:02:34 PM
+ * @author wasiqb
+ * @since Oct 28, 2018
  */
-public class SliderActivity extends DefaultActivity {
+public class VerticleSwipeActivity extends BaseActivity {
 	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 1, 2018 3:02:34 PM
+	 * @author wasiqb
+	 * @since Oct 28, 2018
 	 * @param device
 	 */
-	public SliderActivity (final AndroidDevice device) {
+	public VerticleSwipeActivity (final IOSDevice device) {
 		super (device);
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
-	 */
 	@Override
 	protected DeviceElement prepare () {
 		final DeviceElement main = super.prepare ();
 
-		DeviceElement.create ("Slider")
+		DeviceElement.create ("List")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("slider"));
-		DeviceElement.create ("Slider1")
-			.parent (main)
-			.using (MobileBy.AccessibilityId ("slider1"));
+			.using (PlatformType.IOS, AutomationType.XCUI, MobileBy.AccessibilityId ("listview"));
 
 		return main;
 	}
