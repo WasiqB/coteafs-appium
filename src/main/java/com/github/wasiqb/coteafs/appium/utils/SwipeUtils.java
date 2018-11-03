@@ -82,11 +82,6 @@ public final class SwipeUtils {
 			endX = source.getX () + (int) (elementSize.getWidth () * direction.getX () * distance);
 			endY = source.getY () + (int) (elementSize.getHeight () * direction.getY () * distance);
 		}
-		System.out.println ("Screen: " + screenSize);
-		System.out.println ("Element: " + elementSize);
-		System.out.println ("Location: " + elementLocation);
-		System.out.println ("Start: " + source);
-		System.out.println ("End: " + new Point (endX, endY));
 		return actions.press (PointOption.point (source.getX (), source.getY ()))
 			.waitAction (
 				WaitOptions.waitOptions (Duration.ofMillis (setting.getDelayBeforeSwipe ())))

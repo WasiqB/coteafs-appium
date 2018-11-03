@@ -27,6 +27,10 @@ public enum AutomationType {
 	 */
 	APPIUM (AutomationName.APPIUM),
 	/**
+	 * Espresso.
+	 */
+	ESPRESSO (AutomationName.ESPRESSO),
+	/**
 	 * Android UIAutomator2.
 	 */
 	UIAUTOMATOR2 (AutomationName.ANDROID_UIAUTOMATOR2),

@@ -29,6 +29,7 @@ import org.openqa.selenium.TimeoutException;
 
 import com.github.wasiqb.coteafs.appium.android.system.AlertActivity;
 import com.github.wasiqb.coteafs.appium.android.system.PermissionActivity;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.config.enums.ClipboardType;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
@@ -172,6 +173,21 @@ public class AndroidDeviceActions
 		perform ("Locking the Android device...", AndroidDriver <MobileElement>::lockDevice);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActions#pinch(int)
+	 */
+	@Override
+	public void pinch (final int distance) {
+		if (this.device.getSetting ()
+			.getAutomationName () == AutomationType.ESPRESSO) {
+			super.pinch (distance);
+		}
+		else {
+			log.warn ("Pinch is only available when Automation type is Espresso...");
+		}
+	}
+
 	/**
 	 * @author wasiq.bhamla
 	 * @since Oct 21, 2017 8:27:50 PM
@@ -232,6 +248,21 @@ public class AndroidDeviceActions
 	 */
 	public void unlock () {
 		perform ("Unlocking the Android device...", AndroidDriver <MobileElement>::unlockDevice);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActions#zoom(int)
+	 */
+	@Override
+	public void zoom (final int distance) {
+		if (this.device.getSetting ()
+			.getAutomationName () == AutomationType.ESPRESSO) {
+			super.zoom (distance);
+		}
+		else {
+			log.warn ("Zoom is only available when Automation type is Espresso...");
+		}
 	}
 
 	private <T> T getValue (final String message,

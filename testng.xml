@@ -10,8 +10,8 @@
 			class-name="com.github.wasiqb.coteafs.listeners.TestListener" />
 	</listeners>
 	<test name="Android Test">
-		<parameter name="server" value="browserstack" />
-		<parameter name="device" value="test_browserstack" />
+		<parameter name="server" value="android" />
+		<parameter name="device" value="test_local" />
 		<classes>
 			<class
 				name="com.github.wasiqb.coteafs.appium.android.VodQATest">
