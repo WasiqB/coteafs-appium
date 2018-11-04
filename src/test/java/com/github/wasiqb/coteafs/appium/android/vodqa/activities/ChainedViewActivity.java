@@ -47,32 +47,32 @@ public class ChainedViewActivity extends DefaultActivity {
 
 		final DeviceElement scroll = DeviceElement.create ("Main")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("scrollView"));
+			.forAndroid (MobileBy.AccessibilityId ("scrollView"));
 
 		final DeviceElement view1 = DeviceElement.create ("View1")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("viewgroup1"));
+			.forAndroid (MobileBy.AccessibilityId ("viewgroup1"));
 		final DeviceElement view2 = DeviceElement.create ("View2")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("viewgroup2"));
+			.forAndroid (MobileBy.AccessibilityId ("viewgroup2"));
 		final DeviceElement view3 = DeviceElement.create ("View3")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("viewgroup3"));
+			.forAndroid (MobileBy.AccessibilityId ("viewgroup3"));
 
 		DeviceElement.create ("Text1")
 			.parent (view1)
-			.using (By.xpath ("//android.widget.TextView[@content-desc=\"textView\"]"))
-			.using (AutomationType.UIAUTOMATOR2,
+			.forAndroid (By.xpath ("//android.widget.TextView[@content-desc=\"textView\"]"))
+			.forAndroid (AutomationType.UIAUTOMATOR2,
 				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"textView\");"));
 		DeviceElement.create ("Text2")
 			.parent (view2)
-			.using (By.xpath ("//android.widget.TextView[@content-desc=\"textView\"]"))
-			.using (AutomationType.UIAUTOMATOR2,
+			.forAndroid (By.xpath ("//android.widget.TextView[@content-desc=\"textView\"]"))
+			.forAndroid (AutomationType.UIAUTOMATOR2,
 				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"textView\");"));
 		DeviceElement.create ("Text3")
 			.parent (view3)
-			.using (By.xpath ("//android.widget.TextView[@content-desc=\"textView\"]"))
-			.using (AutomationType.UIAUTOMATOR2,
+			.forAndroid (By.xpath ("//android.widget.TextView[@content-desc=\"textView\"]"))
+			.forAndroid (AutomationType.UIAUTOMATOR2,
 				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"textView\");"));
 
 		return main;

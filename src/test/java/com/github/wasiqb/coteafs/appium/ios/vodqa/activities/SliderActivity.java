@@ -15,8 +15,6 @@
  */
 package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
-import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
-import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 
@@ -42,10 +40,10 @@ public class SliderActivity extends BaseActivity {
 
 		DeviceElement.create ("Slider")
 			.parent (main)
-			.using (PlatformType.IOS, AutomationType.XCUI, MobileBy.AccessibilityId ("slider"));
+			.forIos (MobileBy.AccessibilityId ("slider"));
 		DeviceElement.create ("Slider1")
 			.parent (main)
-			.using (PlatformType.IOS, AutomationType.XCUI, MobileBy.AccessibilityId ("slider1"));
+			.forIos (MobileBy.AccessibilityId ("slider1"));
 
 		return main;
 	}

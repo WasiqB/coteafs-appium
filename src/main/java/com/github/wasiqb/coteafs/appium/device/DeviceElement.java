@@ -67,6 +67,48 @@ public class DeviceElement {
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Nov 4, 2018
+	 * @param automation
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement forAndroid (final AutomationType automation, final By findBy) {
+		return using (PlatformType.ANDROID, automation, findBy);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 4, 2018
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement forAndroid (final By findBy) {
+		return using (PlatformType.ANDROID, AutomationType.APPIUM, findBy);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 4, 2018
+	 * @param automation
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement forIos (final AutomationType automation, final By findBy) {
+		return using (PlatformType.IOS, automation, findBy);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 4, 2018
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement forIos (final By findBy) {
+		return using (PlatformType.IOS, AutomationType.XCUI, findBy);
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since 25-Apr-2017 7:45:09 PM
 	 * @return index
@@ -175,46 +217,6 @@ public class DeviceElement {
 	}
 
 	/**
-	 * @author wasiqb
-	 * @since Oct 23, 2018
-	 * @param automation
-	 * @param findBy
-	 * @return instance
-	 */
-	public DeviceElement using (final AutomationType automation, final By findBy) {
-		return using (PlatformType.ANDROID, automation, findBy);
-	}
-
-	/**
-	 * @author wasiqb
-	 * @since Oct 23, 2018
-	 * @param findBy
-	 * @return instance
-	 */
-	public DeviceElement using (final By findBy) {
-		return using (AutomationType.APPIUM, findBy);
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @param platform
-	 * @param automation
-	 * @since 25-Apr-2017 7:36:32 PM
-	 * @param findBy
-	 * @return instance
-	 */
-	public DeviceElement using (final PlatformType platform, final AutomationType automation,
-		final By findBy) {
-		Map <AutomationType, By> platformLocator = new EnumMap <> (AutomationType.class);
-		if (this.locators.containsKey (platform)) {
-			platformLocator = this.locators.get (platform);
-		}
-		platformLocator.put (automation, findBy);
-		this.locators.put (platform, platformLocator);
-		return this;
-	}
-
-	/**
 	 * @author wasiq.bhamla
 	 * @since Jan 30, 2018 7:32:07 PM
 	 * @return {@link WaitStrategy}
@@ -245,5 +247,16 @@ public class DeviceElement {
 			.equals (this)) {
 			child.parent (this);
 		}
+	}
+
+	private DeviceElement using (final PlatformType platform, final AutomationType automation,
+		final By findBy) {
+		Map <AutomationType, By> platformLocator = new EnumMap <> (AutomationType.class);
+		if (this.locators.containsKey (platform)) {
+			platformLocator = this.locators.get (platform);
+		}
+		platformLocator.put (automation, findBy);
+		this.locators.put (platform, platformLocator);
+		return this;
 	}
 }

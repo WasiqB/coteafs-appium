@@ -45,11 +45,11 @@ public class DefaultActivity extends AndroidActivity {
 	@Override
 	protected DeviceElement prepare () {
 		final DeviceElement main = DeviceElement.create ("Main")
-			.using (By.id ("android:id/content"));
+			.forAndroid (By.id ("android:id/content"));
 		DeviceElement.create ("Back")
 			.parent (main)
-			.using (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
-			.using (AutomationType.UIAUTOMATOR2,
+			.forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
+			.forAndroid (AutomationType.UIAUTOMATOR2,
 				MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
 		return main;
 	}
