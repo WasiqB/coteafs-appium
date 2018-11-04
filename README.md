@@ -7,7 +7,6 @@
 <h1 align="center">Wrapper Appium Framework which supports Automation of Mobile and Tablet apps for Android and iOS Real Devices / Emulators.</h1>
 
 <div align="center">
-
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)][home]
 [![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)][circleci]
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=bugs)](https://sonarcloud.io/project/issues?id=com.github.wasiqb.coteafs%3Aappium&resolved=false)
@@ -20,8 +19,11 @@
 [![Duplicate Code](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Duplications)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
 [![Github Releases](https://img.shields.io/github/downloads/WasiqB/coteafs-appium/total.svg)](https://github.com/WasiqB/coteafs-appium/releases)
-
 </div>
+
+<p align="center">
+  <img src="assets/android-test.gif" width=700 padding=10 style="border: 2px, border-color: black" />
+</p>
 
 ## :rocket: Getting Started
 * The [wiki][] of coteafs-appium includes all the information you need to get started including setup, usage, advantages, sample test.
