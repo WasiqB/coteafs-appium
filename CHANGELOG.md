@@ -1,4 +1,6 @@
 ## Version-3.0.0-beta1 - Coming soon
+- **[BREAKING CHANGE]** [#38][38] : Added support to add multiple locators depending on Platform and Automation type.
+  - Removed method `using` from `DeviceElement` and added `forAndroid` and forIos` methods to capture locators for Android and iOS platforms.
 - **[ENHANCEMENT]** [#50][50] : Support for cloud based solution like BrowserStack, SauceLabs, etc.
 - **[ENHANCEMENT]** [#54][54] : Updated README.
 - **[ENHANCEMENT]** [#60][60] : Battery check is added. No action will be performed and execution will fail if Battery level is less than 20%.
@@ -113,6 +115,7 @@ See README file for details.
 [35]: https://github.com/WasiqB/coteafs-appium/issues/35
 [36]: https://github.com/WasiqB/coteafs-appium/issues/36
 [37]: https://github.com/WasiqB/coteafs-appium/issues/37
+[38]: https://github.com/WasiqB/coteafs-appium/issues/38
 [41]: https://github.com/WasiqB/coteafs-appium/issues/41
 [42]: https://github.com/WasiqB/coteafs-appium/issues/42
 [50]: https://github.com/WasiqB/coteafs-appium/issues/50
