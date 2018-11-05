@@ -2,6 +2,10 @@ default: &default
   working_directory: ~/repo
   docker:
     - image: circleci/openjdk:8-jdk
+    - image: circleci/node:8.12.0
+  environment:
+    MAVEN_OPTS: -Xmx3200m
+    ANDROID_HOME: /usr/local/android-sdk-linux
 version: 2
 jobs:
   code_checkout:
@@ -48,6 +52,19 @@ jobs:
             - repo-dependencies-{{ .Branch }}-{{ .Revision }}
             - repo-target-{{ .Branch }}-{{ .Revision }}
       - run:
+          name: Install supporting packages
+          command: |
+              curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+              sudo apt-get install -y nodejs
+              sudo apt-get install -y build-essential
+              sudo apt-get install build-essential curl git m4 python-setuptools ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
+      - run:
+          name: Install Appium server
+          command: |
+            sudo npm update -g
+            sudo npm install appium
+            sudo npm install wd
+      - run:
           name: Run Tests with Sonar Coverage
           command: mvn org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test
       - save_cache:
@@ -89,7 +106,11 @@ workflows:
           filters: *all_branches
           requires:
             - resolve_dependencies
-      - code_analysis:
+      - test:
           filters: *all_branches
           requires:
             - build
+      - code_analysis:
+          filters: *all_branches
+          requires:
+            - test
