@@ -62,8 +62,7 @@ jobs:
           name: Install Appium server
           command: |
             sudo npm update -g
-            sudo npm install appium
-            sudo npm install wd
+            sudo npm install -g appium
       - run:
           name: Run Tests with Sonar Coverage
           command: mvn org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test
