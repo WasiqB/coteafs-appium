@@ -44,10 +44,10 @@ public class SliderActivity extends DefaultActivity {
 
 		DeviceElement.create ("Slider")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("slider"));
+			.forAndroid (MobileBy.AccessibilityId ("slider"));
 		DeviceElement.create ("Slider1")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("slider1"));
+			.forAndroid (MobileBy.AccessibilityId ("slider1"));
 
 		return main;
 	}

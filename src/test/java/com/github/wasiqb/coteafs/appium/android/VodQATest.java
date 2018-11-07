@@ -61,7 +61,7 @@ public class VodQATest extends DefaultTest {
 	@Test
 	public void testDoubleTap () {
 		this.main.onElement ("DoubleTap")
-			.click ();
+			.tap ();
 
 		final DoubleTapActivity p = new DoubleTapActivity (this.androidDevice);
 		p.onElement ("Button")

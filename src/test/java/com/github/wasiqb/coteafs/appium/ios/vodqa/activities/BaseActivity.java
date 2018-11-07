@@ -17,8 +17,6 @@ package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
 import org.openqa.selenium.By;
 
-import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
-import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSActivity;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
@@ -46,12 +44,11 @@ public class BaseActivity extends IOSActivity {
 	@Override
 	protected DeviceElement prepare () {
 		final DeviceElement main = DeviceElement.create ("Form")
-			.using (PlatformType.IOS, AutomationType.XCUI, By.className ("XCUIElementTypeWindow"));
+			.forIos (By.className ("XCUIElementTypeWindow"));
 
 		DeviceElement.create ("Back")
 			.parent (main)
-			.using (PlatformType.IOS, AutomationType.XCUI,
-				MobileBy.iOSNsPredicateString ("name == 'Back'"));
+			.forIos (MobileBy.iOSNsPredicateString ("name == 'Back'"));
 
 		return main;
 	}

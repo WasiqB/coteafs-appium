@@ -15,8 +15,6 @@
  */
 package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
-import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
-import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 
@@ -42,13 +40,13 @@ public class DragDropActivity extends BaseActivity {
 
 		DeviceElement.create ("DragMe")
 			.parent (main)
-			.using (PlatformType.IOS, AutomationType.XCUI, MobileBy.AccessibilityId ("dragMe"));
+			.forIos (MobileBy.AccessibilityId ("dragMe"));
 		DeviceElement.create ("DropZone")
 			.parent (main)
-			.using (PlatformType.IOS, AutomationType.XCUI, MobileBy.AccessibilityId ("dropzone"));
+			.forIos (MobileBy.AccessibilityId ("dropzone"));
 		DeviceElement.create ("Message")
 			.parent (main)
-			.using (PlatformType.IOS, AutomationType.XCUI, MobileBy.AccessibilityId ("success"));
+			.forIos (MobileBy.AccessibilityId ("success"));
 
 		return main;
 	}

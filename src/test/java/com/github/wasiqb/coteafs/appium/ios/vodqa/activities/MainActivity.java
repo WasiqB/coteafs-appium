@@ -15,8 +15,6 @@
  */
 package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
-import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
-import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 
@@ -42,28 +40,23 @@ public class MainActivity extends BaseActivity {
 
 		final DeviceElement view = DeviceElement.create ("scrollView")
 			.parent (main)
-			.using (PlatformType.IOS, AutomationType.XCUI, MobileBy.AccessibilityId ("scrollView"));
+			.forIos (MobileBy.AccessibilityId ("scrollView"));
 
 		DeviceElement.create ("Slider")
 			.parent (view)
-			.using (PlatformType.IOS, AutomationType.XCUI,
-				MobileBy.iOSNsPredicateString ("name == 'slider1'"));
+			.forIos (MobileBy.iOSNsPredicateString ("name == 'slider1'"));
 		DeviceElement.create ("DragDrop")
 			.parent (view)
-			.using (PlatformType.IOS, AutomationType.XCUI,
-				MobileBy.iOSNsPredicateString ("name == 'dragAndDrop'"));
+			.forIos (MobileBy.iOSNsPredicateString ("name == 'dragAndDrop'"));
 		DeviceElement.create ("VerticleSwipe")
 			.parent (view)
-			.using (PlatformType.IOS, AutomationType.XCUI,
-				MobileBy.iOSNsPredicateString ("name == 'verticalSwipe'"));
+			.forIos (MobileBy.iOSNsPredicateString ("name == 'verticalSwipe'"));
 		DeviceElement.create ("DoubleTap")
 			.parent (view)
-			.using (PlatformType.IOS, AutomationType.XCUI,
-				MobileBy.iOSNsPredicateString ("name == 'doubleTap'"));
+			.forIos (MobileBy.iOSNsPredicateString ("name == 'doubleTap'"));
 		DeviceElement.create ("LongPress")
 			.parent (view)
-			.using (PlatformType.IOS, AutomationType.XCUI,
-				MobileBy.iOSNsPredicateString ("name == 'longPress'"));
+			.forIos (MobileBy.iOSNsPredicateString ("name == 'longPress'"));
 
 		return main;
 	}

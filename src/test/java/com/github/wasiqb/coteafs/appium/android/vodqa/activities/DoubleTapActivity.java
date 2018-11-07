@@ -44,7 +44,7 @@ public class DoubleTapActivity extends DefaultActivity {
 
 		DeviceElement.create ("Button")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("doubleTapMe"));
+			.forAndroid (MobileBy.AccessibilityId ("doubleTapMe"));
 
 		return main;
 	}

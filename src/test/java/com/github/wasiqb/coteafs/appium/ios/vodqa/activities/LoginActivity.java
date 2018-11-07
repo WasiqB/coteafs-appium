@@ -15,8 +15,6 @@
  */
 package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
-import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
-import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 
@@ -41,14 +39,13 @@ public class LoginActivity extends BaseActivity {
 		final DeviceElement form = super.prepare ();
 		DeviceElement.create ("Username")
 			.parent (form)
-			.using (PlatformType.IOS, AutomationType.XCUI, MobileBy.AccessibilityId ("username"));
+			.forIos (MobileBy.AccessibilityId ("username"));
 		DeviceElement.create ("Password")
 			.parent (form)
-			.using (PlatformType.IOS, AutomationType.XCUI, MobileBy.AccessibilityId ("password"));
+			.forIos (MobileBy.AccessibilityId ("password"));
 		DeviceElement.create ("Login")
 			.parent (form)
-			.using (PlatformType.IOS, AutomationType.XCUI,
-				MobileBy.iOSNsPredicateString ("name == 'login'"));
+			.forIos (MobileBy.iOSNsPredicateString ("name == 'login'"));
 		return form;
 	}
 }

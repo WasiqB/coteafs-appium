@@ -44,7 +44,7 @@ public class VerticleSwipeActivity extends DefaultActivity {
 
 		DeviceElement.create ("List")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("listview"));
+			.forAndroid (MobileBy.AccessibilityId ("listview"));
 
 		return main;
 	}

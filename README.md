@@ -23,6 +23,10 @@
 
 </div>
 
+<p align="center">
+  <img src="assets/android-test.gif" width=700 padding=10 style="border: 2px, border-color: black" />
+</p>
+
 ## :rocket: Getting Started
 * The [wiki][] of coteafs-appium includes all the information you need to get started including setup, usage, advantages, sample test.
 * To know what changes are Released, check out the [change log][] for complete list of changes.
@@ -247,7 +251,7 @@ For allowing us to run our unit tests on different platforms.
   </a>
 </p>
 
-## :copyright: License
+## :copyright: - Wasiq Bhamla
 
 <p align="left">
   <a href="http://www.apache.org/licenses/LICENSE-2.0">

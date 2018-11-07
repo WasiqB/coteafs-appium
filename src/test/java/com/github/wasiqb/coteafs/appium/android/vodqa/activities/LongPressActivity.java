@@ -44,7 +44,7 @@ public class LongPressActivity extends DefaultActivity {
 
 		DeviceElement.create ("Button")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("longpress"));
+			.forAndroid (MobileBy.AccessibilityId ("longpress"));
 
 		return main;
 	}

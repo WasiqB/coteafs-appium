@@ -42,17 +42,17 @@ public class AlertActivity extends AndroidActivity {
 	@Override
 	protected DeviceElement prepare () {
 		final DeviceElement alert = DeviceElement.create ("Alert")
-			.using (By.id ("android:id/parentPanel"));
+			.forAndroid (By.id ("android:id/parentPanel"));
 
 		DeviceElement.create ("Title")
 			.parent (alert)
-			.using (By.id ("android:id/alertTitle"));
+			.forAndroid (By.id ("android:id/alertTitle"));
 		DeviceElement.create ("Message")
 			.parent (alert)
-			.using (By.id ("android:id/message"));
+			.forAndroid (By.id ("android:id/message"));
 		DeviceElement.create ("OK")
 			.parent (alert)
-			.using (By.id ("android:id/button1"));
+			.forAndroid (By.id ("android:id/button1"));
 
 		return alert;
 	}

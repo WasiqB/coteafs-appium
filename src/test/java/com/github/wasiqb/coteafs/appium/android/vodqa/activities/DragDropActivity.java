@@ -44,13 +44,13 @@ public class DragDropActivity extends DefaultActivity {
 
 		DeviceElement.create ("Success")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("success"));
+			.forAndroid (MobileBy.AccessibilityId ("success"));
 		DeviceElement.create ("DropZone")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("dropzone"));
+			.forAndroid (MobileBy.AccessibilityId ("dropzone"));
 		DeviceElement.create ("DropMe")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("dragMe"));
+			.forAndroid (MobileBy.AccessibilityId ("dragMe"));
 
 		return main;
 	}

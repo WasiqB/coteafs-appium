@@ -47,40 +47,40 @@ public class MainActivity extends DefaultActivity {
 
 		final DeviceElement scroll = DeviceElement.create ("ScrollView")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("scrollView"));
+			.forAndroid (MobileBy.AccessibilityId ("scrollView"));
 
 		DeviceElement.create ("ChainedView")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("Chained View"));
+			.forAndroid (MobileBy.AccessibilityId ("Chained View"));
 		DeviceElement.create ("Slider")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("Slide your number"));
+			.forAndroid (MobileBy.AccessibilityId ("Slide your number"));
 		DeviceElement.create ("VerticalSwipe")
 			.parent (scroll)
-			.using (By.xpath ("//android.view.ViewGroup[@content-desc=\"verticalSwipe\"]"))
-			.using (AutomationType.UIAUTOMATOR2,
+			.forAndroid (By.xpath ("//android.view.ViewGroup[@content-desc=\"verticalSwipe\"]"))
+			.forAndroid (AutomationType.UIAUTOMATOR2,
 				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"verticalSwipe\");"));
 		DeviceElement.create ("DragDrop")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("Demo drag and drop"));
+			.forAndroid (MobileBy.AccessibilityId ("Demo drag and drop"));
 		DeviceElement.create ("DoubleTap")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("Demo double tap button"));
+			.forAndroid (MobileBy.AccessibilityId ("Demo double tap button"));
 		DeviceElement.create ("WebView")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("View hacker news"));
+			.forAndroid (MobileBy.AccessibilityId ("View hacker news"));
 		DeviceElement.create ("LongPress")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("Demo Long press button"));
+			.forAndroid (MobileBy.AccessibilityId ("Demo Long press button"));
 		DeviceElement.create ("PhotoView")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("Ping & Zoom"));
+			.forAndroid (MobileBy.AccessibilityId ("Ping & Zoom"));
 		DeviceElement.create ("HorizontalSwipe")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("Demos swipe left & right"));
+			.forAndroid (MobileBy.AccessibilityId ("Demos swipe left & right"));
 		DeviceElement.create ("WheelPicker")
 			.parent (scroll)
-			.using (MobileBy.AccessibilityId ("Demos wheel picker color"));
+			.forAndroid (MobileBy.AccessibilityId ("Demos wheel picker color"));
 
 		return main;
 	}
