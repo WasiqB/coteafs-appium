@@ -105,11 +105,7 @@ workflows:
           filters: *all_branches
           requires:
             - resolve_dependencies
-      - test:
-          filters: *all_branches
-          requires:
-            - build
       - code_analysis:
           filters: *all_branches
           requires:
-            - test
+            - build
