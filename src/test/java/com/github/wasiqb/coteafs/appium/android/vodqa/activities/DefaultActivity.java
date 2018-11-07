@@ -20,6 +20,7 @@ import org.openqa.selenium.By;
 import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
+import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 
 import io.appium.java_client.MobileBy;
@@ -45,6 +46,7 @@ public class DefaultActivity extends AndroidActivity {
 	@Override
 	protected DeviceElement prepare () {
 		final DeviceElement main = DeviceElement.create ("Main")
+			.waitStrategy (WaitStrategy.VISIBLE)
 			.forAndroid (By.id ("android:id/content"));
 		DeviceElement.create ("Back")
 			.parent (main)
