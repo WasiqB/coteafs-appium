@@ -39,14 +39,14 @@ device: &default_device
 
 devices:
   test_local:
-    device_name: emulator-5554
+    device_name: pixel2
     device_version: 8.1
     app_location: apps/android/VodQA.apk
     automation_name: APPIUM
     <<: *default_device
     device_type: SIMULATOR
     android:
-      avd: emulator-5554
+      avd: pixel2
       avd_launch_timeout: 60000
       avd_ready_timeout: 60000
   test_browserstack:

@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>appium</artifactId>
-	<version>2.2.0</version>
+	<version>3.0.0-beta1</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Robust Automation Framework wrapped over Appium.</description>
 	<url>https://github.com/WasiqB/coteafs-appium</url>
@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>com.github.wasiqb.coteafs</groupId>
 		<artifactId>parent</artifactId>
-		<version>2.0.1</version>
+		<version>2.1.0</version>
 	</parent>
 
 	<scm>
@@ -32,12 +32,12 @@
 
 	<properties>
 		<appium-version>6.1.0</appium-version>
-		<selenium-version>3.14.0</selenium-version>
-		<coteafs.config.version>1.6.0</coteafs.config.version>
-		<coteafs.error.version>1.5.0</coteafs.error.version>
-		<coteafs.logger.version>1.6.0</coteafs.logger.version>
-		<commons.text.version>1.4</commons.text.version>
-		<coteafs.listeners.version>1.1.0</coteafs.listeners.version>
+		<selenium-version>3.141.5</selenium-version>
+		<coteafs.config.version>1.7.0</coteafs.config.version>
+		<coteafs.error.version>1.6.0</coteafs.error.version>
+		<coteafs.logger.version>1.7.0</coteafs.logger.version>
+		<commons.text.version>1.6</commons.text.version>
+		<coteafs.listeners.version>1.2.0</coteafs.listeners.version>
 	</properties>
 
 	<dependencies>

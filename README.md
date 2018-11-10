@@ -10,6 +10,7 @@
 
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)][home]
 [![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)][circleci]
+[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/WasiqB/Coteafs-Appium.svg)](http://isitmaintained.com/project/WasiqB/Coteafs-Appium "Average time to resolve an issue")
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=bugs)](https://sonarcloud.io/project/issues?id=com.github.wasiqb.coteafs%3Aappium&resolved=false)
 [![Test Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=coverage)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Coverage)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.github.wasiqb.coteafs%3Aappium)
@@ -27,8 +28,8 @@
   <img src="assets/android-test.gif" width=700 padding=10 style="border: 2px, border-color: black" />
 </p>
 
-## :rocket: Getting Started
-* The [wiki][] of coteafs-appium includes all the information you need to get started including setup, usage, advantages, sample test.
+## :rocket: [Quick Start][wiki]
+* The [documentations][wiki] of coteafs-appium includes all the information you need to get started including setup, usage, advantages, sample test.
 * To know what changes are Released, check out the [change log][] for complete list of changes.
 * Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
@@ -43,7 +44,7 @@ Sample file is shown below.
 ```yaml
 servers:
   android:
-    ip: 127.0.0.1
+    host: 127.0.0.1
     port: 4723
     external: true
     arguments:
@@ -64,10 +65,10 @@ devices:
     app_location: apps/android/VodQA.apk
     session_timeout: 120000
     playback:
-      delay_before_swipe: 2
-      delay_after_swipe: 1
-      delay_before_tap: 2
-      delay_after_tap: 1
+      delay_before_swipe: 200
+      delay_after_swipe: 100
+      delay_before_tap: 0
+      delay_after_tap: 0
 ```
 
 ## :dart: [How simple it is to write the tests?][test-doc]
@@ -134,17 +135,22 @@ public class LoginActivity extends AndroidActivity {
   @Override
   protected DeviceElement prepare () {
     final DeviceElement main = DeviceElement.create ("Main")
-      .using (By.id ("android:id/content"));
+      .forAndroid (By.id ("android:id/content"));
+	 DeviceElement.create ("Back")
+		.parent (main)
+		.forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
+		// We can set multiple locators for different Automation names.
+		.forAndroid (AutomationType.UIAUTOMATOR2, MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
     DeviceElement.create ("UserName")
-      .using (By.id ("username"))
+      .forAndroid (MobileBy.AccessibilityId ("username"))
       .parent (main);
     DeviceElement.create ("Password")
-      .using (By.id ("password"))
+      .forAndroid (MobileBy.AccessibilityId ("password"))
       .parent (main);
     DeviceElement.create ("Login")
       .index (1)    // Index of element when multiple elements for same locator exists.
       .waitStrategy (WaitStrategy.VISIBLE)  // Wait strategy to be used while finding the element.
-      .using (By.id ("login"))     // Locator used to find the element.
+      .forAndroid (MobileBy.AccessibilityId ("login"))     // Locator used to find the element.
       .parent (main);    // Parent of current element.
     return main;
   }
@@ -188,21 +194,25 @@ public class LoginActivityAction extends AndroidActivityActions {
 <dependency>
     <groupId>com.github.wasiqb.coteafs</groupId>
     <artifactId>appium</artifactId>
-    <version>2.2.0</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
 ## :pushpin: [Want to know Key Features?][intro-doc]
 In order to use a framework, it's important to know it's advantages. Let's see what are the key features of this framework:
-* Supports Android and iOS Real Devices and Emulators.
-* Able to start server on run-time and also can connect to already running server.
-* Enforces Page object model style of coding.
-* Allows parallel and sequential execution of tests.
-* All capabilities, playback and delay settings are configurable through config file.
-* Supports logging of all events occurred during test execution.
-* Provides pre-defined errors which wraps the Appium exceptions in a meaningful way.
-* Provides inbuilt assertions to verify the device elements.
-* Supports any Testing frameworks like TestNG, JUnit or Cucumber.
+* :iphone: Supports Android and iOS Real Devices and Emulators.
+* :computer: Able to start and stop server on run-time and also can connect to already running server.
+* :notebook: Enforces Page object model style of coding.
+* :milky_way: Allows parallel and sequential execution of tests.
+* :hammer: All capabilities, playback and delay settings are configurable through config file.
+* :cloud: Supports execution of tests on any Cloud solution like BrowserStack, SauceLabs, TestingBot, etc.
+* :video_camera: Supports video recording of tests on Android and iOS.
+* :camera: Supports capturing screenshots for Android and iOS.
+* :clipboard: Supports reading Clipboard from devices.
+* :notebook_with_decorative_cover: Supports logging of all events occurred during test execution.
+* :x: Provides pre-defined errors which wraps the Appium exceptions in a meaningful way.
+* :white_check_mark: Provides inbuilt assertions to verify the device elements.
+* :hotsprings: Supports any Testing frameworks like TestNG, JUnit or Cucumber.
 
 ## :question: What to do when you need help?
 * Directly chat with me on my [site][] and I'll revert to you as soon as possible.
@@ -266,11 +276,6 @@ For allowing us to run our unit tests on different platforms.
 [mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium-users
 [search the issue tracker]: https://github.com/WasiqB/coteafs-appium/issues?q=something
 [new issue]: https://github.com/WasiqB/coteafs-appium/issues/new
-[coteafs-logger]: https://github.com/WasiqB/coteafs-logger
-[coteafs-config]: https://github.com/WasiqB/coteafs-config
-[coteafs-error]: https://github.com/WasiqB/coteafs-error
-[coteafs-parent]: https://github.com/WasiqB/coteafs-parent
-[Appium]: https://github.com/appium/java-client/releases
 [change log]: CHANGELOG.md
 [milestones]: https://github.com/WasiqB/coteafs-appium/milestones
 [maven]: https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium
