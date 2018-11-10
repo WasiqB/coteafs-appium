@@ -136,11 +136,11 @@ public class LoginActivity extends AndroidActivity {
   protected DeviceElement prepare () {
     final DeviceElement main = DeviceElement.create ("Main")
       .forAndroid (By.id ("android:id/content"));
-	 DeviceElement.create ("Back")
-		.parent (main)
-		.forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
-		// We can set multiple locators for different Automation names.
-		.forAndroid (AutomationType.UIAUTOMATOR2, MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
+    DeviceElement.create ("Back")
+      .parent (main)
+      .forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
+      // We can set multiple locators for different Automation names.
+      .forAndroid (AutomationType.UIAUTOMATOR2, MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
     DeviceElement.create ("UserName")
       .forAndroid (MobileBy.AccessibilityId ("username"))
       .parent (main);
@@ -192,9 +192,9 @@ public class LoginActivityAction extends AndroidActivityActions {
 
 ```xml
 <dependency>
-    <groupId>com.github.wasiqb.coteafs</groupId>
-    <artifactId>appium</artifactId>
-    <version>3.0.0</version>
+  <groupId>com.github.wasiqb.coteafs</groupId>
+  <artifactId>appium</artifactId>
+  <version>3.0.0</version>
 </dependency>
 ```
 
