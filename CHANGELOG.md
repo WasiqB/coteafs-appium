@@ -23,11 +23,11 @@
 - **[FIX]** [#71][71] : Error when only package name given instead of `app_location` config key.
 - **[FIX]** [#78][78] : Action class not support for iOS, gestures handled with commands.
 - **[UPGRADE]** [#51][51] : Upgraded dependencies:
-  - **coteafs-parent:** 1.5.0 -> 2.0.1
-  - **coteafs-config:** 1.5.0 -> 1.6.0
-  - **coteafs-error:** 1.4.0 -> 1.5.0
-  - **coteafs-logger:** 1.5.0 -> 1.6.0
-  - **selenium-java:** 3.1.0 -> 3.1.4
+  - **coteafs-parent:** 1.5.0 -> 2.1.0
+  - **coteafs-config:** 1.5.0 -> 1.7.0
+  - **coteafs-error:** 1.4.0 -> 1.6.0
+  - **coteafs-logger:** 1.5.0 -> 1.7.0
+  - **selenium-java:** 3.10.0 -> 3.141.5
   - **appium-java:** 5.0.4 -> 6.1.0
 
 ## Version-2.2.0 - 16/03/2018
