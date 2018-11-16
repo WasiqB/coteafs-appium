@@ -19,12 +19,14 @@ import com.github.wasiqb.coteafs.appium.device.DeviceActivityActions;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
+import io.appium.java_client.ios.IOSTouchAction;
 
 /**
  * @author wasiq.bhamla
  * @since Oct 23, 2017 11:06:13 PM
  */
-public abstract class IOSActivityActions extends DeviceActivityActions <IOSDriver <MobileElement>, IOSDevice> {
+public abstract class IOSActivityActions
+		extends DeviceActivityActions <IOSDriver <MobileElement>, IOSDevice, IOSTouchAction> {
 	/**
 	 * @author wasiq.bhamla
 	 * @since Oct 23, 2017 11:06:33 PM

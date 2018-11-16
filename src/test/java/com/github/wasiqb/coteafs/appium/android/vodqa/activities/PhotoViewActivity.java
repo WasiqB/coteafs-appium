@@ -44,7 +44,7 @@ public class PhotoViewActivity extends DefaultActivity {
 
 		DeviceElement.create ("Img")
 			.parent (main)
-			.using (By.className ("android.widget.ImageView"));
+			.forAndroid (By.className ("android.widget.ImageView"));
 
 		return main;
 	}

@@ -19,7 +19,11 @@ import org.openqa.selenium.By;
 
 import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
+import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
+
+import io.appium.java_client.MobileBy;
 
 /**
  * @author wasiq.bhamla
@@ -42,12 +46,13 @@ public class DefaultActivity extends AndroidActivity {
 	@Override
 	protected DeviceElement prepare () {
 		final DeviceElement main = DeviceElement.create ("Main")
-			.using (By.id ("android:id/content"));
+			.waitStrategy (WaitStrategy.VISIBLE)
+			.forAndroid (By.id ("android:id/content"));
 		DeviceElement.create ("Back")
 			.parent (main)
-			.using (By.xpath (
-					"/hierarchy/android.widget.FrameLayout/android.widget.LinearLayout/android.widget.FrameLayout/android.widget.FrameLayout/android.view.ViewGroup[2]/android.view.ViewGroup[1]/android.view.ViewGroup/android.widget.TextView"));
-
+			.forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
+			.forAndroid (AutomationType.UIAUTOMATOR2,
+				MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
 		return main;
 	}
 }

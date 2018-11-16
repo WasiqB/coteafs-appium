@@ -22,15 +22,16 @@ import static java.lang.String.format;
  * @since Jan 18, 2018 9:32:14 PM
  */
 public class PlaybackSetting {
-	private int		defaultWait;
-	private int		delayAfterSwipe;
-	private int		delayAfterTap;
-	private int		delayBeforeSwipe;
-	private int		delayBeforeTap;
-	private boolean	screenshotOnError;
-	private String	screenShotPath;
-	private String	screenShotPrefix;
-	private int		waitForElementUntil;
+	private int				defaultWait;
+	private int				delayAfterSwipe;
+	private int				delayAfterTap;
+	private long			delayBeforeSwipe;
+	private int				delayBeforeTap;
+	private RecordSetting	record;
+	private boolean			screenshotOnError;
+	private String			screenShotPath;
+	private String			screenShotPrefix;
+	private int				waitForElementUntil;
 
 	/**
 	 * @author wasiq.bhamla
@@ -45,6 +46,7 @@ public class PlaybackSetting {
 		this.delayAfterSwipe = 0;
 		this.screenShotPath = format ("%s/screenshots", System.getProperty ("user.dir"));
 		this.screenShotPrefix = "SCR";
+		this.record = new RecordSetting ();
 		this.screenshotOnError = false;
 	}
 
@@ -80,7 +82,7 @@ public class PlaybackSetting {
 	 * @since Jan 18, 2018 9:35:15 PM
 	 * @return the delayBeforeSwipe
 	 */
-	public int getDelayBeforeSwipe () {
+	public long getDelayBeforeSwipe () {
 		return this.delayBeforeSwipe;
 	}
 
@@ -91,6 +93,15 @@ public class PlaybackSetting {
 	 */
 	public int getDelayBeforeTap () {
 		return this.delayBeforeTap;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 13, 2018
+	 * @return the record
+	 */
+	public RecordSetting getRecord () {
+		return this.record;
 	}
 
 	/**
@@ -165,7 +176,7 @@ public class PlaybackSetting {
 	 * @param delayBeforeSwipe
 	 *            the delayBeforeSwipe to set
 	 */
-	public void setDelayBeforeSwipe (final int delayBeforeSwipe) {
+	public void setDelayBeforeSwipe (final long delayBeforeSwipe) {
 		this.delayBeforeSwipe = delayBeforeSwipe;
 	}
 
@@ -177,6 +188,16 @@ public class PlaybackSetting {
 	 */
 	public void setDelayBeforeTap (final int delayBeforeTap) {
 		this.delayBeforeTap = delayBeforeTap;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 13, 2018
+	 * @param record
+	 *            the record to set
+	 */
+	public void setRecord (final RecordSetting record) {
+		this.record = record;
 	}
 
 	/**

@@ -15,10 +15,18 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
+import static java.lang.String.format;
+
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 import org.openqa.selenium.By;
+
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
+import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
+import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 
 /**
  * @author wasiq.bhamla
@@ -35,17 +43,18 @@ public class DeviceElement {
 		return new DeviceElement (name);
 	}
 
-	private By							by;
-	private final List <DeviceElement>	childs;
-	private int							index;
-	private final String				name;
-	private DeviceElement				parent;
-	private WaitStrategy				wait;
+	private final List <DeviceElement>							childs;
+	private int													index;
+	private final Map <PlatformType, Map <AutomationType, By>>	locators;
+	private final String										name;
+	private DeviceElement										parent;
+	private WaitStrategy										wait;
 
 	private DeviceElement (final String name) {
 		this.childs = new ArrayList <> ();
 		this.name = name;
-		this.wait = WaitStrategy.VISIBLE;
+		this.wait = WaitStrategy.NONE;
+		this.locators = new EnumMap <> (PlatformType.class);
 	}
 
 	/**
@@ -55,6 +64,48 @@ public class DeviceElement {
 	 */
 	public List <DeviceElement> childs () {
 		return this.childs;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 4, 2018
+	 * @param automation
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement forAndroid (final AutomationType automation, final By findBy) {
+		return using (PlatformType.ANDROID, automation, findBy);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 4, 2018
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement forAndroid (final By findBy) {
+		return using (PlatformType.ANDROID, AutomationType.APPIUM, findBy);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 4, 2018
+	 * @param automation
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement forIos (final AutomationType automation, final By findBy) {
+		return using (PlatformType.IOS, automation, findBy);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 4, 2018
+	 * @param findBy
+	 * @return instance
+	 */
+	public DeviceElement forIos (final By findBy) {
+		return using (PlatformType.IOS, AutomationType.XCUI, findBy);
 	}
 
 	/**
@@ -78,12 +129,36 @@ public class DeviceElement {
 	}
 
 	/**
-	 * @author wasiq.bhamla
-	 * @since 25-Apr-2017 7:40:30 PM
-	 * @return locator
+	 * @author wasiqb
+	 * @since Oct 23, 2018
+	 * @return by locator
 	 */
 	public By locator () {
-		return this.by;
+		return locator (AutomationType.APPIUM);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 23, 2018
+	 * @param automation
+	 * @return by locator
+	 */
+	public By locator (final AutomationType automation) {
+		return locator (PlatformType.ANDROID, automation);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 23, 2018
+	 * @param platform
+	 * @param automation
+	 * @return by locator
+	 */
+	public By locator (final PlatformType platform, final AutomationType automation) {
+		final Map <AutomationType, By> locator = this.locators.get (platform);
+		if (!locator.containsKey (automation) && automation != AutomationType.APPIUM)
+			return locator.get (AutomationType.APPIUM);
+		return locator.get (automation);
 	}
 
 	/**
@@ -131,25 +206,14 @@ public class DeviceElement {
 		final String line2 = "By: %s";
 		final String line4 = "Index: %d";
 		final String line3 = "Childs: %s";
-		final StringBuilder sb = new StringBuilder (String.format (line1, this.name)).append ("\n");
-		sb.append (String.format (line2, this.by))
+		final StringBuilder sb = new StringBuilder (format (line1, this.name)).append ("\n");
+		sb.append (format (line2, this.locators))
 			.append ("\n");
-		sb.append (String.format (line4, this.index))
+		sb.append (format (line4, this.index))
 			.append ("\n");
-		sb.append (String.format (line3, this.childs))
+		sb.append (format (line3, this.childs))
 			.append ("\n");
 		return sb.toString ();
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since 25-Apr-2017 7:36:32 PM
-	 * @param findBy
-	 * @return instance
-	 */
-	public DeviceElement using (final By findBy) {
-		this.by = findBy;
-		return this;
 	}
 
 	/**
@@ -183,5 +247,16 @@ public class DeviceElement {
 			.equals (this)) {
 			child.parent (this);
 		}
+	}
+
+	private DeviceElement using (final PlatformType platform, final AutomationType automation,
+		final By findBy) {
+		Map <AutomationType, By> platformLocator = new EnumMap <> (AutomationType.class);
+		if (this.locators.containsKey (platform)) {
+			platformLocator = this.locators.get (platform);
+		}
+		platformLocator.put (automation, findBy);
+		this.locators.put (platform, platformLocator);
+		return this;
 	}
 }

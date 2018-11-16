@@ -22,8 +22,19 @@ import java.util.Map;
  * @since 12-Apr-2017 8:58:57 PM
  */
 public class AppiumSetting {
+	private DeviceSetting				device;
 	private Map <String, DeviceSetting>	devices;
+	private ServerSetting				server;
 	private Map <String, ServerSetting>	servers;
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 16, 2018
+	 * @return the device
+	 */
+	public DeviceSetting getDevice () {
+		return this.device;
+	}
 
 	/**
 	 * @author wasiq.bhamla
@@ -42,6 +53,15 @@ public class AppiumSetting {
 	 */
 	public Map <String, DeviceSetting> getDevices () {
 		return this.devices;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 16, 2018
+	 * @return the server
+	 */
+	public ServerSetting getServer () {
+		return this.server;
 	}
 
 	/**
@@ -64,6 +84,16 @@ public class AppiumSetting {
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Oct 16, 2018
+	 * @param device
+	 *            the device to set
+	 */
+	public void setDevice (final DeviceSetting device) {
+		this.device = device;
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since 13-Apr-2017 9:59:40 PM
 	 * @param devices
@@ -71,6 +101,16 @@ public class AppiumSetting {
 	 */
 	public void setDevices (final Map <String, DeviceSetting> devices) {
 		this.devices = devices;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Oct 16, 2018
+	 * @param server
+	 *            the server to set
+	 */
+	public void setServer (final ServerSetting server) {
+		this.server = server;
 	}
 
 	/**

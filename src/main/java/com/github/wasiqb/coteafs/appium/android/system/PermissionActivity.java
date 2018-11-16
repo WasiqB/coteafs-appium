@@ -42,16 +42,16 @@ public class PermissionActivity extends AndroidActivity {
 	@Override
 	protected DeviceElement prepare () {
 		final DeviceElement container = DeviceElement.create ("Permission Window")
-			.using (By.id ("com.android.packageinstaller:id/dialog_container"));
+			.forAndroid (By.id ("com.android.packageinstaller:id/dialog_container"));
 		DeviceElement.create ("Message")
 			.parent (container)
-			.using (By.id ("com.android.packageinstaller:id/permission_message"));
+			.forAndroid (By.id ("com.android.packageinstaller:id/permission_message"));
 		DeviceElement.create ("Allow")
 			.parent (container)
-			.using (By.id ("com.android.packageinstaller:id/permission_allow_button"));
+			.forAndroid (By.id ("com.android.packageinstaller:id/permission_allow_button"));
 		DeviceElement.create ("Deny")
 			.parent (container)
-			.using (By.id ("com.android.packageinstaller:id/permission_deny_button"));
+			.forAndroid (By.id ("com.android.packageinstaller:id/permission_deny_button"));
 		return container;
 	}
 }

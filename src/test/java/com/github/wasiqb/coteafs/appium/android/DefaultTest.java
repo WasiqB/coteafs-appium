@@ -15,12 +15,12 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeClass;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 
-import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.MainActivity;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
@@ -34,55 +34,48 @@ public class DefaultTest {
 	private AppiumServer	androidServer;
 
 	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 2, 2018 3:37:06 PM
+	 * @author wasiqb
+	 * @since Oct 13, 2018
 	 */
 	@BeforeMethod
 	public void setupMethod () {
-		this.androidDevice = new AndroidDevice (this.androidServer, "test");
-		this.androidDevice.start ();
+		this.androidDevice.startRecording ();
+	}
 
-		login ();
+	/**
+	 * @author wasiq.bhamla
+	 * @param server
+	 * @param device
+	 * @since 13-Apr-2017 10:10:45 PM
+	 */
+	@Parameters ({ "server", "device" })
+	@BeforeTest
+	public void setupTest (final String server, final String device) {
+		this.androidServer = new AppiumServer (server);
+		this.androidServer.start ();
+
+		this.androidDevice = new AndroidDevice (this.androidServer, device);
+		this.androidDevice.start ();
 
 		this.main = new MainActivity (this.androidDevice);
 	}
 
 	/**
-	 * @author wasiq.bhamla
-	 * @since 13-Apr-2017 10:10:45 PM
-	 */
-	@BeforeClass (alwaysRun = true)
-	public void setupTestSuite () {
-		this.androidServer = new AppiumServer ("android");
-		this.androidServer.start ();
-	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 2, 2018 3:38:26 PM
+	 * @author wasiqb
+	 * @since Oct 20, 2018
 	 */
 	@AfterMethod
-	public void tearDownMethod () {
-		if (this.androidDevice != null) {
-			this.androidDevice.stop ();
-		}
+	public void teardownMethod () {
+		this.androidDevice.stopRecording ();
 	}
 
 	/**
 	 * @author wasiq.bhamla
 	 * @since 17-Apr-2017 3:47:41 PM
 	 */
-	@AfterClass (alwaysRun = true)
-	public void tearDownTestSuite () {
-		if (this.androidServer != null) {
-			this.androidServer.stop ();
-		}
-	}
-
-	private void login () {
-		final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
-		login.addInputValue ("UserName", "admin")
-			.addInputValue ("Password", "admin")
-			.perform ();
+	@AfterTest
+	public void tearDownTest () {
+		this.androidDevice.stop ();
+		this.androidServer.stop ();
 	}
 }

@@ -29,23 +29,24 @@ import org.openqa.selenium.TimeoutException;
 
 import com.github.wasiqb.coteafs.appium.android.system.AlertActivity;
 import com.github.wasiqb.coteafs.appium.android.system.PermissionActivity;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
+import com.github.wasiqb.coteafs.appium.config.enums.ClipboardType;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidKeyCode;
+import io.appium.java_client.android.AndroidTouchAction;
+import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.nativekey.KeyEvent;
 
 /**
  * @author wasiq.bhamla
  * @since 26-Apr-2017 9:05:27 PM
  */
-public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileElement>, AndroidDevice> {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (AndroidDeviceActions.class);
-	}
+public class AndroidDeviceActions
+	extends DeviceActions <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
+	private static final Logger log = LogManager.getLogger (AndroidDeviceActions.class);
 
 	/**
 	 * @author wasiq.bhamla
@@ -53,7 +54,28 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @param device
 	 */
 	public AndroidDeviceActions (final AndroidDevice device) {
-		super (device);
+		super (device, new AndroidTouchAction (device.getDriver ()));
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 * @return clipboard text
+	 */
+	public String clipboard () {
+		log.info ("Getting clipboard text...");
+		return this.driver.getClipboardText ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 * @param type
+	 * @return clipboard
+	 */
+	public String clipboard (final ClipboardType type) {
+		log.info (format ("Getting clipboard for [%s]...", type));
+		return this.driver.getClipboard (type.getType ());
 	}
 
 	/**
@@ -62,7 +84,8 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @return activity
 	 */
 	public String currentActivity () {
-		return getValue ("Getting current activity name...", AndroidDriver <MobileElement>::currentActivity);
+		return getValue ("Getting current activity name...",
+			AndroidDriver <MobileElement>::currentActivity);
 	}
 
 	/**
@@ -117,12 +140,29 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Oct 20, 2018
+	 */
+	public void hideKeyboard () {
+		log.info ("Hiding the keyboard...");
+		try {
+			if (this.driver.isKeyboardShown ()) {
+				this.driver.hideKeyboard ();
+			}
+		}
+		catch (final NoSuchSessionException e) {
+			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
+		}
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since 26-Apr-2017 9:11:35 PM
 	 * @return isLocked
 	 */
 	public boolean isLocked () {
-		return getValue ("Checking if device is locked...", AndroidDriver <MobileElement>::isLocked);
+		return getValue ("Checking if device is locked...",
+			AndroidDriver <MobileElement>::isDeviceLocked);
 	}
 
 	/**
@@ -133,12 +173,28 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 		perform ("Locking the Android device...", AndroidDriver <MobileElement>::lockDevice);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActions#pinch(int)
+	 */
+	@Override
+	public void pinch (final int distance) {
+		if (this.device.getSetting ()
+			.getAutomationName () == AutomationType.ESPRESSO) {
+			super.pinch (distance);
+		}
+		else {
+			log.warn ("Pinch is only available when Automation type is Espresso...");
+		}
+	}
+
 	/**
 	 * @author wasiq.bhamla
 	 * @since Oct 21, 2017 8:27:50 PM
 	 */
 	public void pressBack () {
-		perform ("Pressing Back button on Android device...", d -> d.pressKeyCode (AndroidKeyCode.BACK));
+		perform ("Pressing Back button on Android device...",
+			d -> d.pressKey (new KeyEvent (AndroidKey.BACK)));
 	}
 
 	/**
@@ -146,7 +202,44 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 	 * @since Mar 5, 2018 10:50:09 PM
 	 */
 	public void pressEnter () {
-		perform ("Pressing Enter button on Android device...", d -> d.pressKeyCode (AndroidKeyCode.ENTER));
+		perform ("Pressing Enter button on Android device...",
+			d -> d.pressKey (new KeyEvent (AndroidKey.ENTER)));
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 */
+	public void toggleAirplane () {
+		log.info ("Toggling Airplane...");
+		this.driver.toggleAirplaneMode ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 */
+	public void toggleData () {
+		log.info ("Toggling Data...");
+		this.driver.toggleData ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 */
+	public void toggleLocation () {
+		log.info ("Toggling Location services...");
+		this.driver.toggleLocationServices ();
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 2, 2018
+	 */
+	public void toggleWifi () {
+		log.info ("Toggling Wifi...");
+		this.driver.toggleWifi ();
 	}
 
 	/**
@@ -157,8 +250,23 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 		perform ("Unlocking the Android device...", AndroidDriver <MobileElement>::unlockDevice);
 	}
 
-	private <T> T getValue (final String message, final Function <AndroidDriver <MobileElement>, T> action,
-			final Object... args) {
+	/*
+	 * (non-Javadoc)
+	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActions#zoom(int)
+	 */
+	@Override
+	public void zoom (final int distance) {
+		if (this.device.getSetting ()
+			.getAutomationName () == AutomationType.ESPRESSO) {
+			super.zoom (distance);
+		}
+		else {
+			log.warn ("Zoom is only available when Automation type is Espresso...");
+		}
+	}
+
+	private <T> T getValue (final String message,
+		final Function <AndroidDriver <MobileElement>, T> action, final Object... args) {
 		log.info (format (message, args));
 		try {
 			return action.apply (this.driver);
@@ -169,8 +277,8 @@ public class AndroidDeviceActions extends DeviceActions <AndroidDriver <MobileEl
 		return null;
 	}
 
-	private void perform (final String message, final Consumer <AndroidDriver <MobileElement>> action,
-			final Object... args) {
+	private void perform (final String message,
+		final Consumer <AndroidDriver <MobileElement>> action, final Object... args) {
 		log.info (format (message, args));
 		try {
 			action.accept (this.driver);

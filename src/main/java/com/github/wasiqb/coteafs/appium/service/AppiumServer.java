@@ -15,6 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.service;
 
+import static com.github.wasiqb.coteafs.appium.checker.ServerChecker.checkServerConfigParams;
 import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_DEFAULT_FILE;
 import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_KEY;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
@@ -50,12 +51,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
-import com.github.wasiqb.coteafs.appium.config.AndroidArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
-import com.github.wasiqb.coteafs.appium.config.IOSArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerArgumentSetting;
 import com.github.wasiqb.coteafs.appium.config.ServerSetting;
+import com.github.wasiqb.coteafs.appium.config.android.AndroidArgumentSetting;
+import com.github.wasiqb.coteafs.appium.config.ios.IOSArgumentSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerAlreadyRunningError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerLogFileError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotRunningError;
@@ -74,11 +74,7 @@ import io.appium.java_client.service.local.flags.ServerArgument;
  * @since 12-Apr-2017 5:17:22 PM
  */
 public final class AppiumServer {
-	private static final Logger log;
-
-	static {
-		log = LogManager.getLogger (AppiumServer.class);
-	}
+	private static final Logger log = LogManager.getLogger (AppiumServer.class);
 
 	private AppiumServiceBuilder		builder;
 	private DesiredCapabilities			capabilities;
@@ -92,11 +88,11 @@ public final class AppiumServer {
 	 */
 	public AppiumServer (final String name) {
 		this.setting = ConfigLoader.settings ()
-			.withKey (COTEAFS_CONFIG_KEY)
-			.withDefault (COTEAFS_CONFIG_DEFAULT_FILE)
-			.load (AppiumSetting.class)
-			.getServer (name);
-		if (!this.setting.isExternal ()) {
+				.withKey (COTEAFS_CONFIG_KEY)
+				.withDefault (COTEAFS_CONFIG_DEFAULT_FILE)
+				.load (AppiumSetting.class)
+				.getServer (name);
+		if (!this.setting.isExternal () && !this.setting.isCloud ()) {
 			initService ();
 			buildCapabilities ();
 			buildService ();
@@ -110,14 +106,12 @@ public final class AppiumServer {
 	 */
 	public URL getServiceUrl () {
 		log.trace ("Fetching Appium Service URL...");
-		if (!this.setting.isExternal ()) {
+		if (!this.setting.isExternal () && !this.setting.isCloud ())
 			return this.service.getUrl ();
-		}
-		final String url = String.format ("http://%s:%d/wd/hub", this.setting.getIp (), this.setting.getPort ());
+		final String url = String.format ("%s/wd/hub", getUrl ());
 		try {
 			return new URL (url);
-		}
-		catch (final MalformedURLException e) {
+		} catch (final MalformedURLException e) {
 			log.error ("Error occurred while getting service url...");
 			log.catching (e);
 		}
@@ -130,15 +124,17 @@ public final class AppiumServer {
 	 * @return isRunning
 	 */
 	public boolean isRunning () {
+		if (this.setting.isCloud ())
+			return true;
 		if (!this.setting.isExternal ()) {
 			log.trace ("Checking if Appium Service is running...");
 			return this.service.isRunning ();
 		}
-		final SocketAddress addr = new InetSocketAddress (this.setting.getIp (), this.setting.getPort ());
+		final SocketAddress addr = new InetSocketAddress (this.setting.getHost (),
+				this.setting.getPort ());
 		try (Socket socket = new Socket ()) {
 			socket.connect (addr, 2000);
-		}
-		catch (final IOException e) {
+		} catch (final IOException e) {
 			fail (AppiumServerNotRunningError.class, "Error connecting to Server...", e);
 		}
 		return true;
@@ -150,20 +146,19 @@ public final class AppiumServer {
 	 */
 	public void start () {
 		log.trace ("Starting Appium Service...");
-		if (!this.setting.isExternal ()) {
+		if (!this.setting.isExternal () && !this.setting.isCloud ()) {
 			this.service = AppiumDriverLocalService.buildService (this.builder);
 			try {
 				this.service.start ();
-			}
-			catch (final AppiumServerHasNotBeenStartedLocallyException e) {
-				fail (AppiumServerNotStartingError.class, "Error occured while starting Appium server", e);
-			}
-			catch (final Exception e) {
-				fail (AppiumServerAlreadyRunningError.class, "Appium server is running already.", e);
+			} catch (final AppiumServerHasNotBeenStartedLocallyException e) {
+				fail (AppiumServerNotStartingError.class,
+						"Error occured while starting Appium server", e);
+			} catch (final Exception e) {
+				fail (AppiumServerAlreadyRunningError.class, "Appium server is running already.",
+						e);
 			}
 			log.trace ("Appium Service Started...");
-		}
-		else {
+		} else {
 			if (isRunning ()) {
 				log.trace ("Appium Service is already running...");
 			}
@@ -176,17 +171,16 @@ public final class AppiumServer {
 	 */
 	public void stop () {
 		log.trace ("Trying to stop Appium Service...");
-		if (!this.setting.isExternal ()) {
+		if (!this.setting.isExternal () && !this.setting.isCloud ()) {
 			try {
 				this.service.stop ();
-			}
-			catch (final Exception e) {
-				fail (AppiumServerNotStoppingError.class, "Error occured while stopping the server.", e);
+			} catch (final Exception e) {
+				fail (AppiumServerNotStoppingError.class,
+						"Error occured while stopping the server.", e);
 			}
 			this.service = null;
 			log.trace ("Appium Service Stopped...");
-		}
-		else {
+		} else {
 			log.trace ("Appium Service can only be stopped from the tool you started with...");
 		}
 	}
@@ -197,19 +191,20 @@ public final class AppiumServer {
 	 */
 	private void buildCapabilities () {
 		log.trace ("Building Appium Capabilities started...");
-		setCapability (MobileCapabilityType.NO_RESET, Boolean.toString (this.setting.isNoReset ()), this.capabilities);
-		setCapability (MobileCapabilityType.FULL_RESET, Boolean.toString (this.setting.isFullReset ()),
+		setCapability (MobileCapabilityType.NO_RESET, Boolean.toString (this.setting.isNoReset ()),
 				this.capabilities);
-		setCapability (MobileCapabilityType.NEW_COMMAND_TIMEOUT, Integer.toString (this.setting.getSessionTimeout ()),
-				this.capabilities);
+		setCapability (MobileCapabilityType.FULL_RESET,
+				Boolean.toString (this.setting.isFullReset ()), this.capabilities);
+		setCapability (MobileCapabilityType.NEW_COMMAND_TIMEOUT,
+				Integer.toString (this.setting.getSessionTimeout ()), this.capabilities);
 		log.trace ("Building Appium Capabilities completed...");
 	}
 
 	private void buildService () {
 		log.trace ("Building Appium Service started...");
-		ServerChecker.checkServerConfigParams ("IP Address", this.setting.getIp ());
-		this.builder = this.builder.withIPAddress (this.setting.getIp ())
-			.withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS);
+		checkServerConfigParams ("IP Host Address", this.setting.getHost ());
+		this.builder = this.builder.withIPAddress (this.setting.getHost ())
+				.withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS);
 		setPort ();
 		setLogFile ();
 		setAppiumJS ();
@@ -218,6 +213,27 @@ public final class AppiumServer {
 		setArguments ();
 		setEnvironmentVariables ();
 		log.trace ("Building Appium Service done...");
+	}
+
+	private String getUrl () {
+		final StringBuilder sb = new StringBuilder (this.setting.getProtocol ()
+				.getName ()).append ("://");
+		if (this.setting.isCloud ()) {
+			checkServerConfigParams ("User Name", this.setting.getUserName ());
+			checkServerConfigParams ("Password", this.setting.getPassword ());
+			sb.append (this.setting.getUserName ())
+					.append (":")
+					.append (this.setting.getPassword ())
+					.append ("@")
+					.append (this.setting.getHost ());
+		} else {
+			sb.append (this.setting.getHost ());
+		}
+		if (this.setting.getPort () > 0) {
+			sb.append (":")
+					.append (this.setting.getPort ());
+		}
+		return sb.toString ();
 	}
 
 	private void initService () {
@@ -284,7 +300,7 @@ public final class AppiumServer {
 			setArgument (SUPPRESS_ADB_KILL_SERVER, android.isSuppressAdbKillServer ());
 		}
 		setArgument (LOG_LEVEL, args.getLogLevel ()
-			.toString ());
+				.toString ());
 		setArgument (SESSION_OVERRIDE, args.isSessionOverride ());
 		setArgument (LOG_TIMESTAMP, args.isLogTimeStamp ());
 		setArgument (LOCAL_TIMEZONE, args.isLocalTimeZone ());
@@ -321,8 +337,7 @@ public final class AppiumServer {
 				if (logFile.exists ()) {
 					Files.delete (logFile.toPath ());
 				}
-			}
-			catch (final IOException e) {
+			} catch (final IOException e) {
 				fail (AppiumServerLogFileError.class, "Error while deleting log file!", e);
 			}
 			this.builder = this.builder.withLogFile (logFile);
@@ -343,8 +358,7 @@ public final class AppiumServer {
 	private void setPort () {
 		if (this.setting.getPort () > 0) {
 			this.builder = this.builder.usingPort (this.setting.getPort ());
-		}
-		else {
+		} else {
 			this.builder = this.builder.usingAnyFreePort ();
 		}
 	}

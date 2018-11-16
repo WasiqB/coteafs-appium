@@ -15,6 +15,16 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
+import static com.github.wasiqb.coteafs.appium.utils.StringUtil.replaceSystemProperty;
+
+import com.github.wasiqb.coteafs.appium.config.android.AndroidDeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.enums.ApplicationType;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
+import com.github.wasiqb.coteafs.appium.config.enums.Browser;
+import com.github.wasiqb.coteafs.appium.config.enums.DeviceType;
+import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
+import com.github.wasiqb.coteafs.appium.config.ios.IOSDeviceSetting;
+
 /**
  * @author wasiq.bhamla
  * @since 12-Apr-2017 8:34:28 PM
@@ -23,9 +33,10 @@ public class DeviceSetting {
 	private AndroidDeviceSetting	android;
 	private String					appLocation;
 	private ApplicationType			appType;
-	private AutomationName			automationName;
+	private AutomationType			automationName;
 	private Browser					browser;
 	private boolean					clearSystemFiles;
+	private boolean					cloudApp;
 	private String					deviceName;
 	private DeviceType				deviceType;
 	private String					deviceVersion;
@@ -45,7 +56,7 @@ public class DeviceSetting {
 	 * @since 24-Apr-2017 9:21:26 PM
 	 */
 	public DeviceSetting () {
-		this.automationName = AutomationName.APPIUM;
+		this.automationName = AutomationType.APPIUM;
 		this.platformType = PlatformType.ANDROID;
 		this.appType = ApplicationType.NATIVE;
 		this.deviceType = DeviceType.REAL;
@@ -54,6 +65,8 @@ public class DeviceSetting {
 		this.externalApp = false;
 		this.clearSystemFiles = false;
 		this.sessionTimeout = 120;
+		this.cloudApp = false;
+		this.playback = new PlaybackSetting ();
 	}
 
 	/**
@@ -71,7 +84,7 @@ public class DeviceSetting {
 	 * @return the appLocation
 	 */
 	public String getAppLocation () {
-		return this.appLocation;
+		return replaceSystemProperty (this.appLocation);
 	}
 
 	/**
@@ -88,7 +101,7 @@ public class DeviceSetting {
 	 * @since 24-Apr-2017 9:15:54 PM
 	 * @return the automationName
 	 */
-	public AutomationName getAutomationName () {
+	public AutomationType getAutomationName () {
 		return this.automationName;
 	}
 
@@ -192,6 +205,15 @@ public class DeviceSetting {
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @return the cloudApp
+	 */
+	public boolean isCloudApp () {
+		return this.cloudApp;
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since Nov 19, 2017 9:54:14 PM
 	 * @return the eventTimings
@@ -263,7 +285,7 @@ public class DeviceSetting {
 	 * @param automationName
 	 *            the automationName to set
 	 */
-	public void setAutomationName (final AutomationName automationName) {
+	public void setAutomationName (final AutomationType automationName) {
 		this.automationName = automationName;
 	}
 
@@ -285,6 +307,16 @@ public class DeviceSetting {
 	 */
 	public void setClearSystemFiles (final boolean clearSystemFiles) {
 		this.clearSystemFiles = clearSystemFiles;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @param cloudApp
+	 *            the cloudApp to set
+	 */
+	public void setCloudApp (final boolean cloudApp) {
+		this.cloudApp = cloudApp;
 	}
 
 	/**

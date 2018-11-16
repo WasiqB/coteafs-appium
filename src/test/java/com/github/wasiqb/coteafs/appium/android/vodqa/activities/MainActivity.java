@@ -15,9 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
+import org.openqa.selenium.By;
+
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
+import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-import com.github.wasiqb.coteafs.appium.device.WaitStrategy;
 
 import io.appium.java_client.MobileBy;
 
@@ -45,40 +47,40 @@ public class MainActivity extends DefaultActivity {
 
 		final DeviceElement scroll = DeviceElement.create ("ScrollView")
 			.parent (main)
-			.using (MobileBy.AccessibilityId ("scrollView"));
+			.forAndroid (MobileBy.AccessibilityId ("scrollView"));
 
 		DeviceElement.create ("ChainedView")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("chainedView"));
+			.forAndroid (MobileBy.AccessibilityId ("Chained View"));
 		DeviceElement.create ("Slider")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("slider1"));
+			.forAndroid (MobileBy.AccessibilityId ("Slide your number"));
 		DeviceElement.create ("VerticalSwipe")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("verticalSwipe"));
+			.forAndroid (By.xpath ("//android.view.ViewGroup[@content-desc=\"verticalSwipe\"]"))
+			.forAndroid (AutomationType.UIAUTOMATOR2,
+				MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"verticalSwipe\");"));
 		DeviceElement.create ("DragDrop")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("dragAndDrop"));
+			.forAndroid (MobileBy.AccessibilityId ("Demo drag and drop"));
 		DeviceElement.create ("DoubleTap")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("doubleTap"));
+			.forAndroid (MobileBy.AccessibilityId ("Demo double tap button"));
 		DeviceElement.create ("WebView")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("webView"));
+			.forAndroid (MobileBy.AccessibilityId ("View hacker news"));
 		DeviceElement.create ("LongPress")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("longPress"));
+			.forAndroid (MobileBy.AccessibilityId ("Demo Long press button"));
 		DeviceElement.create ("PhotoView")
 			.parent (scroll)
-			.waitStrategy (WaitStrategy.ENABLED)
-			.using (MobileBy.AccessibilityId ("photoView"));
+			.forAndroid (MobileBy.AccessibilityId ("Ping & Zoom"));
+		DeviceElement.create ("HorizontalSwipe")
+			.parent (scroll)
+			.forAndroid (MobileBy.AccessibilityId ("Demos swipe left & right"));
+		DeviceElement.create ("WheelPicker")
+			.parent (scroll)
+			.forAndroid (MobileBy.AccessibilityId ("Demos wheel picker color"));
 
 		return main;
 	}

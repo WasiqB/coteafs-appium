@@ -15,32 +15,36 @@
  */
 package com.github.wasiqb.coteafs.appium.config;
 
+import static com.github.wasiqb.coteafs.appium.utils.StringUtil.replaceSystemProperty;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import com.github.wasiqb.coteafs.appium.config.enums.Protocol;
 
 /**
  * @author wasiq.bhamla
  * @since 12-Apr-2017 8:43:22 PM
  */
 public class ServerSetting {
-	private static int countInstance;
-
-	static {
-		countInstance = 0;
-	}
+	private static int countInstance = 0;
 
 	private String					appiumJsPath;
 	private ServerArgumentSetting	arguments;
+	private boolean					cloud;
 	private Map <String, String>	environmentVariables;
 	private boolean					external;
 	private boolean					fullReset;
-	private String					ip;
+	private String					host;
 	private String					logFilePath;
 	private String					nodePath;
 	private boolean					noReset;
+	private String					password;
 	private int						port;
+	private Protocol				protocol;
 	private int						sessionTimeout;
 	private long					startUpTimeOutSeconds;
+	private String					userName;
 
 	/**
 	 * @author wasiq.bhamla
@@ -48,13 +52,17 @@ public class ServerSetting {
 	 */
 	public ServerSetting () {
 		countInstance++;
+		this.cloud = false;
 		this.external = false;
 		this.noReset = false;
 		this.fullReset = false;
 		this.sessionTimeout = 120;
 		this.startUpTimeOutSeconds = 60;
 		this.environmentVariables = new HashMap <> ();
-		this.logFilePath = String.format ("%s/logs/server-%d.log", System.getProperty ("user.dir"), countInstance);
+		this.protocol = Protocol.HTTP;
+		this.logFilePath = String.format ("%s/logs/server-%d.log", System.getProperty ("user.dir"),
+			countInstance);
+		this.arguments = new ServerArgumentSetting ();
 	}
 
 	/**
@@ -87,10 +95,10 @@ public class ServerSetting {
 	/**
 	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:51:26 PM
-	 * @return the ip
+	 * @return the host
 	 */
-	public String getIp () {
-		return this.ip;
+	public String getHost () {
+		return this.host;
 	}
 
 	/**
@@ -112,12 +120,30 @@ public class ServerSetting {
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @return the password
+	 */
+	public String getPassword () {
+		return replaceSystemProperty (this.password);
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:51:26 PM
 	 * @return the port
 	 */
 	public int getPort () {
 		return this.port;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @return the protocol
+	 */
+	public Protocol getProtocol () {
+		return this.protocol;
 	}
 
 	/**
@@ -136,6 +162,24 @@ public class ServerSetting {
 	 */
 	public long getStartUpTimeOutSeconds () {
 		return this.startUpTimeOutSeconds;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @return the userName
+	 */
+	public String getUserName () {
+		return replaceSystemProperty (this.userName);
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @return the cloud
+	 */
+	public boolean isCloud () {
+		return this.cloud;
 	}
 
 	/**
@@ -186,6 +230,16 @@ public class ServerSetting {
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @param cloud
+	 *            the cloud to set
+	 */
+	public void setCloud (final boolean cloud) {
+		this.cloud = cloud;
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since Oct 27, 2017 1:28:09 PM
 	 * @param environmentVariables
@@ -218,11 +272,11 @@ public class ServerSetting {
 	/**
 	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:51:26 PM
-	 * @param ip
-	 *            the ip to set
+	 * @param host
+	 *            the host to set
 	 */
-	public void setIp (final String ip) {
-		this.ip = ip;
+	public void setHost (final String host) {
+		this.host = host;
 	}
 
 	/**
@@ -256,6 +310,16 @@ public class ServerSetting {
 	}
 
 	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @param password
+	 *            the password to set
+	 */
+	public void setPassword (final String password) {
+		this.password = password;
+	}
+
+	/**
 	 * @author wasiq.bhamla
 	 * @since 12-Apr-2017 8:51:26 PM
 	 * @param port
@@ -263,6 +327,16 @@ public class ServerSetting {
 	 */
 	public void setPort (final int port) {
 		this.port = port;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @param protocol
+	 *            the protocol to set
+	 */
+	public void setProtocol (final Protocol protocol) {
+		this.protocol = protocol;
 	}
 
 	/**
@@ -283,5 +357,15 @@ public class ServerSetting {
 	 */
 	public void setStartUpTimeOutSeconds (final long startUpTimeOutSeconds) {
 		this.startUpTimeOutSeconds = startUpTimeOutSeconds;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Sep 29, 2018
+	 * @param userName
+	 *            the userName to set
+	 */
+	public void setUserName (final String userName) {
+		this.userName = userName;
 	}
 }

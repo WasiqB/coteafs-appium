@@ -1,28 +1,58 @@
+server: &default_server
+  appium_js_path: C:\Users\wasiqb\AppData\Roaming\npm\node_modules\appium\build\lib\main.js
+  node_path: C:\Program Files\nodejs\node.exe
+  arguments:
+    log_level: DEBUG
+    log_time_stamp: true
+    local_time_zone: true
+    session_override: true
+    android:
+      suppress_adb_kill_server: true
+
 servers:
   android:
-    ip: 127.0.0.1
+    host: 0.0.0.0
     port: 4723
-    external: true
-    arguments:
-      log_level: DEBUG
-      log_time_stamp: true
-      local_time_zone: true
-      session_override: true
-      android:
-        suppress_adb_kill_server: true
+    <<: *default_server
+  browserstack:
+    protocol: HTTPS
+    host: hub-cloud.browserstack.com
+    cloud: true
+    user_name: ${env.user}
+    password: ${env.pass}
+
+device: &default_device
+  platform_type: ANDROID
+  app_type: HYBRID
+  device_type: REAL
+  session_timeout: 120000
+  clear_system_files: true
+  no_reset: false
+  full_reset: true
+  playback:
+    record:
+      enabled: false
+    delay_before_swipe: 200
+    delay_after_swipe: 100
+    delay_before_tap: 0
+    delay_after_tap: 0
 
 devices:
-  test:
-    platform_type: ANDROID
-    device_name: MI Redmi Note 4
-    device_version: 7.0
-    app_type: HYBRID
-    device_type: REAL
-    automation_name: APPIUM
+  test_local:
+    device_name: pixel2
+    device_version: 8.1
     app_location: apps/android/VodQA.apk
-    session_timeout: 120000
-    playback:
-      delay_before_swipe: 2
-      delay_after_swipe: 1
-      delay_before_tap: 2
-      delay_after_tap: 1
+    automation_name: APPIUM
+    <<: *default_device
+    device_type: SIMULATOR
+    android:
+      avd: pixel2
+      avd_launch_timeout: 60000
+      avd_ready_timeout: 60000
+  test_browserstack:
+    device_name: Samsung Galaxy S8
+    device_version: 7.0
+    app_location: ${env.app}
+    cloud_app: true
+    automation_name: APPIUM
+    <<: *default_device
