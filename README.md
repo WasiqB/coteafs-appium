@@ -8,6 +8,9 @@
 
 <div align="center">
 
+> **Note:** Documentation site is under updation. Although some part of documentation is ready.
+> Checkout this space to know when the documentation is ready.
+
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)][home]
 [![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)][circleci]
 [![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/WasiqB/Coteafs-Appium.svg)](http://isitmaintained.com/project/WasiqB/Coteafs-Appium "Average time to resolve an issue")
