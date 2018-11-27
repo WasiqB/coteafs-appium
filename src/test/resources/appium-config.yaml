@@ -48,7 +48,7 @@ devices:
       avd: emulator-5554
       avd_launch_timeout: 60000
       avd_ready_timeout: 60000
-      avd_args: -gpu mode
+      avd_args: -gpu auto
   test_browserstack:
     device_name: Samsung Galaxy S8
     device_version: 7.0
