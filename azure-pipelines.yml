@@ -7,7 +7,9 @@ pool:
 
 steps:
 - script: |
-    echo no | android create avd --force --name emulator-5554 --abi google_apis/x86_64 --package 'system-images;android-27;google_apis;x86_64'
+    echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;google_apis;x86'
+    $ANDROID_HOME/platform-tools/adb devices
+    echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n emulator-5554 -k 'system-images;android-27;google_apis;x86' --force
     brew outdated xctool || brew upgrade xctool
     xcrun simctl list -j
     npm install -g appium
