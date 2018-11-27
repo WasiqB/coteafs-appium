@@ -29,6 +29,7 @@ public class AndroidDeviceSetting {
 	private long	appWaitTimeout;
 	private boolean	autoGrantPermissions;
 	private String	avd;
+	private String	avdArgs;
 	private long	avdLaunchTimeout;
 	private long	avdReadyTimeout;
 	private String	chromeDriverPath;
@@ -114,6 +115,15 @@ public class AndroidDeviceSetting {
 	 */
 	public String getAvd () {
 		return this.avd;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 27, 2018
+	 * @return the avdArgs
+	 */
+	public String getAvdArgs () {
+		return this.avdArgs;
 	}
 
 	/**
@@ -258,6 +268,16 @@ public class AndroidDeviceSetting {
 	 */
 	public void setAvd (final String avd) {
 		this.avd = avd;
+	}
+
+	/**
+	 * @author wasiqb
+	 * @since Nov 27, 2018
+	 * @param avdArgs
+	 *            the avdArgs to set
+	 */
+	public void setAvdArgs (final String avdArgs) {
+		this.avdArgs = avdArgs;
 	}
 
 	/**

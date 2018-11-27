@@ -30,6 +30,7 @@ import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_WAIT_PACKAGE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AUTO_GRANT_PERMISSIONS;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_ARGS;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_READY_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
@@ -300,6 +301,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 					this.capabilities);
 				setCapability (AVD_LAUNCH_TIMEOUT,
 					SECONDS.toMillis (android.getAvdLaunchTimeout ()), this.capabilities);
+				setCapability (AVD_ARGS, android.getAvdArgs (), this.capabilities);
 			}
 			if (this.setting.getAppType () != ApplicationType.WEB) {
 				final String packageName = android.getAppPackage ();
