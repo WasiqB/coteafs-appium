@@ -7,8 +7,7 @@ pool:
 
 steps:
 - script: |
-    brew update
-    brew upgrade node
+    brew install node@8
     node -v
     npm -v
     echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;google_apis;x86'
