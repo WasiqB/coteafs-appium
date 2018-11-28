@@ -7,7 +7,13 @@ pool:
 
 steps:
 - script: |
-    brew install node@8
+
+
+    brew uninstall --force node
+    brew prune
+    rm -f /usr/local/bin/npm /usr/local/lib/dtrace/node.d
+    rm -rf ~/.npm
+    brew install node
     node -v
     npm -v
     echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;google_apis;x86'
