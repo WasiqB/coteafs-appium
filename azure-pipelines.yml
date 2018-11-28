@@ -7,12 +7,19 @@ pool:
 
 steps:
 - script: |
-
-
+    echo "Uninstalling node..."
     brew uninstall --force node
+    echo "Brew prune..."
     brew prune
     rm -f /usr/local/bin/npm /usr/local/lib/dtrace/node.d
     rm -rf ~/.npm
+    echo 'export PATH="/usr/local/opt/icu4c/bin:$PATH"' >> ~/.bash_profile
+    echo 'export PATH="/usr/local/opt/icu4c/sbin:$PATH"' >> ~/.bash_profile
+    export LDFLAGS="-L/usr/local/opt/icu4c/lib"
+    export CPPFLAGS="-I/usr/local/opt/icu4c/include"
+    echo "Link Node..."
+    brew link --overwrite node
+    echo "Installing node..."
     brew install node
     node -v
     npm -v
