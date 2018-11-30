@@ -7,28 +7,17 @@ pool:
 
 steps:
 - script: |
-    echo "Uninstalling node..."
-    brew uninstall --force node
-    echo "Brew prune..."
-    brew prune
-    rm -f /usr/local/bin/npm /usr/local/lib/dtrace/node.d
-    rm -rf ~/.npm
-    echo 'export PATH="/usr/local/opt/icu4c/bin:$PATH"' >> ~/.bash_profile
-    echo 'export PATH="/usr/local/opt/icu4c/sbin:$PATH"' >> ~/.bash_profile
-    export LDFLAGS="-L/usr/local/opt/icu4c/lib"
-    export CPPFLAGS="-I/usr/local/opt/icu4c/include"
-    echo "Link Node..."
-    brew link --overwrite node
-    echo "Installing node..."
-    brew install node
-    node -v
-    npm -v
+    echo "Installing API-27..."
     echo "y" | $ANDROID_HOME/tools/bin/sdkmanager --install 'system-images;android-27;google_apis;x86'
     $ANDROID_HOME/platform-tools/adb devices
+    echo "Creating emulator..."
     echo "no" | $ANDROID_HOME/tools/bin/avdmanager create avd -n emulator-5554 -k 'system-images;android-27;google_apis;x86' --force
+    echo "Updating xctool..."
     brew outdated xctool || brew upgrade xctool
     xcrun simctl list -j
-    npm install -g appium
+    echo "Installing Appium..."
+    npm install -g appium@1.9.1
     appium -v
+    echo "Running tests..."
     mvn org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test
   displayName: 'Build with Maven'
