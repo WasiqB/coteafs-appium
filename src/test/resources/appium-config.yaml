@@ -41,7 +41,7 @@ devices:
     device_name: emulator-5554
     device_version: 8.1
     app_location: apps/android/VodQA.apk
-    automation_name: APPIUM
+    automation_name: UIAUTOMATOR2
     <<: *default_device
     device_type: SIMULATOR
     android:
