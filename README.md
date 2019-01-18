@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://wasiqb.github.io/coteafs/appium/">
+  <a href="https://wasiqb.github.io/projects/appium/to">
     <img src="assets/coteafs-appium-logo.png" width=300 padding=10 />
   </a>
 </p>
@@ -274,7 +274,7 @@ For allowing us to run our unit tests on different platforms.
 
 [home]: https://github.com/wasiqb/coteafs-appium
 [circleci]: https://circleci.com/gh/WasiqB/coteafs-appium
-[wiki]: https://wasiqb.github.io/coteafs/appium/intro/
+[wiki]: https://wasiqb.github.io/projects/appium/intro/
 [site]: https://wasiqb.github.io
 [mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium-users
 [search the issue tracker]: https://github.com/WasiqB/coteafs-appium/issues?q=something
