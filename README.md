@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://wasiqb.github.io/projects/appium/to">
+  <a href="https://wasiqb.github.io/projects/appium">
     <img src="assets/coteafs-appium-logo.png" width=300 padding=10 />
   </a>
 </p>
@@ -283,8 +283,8 @@ For allowing us to run our unit tests on different platforms.
 [milestones]: https://github.com/WasiqB/coteafs-appium/milestones
 [maven]: https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium
 [contributing]: .github/CONTRIBUTING.md
-[config-doc]: https://wasiqb.github.io/coteafs/appium/config-basics/
-[test-doc]: https://wasiqb.github.io/coteafs/appium/sample-test-class/
-[action-doc]: https://wasiqb.github.io/coteafs/appium/action-class/
-[activity-doc]: https://wasiqb.github.io/coteafs/appium/activity-class/
-[intro-doc]: https://wasiqb.github.io/coteafs/appium/intro/
+[config-doc]: https://wasiqb.github.io/projects/appium/config-basics/
+[test-doc]: https://wasiqb.github.io/projects/appium/sample-test-class/
+[action-doc]: https://wasiqb.github.io/projects/appium/action-class/
+[activity-doc]: https://wasiqb.github.io/projects/appium/activity-class/
+[intro-doc]: https://wasiqb.github.io/projects/appium/intro/
