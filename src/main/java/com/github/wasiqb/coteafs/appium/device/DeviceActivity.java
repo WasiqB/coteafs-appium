@@ -17,6 +17,7 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static java.time.Duration.ofSeconds;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 
 import java.util.HashMap;
@@ -57,16 +58,16 @@ import io.appium.java_client.TouchAction;
  */
 public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 	E extends Device <D, T>, T extends TouchAction <T>> {
-	private static final Logger log = LogManager.getLogger (DeviceActivity.class);
+	private static final Logger					log	= LogManager.getLogger (DeviceActivity.class);
 
-	protected final AutomationType				automation;
-	protected final E							device;
-	protected final Map <String, DeviceElement>	deviceElements;
-	protected final PlatformType				platform;
 	private final DeviceSetting					deviceSetting;
 	private final PlaybackSetting				playSetting;
 	private final T								touch;
 	private final WebDriverWait					wait;
+	protected final AutomationType				automation;
+	protected final E							device;
+	protected final Map <String, DeviceElement>	deviceElements;
+	protected final PlatformType				platform;
 
 	/**
 	 * @author wasiq.bhamla
@@ -83,7 +84,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 		this.platform = this.deviceSetting.getPlatformType ();
 		this.playSetting = this.deviceSetting.getPlayback ();
 		this.wait = new WebDriverWait (device.getDriver (),
-			this.playSetting.getWaitForElementUntil ());
+			ofSeconds (this.playSetting.getWaitForElementUntil ()));
 	}
 
 	/**
@@ -137,13 +138,6 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 		final DeviceElement element = getDeviceElement (name).index (index);
 		return new DeviceElementActions <> (this.device, name, findElements (element), this.touch);
 	}
-
-	/**
-	 * @author wasiq.bhamla
-	 * @return element
-	 * @since 02-May-2017 4:38:00 PM
-	 */
-	protected abstract DeviceElement prepare ();
 
 	private void captureScreenshotOnError () {
 		if (this.playSetting.isScreenshotOnError ()) {
@@ -205,8 +199,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 	}
 
 	private DeviceElement getDeviceElement (final String name) {
-		if (this.deviceElements.containsKey (name))
-			return this.deviceElements.get (name);
+		if (this.deviceElements.containsKey (name)) return this.deviceElements.get (name);
 		final String msg = "DeviceElement with name [%s] not found.";
 		fail (DeviceElementNameNotFoundError.class, String.format (msg, name));
 		return null;
@@ -253,4 +246,11 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 				break;
 		}
 	}
+
+	/**
+	 * @author wasiq.bhamla
+	 * @return element
+	 * @since 02-May-2017 4:38:00 PM
+	 */
+	protected abstract DeviceElement prepare ();
 }

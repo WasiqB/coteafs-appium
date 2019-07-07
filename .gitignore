@@ -11,3 +11,6 @@
 /bin/
 /screenshots/
 /videos/
+/.idea/
+*.iml
+.DS_Store
