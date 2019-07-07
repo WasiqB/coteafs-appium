@@ -18,6 +18,7 @@ package com.github.wasiqb.coteafs.appium.device;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static java.lang.String.format;
+import static java.time.Duration.ofSeconds;
 
 import java.io.File;
 import java.io.IOException;
@@ -70,11 +71,11 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		}
 	}
 
+	private final T					actions;
+	private final PlaybackSetting	setting;
 	protected final E				device;
 	protected final D				driver;
 	protected final WebDriverWait	wait;
-	private final T					actions;
-	private final PlaybackSetting	setting;
 
 	/**
 	 * @author wasiq.bhamla
@@ -87,7 +88,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		this.actions = actions;
 		this.driver = this.device.getDriver ();
 		this.setting = device.setting.getPlayback ();
-		this.wait = new WebDriverWait (this.driver, this.setting.getWaitForElementUntil ());
+		this.wait = new WebDriverWait (this.driver,
+			ofSeconds (this.setting.getWaitForElementUntil ()));
 	}
 
 	/**
