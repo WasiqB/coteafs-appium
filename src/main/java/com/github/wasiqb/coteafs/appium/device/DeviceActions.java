@@ -58,8 +58,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	/**
 	 * @author wasiq.bhamla
 	 * @since Jul 22, 2017 11:03:48 PM
-	 * @param srcFiler
-	 * @param path
+	 * @param source
+	 * @param destination
 	 */
 	private static void copyFile (final File source, final String destination) {
 		try {
@@ -71,11 +71,11 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		}
 	}
 
-	private final T					actions;
-	private final PlaybackSetting	setting;
 	protected final E				device;
 	protected final D				driver;
 	protected final WebDriverWait	wait;
+	private final T					actions;
+	private final PlaybackSetting	setting;
 
 	/**
 	 * @author wasiq.bhamla
@@ -89,7 +89,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		this.driver = this.device.getDriver ();
 		this.setting = device.setting.getPlayback ();
 		this.wait = new WebDriverWait (this.driver,
-			ofSeconds (this.setting.getWaitForElementUntil ()));
+			ofSeconds (this.setting.getWaitForElementUntil ()).getSeconds ());
 	}
 
 	/**
