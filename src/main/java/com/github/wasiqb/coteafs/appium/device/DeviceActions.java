@@ -18,6 +18,7 @@ package com.github.wasiqb.coteafs.appium.device;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static java.lang.String.format;
+import static java.time.Duration.ofSeconds;
 
 import java.io.File;
 import java.io.IOException;
@@ -57,8 +58,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	/**
 	 * @author wasiq.bhamla
 	 * @since Jul 22, 2017 11:03:48 PM
-	 * @param srcFiler
-	 * @param path
+	 * @param source
+	 * @param destination
 	 */
 	private static void copyFile (final File source, final String destination) {
 		try {
@@ -87,7 +88,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 		this.actions = actions;
 		this.driver = this.device.getDriver ();
 		this.setting = device.setting.getPlayback ();
-		this.wait = new WebDriverWait (this.driver, this.setting.getWaitForElementUntil ());
+		this.wait = new WebDriverWait (this.driver,
+			ofSeconds (this.setting.getWaitForElementUntil ()).getSeconds ());
 	}
 
 	/**

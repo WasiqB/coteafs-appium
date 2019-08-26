@@ -17,6 +17,7 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static java.time.Duration.ofSeconds;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
 
 import java.util.HashMap;
@@ -57,7 +58,7 @@ import io.appium.java_client.TouchAction;
  */
 public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 	E extends Device <D, T>, T extends TouchAction <T>> {
-	private static final Logger log = LogManager.getLogger (DeviceActivity.class);
+	private static final Logger					log	= LogManager.getLogger (DeviceActivity.class);
 
 	protected final AutomationType				automation;
 	protected final E							device;
@@ -83,7 +84,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 		this.platform = this.deviceSetting.getPlatformType ();
 		this.playSetting = this.deviceSetting.getPlayback ();
 		this.wait = new WebDriverWait (device.getDriver (),
-			this.playSetting.getWaitForElementUntil ());
+			ofSeconds (this.playSetting.getWaitForElementUntil ()).getSeconds ());
 	}
 
 	/**
@@ -205,8 +206,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 	}
 
 	private DeviceElement getDeviceElement (final String name) {
-		if (this.deviceElements.containsKey (name))
-			return this.deviceElements.get (name);
+		if (this.deviceElements.containsKey (name)) return this.deviceElements.get (name);
 		final String msg = "DeviceElement with name [%s] not found.";
 		fail (DeviceElementNameNotFoundError.class, String.format (msg, name));
 		return null;

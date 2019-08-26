@@ -115,7 +115,7 @@ import io.appium.java_client.screenrecording.CanRecordScreen;
  * @since 12-Apr-2017 9:38:38 PM
  */
 public abstract class Device <D extends AppiumDriver <MobileElement>, T extends TouchAction <T>> {
-	private static final Logger LOG = LogManager.getLogger (Device.class);
+	private static final Logger		LOG	= LogManager.getLogger (Device.class);
 
 	protected DesiredCapabilities	capabilities;
 	protected D						driver;
@@ -268,7 +268,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 			final Constructor <D> ctor = cls.getDeclaredConstructor (argTypes);
 			return ctor.newInstance (url, capability);
 		}
-		catch (NoSuchMethodException | SecurityException | InstantiationException
+		catch (final NoSuchMethodException | SecurityException | InstantiationException
 			| IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			fail (DeviceDriverInitializationFailedError.class,
 				"Error occured while initializing device driver.", e);
@@ -424,12 +424,13 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 		}
 	}
 
-	private void stopRecord (final CanRecordScreen screen) {
+	private <X extends BaseStopScreenRecordingOptions <X>> void stopRecord (
+		final CanRecordScreen screen) {
 		final RecordSetting record = this.setting.getPlayback ()
 			.getRecord ();
 		if (record.isEnabled () && !this.setting.isCloudApp ()) {
 			LOG.info ("Stopping video recording...");
-			final String content = screen.stopRecordingScreen (stopRecordSetting ());
+			final String content = screen. <X>stopRecordingScreen (stopRecordSetting ());
 			saveRecording (content, record);
 		}
 	}
