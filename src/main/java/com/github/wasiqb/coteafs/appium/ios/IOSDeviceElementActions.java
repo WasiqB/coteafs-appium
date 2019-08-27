@@ -15,8 +15,6 @@
  */
 package com.github.wasiqb.coteafs.appium.ios;
 
-import static java.lang.String.format;
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,12 +52,12 @@ public class IOSDeviceElementActions
 	/*
 	 * (non-Javadoc)
 	 * @see
-	 * com.github.wasiqb.coteafs.appium.device.DeviceElementActions#dragDrop(io.appium.java_client.
-	 * MobileElement)
+	 * com.github.wasiqb.coteafs.appium.device.DeviceElementActions#dragDrop(io.
+	 * appium.java_client. MobileElement)
 	 */
 	@Override
 	public void dragDrop (final MobileElement dropElement) {
-		log.info (format ("Performing drag on element [%s]...", this.name));
+		log.info ("Performing drag on element [{}]...", this.name);
 		final Point fromCenter = this.element.getCenter ();
 		final Point fromLocation = this.element.getLocation ();
 		final Point toCenter = dropElement.getCenter ();
@@ -79,7 +77,7 @@ public class IOSDeviceElementActions
 	 */
 	@Override
 	public void longPress () {
-		log.info (format ("Long pressing on element [%s]...", this.name));
+		log.info ("Long pressing on element [{}]...", this.name);
 
 		final Map <String, Object> param = prepareParam ();
 		param.put ("duration", 1.0);
@@ -92,7 +90,7 @@ public class IOSDeviceElementActions
 	 */
 	@Override
 	public void pinch (final int distance) {
-		log.info (format ("Pinching on element [%s]...", this.name));
+		log.info ("Pinching on element [{}]...", this.name);
 
 		final Map <String, Object> param = prepareParam ();
 		param.put ("scale", 0.5);
@@ -106,7 +104,7 @@ public class IOSDeviceElementActions
 	 * @param direction
 	 */
 	public void swipe (final SwipeDirection direction) {
-		log.info (format ("Swiping on element [%s]...", this.name));
+		log.info ("Swiping on element [{}]...", this.name);
 
 		final Map <String, Object> param = prepareParam ();
 		param.put ("direction", direction.name ()
@@ -120,7 +118,7 @@ public class IOSDeviceElementActions
 	 */
 	@Override
 	public void tap () {
-		log.info (format ("Tapping on element [%s]...", this.name));
+		log.info ("Tapping on element [{}]...", this.name);
 		final Point center = this.element.getCenter ();
 		final Point location = this.element.getLocation ();
 
@@ -132,7 +130,8 @@ public class IOSDeviceElementActions
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceElementActions#verifyThat()
+	 * @see
+	 * com.github.wasiqb.coteafs.appium.device.DeviceElementActions#verifyThat()
 	 */
 	@Override
 	public IOSElementVerify verifyThat () {
@@ -145,7 +144,7 @@ public class IOSDeviceElementActions
 	 */
 	@Override
 	public void zoom (final int distance) {
-		log.info (format ("Zooming on element [%s]...", this.name));
+		log.info ("Zooming on element [{}]...", this.name);
 
 		final Map <String, Object> param = prepareParam ();
 		param.put ("scale", 1.5);

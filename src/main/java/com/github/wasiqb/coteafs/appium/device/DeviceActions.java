@@ -53,7 +53,7 @@ import io.appium.java_client.TouchAction;
  */
 public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>,
 	T extends TouchAction <T>> {
-	private static final Logger log = LogManager.getLogger (DeviceActions.class);
+	private static final Logger LOG = LogManager.getLogger (DeviceActions.class);
 
 	/**
 	 * @author wasiq.bhamla
@@ -66,8 +66,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 			FileUtils.copyFile (source, new File (destination));
 		}
 		catch (final IOException e) {
-			log.error ("Error occurred while capturing screensshot...");
-			log.catching (e);
+			LOG.error ("Error occurred while capturing screensshot...");
+			LOG.catching (e);
 		}
 	}
 
@@ -112,7 +112,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @param url
 	 */
 	public void navigateTo (final String url) {
-		log.info (format ("Navigating to URL [%S]...", url));
+		LOG.info ("Navigating to URL [{}]...", url);
 		this.driver.get (url);
 	}
 
@@ -122,7 +122,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @param distance
 	 */
 	public void pinch (final int distance) {
-		log.info (format ("Pinching on device screen by [%d]% distance...", distance));
+		LOG.info ("Pinching on device screen by [{}]% distance...", distance);
 		doubleFingerGesture (SwipeDirection.DOWN, SwipeDirection.UP, SwipeStartPosition.TOP,
 			SwipeStartPosition.BOTTOM, distance);
 	}
@@ -133,7 +133,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @param type
 	 */
 	public void rotate (final ScreenOrientation type) {
-		log.info (format ("Rotating device screen as [%s]c...", type));
+		LOG.info ("Rotating device screen as [{}]...", type);
 		this.driver.rotate (type);
 	}
 
@@ -143,7 +143,7 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @return rotation
 	 */
 	public ScreenOrientation rotation () {
-		log.info ("Getting rotation type for device...");
+		LOG.info ("Getting rotation type for device...");
 		return this.driver.getOrientation ();
 	}
 
@@ -156,9 +156,8 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 */
 	public void swipe (final SwipeDirection direction, final SwipeStartPosition start,
 		final int distance) {
-		log.info (format (
-			"Swiping [%s] on device screen by [%d] perc distance from [%s] of the screen...",
-			direction, distance, start));
+		LOG.info ("Swiping [%s] on device screen by [{}] perc distance from [%s] of the screen...",
+			direction, distance, start);
 		swipeTo (direction, start, distance).perform ();
 	}
 
@@ -168,19 +167,13 @@ public class DeviceActions <D extends AppiumDriver <MobileElement>, E extends De
 	 * @param distance
 	 */
 	public void zoom (final int distance) {
-		log.info (format ("Zooming in device screen by [%d]% distance...", distance));
+		LOG.info ("Zooming in device screen by [{}]% distance...", distance);
 		doubleFingerGesture (SwipeDirection.UP, SwipeDirection.DOWN, SwipeStartPosition.CENTER,
 			SwipeStartPosition.CENTER, distance);
 	}
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 01-May-2017 8:24:34 PM
-	 * @param path
-	 */
 	private void captureScreenshot (final String path) {
-		final String msg = "Capturing screenshot and saving at [%s]...";
-		log.info (format (msg, path));
+		LOG.info ("Capturing screenshot and saving at [{}]...", path);
 		try {
 			final File srcFiler = this.driver.getScreenshotAs (OutputType.FILE);
 			copyFile (srcFiler, path);

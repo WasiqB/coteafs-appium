@@ -52,7 +52,7 @@ public class ScreenRecorder {
 			final String timeStamp = date.format (Calendar.getInstance ()
 				.getTime ());
 			final String fileName = format ("%s/%s-%s.%s", path, prefix, timeStamp, "mp4");
-			LOG.info (format ("Saving video recording to [%s] path...", fileName));
+			LOG.info ("Saving video recording to [{}] path...", fileName);
 			writeByteArrayToFile (new File (fileName), decode);
 		}
 		catch (final IOException e) {

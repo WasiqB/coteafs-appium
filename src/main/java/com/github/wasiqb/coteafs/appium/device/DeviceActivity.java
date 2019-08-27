@@ -23,6 +23,7 @@ import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllE
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -95,8 +96,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 	 */
 	public MobileElement getElement (final String name) {
 		load ();
-		final String msg = "Getting element with name [%s]...";
-		log.trace (String.format (msg, name));
+		log.trace ("Getting element with name [{}]...", name);
 		return findElements (getDeviceElement (name));
 	}
 
@@ -119,8 +119,7 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 	 */
 	public DeviceElementActions <D, E, T> onElement (final String name) {
 		ServerChecker.checkServerRunning (this.device.server);
-		final String msg = "Preparing to perform actions on device element [%s]...";
-		log.trace (String.format (msg, name));
+		log.trace ("Preparing to perform actions on device element [{}]...", name);
 		return new DeviceElementActions <> (this.device, name, getElement (name), this.touch);
 	}
 
@@ -133,9 +132,11 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 	 */
 	public DeviceElementActions <D, E, T> onElement (final String name, final int index) {
 		ServerChecker.checkServerRunning (this.device.server);
-		final String msg = "Preparing to perform actions on dynamic device element [%s] on index [%d]...";
-		log.trace (String.format (msg, name, index));
-		final DeviceElement element = getDeviceElement (name).index (index);
+		log.trace ("Preparing to perform actions on dynamic device element [{}] on index [{}]...",
+			name, index);
+		final DeviceElement e = getDeviceElement (name);
+		final DeviceElement element = Objects.requireNonNull (e, "Element not found.")
+			.index (index);
 		return new DeviceElementActions <> (this.device, name, findElements (element), this.touch);
 	}
 
@@ -158,22 +159,21 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 			wait (locator, strategy);
 			List <MobileElement> result = null;
 			if (parent != null) {
-				final String message = "Finding child element of [%s] parent using [%s] at index [%d]...";
-				log.trace (String.format (message, parent.name (), locator, index));
+				log.trace ("Finding child element of [{}] parent using [{}] at index [{}]...",
+					parent.name (), locator, index);
 				final MobileElement mobileElement = getElement (parent.name ());
 				result = mobileElement.findElements (locator);
 			}
 			else {
-				final String message = "Finding root element using [%s] at index [%d]...";
-				log.trace (String.format (message, locator, index));
+				log.trace ("Finding root element using [{}] at index [{}]...", locator, index);
 				result = deviceDriver.findElements (locator);
 			}
 			return result.get (index);
 		}
 		catch (final TimeoutException e) {
 			captureScreenshotOnError ();
-			final String message = "[%s] locator timed out.";
-			fail (DeviceElementFindTimedOutError.class, String.format (message, locator), e);
+			final String message = String.format ("[%s] locator timed out.", locator);
+			fail (DeviceElementFindTimedOutError.class, message, e);
 		}
 		catch (final NoSuchSessionException e) {
 			fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
@@ -185,19 +185,23 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 			captureScreenshotOnError ();
 			String message = "";
 			if (parent == null) {
-				message = "Error occured while finding root device element with locator [%s] at index [%d].";
-				fail (DeviceElementNotFoundError.class, String.format (message, locator, index), e);
+				message = String.format (
+					"Error occured while finding root device element with locator [%s] at index [%d].",
+					locator, index);
+				fail (DeviceElementNotFoundError.class, message, e);
 			}
 			else {
-				message = "Error occured while finding device element with locator [%s] at index [%d] under parent %s.";
-				fail (DeviceElementNotFoundError.class,
-					String.format (message, locator, index, parent.name ()), e);
+				message = String.format (
+					"Error occured while finding device element with locator [%s] at index [%d] under parent %s.",
+					locator, index, parent.name ());
+				fail (DeviceElementNotFoundError.class, message, e);
 			}
 		}
 		return null;
 	}
 
 	private MobileElement findElements (final DeviceElement element) {
+		Objects.requireNonNull (element, "Element is required.");
 		final DeviceElement parent = element.parent ();
 		final By locator = element.locator (this.platform, this.automation);
 		final int index = element.index ();
@@ -207,15 +211,14 @@ public abstract class DeviceActivity <D extends AppiumDriver <MobileElement>,
 
 	private DeviceElement getDeviceElement (final String name) {
 		if (this.deviceElements.containsKey (name)) return this.deviceElements.get (name);
-		final String msg = "DeviceElement with name [%s] not found.";
-		fail (DeviceElementNameNotFoundError.class, String.format (msg, name));
+		final String msg = String.format ("DeviceElement with name [%s] not found.", name);
+		fail (DeviceElementNameNotFoundError.class, msg);
 		return null;
 	}
 
 	private void load () {
 		if (this.deviceElements.size () == 0) {
-			final String msg = "Loading elements on [%s] activity...";
-			log.trace (String.format (msg, this.platform));
+			log.trace ("Loading elements on [{}] activity...", this.platform);
 			loadElements (prepare ());
 		}
 	}

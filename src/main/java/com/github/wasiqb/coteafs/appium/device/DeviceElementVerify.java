@@ -31,14 +31,12 @@ import io.appium.java_client.TouchAction;
  * @param <T>
  * @since 19-May-2017 9:57:58 PM
  */
-public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
-	private static final Logger log;
+public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E extends Device <D, T>,
+	T extends TouchAction <T>> {
+	private static final Logger						log	= LogManager
+		.getLogger (DeviceElementVerify.class);
 
-	static {
-		log = LogManager.getLogger (DeviceElementActions.class);
-	}
-
-	private final DeviceElementActions <D, E, T> actions;
+	private final DeviceElementActions <D, E, T>	actions;
 
 	/**
 	 * @author wasiq.bhamla
@@ -100,8 +98,7 @@ public class DeviceElementVerify <D extends AppiumDriver <MobileElement>, E exte
 	 * @return instance
 	 */
 	public DeviceElementVerify <D, E, T> textShouldBeEqualTo (final String expected) {
-		final String msg = "Verifying if element text is equal to [%s]...";
-		log.info (String.format (msg, expected));
+		log.info ("Verifying if element text is equal to [{}]...", expected);
 		assertThat (this.actions.text ()).isEqualTo (expected);
 		return this;
 	}
