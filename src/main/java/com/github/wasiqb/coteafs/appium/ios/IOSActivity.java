@@ -58,13 +58,14 @@ public abstract class IOSActivity
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#onElement(java.lang.String)
+	 * @see
+	 * com.github.wasiqb.coteafs.appium.device.DeviceActivity#onElement(java.lang.
+	 * String)
 	 */
 	@Override
 	public IOSDeviceElementActions onElement (final String name) {
 		checkBattery ();
-		final String msg = "Preparing to perform actions on iOS device element [%s]...";
-		log.trace (String.format (msg, name));
+		log.trace ("Preparing to perform actions on iOS device element [{}]...", name);
 		return new IOSDeviceElementActions (this.device, name, getElement (name));
 	}
 

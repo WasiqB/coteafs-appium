@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.android;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
-import static java.lang.String.format;
 
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -46,7 +45,7 @@ import io.appium.java_client.android.nativekey.KeyEvent;
  */
 public class AndroidDeviceActions
 	extends DeviceActions <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
-	private static final Logger log = LogManager.getLogger (AndroidDeviceActions.class);
+	private static final Logger LOG = LogManager.getLogger (AndroidDeviceActions.class);
 
 	/**
 	 * @author wasiq.bhamla
@@ -63,7 +62,7 @@ public class AndroidDeviceActions
 	 * @return clipboard text
 	 */
 	public String clipboard () {
-		log.info ("Getting clipboard text...");
+		LOG.info ("Getting clipboard text...");
 		return this.driver.getClipboardText ();
 	}
 
@@ -74,7 +73,7 @@ public class AndroidDeviceActions
 	 * @return clipboard
 	 */
 	public String clipboard (final ClipboardType type) {
-		log.info (format ("Getting clipboard for [%s]...", type));
+		LOG.info ("Getting clipboard for [{}]...", type);
 		return this.driver.getClipboard (type.getType ());
 	}
 
@@ -95,19 +94,18 @@ public class AndroidDeviceActions
 	 */
 	public String handleAlert () {
 		return getValue ("Handling Android Alert pop-up...", d -> {
-			final String msg = "Alert Text: %s";
 			try {
 				final AlertActivity perm = new AlertActivity (this.device);
 				final String description = perm.onElement ("Message")
 					.text ();
-				log.trace (String.format (msg, description));
+				LOG.trace ("Alert Text: {}", description);
 				perm.onElement ("OK")
 					.tap ();
 				return description;
 			}
 			catch (final TimeoutException e) {
-				log.warn ("Expected Alert not displayed...");
-				log.warn (e.getMessage ());
+				LOG.warn ("Expected Alert not displayed...");
+				LOG.warn (e.getMessage ());
 			}
 			return null;
 		});
@@ -121,19 +119,18 @@ public class AndroidDeviceActions
 	 */
 	public String handlePermissionAlert (final String buttonText) {
 		return getValue ("Handling Android Permission Alert pop-up...", d -> {
-			final String msg = "Alert Text: %s";
 			try {
 				final PermissionActivity perm = new PermissionActivity (this.device);
 				final String description = perm.onElement ("Message")
 					.text ();
-				log.trace (String.format (msg, description));
+				LOG.trace ("Alert Text: {}", description);
 				perm.onElement (buttonText)
 					.tap ();
 				return description;
 			}
 			catch (final TimeoutException e) {
-				log.warn ("Expected Alert not displayed...");
-				log.warn (e.getMessage ());
+				LOG.warn ("Expected Alert not displayed...");
+				LOG.warn (e.getMessage ());
 			}
 			return null;
 		});
@@ -144,7 +141,7 @@ public class AndroidDeviceActions
 	 * @since Oct 20, 2018
 	 */
 	public void hideKeyboard () {
-		log.info ("Hiding the keyboard...");
+		LOG.info ("Hiding the keyboard...");
 		try {
 			if (this.driver.isKeyboardShown ()) {
 				this.driver.hideKeyboard ();
@@ -184,7 +181,7 @@ public class AndroidDeviceActions
 			super.pinch (distance);
 		}
 		else {
-			log.warn ("Pinch is only available when Automation type is Espresso...");
+			LOG.warn ("Pinch is only available when Automation type is Espresso...");
 		}
 	}
 
@@ -211,7 +208,7 @@ public class AndroidDeviceActions
 	 * @since Nov 2, 2018
 	 */
 	public void toggleAirplane () {
-		log.info ("Toggling Airplane...");
+		LOG.info ("Toggling Airplane...");
 		this.driver.toggleAirplaneMode ();
 	}
 
@@ -220,7 +217,7 @@ public class AndroidDeviceActions
 	 * @since Nov 2, 2018
 	 */
 	public void toggleData () {
-		log.info ("Toggling Data...");
+		LOG.info ("Toggling Data...");
 		this.driver.toggleData ();
 	}
 
@@ -229,7 +226,7 @@ public class AndroidDeviceActions
 	 * @since Nov 2, 2018
 	 */
 	public void toggleLocation () {
-		log.info ("Toggling Location services...");
+		LOG.info ("Toggling Location services...");
 		this.driver.toggleLocationServices ();
 	}
 
@@ -238,7 +235,7 @@ public class AndroidDeviceActions
 	 * @since Nov 2, 2018
 	 */
 	public void toggleWifi () {
-		log.info ("Toggling Wifi...");
+		LOG.info ("Toggling Wifi...");
 		this.driver.toggleWifi ();
 	}
 
@@ -261,13 +258,13 @@ public class AndroidDeviceActions
 			super.zoom (distance);
 		}
 		else {
-			log.warn ("Zoom is only available when Automation type is Espresso...");
+			LOG.warn ("Zoom is only available when Automation type is Espresso...");
 		}
 	}
 
 	private <T> T getValue (final String message,
 		final Function <AndroidDriver <MobileElement>, T> action, final Object... args) {
-		log.info (format (message, args));
+		LOG.info (message, args);
 		try {
 			return action.apply (this.driver);
 		}
@@ -279,7 +276,7 @@ public class AndroidDeviceActions
 
 	private void perform (final String message,
 		final Consumer <AndroidDriver <MobileElement>> action, final Object... args) {
-		log.info (format (message, args));
+		LOG.info (message, args);
 		try {
 			action.accept (this.driver);
 		}

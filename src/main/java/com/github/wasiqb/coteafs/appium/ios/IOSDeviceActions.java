@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.ios;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
-import static java.lang.String.format;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -71,7 +70,7 @@ public class IOSDeviceActions
 	 * @return clipboard
 	 */
 	public String clipboard (final ClipboardType type) {
-		log.info (format ("Getting clipboard for [%s]...", type));
+		log.info ("Getting clipboard for [{}]...", type);
 		return this.driver.getClipboard (type.getType ());
 	}
 
@@ -86,8 +85,7 @@ public class IOSDeviceActions
 			final Alert alert = this.wait.until (d -> d.switchTo ()
 				.alert ());
 			final String description = alert.getText ();
-			final String msg = "Alert Text: [%s]";
-			log.info (format (msg, description));
+			log.info ("Alert Text: [{}]", description);
 			alert.accept ();
 			return description;
 		}
@@ -108,8 +106,7 @@ public class IOSDeviceActions
 	 * @param keyName
 	 */
 	public void hideKeyboard (final String strategy, final String keyName) {
-		final String msg = "Hiding keyboard on device using %s strategy for key %s...";
-		log.info (format (msg, strategy, keyName));
+		log.info ("Hiding keyboard on device using %s strategy for key {}...", strategy, keyName);
 		try {
 			if (this.driver.isKeyboardShown ()) {
 				this.driver.hideKeyboard (strategy, keyName);
@@ -126,7 +123,7 @@ public class IOSDeviceActions
 	 */
 	@Override
 	public void pinch (final int distance) {
-		log.info (format ("Pinching on device screen by [%d] distance...", distance));
+		log.info ("Pinching on device screen by [{}] distance...", distance);
 		final Map <String, Object> param = new HashMap <> ();
 		param.put ("scale", 0.5);
 		param.put ("velocity", distance);
@@ -153,7 +150,7 @@ public class IOSDeviceActions
 	 * @param direction
 	 */
 	public void swipe (final SwipeDirection direction) {
-		log.info (format ("Swiping [%s] on device screen...", direction));
+		log.info ("Swiping [{}] on device screen...", direction);
 		final Map <String, Object> param = new HashMap <> ();
 		param.put ("direction", direction.name ()
 			.toLowerCase ());
@@ -166,7 +163,7 @@ public class IOSDeviceActions
 	 */
 	@Override
 	public void zoom (final int distance) {
-		log.info (format ("Zooming in device screen by [%d] distance...", distance));
+		log.info ("Zooming in device screen by [{}] distance...", distance);
 		final Map <String, Object> param = new HashMap <> ();
 		param.put ("scale", 1.5);
 		param.put ("velocity", distance);

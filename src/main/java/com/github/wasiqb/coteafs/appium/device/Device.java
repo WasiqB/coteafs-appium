@@ -164,8 +164,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 	 * @return driver
 	 */
 	public D getDriver () {
-		final String msg = "Getting [%s] device driver...";
-		LOG.trace (format (msg, this.platform));
+		LOG.trace ("Getting [{}] device driver...", this.platform);
 		return this.driver;
 	}
 
@@ -205,8 +204,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 			this.driver = null;
 		}
 		else {
-			final String message = "[%s] device driver already stopped...";
-			LOG.trace (format (message, this.platform));
+			LOG.trace ("[{}] device driver already stopped...", this.platform);
 		}
 	}
 
@@ -243,9 +241,9 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 				}
 				final File file = new File (path);
 				if (!file.exists ()) {
-					final String msg = "App not found on mentioned location [%s]...";
-					LOG.error (format (msg, path));
-					fail (DeviceAppNotFoundError.class, format (msg, path));
+					final String msg = format ("App not found on mentioned location [%s]...", path);
+					LOG.error (msg);
+					fail (DeviceAppNotFoundError.class, msg);
 				}
 				appPath = path;
 			}
@@ -277,8 +275,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 	}
 
 	private void quitApp () {
-		final String message = "Closing & Quitting [%s] device driver...";
-		LOG.trace (format (message, this.platform));
+		LOG.trace ("Closing & Quitting [{}] device driver...", this.platform);
 		try {
 			this.driver.closeApp ();
 			this.driver.quit ();
@@ -402,8 +399,7 @@ public abstract class Device <D extends AppiumDriver <MobileElement>, T extends 
 	}
 
 	private void startDriver () {
-		final String msg = "Starting [%s] device driver...";
-		LOG.trace (format (msg, this.platform));
+		LOG.trace ("Starting [{}] device driver...", this.platform);
 		try {
 			this.driver = init (this.server.getServiceUrl (), this.capabilities);
 		}
