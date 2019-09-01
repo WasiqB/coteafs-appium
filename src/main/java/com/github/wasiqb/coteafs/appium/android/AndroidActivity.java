@@ -34,7 +34,7 @@ import io.appium.java_client.android.AndroidTouchAction;
  */
 public abstract class AndroidActivity
 	extends DeviceActivity <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
-	private static final Logger log = LogManager.getLogger (AndroidActivity.class);
+	private static final Logger LOG = LogManager.getLogger (AndroidActivity.class);
 
 	/**
 	 * @author wasiq.bhamla
@@ -52,19 +52,20 @@ public abstract class AndroidActivity
 	@Override
 	public AndroidDeviceActions onDevice () {
 		checkBattery ();
-		log.trace ("Preparing to perform actions on Android device...");
+		LOG.trace ("Preparing to perform actions on Android device...");
 		return new AndroidDeviceActions (this.device);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#onElement(java.lang.String)
+	 * @see
+	 * com.github.wasiqb.coteafs.appium.device.DeviceActivity#onElement(java.lang.
+	 * String)
 	 */
 	@Override
 	public AndroidDeviceElementActions onElement (final String name) {
 		checkBattery ();
-		final String msg = "Preparing to perform actions on Android device element [%s]...";
-		log.trace (String.format (msg, name));
+		LOG.trace ("Preparing to perform actions on Android device element [{}]...", name);
 		return new AndroidDeviceElementActions (this.device, name, getElement (name));
 	}
 
