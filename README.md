@@ -4,7 +4,7 @@
   </a>
 </p>
 
-<h1 align="center">Wrapper Appium Framework which supports Automation of Mobile and Tablet apps for Android and iOS Real Devices / Emulators.</h1>
+<h1 align="center">Wrapper Appium Framework in Java which supports Automation of Mobile and Tablet apps.</h1>
 
 <div align="center">
 
@@ -12,8 +12,8 @@
 > Checkout this space to know when the documentation is ready.
 
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)][home]
+[![Gitter](https://badges.gitter.im/WasiqB/coteafs-appium.svg)](https://gitter.im/WasiqB/coteafs-appium?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)][circleci]
-[![Average time to resolve an issue](http://isitmaintained.com/badge/resolution/WasiqB/Coteafs-Appium.svg)](http://isitmaintained.com/project/WasiqB/Coteafs-Appium "Average time to resolve an issue")
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=bugs)](https://sonarcloud.io/project/issues?id=com.github.wasiqb.coteafs%3Aappium&resolved=false)
 [![Test Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=coverage)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Coverage)
 [![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=alert_status)](https://sonarcloud.io/dashboard?id=com.github.wasiqb.coteafs%3Aappium)
@@ -24,8 +24,11 @@
 [![Duplicate Code](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=duplicated_lines_density)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Duplications)
 [![Maven Central](https://img.shields.io/maven-central/v/com.github.wasiqb.coteafs/appium.svg)][maven]
 [![Github Releases](https://img.shields.io/github/downloads/WasiqB/coteafs-appium/total.svg)](https://github.com/WasiqB/coteafs-appium/releases)
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 </div>
+
+## :video_camera: Demo
 
 <p align="center">
   <img src="assets/android-test.gif" width=700 padding=10 style="border: 2px, border-color: black" />
@@ -36,7 +39,51 @@
 * To know what changes are Released, check out the [change log][] for complete list of changes.
 * Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
-## :factory: [How to configure the tests?][config-doc]
+## :pushpin: [Want to know Key Features?][intro-doc]
+
+In order to use a framework, it's important to know it's advantages. Let's see what are the key features of this framework:
+
+:point_right: :iphone: Supports Android and iOS Real Devices and Emulators.
+
+:point_right: :computer: Able to start and stop server on run-time and also can connect to already running server.
+
+:point_right: :notebook: Enforces Page object model style of coding.
+
+:point_right: :milky_way: Allows parallel and sequential execution of tests.
+
+:point_right: :hammer: All capabilities, playback and delay settings are configurable through config file.
+
+:point_right: :cloud: Supports execution of tests on any Cloud solution like BrowserStack, SauceLabs, TestingBot, etc.
+
+:point_right: :video_camera: Supports video recording of tests on Android and iOS.
+
+:point_right: :camera: Supports capturing screenshots for Android and iOS.
+
+:point_right: :clipboard: Supports reading Clipboard from devices.
+
+:point_right: :notebook_with_decorative_cover: Supports logging of all events occurred during test execution.
+
+:point_right: :x: Provides pre-defined errors which wraps the Appium exceptions in a meaningful way.
+
+:point_right: :white_check_mark: Provides inbuilt assertions to verify the device elements.
+
+:point_right: :hotsprings: Supports any Testing frameworks like TestNG, JUnit or Cucumber.
+
+## :pushpin: Usage?
+
+```xml
+<dependency>
+  <groupId>com.github.wasiqb.coteafs</groupId>
+  <artifactId>appium</artifactId>
+  <version>3.1.0</version>
+</dependency>
+```
+
+## :smile: How it is easy to write Tests with this Framework?
+
+<details>
+  <summary><strong>1. :factory: <a href="https://wasiqb.github.io/projects/appium/config-basics/">How to configure the tests?</a></strong></summary>
+  <br/>
 
 First step in writing tests using coteafs-appium framework is defining a Yaml config file in the `src/test/resources` folder.
 
@@ -74,7 +121,11 @@ devices:
       delay_after_tap: 0
 ```
 
-## :dart: [How simple it is to write the tests?][test-doc]
+</details>
+
+<details>
+  <summary><strong>2. :dart: <a href="https://wasiqb.github.io/projects/appium/sample-test-class/">How simple it is to write the tests?</a></strong></summary>
+  <br/>
 
 By using Action classes for each Activity, the flow specific for that activity can be modularized and tests looks much clean and readable.
 See the sample test below.
@@ -117,7 +168,11 @@ public class SampleTest {
 }
 ```
 
-## :golf: [How to create Activity class?][activity-doc]
+</details>
+
+<details>
+  <summary><strong>3. :golf: <a href="https://wasiqb.github.io/projects/appium/activity-class/">How to create Activity class?</a></strong></summary>
+  <br/>
 
 New class needs to be created for each Activity. There's an abstract activity class for each type of device.
 Here `prepare` method needs to be implemented with all the elements available on that Activity.
@@ -160,7 +215,11 @@ public class LoginActivity extends AndroidActivity {
 }
 ```
 
-## :soccer: [How to create your Activity action class?][action-doc]
+</details>
+
+<details>
+  <summary><strong>4. :soccer: <a href="https://wasiqb.github.io/projects/appium/action-class/">How to create your Activity action class?</a></strong></summary>
+  <br/>
 
 There is abstract action class provided by framework where Activity specific flow is implemented in perform method.
 See the sample Activity action class below.
@@ -190,44 +249,22 @@ public class LoginActivityAction extends AndroidActivityActions {
 }
 ```
 
-## :+1: Liked the framework until now?
-### Add dependency to your projects POM.
-
-```xml
-<dependency>
-  <groupId>com.github.wasiqb.coteafs</groupId>
-  <artifactId>appium</artifactId>
-  <version>3.0.0</version>
-</dependency>
-```
-
-## :pushpin: [Want to know Key Features?][intro-doc]
-In order to use a framework, it's important to know it's advantages. Let's see what are the key features of this framework:
-* :iphone: Supports Android and iOS Real Devices and Emulators.
-* :computer: Able to start and stop server on run-time and also can connect to already running server.
-* :notebook: Enforces Page object model style of coding.
-* :milky_way: Allows parallel and sequential execution of tests.
-* :hammer: All capabilities, playback and delay settings are configurable through config file.
-* :cloud: Supports execution of tests on any Cloud solution like BrowserStack, SauceLabs, TestingBot, etc.
-* :video_camera: Supports video recording of tests on Android and iOS.
-* :camera: Supports capturing screenshots for Android and iOS.
-* :clipboard: Supports reading Clipboard from devices.
-* :notebook_with_decorative_cover: Supports logging of all events occurred during test execution.
-* :x: Provides pre-defined errors which wraps the Appium exceptions in a meaningful way.
-* :white_check_mark: Provides inbuilt assertions to verify the device elements.
-* :hotsprings: Supports any Testing frameworks like TestNG, JUnit or Cucumber.
+</details>
 
 ## :question: What to do when you need help?
-* Directly chat with me on my [site][] and I'll revert to you as soon as possible.
-* Discuss your queries by writing to us on our [mailing list][]
-* If you find any issue which is bottleneck for you, [search the issue tracker][] to see if it is already raised.
-* If not raised, then you can create a [new issue][] with required details as mentioned in the issue template.
+
+- You can chat with us on our [Gitter][gitter] room.
+- Directly chat with me on my [site][] and I'll revert to you as soon as possible.
+- Discuss your queries by writing to us on our [mailing list][]
+- If you find any issue which is bottleneck for you, [search the issue tracker][] to see if it is already raised.
+- If not raised, then you can create a [new issue][] with required details as mentioned in the issue template.
 
 ## :star: What you do if you like the project?
-* Spread the word with your network.
-* **Star** the project to make the project popular.
-* Stay updated with the project progress by **Watching** it.
-* Contribute to fix open issues, documentations or add new features. To know more, see our [contributing][] page.
+
+- Spread the word with your network.
+- **Star** the project to make the project popular.
+- Stay updated with the project progress by **Watching** it.
+- Contribute to fix open issues, documentations or add new features. To know more, see our [contributing][] page.
 
 ## :heavy_check_mark: Contributors
 
@@ -264,7 +301,7 @@ For allowing us to run our unit tests on different platforms.
   </a>
 </p>
 
-## :copyright: - Wasiq Bhamla
+## :copyright: Wasiq Bhamla
 
 <p align="left">
   <a href="http://www.apache.org/licenses/LICENSE-2.0">
@@ -283,8 +320,5 @@ For allowing us to run our unit tests on different platforms.
 [milestones]: https://github.com/WasiqB/coteafs-appium/milestones
 [maven]: https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium
 [contributing]: .github/CONTRIBUTING.md
-[config-doc]: https://wasiqb.github.io/projects/appium/config-basics/
-[test-doc]: https://wasiqb.github.io/projects/appium/sample-test-class/
-[action-doc]: https://wasiqb.github.io/projects/appium/action-class/
-[activity-doc]: https://wasiqb.github.io/projects/appium/activity-class/
 [intro-doc]: https://wasiqb.github.io/projects/appium/intro/
+[gitter]: https://gitter.im/WasiqB/coteafs-selenium
