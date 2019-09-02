@@ -54,7 +54,7 @@ import io.appium.java_client.touch.offset.PointOption;
  */
 public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>,
 	T extends TouchAction <T>> {
-	private static final Logger log = LogManager.getLogger (DeviceElementActions.class);
+	private static final Logger		log	= LogManager.getLogger (DeviceElementActions.class);
 
 	protected final E				device;
 	protected final MobileElement	element;
@@ -139,7 +139,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return enabled
 	 */
 	public boolean enabled () {
-		return getValue ("Checking if element [%s] is enabled...", MobileElement::isEnabled);
+		return getValue ("Checking if element [{}] is enabled...", MobileElement::isEnabled);
 	}
 
 	/**
@@ -217,7 +217,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return selected
 	 */
 	public boolean selected () {
-		return getValue ("Checking if element [%s] is selected...", MobileElement::isSelected);
+		return getValue ("Checking if element [{}] is selected...", MobileElement::isSelected);
 	}
 
 	/**
@@ -259,7 +259,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return text
 	 */
 	public String text () {
-		return getValue ("Getting text on element [%s]...", MobileElement::getText);
+		return getValue ("Getting text on element [{}]...", MobileElement::getText);
 	}
 
 	/**
@@ -277,7 +277,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	 * @return visible
 	 */
 	public boolean visible () {
-		return getValue ("Checking if element [%s] is visible...", MobileElement::isDisplayed);
+		return getValue ("Checking if element [{}] is visible...", MobileElement::isDisplayed);
 	}
 
 	/**
@@ -306,7 +306,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 	}
 
 	private <R> R getValue (final String message, final Function <MobileElement, R> func) {
-		log.info (String.format (message, this.name));
+		log.info (message, this.name);
 		try {
 			return func.apply (this.element);
 		}
@@ -318,7 +318,7 @@ public class DeviceElementActions <D extends AppiumDriver <MobileElement>, E ext
 
 	private void perform (final String action, final Consumer <MobileElement> consumer) {
 		checkElementEnabled ();
-		log.info (String.format ("%s element [%s]...", action, this.name));
+		log.info ("{} element [{}]...", action, this.name);
 		try {
 			consumer.accept (this.element);
 		}

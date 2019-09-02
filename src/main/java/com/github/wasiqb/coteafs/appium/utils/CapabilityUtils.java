@@ -39,7 +39,8 @@ public final class CapabilityUtils {
 	 * @param value
 	 * @param capabilities
 	 */
-	public static <T> void setCapability (final String key, final T value, final DesiredCapabilities capabilities) {
+	public static <T> void setCapability (final String key, final T value,
+		final DesiredCapabilities capabilities) {
 		setCapability (key, value, capabilities, false);
 	}
 
@@ -51,17 +52,14 @@ public final class CapabilityUtils {
 	 * @param capabilities
 	 * @param mandatory
 	 */
-	public static <T> void setCapability (final String key, final T value, final DesiredCapabilities capabilities,
-			final boolean mandatory) {
+	public static <T> void setCapability (final String key, final T value,
+		final DesiredCapabilities capabilities, final boolean mandatory) {
 		if (mandatory) {
 			DeviceChecker.checkCapabilitiesParams (key, value);
 		}
 		if (value != null) {
-			if (value instanceof Integer && (Integer) value == 0) {
-				return;
-			}
-			String msg = "Setting capability [key: %s, value: %s]...";
-			log.trace (String.format (msg, key, value));
+			if (value instanceof Integer && (Integer) value == 0) return;
+			log.trace ("Setting capability [key: {}, value: {}]...", key, value);
 			capabilities.setCapability (key, value);
 		}
 	}
