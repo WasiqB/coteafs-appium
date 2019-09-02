@@ -3,7 +3,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>appium</artifactId>
-	<version>3.0.0</version>
+	<version>3.1.0</version>
 	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Robust Automation Framework wrapped over Appium.</description>
 	<url>https://github.com/WasiqB/coteafs-appium</url>
