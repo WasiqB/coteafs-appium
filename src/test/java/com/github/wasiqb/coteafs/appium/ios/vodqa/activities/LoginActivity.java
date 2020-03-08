@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
-
 import io.appium.java_client.MobileBy;
 
 /**
@@ -25,27 +24,27 @@ import io.appium.java_client.MobileBy;
  * @since Oct 28, 2018
  */
 public class LoginActivity extends BaseActivity {
-	/**
-	 * @author wasiqb
-	 * @since Oct 28, 2018
-	 * @param device
-	 */
-	public LoginActivity (final IOSDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiqb
+     * @since Oct 28, 2018
+     */
+    public LoginActivity(final IOSDevice device) {
+        super(device);
+    }
 
-	@Override
-	protected DeviceElement prepare () {
-		final DeviceElement form = super.prepare ();
-		DeviceElement.create ("Username")
-			.parent (form)
-			.forIos (MobileBy.AccessibilityId ("username"));
-		DeviceElement.create ("Password")
-			.parent (form)
-			.forIos (MobileBy.AccessibilityId ("password"));
-		DeviceElement.create ("Login")
-			.parent (form)
-			.forIos (MobileBy.iOSNsPredicateString ("name == 'login'"));
-		return form;
-	}
+    @Override
+    protected DeviceElement prepare() {
+        final DeviceElement form = super.prepare();
+        DeviceElement.create("Username")
+            .parent(form)
+            .forIos(MobileBy.AccessibilityId("username"));
+        DeviceElement.create("Password")
+            .parent(form)
+            .forIos(MobileBy.AccessibilityId("password"));
+        DeviceElement.create("Login")
+            .parent(form)
+            .forIos(MobileBy.iOSNsPredicateString("name == 'login'"));
+        return form;
+    }
 }

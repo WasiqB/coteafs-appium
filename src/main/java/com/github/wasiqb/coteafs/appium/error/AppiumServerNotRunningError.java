@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,24 +20,24 @@ package com.github.wasiqb.coteafs.appium.error;
  * @since 04-May-2017 4:27:12 PM
  */
 public class AppiumServerNotRunningError extends CoteafsAppiumError {
-	private static final long serialVersionUID = 8585241762112136560L;
+    private static final long serialVersionUID = 8585241762112136560L;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 4:36:48 PM
-	 * @param message
-	 */
-	public AppiumServerNotRunningError (final String message) {
-		super (message, null);
-	}
+    /**
+     * @param message
+     * @author wasiq.bhamla
+     * @since 04-May-2017 4:36:48 PM
+     */
+    public AppiumServerNotRunningError(final String message) {
+        super(message, null);
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 4:27:12 PM
-	 * @param message
-	 * @param cause
-	 */
-	public AppiumServerNotRunningError (final String message, final Throwable cause) {
-		super (message, cause);
-	}
+    /**
+     * @param message
+     * @param cause
+     * @author wasiq.bhamla
+     * @since 04-May-2017 4:27:12 PM
+     */
+    public AppiumServerNotRunningError(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

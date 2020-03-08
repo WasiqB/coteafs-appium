@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,157 +24,150 @@ import io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality;
  * @since Oct 13, 2018
  */
 public class RecordSetting {
-	private int				bitRate;
-	private int				duration;
-	private boolean			enabled;
-	private String			path;
-	private String			prefix;
-	private VideoQuality	quality;
-	private String			size;
+    private int          bitRate;
+    private int          duration;
+    private boolean      enabled;
+    private String       path;
+    private String       prefix;
+    private VideoQuality quality;
+    private String       size;
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 */
-	public RecordSetting () {
-		this.duration = 3;
-		this.quality = VideoQuality.MEDIUM;
-		this.enabled = false;
-		this.path = format ("%s/videos", System.getProperty ("user.dir"));
-		this.prefix = "VID";
-		this.bitRate = 4;
-	}
+    /**
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public RecordSetting() {
+        this.duration = 3;
+        this.quality = VideoQuality.MEDIUM;
+        this.enabled = false;
+        this.path = format("%s/videos", System.getProperty("user.dir"));
+        this.prefix = "VID";
+        this.bitRate = 4;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @return the bitRate
-	 */
-	public int getBitRate () {
-		return this.bitRate;
-	}
+    /**
+     * @return the bitRate
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public int getBitRate() {
+        return this.bitRate;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @return the duration
-	 */
-	public int getDuration () {
-		return this.duration;
-	}
+    /**
+     * @return the duration
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public int getDuration() {
+        return this.duration;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @return the path
-	 */
-	public String getPath () {
-		return this.path;
-	}
+    /**
+     * @return the path
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public String getPath() {
+        return this.path;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @return the prefix
-	 */
-	public String getPrefix () {
-		return this.prefix;
-	}
+    /**
+     * @return the prefix
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public String getPrefix() {
+        return this.prefix;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @return the quality
-	 */
-	public VideoQuality getQuality () {
-		return this.quality;
-	}
+    /**
+     * @return the quality
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public VideoQuality getQuality() {
+        return this.quality;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @return the size
-	 */
-	public String getSize () {
-		return this.size;
-	}
+    /**
+     * @return the size
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public String getSize() {
+        return this.size;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @return the enabled
-	 */
-	public boolean isEnabled () {
-		return this.enabled;
-	}
+    /**
+     * @return the enabled
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public boolean isEnabled() {
+        return this.enabled;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @param bitRate
-	 *            the bitRate to set
-	 */
-	public void setBitRate (final int bitRate) {
-		this.bitRate = bitRate;
-	}
+    /**
+     * @param bitRate the bitRate to set
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public void setBitRate(final int bitRate) {
+        this.bitRate = bitRate;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @param duration
-	 *            the duration to set
-	 */
-	public void setDuration (final int duration) {
-		this.duration = duration;
-	}
+    /**
+     * @param duration the duration to set
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public void setDuration(final int duration) {
+        this.duration = duration;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @param enabled
-	 *            the enabled to set
-	 */
-	public void setEnabled (final boolean enabled) {
-		this.enabled = enabled;
-	}
+    /**
+     * @param enabled the enabled to set
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public void setEnabled(final boolean enabled) {
+        this.enabled = enabled;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @param path
-	 *            the path to set
-	 */
-	public void setPath (final String path) {
-		this.path = path;
-	}
+    /**
+     * @param path the path to set
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public void setPath(final String path) {
+        this.path = path;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @param prefix
-	 *            the prefix to set
-	 */
-	public void setPrefix (final String prefix) {
-		this.prefix = prefix;
-	}
+    /**
+     * @param prefix the prefix to set
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public void setPrefix(final String prefix) {
+        this.prefix = prefix;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @param quality
-	 *            the quality to set
-	 */
-	public void setQuality (final VideoQuality quality) {
-		this.quality = quality;
-	}
+    /**
+     * @param quality the quality to set
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public void setQuality(final VideoQuality quality) {
+        this.quality = quality;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @param size
-	 *            the size to set
-	 */
-	public void setSize (final String size) {
-		this.size = size;
-	}
+    /**
+     * @param size the size to set
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public void setSize(final String size) {
+        this.size = size;
+    }
 }

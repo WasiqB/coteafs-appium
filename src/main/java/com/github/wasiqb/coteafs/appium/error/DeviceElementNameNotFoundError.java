@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,24 +20,24 @@ package com.github.wasiqb.coteafs.appium.error;
  * @since 03-Jun-2017 3:44:40 PM
  */
 public class DeviceElementNameNotFoundError extends CoteafsAppiumError {
-	private static final long serialVersionUID = -7772079377357876689L;
+    private static final long serialVersionUID = -7772079377357876689L;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 03-Jun-2017 3:44:41 PM
-	 * @param message
-	 */
-	public DeviceElementNameNotFoundError (final String message) {
-		super (message);
-	}
+    /**
+     * @param message
+     * @author wasiq.bhamla
+     * @since 03-Jun-2017 3:44:41 PM
+     */
+    public DeviceElementNameNotFoundError(final String message) {
+        super(message);
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 03-Jun-2017 3:44:41 PM
-	 * @param message
-	 * @param cause
-	 */
-	public DeviceElementNameNotFoundError (final String message, final Throwable cause) {
-		super (message, cause);
-	}
+    /**
+     * @param message
+     * @param cause
+     * @author wasiq.bhamla
+     * @since 03-Jun-2017 3:44:41 PM
+     */
+    public DeviceElementNameNotFoundError(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

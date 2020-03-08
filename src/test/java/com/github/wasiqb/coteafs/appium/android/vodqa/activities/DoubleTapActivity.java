@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-
 import io.appium.java_client.MobileBy;
 
 /**
@@ -25,27 +24,27 @@ import io.appium.java_client.MobileBy;
  * @since Feb 8, 2018 3:34:06 PM
  */
 public class DoubleTapActivity extends DefaultActivity {
-	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 8, 2018 3:34:07 PM
-	 * @param device
-	 */
-	public DoubleTapActivity (final AndroidDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiq.bhamla
+     * @since Feb 8, 2018 3:34:07 PM
+     */
+    public DoubleTapActivity(final AndroidDevice device) {
+        super(device);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
-	 */
-	@Override
-	protected DeviceElement prepare () {
-		final DeviceElement main = super.prepare ();
+    /*
+     * (non-Javadoc)
+     * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
+     */
+    @Override
+    protected DeviceElement prepare() {
+        final DeviceElement main = super.prepare();
 
-		DeviceElement.create ("Button")
-			.parent (main)
-			.forAndroid (MobileBy.AccessibilityId ("doubleTapMe"));
+        DeviceElement.create("Button")
+            .parent(main)
+            .forAndroid(MobileBy.AccessibilityId("doubleTapMe"));
 
-		return main;
-	}
+        return main;
+    }
 }

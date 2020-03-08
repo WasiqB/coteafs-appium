@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,37 +15,36 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
-import org.openqa.selenium.By;
-
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
+import org.openqa.selenium.By;
 
 /**
  * @author wasiq.bhamla
  * @since Feb 8, 2018 4:17:25 PM
  */
 public class PhotoViewActivity extends DefaultActivity {
-	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 8, 2018 4:17:25 PM
-	 * @param device
-	 */
-	public PhotoViewActivity (final AndroidDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiq.bhamla
+     * @since Feb 8, 2018 4:17:25 PM
+     */
+    public PhotoViewActivity(final AndroidDevice device) {
+        super(device);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
-	 */
-	@Override
-	protected DeviceElement prepare () {
-		final DeviceElement main = super.prepare ();
+    /*
+     * (non-Javadoc)
+     * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
+     */
+    @Override
+    protected DeviceElement prepare() {
+        final DeviceElement main = super.prepare();
 
-		DeviceElement.create ("Img")
-			.parent (main)
-			.forAndroid (By.className ("android.widget.ImageView"));
+        DeviceElement.create("Img")
+            .parent(main)
+            .forAndroid(By.className("android.widget.ImageView"));
 
-		return main;
-	}
+        return main;
+    }
 }

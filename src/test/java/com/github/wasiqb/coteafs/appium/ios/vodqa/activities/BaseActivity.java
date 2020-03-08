@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,41 +15,39 @@
  */
 package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
-import org.openqa.selenium.By;
-
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSActivity;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
-
 import io.appium.java_client.MobileBy;
+import org.openqa.selenium.By;
 
 /**
  * @author wasiqb
  * @since Oct 28, 2018
  */
 public class BaseActivity extends IOSActivity {
-	/**
-	 * @author wasiqb
-	 * @since Oct 28, 2018
-	 * @param device
-	 */
-	public BaseActivity (final IOSDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiqb
+     * @since Oct 28, 2018
+     */
+    public BaseActivity(final IOSDevice device) {
+        super(device);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
-	 */
-	@Override
-	protected DeviceElement prepare () {
-		final DeviceElement main = DeviceElement.create ("Form")
-			.forIos (By.className ("XCUIElementTypeWindow"));
+    /*
+     * (non-Javadoc)
+     * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
+     */
+    @Override
+    protected DeviceElement prepare() {
+        final DeviceElement main = DeviceElement.create("Form")
+            .forIos(By.className("XCUIElementTypeWindow"));
 
-		DeviceElement.create ("Back")
-			.parent (main)
-			.forIos (MobileBy.iOSNsPredicateString ("name == 'Back'"));
+        DeviceElement.create("Back")
+            .parent(main)
+            .forIos(MobileBy.iOSNsPredicateString("name == 'Back'"));
 
-		return main;
-	}
+        return main;
+    }
 }

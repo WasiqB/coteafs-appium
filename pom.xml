@@ -4,14 +4,13 @@
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>appium</artifactId>
 	<version>3.1.0</version>
-	<name>${project.groupId}:${project.artifactId}</name>
 	<description>Robust Automation Framework wrapped over Appium.</description>
 	<url>https://github.com/WasiqB/coteafs-appium</url>
 
 	<parent>
 		<groupId>com.github.wasiqb.coteafs</groupId>
 		<artifactId>parent</artifactId>
-		<version>2.2.0</version>
+		<version>3.1.1</version>
 	</parent>
 
 	<scm>
@@ -31,13 +30,13 @@
 	</ciManagement>
 
 	<properties>
-		<appium-version>7.2.0</appium-version>
+		<appium-version>7.3.0</appium-version>
 		<selenium-version>3.141.59</selenium-version>
-		<coteafs.config.version>1.8.0</coteafs.config.version>
-		<coteafs.error.version>1.7.0</coteafs.error.version>
-		<coteafs.logger.version>1.8.0</coteafs.logger.version>
-		<commons.text.version>1.7</commons.text.version>
-		<coteafs.listeners.version>1.2.0</coteafs.listeners.version>
+		<coteafs.config.version>2.2.0</coteafs.config.version>
+		<coteafs.error.version>1.12.1</coteafs.error.version>
+		<coteafs.logger.version>2.3.0</coteafs.logger.version>
+		<commons.text.version>1.8</commons.text.version>
+		<coteafs.listeners.version>2.3.0</coteafs.listeners.version>
 	</properties>
 
 	<dependencies>
@@ -45,12 +44,6 @@
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>configs</artifactId>
 			<version>${coteafs.config.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.yaml</groupId>
-					<artifactId>snakeyaml</artifactId>
-				</exclusion>
-			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -77,10 +70,6 @@
 			<artifactId>testng</artifactId>
 			<version>${testng.version}</version>
 			<exclusions>
-				<exclusion>
-					<groupId>org.yaml</groupId>
-					<artifactId>snakeyaml</artifactId>
-				</exclusion>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
 					<artifactId>guava</artifactId>

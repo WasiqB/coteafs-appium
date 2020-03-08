@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +18,6 @@ package com.github.wasiqb.coteafs.appium.ios.vodqa.action;
 import com.github.wasiqb.coteafs.appium.ios.IOSActivityActions;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 import com.github.wasiqb.coteafs.appium.ios.vodqa.activities.LoginActivity;
-
 import io.appium.java_client.remote.HideKeyboardStrategy;
 
 /**
@@ -26,31 +25,31 @@ import io.appium.java_client.remote.HideKeyboardStrategy;
  * @since Oct 28, 2018
  */
 public class LoginActivityAction extends IOSActivityActions {
-	/**
-	 * @author wasiqb
-	 * @since Oct 28, 2018
-	 * @param device
-	 */
-	public LoginActivityAction (final IOSDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiqb
+     * @since Oct 28, 2018
+     */
+    public LoginActivityAction(final IOSDevice device) {
+        super(device);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivityActions#perform()
-	 */
-	@Override
-	public void perform () {
-		final LoginActivity login = new LoginActivity (getDevice ());
-		login.onElement ("Username")
-			.enterText (value ("Username"));
-		login.onDevice ()
-			.hideKeyboard (HideKeyboardStrategy.PRESS_KEY, "return");
-		login.onElement ("Password")
-			.enterText (value ("Password"));
-		login.onDevice ()
-			.hideKeyboard (HideKeyboardStrategy.PRESS_KEY, "return");
-		login.onElement ("Login")
-			.tap ();
-	}
+    /*
+     * (non-Javadoc)
+     * @see com.github.wasiqb.coteafs.appium.device.DeviceActivityActions#perform()
+     */
+    @Override
+    public void perform() {
+        final LoginActivity login = new LoginActivity(getDevice());
+        login.onElement("Username")
+            .enterText(value("Username"));
+        login.onDevice()
+            .hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "return");
+        login.onElement("Password")
+            .enterText(value("Password"));
+        login.onDevice()
+            .hideKeyboard(HideKeyboardStrategy.PRESS_KEY, "return");
+        login.onElement("Login")
+            .tap();
+    }
 }

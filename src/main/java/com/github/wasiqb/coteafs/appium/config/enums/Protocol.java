@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,27 +20,27 @@ package com.github.wasiqb.coteafs.appium.config.enums;
  * @since Sep 29, 2018
  */
 public enum Protocol {
-	/**
-	 * HTTP protocol.
-	 */
-	HTTP ("http"),
-	/**
-	 * HTTPS protocol.
-	 */
-	HTTPS ("https");
+    /**
+     * HTTP protocol.
+     */
+    HTTP("http"),
+    /**
+     * HTTPS protocol.
+     */
+    HTTPS("https");
 
-	private final String name;
+    private final String name;
 
-	private Protocol (final String name) {
-		this.name = name;
-	}
+    Protocol(final String name) {
+        this.name = name;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Sep 29, 2018
-	 * @return the protocol name
-	 */
-	public String getName () {
-		return this.name;
-	}
+    /**
+     * @return the protocol name
+     * @author wasiqb
+     * @since Sep 29, 2018
+     */
+    public String getName() {
+        return this.name;
+    }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,12 +20,12 @@ package com.github.wasiqb.coteafs.appium.config.enums;
  * @since Aug 1, 2017 3:56:25 PM
  */
 public enum DeviceType {
-	/**
-	 * Indicates real device.
-	 */
-	REAL,
-	/**
-	 * Indicates simulator / emulators.
-	 */
-	SIMULATOR;
+    /**
+     * Indicates real device.
+     */
+    REAL,
+    /**
+     * Indicates simulator / emulators.
+     */
+    SIMULATOR
 }

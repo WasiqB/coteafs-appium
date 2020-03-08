@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,24 +20,24 @@ package com.github.wasiqb.coteafs.appium.error;
  * @since Oct 2, 2018
  */
 public class NotEnoughBatteryChargeError extends CoteafsAppiumError {
-	private static final long serialVersionUID = -4401868812886874760L;
+    private static final long serialVersionUID = -4401868812886874760L;
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 2, 2018
-	 * @param message
-	 */
-	public NotEnoughBatteryChargeError (final String message) {
-		super (message);
-	}
+    /**
+     * @param message
+     * @author wasiqb
+     * @since Oct 2, 2018
+     */
+    public NotEnoughBatteryChargeError(final String message) {
+        super(message);
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 2, 2018
-	 * @param message
-	 * @param cause
-	 */
-	public NotEnoughBatteryChargeError (final String message, final Throwable cause) {
-		super (message, cause);
-	}
+    /**
+     * @param message
+     * @param cause
+     * @author wasiqb
+     * @since Oct 2, 2018
+     */
+    public NotEnoughBatteryChargeError(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

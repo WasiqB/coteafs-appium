@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
-
 import io.appium.java_client.MobileBy;
 
 /**
@@ -25,29 +24,29 @@ import io.appium.java_client.MobileBy;
  * @since Oct 28, 2018
  */
 public class DragDropActivity extends BaseActivity {
-	/**
-	 * @author wasiqb
-	 * @since Oct 28, 2018
-	 * @param device
-	 */
-	public DragDropActivity (final IOSDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiqb
+     * @since Oct 28, 2018
+     */
+    public DragDropActivity(final IOSDevice device) {
+        super(device);
+    }
 
-	@Override
-	protected DeviceElement prepare () {
-		final DeviceElement main = super.prepare ();
+    @Override
+    protected DeviceElement prepare() {
+        final DeviceElement main = super.prepare();
 
-		DeviceElement.create ("DragMe")
-			.parent (main)
-			.forIos (MobileBy.AccessibilityId ("dragMe"));
-		DeviceElement.create ("DropZone")
-			.parent (main)
-			.forIos (MobileBy.AccessibilityId ("dropzone"));
-		DeviceElement.create ("Message")
-			.parent (main)
-			.forIos (MobileBy.AccessibilityId ("success"));
+        DeviceElement.create("DragMe")
+            .parent(main)
+            .forIos(MobileBy.AccessibilityId("dragMe"));
+        DeviceElement.create("DropZone")
+            .parent(main)
+            .forIos(MobileBy.AccessibilityId("dropzone"));
+        DeviceElement.create("Message")
+            .parent(main)
+            .forIos(MobileBy.AccessibilityId("success"));
 
-		return main;
-	}
+        return main;
+    }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,6 @@
 package com.github.wasiqb.coteafs.appium.ios;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceActivityActions;
-
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSTouchAction;
@@ -26,13 +25,13 @@ import io.appium.java_client.ios.IOSTouchAction;
  * @since Oct 23, 2017 11:06:13 PM
  */
 public abstract class IOSActivityActions
-		extends DeviceActivityActions <IOSDriver <MobileElement>, IOSDevice, IOSTouchAction> {
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 23, 2017 11:06:33 PM
-	 * @param device
-	 */
-	public IOSActivityActions (final IOSDevice device) {
-		super (device);
-	}
+    extends DeviceActivityActions<IOSDriver<MobileElement>, IOSDevice, IOSTouchAction> {
+    /**
+     * @param device
+     * @author wasiq.bhamla
+     * @since Oct 23, 2017 11:06:33 PM
+     */
+    public IOSActivityActions(final IOSDevice device) {
+        super(device);
+    }
 }

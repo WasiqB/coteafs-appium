@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,31 +22,31 @@ import io.appium.java_client.clipboard.ClipboardContentType;
  * @since Nov 2, 2018
  */
 public enum ClipboardType {
-	/**
-	 * Image.
-	 */
-	IMAGE (ClipboardContentType.IMAGE),
-	/**
-	 * Text.
-	 */
-	TEXT (ClipboardContentType.PLAINTEXT),
-	/**
-	 * URL.
-	 */
-	URL (ClipboardContentType.URL);
+    /**
+     * Image.
+     */
+    IMAGE(ClipboardContentType.IMAGE),
+    /**
+     * Text.
+     */
+    TEXT(ClipboardContentType.PLAINTEXT),
+    /**
+     * URL.
+     */
+    URL(ClipboardContentType.URL);
 
-	private final ClipboardContentType type;
+    private final ClipboardContentType type;
 
-	private ClipboardType (final ClipboardContentType type) {
-		this.type = type;
-	}
+    ClipboardType(final ClipboardContentType type) {
+        this.type = type;
+    }
 
-	/**
-	 * @author wasiqb
-	 * @since Nov 2, 2018
-	 * @return the type
-	 */
-	public ClipboardContentType getType () {
-		return this.type;
-	}
+    /**
+     * @return the type
+     * @author wasiqb
+     * @since Nov 2, 2018
+     */
+    public ClipboardContentType getType() {
+        return this.type;
+    }
 }

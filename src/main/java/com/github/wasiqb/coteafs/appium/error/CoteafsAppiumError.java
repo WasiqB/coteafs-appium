@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,24 +25,24 @@ import com.github.wasiqb.coteafs.error.enums.Severity;
  * @since Oct 14, 2017 8:51:55 PM
  */
 class CoteafsAppiumError extends CoteafsError {
-	private static final long serialVersionUID = -8566294740519833332L;
+    private static final long serialVersionUID = -8566294740519833332L;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 14, 2017 8:51:56 PM
-	 * @param message
-	 */
-	public CoteafsAppiumError (final String message) {
-		super (message, Reason.R2, Category.C1, Severity.CRITICAL);
-	}
+    /**
+     * @param message
+     * @author wasiq.bhamla
+     * @since Oct 14, 2017 8:51:56 PM
+     */
+    public CoteafsAppiumError(final String message) {
+        super(message, Reason.R2, Category.C1, Severity.CRITICAL);
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 14, 2017 8:51:56 PM
-	 * @param message
-	 * @param cause
-	 */
-	public CoteafsAppiumError (final String message, final Throwable cause) {
-		super (message, cause, Reason.R2, Category.C1, Severity.CRITICAL);
-	}
+    /**
+     * @param message
+     * @param cause
+     * @author wasiq.bhamla
+     * @since Oct 14, 2017 8:51:56 PM
+     */
+    public CoteafsAppiumError(final String message, final Throwable cause) {
+        super(message, cause, Reason.R2, Category.C1, Severity.CRITICAL);
+    }
 }
