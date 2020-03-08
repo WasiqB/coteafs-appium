@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,12 +20,12 @@ package com.github.wasiqb.coteafs.appium.constants;
  * @since Jul 31, 2017 9:45:27 PM
  */
 public interface ConfigKeys {
-	/**
-	 * Default config file name.
-	 */
-	String	COTEAFS_CONFIG_DEFAULT_FILE	= "/appium-config.yaml";
-	/**
-	 * Config key to use.
-	 */
-	String	COTEAFS_CONFIG_KEY			= "coteafs.appium.config";
+    /**
+     * Default config file name.
+     */
+    String COTEAFS_CONFIG_DEFAULT_FILE = "/appium-config.yaml";
+    /**
+     * Config key to use.
+     */
+    String COTEAFS_CONFIG_KEY          = "coteafs.appium.config";
 }

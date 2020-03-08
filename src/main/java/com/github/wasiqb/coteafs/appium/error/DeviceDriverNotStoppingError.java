@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,24 +20,24 @@ package com.github.wasiqb.coteafs.appium.error;
  * @since 04-May-2017 9:57:00 PM
  */
 public class DeviceDriverNotStoppingError extends CoteafsAppiumError {
-	private static final long serialVersionUID = 6550193998074883544L;
+    private static final long serialVersionUID = 6550193998074883544L;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:17:11 PM
-	 * @param message
-	 */
-	public DeviceDriverNotStoppingError (final String message) {
-		super (message);
-	}
+    /**
+     * @param message
+     * @author wasiq.bhamla
+     * @since 04-May-2017 11:17:11 PM
+     */
+    public DeviceDriverNotStoppingError(final String message) {
+        super(message);
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 9:57:00 PM
-	 * @param message
-	 * @param cause
-	 */
-	public DeviceDriverNotStoppingError (final String message, final Throwable cause) {
-		super (message, cause);
-	}
+    /**
+     * @param message
+     * @param cause
+     * @author wasiq.bhamla
+     * @since 04-May-2017 9:57:00 PM
+     */
+    public DeviceDriverNotStoppingError(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

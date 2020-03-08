@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-
 import io.appium.java_client.MobileBy;
 
 /**
@@ -25,33 +24,33 @@ import io.appium.java_client.MobileBy;
  * @since Feb 2, 2018 1:11:54 PM
  */
 public class DragDropActivity extends DefaultActivity {
-	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 2, 2018 1:11:55 PM
-	 * @param device
-	 */
-	public DragDropActivity (final AndroidDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiq.bhamla
+     * @since Feb 2, 2018 1:11:55 PM
+     */
+    public DragDropActivity(final AndroidDevice device) {
+        super(device);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
-	 */
-	@Override
-	protected DeviceElement prepare () {
-		final DeviceElement main = super.prepare ();
+    /*
+     * (non-Javadoc)
+     * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
+     */
+    @Override
+    protected DeviceElement prepare() {
+        final DeviceElement main = super.prepare();
 
-		DeviceElement.create ("Success")
-			.parent (main)
-			.forAndroid (MobileBy.AccessibilityId ("success"));
-		DeviceElement.create ("DropZone")
-			.parent (main)
-			.forAndroid (MobileBy.AccessibilityId ("dropzone"));
-		DeviceElement.create ("DropMe")
-			.parent (main)
-			.forAndroid (MobileBy.AccessibilityId ("dragMe"));
+        DeviceElement.create("Success")
+            .parent(main)
+            .forAndroid(MobileBy.AccessibilityId("success"));
+        DeviceElement.create("DropZone")
+            .parent(main)
+            .forAndroid(MobileBy.AccessibilityId("dropzone"));
+        DeviceElement.create("DropMe")
+            .parent(main)
+            .forAndroid(MobileBy.AccessibilityId("dragMe"));
 
-		return main;
-	}
+        return main;
+    }
 }

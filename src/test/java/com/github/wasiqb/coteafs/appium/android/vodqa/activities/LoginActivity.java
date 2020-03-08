@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-
 import io.appium.java_client.MobileBy;
 
 /**
@@ -25,31 +24,31 @@ import io.appium.java_client.MobileBy;
  * @since Jan 22, 2018 8:51:26 PM
  */
 public class LoginActivity extends DefaultActivity {
-	/**
-	 * @author wasiq.bhamla
-	 * @since Jan 22, 2018 8:51:27 PM
-	 * @param device
-	 */
-	public LoginActivity (final AndroidDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiq.bhamla
+     * @since Jan 22, 2018 8:51:27 PM
+     */
+    public LoginActivity(final AndroidDevice device) {
+        super(device);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
-	 */
-	@Override
-	protected DeviceElement prepare () {
-		final DeviceElement main = super.prepare ();
-		DeviceElement.create ("UserName")
-			.forAndroid (MobileBy.AccessibilityId ("username"))
-			.parent (main);
-		DeviceElement.create ("Password")
-			.forAndroid (MobileBy.AccessibilityId ("password"))
-			.parent (main);
-		DeviceElement.create ("Login")
-			.forAndroid (MobileBy.AccessibilityId ("login"))
-			.parent (main);
-		return main;
-	}
+    /*
+     * (non-Javadoc)
+     * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
+     */
+    @Override
+    protected DeviceElement prepare() {
+        final DeviceElement main = super.prepare();
+        DeviceElement.create("UserName")
+            .forAndroid(MobileBy.AccessibilityId("username"))
+            .parent(main);
+        DeviceElement.create("Password")
+            .forAndroid(MobileBy.AccessibilityId("password"))
+            .parent(main);
+        DeviceElement.create("Login")
+            .forAndroid(MobileBy.AccessibilityId("login"))
+            .parent(main);
+        return main;
+    }
 }

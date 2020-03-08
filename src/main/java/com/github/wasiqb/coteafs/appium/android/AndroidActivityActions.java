@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,6 @@
 package com.github.wasiqb.coteafs.appium.android;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceActivityActions;
-
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidTouchAction;
@@ -25,14 +24,14 @@ import io.appium.java_client.android.AndroidTouchAction;
  * @author wasiq.bhamla
  * @since Oct 23, 2017 11:04:31 PM
  */
-public abstract class AndroidActivityActions extends
-		DeviceActivityActions <AndroidDriver <MobileElement>, AndroidDevice, AndroidTouchAction> {
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 23, 2017 11:05:14 PM
-	 * @param device
-	 */
-	public AndroidActivityActions (final AndroidDevice device) {
-		super (device);
-	}
+public abstract class AndroidActivityActions
+    extends DeviceActivityActions<AndroidDriver<MobileElement>, AndroidDevice, AndroidTouchAction> {
+    /**
+     * @param device
+     * @author wasiq.bhamla
+     * @since Oct 23, 2017 11:05:14 PM
+     */
+    public AndroidActivityActions(final AndroidDevice device) {
+        super(device);
+    }
 }

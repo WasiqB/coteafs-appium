@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,31 +26,31 @@ import com.github.wasiqb.coteafs.appium.service.AppiumServer;
  * @since 09-May-2017 3:49:21 PM
  */
 public final class ServerChecker {
-	/**
-	 * @author wasiq.bhamla
-	 * @since 09-May-2017 3:52:30 PM
-	 * @param key
-	 * @param value
-	 */
-	public static void checkServerConfigParams (final String key, final Object value) {
-		if (value == null) {
-			final String msg = "Server Config value for %s key not set.";
-			fail (AppiumConfigParameterNotFoundError.class, String.format (msg, key));
-		}
-	}
+    /**
+     * @param key
+     * @param value
+     * @author wasiq.bhamla
+     * @since 09-May-2017 3:52:30 PM
+     */
+    public static void checkServerConfigParams(final String key, final Object value) {
+        if (value == null) {
+            final String msg = "Server Config value for %s key not set.";
+            fail(AppiumConfigParameterNotFoundError.class, String.format(msg, key));
+        }
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 4:36:57 PM
-	 * @param server
-	 */
-	public static void checkServerRunning (final AppiumServer server) {
-		if (!server.isRunning ()) {
-			fail (AppiumServerNotRunningError.class, "Server not started yet.");
-		}
-	}
+    /**
+     * @param server
+     * @author wasiq.bhamla
+     * @since 04-May-2017 4:36:57 PM
+     */
+    public static void checkServerRunning(final AppiumServer server) {
+        if (!server.isRunning()) {
+            fail(AppiumServerNotRunningError.class, "Server not started yet.");
+        }
+    }
 
-	private ServerChecker () {
-		// Utility class.
-	}
+    private ServerChecker() {
+        // Utility class.
+    }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -24,44 +24,42 @@ import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Calendar;
 
+import com.github.wasiqb.coteafs.appium.config.RecordSetting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import com.github.wasiqb.coteafs.appium.config.RecordSetting;
 
 /**
  * @author wasiqb
  * @since Oct 13, 2018
  */
 public class ScreenRecorder {
-	private static final Logger LOG = LogManager.getLogger (ScreenRecorder.class);
+    private static final Logger LOG = LogManager.getLogger(ScreenRecorder.class);
 
-	/**
-	 * @author wasiqb
-	 * @since Oct 13, 2018
-	 * @param content
-	 * @param setting
-	 */
-	public static void saveRecording (final String content, final RecordSetting setting) {
-		final byte [] decode = Base64.getDecoder ()
-			.decode (content);
-		try {
-			final String path = setting.getPath ();
-			final String prefix = setting.getPrefix ();
-			final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-HHmmss");
-			final String timeStamp = date.format (Calendar.getInstance ()
-				.getTime ());
-			final String fileName = format ("%s/%s-%s.%s", path, prefix, timeStamp, "mp4");
-			LOG.info ("Saving video recording to [{}] path...", fileName);
-			writeByteArrayToFile (new File (fileName), decode);
-		}
-		catch (final IOException e) {
-			LOG.error ("Error occurred while saving video recording...");
-			LOG.catching (e);
-		}
-	}
+    /**
+     * @param content
+     * @param setting
+     * @author wasiqb
+     * @since Oct 13, 2018
+     */
+    public static void saveRecording(final String content, final RecordSetting setting) {
+        final byte[] decode = Base64.getDecoder()
+            .decode(content);
+        try {
+            final String path = setting.getPath();
+            final String prefix = setting.getPrefix();
+            final SimpleDateFormat date = new SimpleDateFormat("yyyyMMdd-HHmmss");
+            final String timeStamp = date.format(Calendar.getInstance()
+                .getTime());
+            final String fileName = format("%s/%s-%s.%s", path, prefix, timeStamp, "mp4");
+            LOG.info("Saving video recording to [{}] path...", fileName);
+            writeByteArrayToFile(new File(fileName), decode);
+        } catch (final IOException e) {
+            LOG.error("Error occurred while saving video recording...");
+            LOG.catching(e);
+        }
+    }
 
-	private ScreenRecorder () {
-		// Utility class.
-	}
+    private ScreenRecorder() {
+        // Utility class.
+    }
 }

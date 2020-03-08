@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,28 +20,24 @@ package com.github.wasiqb.coteafs.appium.config.enums;
  * @since Jan 31, 2018 2:50:44 PM
  */
 public enum SwipeStartPosition {
-	/**
-	 * Start from bottom border.
-	 */
-	BOTTOM,
-
-	/**
-	 * Start from center.
-	 */
-	CENTER,
-
-	/**
-	 * Start from left border.
-	 */
-	LEFT,
-
-	/**
-	 * Start from right border
-	 */
-	RIGHT,
-
-	/**
-	 * Start from top border.
-	 */
-	TOP;
+    /**
+     * Start from bottom border.
+     */
+    BOTTOM,
+    /**
+     * Start from center.
+     */
+    CENTER,
+    /**
+     * Start from left border.
+     */
+    LEFT,
+    /**
+     * Start from right border
+     */
+    RIGHT,
+    /**
+     * Start from top border.
+     */
+    TOP
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,50 +20,50 @@ package com.github.wasiqb.coteafs.appium.config.enums;
  * @since Oct 16, 2017 9:34:46 PM
  */
 public enum SwipeDirection {
-	/**
-	 * Swipe up.
-	 */
-	DOWN (0, 1),
-	/**
-	 * Swipe left.
-	 */
-	LEFT (-1, 0),
-	/**
-	 * Swipe right.
-	 */
-	RIGHT (1, 0),
-	/**
-	 * Swipe up.
-	 */
-	UP (0, -1);
+    /**
+     * Swipe up.
+     */
+    DOWN(0, 1),
+    /**
+     * Swipe left.
+     */
+    LEFT(-1, 0),
+    /**
+     * Swipe right.
+     */
+    RIGHT(1, 0),
+    /**
+     * Swipe up.
+     */
+    UP(0, -1);
 
-	private final int	x;
-	private final int	y;
+    private final int x;
+    private final int y;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 20, 2017 7:56:06 PM
-	 */
-	private SwipeDirection (final int x, final int y) {
-		this.x = x;
-		this.y = y;
-	}
+    /**
+     * @author wasiq.bhamla
+     * @since Oct 20, 2017 7:56:06 PM
+     */
+    SwipeDirection(final int x, final int y) {
+        this.x = x;
+        this.y = y;
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 20, 2017 7:57:09 PM
-	 * @return the x
-	 */
-	public int getX () {
-		return this.x;
-	}
+    /**
+     * @return the x
+     * @author wasiq.bhamla
+     * @since Oct 20, 2017 7:57:09 PM
+     */
+    public int getX() {
+        return this.x;
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 20, 2017 7:57:09 PM
-	 * @return the y
-	 */
-	public int getY () {
-		return this.y;
-	}
+    /**
+     * @return the y
+     * @author wasiq.bhamla
+     * @since Oct 20, 2017 7:57:09 PM
+     */
+    public int getY() {
+        return this.y;
+    }
 }
