@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,24 +20,24 @@ package com.github.wasiqb.coteafs.appium.error;
  * @since 06-May-2017 4:11:39 PM
  */
 public class DeviceDriverDefaultWaitError extends CoteafsAppiumError {
-	private static final long serialVersionUID = 3213298782710610781L;
+    private static final long serialVersionUID = 3213298782710610781L;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 06-May-2017 4:11:39 PM
-	 * @param message
-	 */
-	public DeviceDriverDefaultWaitError (final String message) {
-		super (message);
-	}
+    /**
+     * @param message
+     * @author wasiq.bhamla
+     * @since 06-May-2017 4:11:39 PM
+     */
+    public DeviceDriverDefaultWaitError(final String message) {
+        super(message);
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 06-May-2017 4:11:39 PM
-	 * @param message
-	 * @param cause
-	 */
-	public DeviceDriverDefaultWaitError (final String message, final Throwable cause) {
-		super (message, cause);
-	}
+    /**
+     * @param message
+     * @param cause
+     * @author wasiq.bhamla
+     * @since 06-May-2017 4:11:39 PM
+     */
+    public DeviceDriverDefaultWaitError(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +20,8 @@ package com.github.wasiqb.coteafs.appium.constants;
  * @since Jul 22, 2017 10:02:54 PM
  */
 public interface ErrorMessage {
-	/**
-	 * Server stopped error message.
-	 */
-	String SERVER_STOPPED = "Server Session has been stopped.";
+    /**
+     * Server stopped error message.
+     */
+    String SERVER_STOPPED = "Server Session has been stopped.";
 }

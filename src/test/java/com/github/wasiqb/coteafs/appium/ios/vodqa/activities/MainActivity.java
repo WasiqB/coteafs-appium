@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.ios.vodqa.activities;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
-
 import io.appium.java_client.MobileBy;
 
 /**
@@ -25,39 +24,39 @@ import io.appium.java_client.MobileBy;
  * @since Oct 28, 2018
  */
 public class MainActivity extends BaseActivity {
-	/**
-	 * @author wasiqb
-	 * @since Oct 28, 2018
-	 * @param device
-	 */
-	public MainActivity (final IOSDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiqb
+     * @since Oct 28, 2018
+     */
+    public MainActivity(final IOSDevice device) {
+        super(device);
+    }
 
-	@Override
-	protected DeviceElement prepare () {
-		final DeviceElement main = super.prepare ();
+    @Override
+    protected DeviceElement prepare() {
+        final DeviceElement main = super.prepare();
 
-		final DeviceElement view = DeviceElement.create ("scrollView")
-			.parent (main)
-			.forIos (MobileBy.AccessibilityId ("scrollView"));
+        final DeviceElement view = DeviceElement.create("scrollView")
+            .parent(main)
+            .forIos(MobileBy.AccessibilityId("scrollView"));
 
-		DeviceElement.create ("Slider")
-			.parent (view)
-			.forIos (MobileBy.iOSNsPredicateString ("name == 'slider1'"));
-		DeviceElement.create ("DragDrop")
-			.parent (view)
-			.forIos (MobileBy.iOSNsPredicateString ("name == 'dragAndDrop'"));
-		DeviceElement.create ("VerticleSwipe")
-			.parent (view)
-			.forIos (MobileBy.iOSNsPredicateString ("name == 'verticalSwipe'"));
-		DeviceElement.create ("DoubleTap")
-			.parent (view)
-			.forIos (MobileBy.iOSNsPredicateString ("name == 'doubleTap'"));
-		DeviceElement.create ("LongPress")
-			.parent (view)
-			.forIos (MobileBy.iOSNsPredicateString ("name == 'longPress'"));
+        DeviceElement.create("Slider")
+            .parent(view)
+            .forIos(MobileBy.iOSNsPredicateString("name == 'slider1'"));
+        DeviceElement.create("DragDrop")
+            .parent(view)
+            .forIos(MobileBy.iOSNsPredicateString("name == 'dragAndDrop'"));
+        DeviceElement.create("VerticleSwipe")
+            .parent(view)
+            .forIos(MobileBy.iOSNsPredicateString("name == 'verticalSwipe'"));
+        DeviceElement.create("DoubleTap")
+            .parent(view)
+            .forIos(MobileBy.iOSNsPredicateString("name == 'doubleTap'"));
+        DeviceElement.create("LongPress")
+            .parent(view)
+            .forIos(MobileBy.iOSNsPredicateString("name == 'longPress'"));
 
-		return main;
-	}
+        return main;
+    }
 }

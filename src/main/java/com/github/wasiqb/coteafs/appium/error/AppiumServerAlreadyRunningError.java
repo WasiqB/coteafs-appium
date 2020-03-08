@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,24 +20,24 @@ package com.github.wasiqb.coteafs.appium.error;
  * @since 04-May-2017 9:44:46 PM
  */
 public class AppiumServerAlreadyRunningError extends CoteafsAppiumError {
-	private static final long serialVersionUID = 3122700421661631230L;
+    private static final long serialVersionUID = 3122700421661631230L;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:12:22 PM
-	 * @param message
-	 */
-	public AppiumServerAlreadyRunningError (final String message) {
-		super (message);
-	}
+    /**
+     * @param message
+     * @author wasiq.bhamla
+     * @since 04-May-2017 11:12:22 PM
+     */
+    public AppiumServerAlreadyRunningError(final String message) {
+        super(message);
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 9:44:46 PM
-	 * @param message
-	 * @param cause
-	 */
-	public AppiumServerAlreadyRunningError (final String message, final Throwable cause) {
-		super (message, cause);
-	}
+    /**
+     * @param message
+     * @param cause
+     * @author wasiq.bhamla
+     * @since 04-May-2017 9:44:46 PM
+     */
+    public AppiumServerAlreadyRunningError(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

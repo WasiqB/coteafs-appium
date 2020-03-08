@@ -1,0 +1,17 @@
+status: WARN
+log_dir: /logs
+loggers:
+  - name: console-log
+    type: CONSOLE
+    message_pattern: "[%d{HH:mm:ss.SSS}] [%-5level] - %msg (%logger{1}:%L) %throwable{short.message}%n"
+    level: DEBUG
+  - name: test-log-appender
+    type: FILE
+    file_name: new-log-main
+    path_pattern: my-log-main-%d{yyyy-MM-dd}.log
+    message_pattern: "[%d{HH:mm:ss.SSS}] [%-5level] - %msg (%logger{1}:%L) %throwable{short.message}%n"
+    level: INFO
+    archive:
+      after_days: 1
+      after_size: 5
+      on_every_run: true

@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,6 @@
 package com.github.wasiqb.coteafs.appium.ios;
 
 import com.github.wasiqb.coteafs.appium.device.DeviceElementVerify;
-
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSTouchAction;
@@ -25,14 +24,13 @@ import io.appium.java_client.ios.IOSTouchAction;
  * @author wasiq.bhamla
  * @since 20-May-2017 12:29:27 PM
  */
-public class IOSElementVerify
-		extends DeviceElementVerify <IOSDriver <MobileElement>, IOSDevice, IOSTouchAction> {
-	/**
-	 * @author wasiq.bhamla
-	 * @since 20-May-2017 12:31:51 PM
-	 * @param actions
-	 */
-	public IOSElementVerify (final IOSDeviceElementActions actions) {
-		super (actions);
-	}
+public class IOSElementVerify extends DeviceElementVerify<IOSDriver<MobileElement>, IOSDevice, IOSTouchAction> {
+    /**
+     * @param actions
+     * @author wasiq.bhamla
+     * @since 20-May-2017 12:31:51 PM
+     */
+    public IOSElementVerify(final IOSDeviceElementActions actions) {
+        super(actions);
+    }
 }

@@ -1,0 +1,8 @@
+fileignoreconfig:
+- filename: src/main/java/com/github/wasiqb/coteafs/appium/error/CoteafsAppiumError.java
+  checksum: 08c96b7ca6d4bffee5d2a9fe16752f871b851c5aed0b9a92d7cf96017ec6027c
+  ignore_detectors: []
+- filename: src/main/java/com/github/wasiqb/coteafs/appium/config/ServerSetting.java
+  checksum: a6419ab781cd6a0776827156f40b57ca48c264fd953c0fb0677e4500d4c46a7e
+  ignore_detectors: []
+scopeconfig: []

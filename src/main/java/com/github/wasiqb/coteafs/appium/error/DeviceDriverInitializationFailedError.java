@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,24 +20,24 @@ package com.github.wasiqb.coteafs.appium.error;
  * @since 06-May-2017 4:07:48 PM
  */
 public class DeviceDriverInitializationFailedError extends CoteafsAppiumError {
-	private static final long serialVersionUID = -3202324172947020043L;
+    private static final long serialVersionUID = -3202324172947020043L;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 06-May-2017 4:07:48 PM
-	 * @param message
-	 */
-	public DeviceDriverInitializationFailedError (final String message) {
-		super (message);
-	}
+    /**
+     * @param message
+     * @author wasiq.bhamla
+     * @since 06-May-2017 4:07:48 PM
+     */
+    public DeviceDriverInitializationFailedError(final String message) {
+        super(message);
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 06-May-2017 4:07:48 PM
-	 * @param message
-	 * @param cause
-	 */
-	public DeviceDriverInitializationFailedError (final String message, final Throwable cause) {
-		super (message, cause);
-	}
+    /**
+     * @param message
+     * @param cause
+     * @author wasiq.bhamla
+     * @since 06-May-2017 4:07:48 PM
+     */
+    public DeviceDriverInitializationFailedError(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

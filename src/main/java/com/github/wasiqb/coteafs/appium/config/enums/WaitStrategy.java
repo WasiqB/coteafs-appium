@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,25 +19,21 @@ package com.github.wasiqb.coteafs.appium.config.enums;
  * @author wasiqb
  * @since Oct 20, 2018
  */
-/**
- * @author wasiq.bhamla
- * @since Jan 26, 2018 10:02:12 PM
- */
 public enum WaitStrategy {
-	/**
-	 * Wait until element is enabled.
-	 */
-	ENABLED,
-	/**
-	 * No wait.
-	 */
-	NONE,
-	/**
-	 * Wait until element is present.
-	 */
-	PRESENT,
-	/**
-	 * Wait until element is displayed.
-	 */
-	VISIBLE
+    /**
+     * Wait until element is enabled.
+     */
+    ENABLED,
+    /**
+     * No wait.
+     */
+    NONE,
+    /**
+     * Wait until element is present.
+     */
+    PRESENT,
+    /**
+     * Wait until element is displayed.
+     */
+    VISIBLE
 }

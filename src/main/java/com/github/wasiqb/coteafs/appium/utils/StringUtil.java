@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017-2020, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,19 +23,20 @@ import static org.apache.commons.text.StringSubstitutor.replaceSystemProperties;
  * @since Oct 2, 2018
  */
 public final class StringUtil {
-	/**
-	 * @author wasiqb
-	 * @since Oct 2, 2018
-	 * @param value
-	 * @return extracted string.
-	 */
-	public static String replaceSystemProperty (final String value) {
-		if (isEmpty (value))
-			return null;
-		return value.startsWith ("${") ? replaceSystemProperties (value) : value;
-	}
+    /**
+     * @param value
+     * @return extracted string.
+     * @author wasiqb
+     * @since Oct 2, 2018
+     */
+    public static String replaceSystemProperty(final String value) {
+        if (isEmpty(value)) {
+            return null;
+        }
+        return value.startsWith("${") ? replaceSystemProperties(value) : value;
+    }
 
-	private StringUtil () {
-		// Util class.
-	}
+    private StringUtil() {
+        // Util class.
+    }
 }

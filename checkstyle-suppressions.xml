@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suppressions PUBLIC
+    "-//Puppy Crawl//DTD Suppressions 1.1//EN"
+    "http://www.puppycrawl.com/dtds/suppressions_1_1.dtd">
+<suppressions>
+  <!-- ##### Suppressions for Javadoc in Test classes ##### -->
+  <suppress checks="JavadocMethod" files="src[/\\]test[/\\]java"/>
+  <suppress checks="JavadocType" files="src[/\\]test[/\\]java"/>
+  <!-- Disables 'final' keyword rule on variables and method parameters -->
+  <suppress checks="FinalLocalVariable" files="src[/\\]test[/\\]java"/>
+  <suppress checks="FinalParameters" files="src[/\\]test[/\\]java"/>
+
+  <!-- ##### Suppressions for generated source files ##### -->
+  <suppress checks=".*" files="[/\\]target[/\\]" />
+
+  <!-- Disables Javadoc requirement for all public methods. This suppression
+       is not recommended, but may be needed (temporarily) to allow checkstyle
+       to be applied to existing codebases. -->
+  <suppress checks="JavadocMethod" files="src[/\\]main[/\\]java"/>
+
+  <!-- Disables 'final' keyword rule on variables and method parameters -->
+  <!-- <suppress checks="FinalLocalVariable" files="src[/\\]main[/\\]java"/>
+  <suppress checks="FinalParameters" files="src[/\\]main[/\\]java"/> -->
+</suppressions>

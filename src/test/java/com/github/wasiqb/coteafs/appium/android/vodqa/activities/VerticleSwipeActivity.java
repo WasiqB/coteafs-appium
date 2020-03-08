@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,6 @@ package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
-
 import io.appium.java_client.MobileBy;
 
 /**
@@ -25,27 +24,27 @@ import io.appium.java_client.MobileBy;
  * @since Feb 1, 2018 2:59:40 PM
  */
 public class VerticleSwipeActivity extends DefaultActivity {
-	/**
-	 * @author wasiq.bhamla
-	 * @since Feb 1, 2018 2:59:41 PM
-	 * @param device
-	 */
-	public VerticleSwipeActivity (final AndroidDevice device) {
-		super (device);
-	}
+    /**
+     * @param device
+     * @author wasiq.bhamla
+     * @since Feb 1, 2018 2:59:41 PM
+     */
+    public VerticleSwipeActivity(final AndroidDevice device) {
+        super(device);
+    }
 
-	/*
-	 * (non-Javadoc)
-	 * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
-	 */
-	@Override
-	protected DeviceElement prepare () {
-		final DeviceElement main = super.prepare ();
+    /*
+     * (non-Javadoc)
+     * @see com.github.wasiqb.coteafs.appium.android.vodqa.activities.DefaultActivity#prepare()
+     */
+    @Override
+    protected DeviceElement prepare() {
+        final DeviceElement main = super.prepare();
 
-		DeviceElement.create ("List")
-			.parent (main)
-			.forAndroid (MobileBy.AccessibilityId ("listview"));
+        DeviceElement.create("List")
+            .parent(main)
+            .forAndroid(MobileBy.AccessibilityId("listview"));
 
-		return main;
-	}
+        return main;
+    }
 }

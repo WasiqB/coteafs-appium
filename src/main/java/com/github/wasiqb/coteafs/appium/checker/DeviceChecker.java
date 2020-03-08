@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,7 +20,6 @@ import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementDisabledError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementNotDisplayedError;
-
 import io.appium.java_client.MobileElement;
 
 /**
@@ -28,47 +27,46 @@ import io.appium.java_client.MobileElement;
  * @since 04-May-2017 4:30:02 PM
  */
 public final class DeviceChecker {
-	/**
-	 * @author wasiq.bhamla
-	 * @since 12-May-2017 7:31:31 PM
-	 * @param key
-	 * @param value
-	 */
-	public static void checkCapabilitiesParams (final String key, final Object value) {
-		if (value == null) {
-			final String msg = "Device Desired Capabilities value for [%s] key not set.";
-			fail (DeviceDesiredCapabilitiesNotSetError.class, String.format (msg, key));
-		}
-	}
+    /**
+     * @param key
+     * @param value
+     * @author wasiq.bhamla
+     * @since 12-May-2017 7:31:31 PM
+     */
+    public static void checkCapabilitiesParams(final String key, final Object value) {
+        if (value == null) {
+            final String msg = "Device Desired Capabilities value for [%s] key not set.";
+            fail(DeviceDesiredCapabilitiesNotSetError.class, String.format(msg, key));
+        }
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 10:10:28 PM
-	 * @param element
-	 * @param name
-	 */
-	public static void checkDeviceElementDisplayed (final MobileElement element,
-		final String name) {
-		if (!element.isDisplayed ()) {
-			final String msg = "Device element [%s] is not displayed.";
-			fail (DeviceElementNotDisplayedError.class, String.format (msg, name));
-		}
-	}
+    /**
+     * @param element
+     * @param name
+     * @author wasiq.bhamla
+     * @since 04-May-2017 10:10:28 PM
+     */
+    public static void checkDeviceElementDisplayed(final MobileElement element, final String name) {
+        if (!element.isDisplayed()) {
+            final String msg = "Device element [%s] is not displayed.";
+            fail(DeviceElementNotDisplayedError.class, String.format(msg, name));
+        }
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since 04-May-2017 11:08:59 PM
-	 * @param element
-	 * @param name
-	 */
-	public static void checkDeviceElementEnabled (final MobileElement element, final String name) {
-		if (!element.isEnabled ()) {
-			final String msg = "Device element [%s] is disabled.";
-			fail (DeviceElementDisabledError.class, String.format (msg, name));
-		}
-	}
+    /**
+     * @param element
+     * @param name
+     * @author wasiq.bhamla
+     * @since 04-May-2017 11:08:59 PM
+     */
+    public static void checkDeviceElementEnabled(final MobileElement element, final String name) {
+        if (!element.isEnabled()) {
+            final String msg = "Device element [%s] is disabled.";
+            fail(DeviceElementDisabledError.class, String.format(msg, name));
+        }
+    }
 
-	private DeviceChecker () {
-		// Utility class.
-	}
+    private DeviceChecker() {
+        // Utility class.
+    }
 }

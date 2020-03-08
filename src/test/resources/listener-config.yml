@@ -1,0 +1,6 @@
+log:
+  configurations: true
+  data_provider: true
+  execution: true
+  suites: true
+  tests: true

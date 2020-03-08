@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,58 +23,56 @@ import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
 
 /**
- * @author wasiq.bhamla
- * @param <D>
- *            Driver
- * @param <E>
- *            Device
+ * @param <D> Driver
+ * @param <E> Device
  * @param <T>
+ * @author wasiq.bhamla
  * @since Oct 23, 2017 10:51:31 PM
  */
-public abstract class DeviceActivityActions <D extends AppiumDriver <MobileElement>, E extends Device <D, T>, T extends TouchAction <T>> {
-	private final E						device;
-	private final Map <String, Object>	values;
+public abstract class DeviceActivityActions<D extends AppiumDriver<MobileElement>, E extends Device<D, T>,
+    T extends TouchAction<T>> {
+    private final E                   device;
+    private final Map<String, Object> values;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @param device
-	 * @since Oct 23, 2017 10:51:31 PM
-	 */
-	public DeviceActivityActions (final E device) {
-		this.device = device;
-		this.values = new HashMap <> ();
-	}
+    /**
+     * @param device
+     * @author wasiq.bhamla
+     * @since Oct 23, 2017 10:51:31 PM
+     */
+    public DeviceActivityActions(final E device) {
+        this.device = device;
+        this.values = new HashMap<>();
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 23, 2017 11:01:15 PM
-	 * @param element
-	 * @param value
-	 * @return instance
-	 */
-	public DeviceActivityActions <D, E, T> addInputValue (final String element,
-			final Object value) {
-		this.values.put (element, value);
-		return this;
-	}
+    /**
+     * @param element
+     * @param value
+     * @return instance
+     * @author wasiq.bhamla
+     * @since Oct 23, 2017 11:01:15 PM
+     */
+    public DeviceActivityActions<D, E, T> addInputValue(final String element, final Object value) {
+        this.values.put(element, value);
+        return this;
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 23, 2017 10:55:13 PM
-	 * @return the device
-	 */
-	public E getDevice () {
-		return this.device;
-	}
+    /**
+     * @return the device
+     * @author wasiq.bhamla
+     * @since Oct 23, 2017 10:55:13 PM
+     */
+    public E getDevice() {
+        return this.device;
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 23, 2017 10:53:59 PM
-	 */
-	public abstract void perform ();
+    /**
+     * @author wasiq.bhamla
+     * @since Oct 23, 2017 10:53:59 PM
+     */
+    public abstract void perform();
 
-	@SuppressWarnings ("unchecked")
-	protected <X> X value (final String element) {
-		return (X) this.values.get (element);
-	}
+    @SuppressWarnings("unchecked")
+    protected <X> X value(final String element) {
+        return (X) this.values.get(element);
+    }
 }

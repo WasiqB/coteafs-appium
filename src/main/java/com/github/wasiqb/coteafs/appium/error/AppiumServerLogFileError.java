@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,24 +20,24 @@ package com.github.wasiqb.coteafs.appium.error;
  * @since Oct 31, 2017 9:24:59 PM
  */
 public class AppiumServerLogFileError extends CoteafsAppiumError {
-	private static final long serialVersionUID = -1270139515211883488L;
+    private static final long serialVersionUID = -1270139515211883488L;
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 31, 2017 9:25:00 PM
-	 * @param message
-	 */
-	public AppiumServerLogFileError (final String message) {
-		super (message);
-	}
+    /**
+     * @param message
+     * @author wasiq.bhamla
+     * @since Oct 31, 2017 9:25:00 PM
+     */
+    public AppiumServerLogFileError(final String message) {
+        super(message);
+    }
 
-	/**
-	 * @author wasiq.bhamla
-	 * @since Oct 31, 2017 9:25:00 PM
-	 * @param message
-	 * @param cause
-	 */
-	public AppiumServerLogFileError (final String message, final Throwable cause) {
-		super (message, cause);
-	}
+    /**
+     * @param message
+     * @param cause
+     * @author wasiq.bhamla
+     * @since Oct 31, 2017 9:25:00 PM
+     */
+    public AppiumServerLogFileError(final String message, final Throwable cause) {
+        super(message, cause);
+    }
 }

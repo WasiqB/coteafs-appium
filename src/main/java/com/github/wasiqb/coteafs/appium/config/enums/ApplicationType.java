@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright (c) 2017, Wasiq Bhamla.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,16 +20,16 @@ package com.github.wasiqb.coteafs.appium.config.enums;
  * @since 12-Apr-2017 8:37:00 PM
  */
 public enum ApplicationType {
-	/**
-	 * Hybrid App.
-	 */
-	HYBRID,
-	/**
-	 * Native App.
-	 */
-	NATIVE,
-	/**
-	 * Web App.
-	 */
-	WEB;
+    /**
+     * Hybrid App.
+     */
+    HYBRID,
+    /**
+     * Native App.
+     */
+    NATIVE,
+    /**
+     * Web App.
+     */
+    WEB
 }
