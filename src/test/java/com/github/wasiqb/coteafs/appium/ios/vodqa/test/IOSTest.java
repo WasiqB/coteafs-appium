@@ -29,6 +29,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 /**
@@ -43,7 +44,7 @@ public class IOSTest {
      * @author wasiqb
      * @since Oct 28, 2018
      */
-    @BeforeMethod
+    @BeforeMethod(alwaysRun = true)
     public void setupMethod() {
         this.device.start();
     }
@@ -52,19 +53,20 @@ public class IOSTest {
      * @author wasiqb
      * @since Oct 28, 2018
      */
-    @BeforeTest
-    public void setupTest() {
-        this.server = new AppiumServer("iphone");
+    @Parameters( { "server", "device" })
+    @BeforeTest(alwaysRun = true)
+    public void setupTest(final String server, final String device) {
+        this.server = new AppiumServer(server);
         this.server.start();
 
-        this.device = new IOSDevice(this.server, "iphone");
+        this.device = new IOSDevice(this.server, device);
     }
 
     /**
      * @author wasiqb
      * @since Oct 28, 2018
      */
-    @AfterMethod
+    @AfterMethod(alwaysRun = true)
     public void teardownMethod() {
         this.device.stop();
     }
@@ -73,7 +75,7 @@ public class IOSTest {
      * @author wasiqb
      * @since Oct 28, 2018
      */
-    @AfterTest
+    @AfterTest(alwaysRun = true)
     public void teardownTest() {
         this.server.stop();
     }

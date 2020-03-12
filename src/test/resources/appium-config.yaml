@@ -13,6 +13,17 @@ servers:
     host: 0.0.0.0
     port: 4723
     <<: *default_server
+  ios:
+    host: 0.0.0.0
+    port: 4725
+    appium_js_path: /usr/local/lib/node_modules/appium/build/lib/main.js
+    arguments:
+      log_level: DEBUG
+      log_time_stamp: true
+      local_time_zone: true
+      session_override: true
+      ios:
+        wda_port: 8101
   browserstack:
     protocol: HTTPS
     host: hub-cloud.browserstack.com
@@ -57,3 +68,24 @@ devices:
     cloud_app: true
     automation_name: APPIUM
     <<: *default_device
+  iphone:
+    device_name: iPhone 11
+    device_version: 13.3
+    app_location: apps/ios/vodqa.zip
+    automation_name: XCUI
+    device_type: SIMULATOR
+    platform_type: IOS
+    app_type: NATIVE
+    session_timeout: 120000
+    clear_system_files: true
+    no_reset: false
+    full_reset: true
+    playback:
+      record:
+        enabled: false
+      delay_before_swipe: 200
+      delay_after_swipe: 100
+      delay_before_tap: 0
+      delay_after_tap: 0
+    ios:
+      auto_accept_alerts: true

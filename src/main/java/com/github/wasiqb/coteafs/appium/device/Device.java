@@ -341,12 +341,12 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         final IOSDeviceSetting ios = this.setting.getIos();
         if (ios != null) {
             if (this.setting.getAppType() != ApplicationType.WEB) {
-                setCapability(BUNDLE_ID, ios.getBundleId(), this.capabilities, true);
+                setCapability(BUNDLE_ID, ios.getBundleId(), this.capabilities);
             }
-            setCapability(XCODE_ORG_ID, ios.getTeamId(), this.capabilities, true);
-            setCapability(XCODE_SIGNING_ID, ios.getSigningId(), this.capabilities, true);
-            setCapability(APP_NAME, ios.getAppName(), this.capabilities, true);
-            setCapability(WDA_CONNECTION_TIMEOUT, ios.getWdaConnectionTimeout(), this.capabilities, true);
+            setCapability(XCODE_ORG_ID, ios.getTeamId(), this.capabilities);
+            setCapability(XCODE_SIGNING_ID, ios.getSigningId(), this.capabilities);
+            setCapability(APP_NAME, ios.getAppName(), this.capabilities);
+            setCapability(WDA_CONNECTION_TIMEOUT, ios.getWdaConnectionTimeout(), this.capabilities);
             setCapability("bootstrapPath", ios.getBootstrapPath(), this.capabilities);
             setCapability("agentPath", ios.getAgentPath(), this.capabilities);
             setCapability(UPDATE_WDA_BUNDLEID, ios.getUpdatedWdaBundleId(), this.capabilities);
