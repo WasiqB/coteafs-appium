@@ -29,6 +29,7 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
 /**
@@ -43,51 +44,40 @@ public class IOSTest {
      * @author wasiqb
      * @since Oct 28, 2018
      */
-    @BeforeMethod
-    public void setupMethod() {
-        this.device.start();
+    @BeforeMethod (alwaysRun = true)
+    public void setupMethod () {
+        this.device.start ();
     }
 
     /**
      * @author wasiqb
      * @since Oct 28, 2018
      */
-    @BeforeTest
-    public void setupTest() {
-        this.server = new AppiumServer("iphone");
-        this.server.start();
+    @Parameters ({ "server", "device" })
+    @BeforeTest (alwaysRun = true)
+    public void setupTest (final String server, final String device) {
+        this.server = new AppiumServer (server);
+        this.server.start ();
 
-        this.device = new IOSDevice(this.server, "iphone");
+        this.device = new IOSDevice (this.server, device);
     }
 
     /**
      * @author wasiqb
      * @since Oct 28, 2018
      */
-    @AfterMethod
-    public void teardownMethod() {
-        this.device.stop();
+    @AfterMethod (alwaysRun = true)
+    public void teardownMethod () {
+        this.device.stop ();
     }
 
     /**
      * @author wasiqb
      * @since Oct 28, 2018
      */
-    @AfterTest
-    public void teardownTest() {
-        this.server.stop();
-    }
-
-    /**
-     * @author wasiqb
-     * @since Oct 28, 2018
-     */
-    @Test
-    public void test1Login() {
-        final LoginActivityAction login = new LoginActivityAction(this.device);
-        login.addInputValue("Username", "admin")
-            .addInputValue("Password", "admin")
-            .perform();
+    @AfterTest (alwaysRun = true)
+    public void teardownTest () {
+        this.server.stop ();
     }
 
     /**
@@ -95,17 +85,11 @@ public class IOSTest {
      * @since Oct 28, 2018
      */
     @Test
-    public void test2VerticleSwipe() {
-        login();
-        final MainActivity main = new MainActivity(this.device);
-        main.onElement("VerticleSwipe")
-            .tap();
-
-        final VerticleSwipeActivity vs = new VerticleSwipeActivity(this.device);
-        vs.onElement("List")
-            .swipe(SwipeDirection.UP);
-        vs.onElement("List")
-            .swipe(SwipeDirection.DOWN);
+    public void test1Login () {
+        final LoginActivityAction login = new LoginActivityAction (this.device);
+        login.addInputValue ("Username", "admin")
+            .addInputValue ("Password", "admin")
+            .perform ();
     }
 
     /**
@@ -113,19 +97,17 @@ public class IOSTest {
      * @since Oct 28, 2018
      */
     @Test
-    public void test3DragDrop() {
-        login();
-        final MainActivity main = new MainActivity(this.device);
-        main.onElement("DragDrop")
-            .tap();
+    public void test2VerticleSwipe () {
+        login ();
+        final MainActivity main = new MainActivity (this.device);
+        main.onElement ("VerticleSwipe")
+            .tap ();
 
-        final DragDropActivity dt = new DragDropActivity(this.device);
-        dt.onElement("DragMe")
-            .dragDrop(dt.getElement("DropZone"));
-
-        dt.onElement("Message")
-            .verifyThat()
-            .textShouldBeEqualTo("Circle dropped");
+        final VerticleSwipeActivity vs = new VerticleSwipeActivity (this.device);
+        vs.onElement ("List")
+            .swipe (SwipeDirection.UP);
+        vs.onElement ("List")
+            .swipe (SwipeDirection.DOWN);
     }
 
     /**
@@ -133,25 +115,45 @@ public class IOSTest {
      * @since Oct 28, 2018
      */
     @Test
-    public void test4LongPress() {
-        login();
-        final MainActivity main = new MainActivity(this.device);
-        main.onElement("LongPress")
-            .tap();
+    public void test3DragDrop () {
+        login ();
+        final MainActivity main = new MainActivity (this.device);
+        main.onElement ("DragDrop")
+            .tap ();
 
-        final LongPressActivity lp = new LongPressActivity(this.device);
-        lp.onElement("LongPress")
-            .longPress();
+        final DragDropActivity dt = new DragDropActivity (this.device);
+        dt.onElement ("DragMe")
+            .dragDrop (dt.getElement ("DropZone"));
 
-        final String message = lp.onDevice()
-            .handleAlert();
-
-        Assert.assertEquals(message, "Long Pressed\nyou pressed me hard :P");
+        dt.onElement ("Message")
+            .verifyThat ()
+            .textShouldBeEqualTo ("Circle dropped");
     }
 
-    private void login() {
-        final LoginActivity login = new LoginActivity(this.device);
-        login.onElement("Login")
-            .tap();
+    /**
+     * @author wasiqb
+     * @since Oct 28, 2018
+     */
+    @Test
+    public void test4LongPress () {
+        login ();
+        final MainActivity main = new MainActivity (this.device);
+        main.onElement ("LongPress")
+            .tap ();
+
+        final LongPressActivity lp = new LongPressActivity (this.device);
+        lp.onElement ("LongPress")
+            .longPress ();
+
+        final String message = lp.onDevice ()
+            .handleAlert ();
+
+        Assert.assertEquals (message, "Long Pressed\nyou pressed me hard :P");
+    }
+
+    private void login () {
+        final LoginActivity login = new LoginActivity (this.device);
+        login.onElement ("Login")
+            .tap ();
     }
 }

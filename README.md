@@ -75,7 +75,7 @@ In order to use a framework, it's important to know it's advantages. Let's see w
 <dependency>
   <groupId>com.github.wasiqb.coteafs</groupId>
   <artifactId>appium</artifactId>
-  <version>3.1.0</version>
+  <version>3.3.0</version>
 </dependency>
 ```
 

@@ -3,14 +3,14 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>appium</artifactId>
-	<version>3.1.0</version>
+	<version>3.3.0</version>
 	<description>Robust Automation Framework wrapped over Appium.</description>
 	<url>https://github.com/WasiqB/coteafs-appium</url>
 
 	<parent>
 		<groupId>com.github.wasiqb.coteafs</groupId>
 		<artifactId>parent</artifactId>
-		<version>3.1.1</version>
+		<version>3.2.0</version>
 	</parent>
 
 	<scm>
@@ -32,14 +32,21 @@
 	<properties>
 		<appium-version>7.3.0</appium-version>
 		<selenium-version>3.141.59</selenium-version>
-		<coteafs.config.version>2.2.0</coteafs.config.version>
-		<coteafs.error.version>1.12.1</coteafs.error.version>
-		<coteafs.logger.version>2.3.0</coteafs.logger.version>
+		<coteafs.config.version>2.3.0</coteafs.config.version>
+		<coteafs.error.version>1.13.0</coteafs.error.version>
+		<coteafs.logger.version>2.4.0</coteafs.logger.version>
 		<commons.text.version>1.8</commons.text.version>
-		<coteafs.listeners.version>2.3.0</coteafs.listeners.version>
+		<coteafs.listeners.version>2.4.0</coteafs.listeners.version>
+		<lombok.version>1.18.12</lombok.version>
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<version>${lombok.version}</version>
+			<scope>provided</scope>
+		</dependency>
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>configs</artifactId>

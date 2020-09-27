@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="coteafs-appium Test Suite" preserve-order="true">
+    <listeners>
+        <listener class-name="com.github.wasiqb.coteafs.listeners.ConfigListener"/>
+        <listener class-name="com.github.wasiqb.coteafs.listeners.SuiteListener"/>
+        <listener class-name="com.github.wasiqb.coteafs.listeners.TestListener"/>
+        <listener class-name="com.github.wasiqb.coteafs.listeners.ExecutionListener"/>
+        <listener class-name="com.github.wasiqb.coteafs.listeners.DataProviderListener"/>
+        <listener class-name="com.github.wasiqb.coteafs.listeners.AnnotationTransformer"/>
+    </listeners>
+    <test name="iOS Test">
+        <parameter name="server" value="ios"/>
+        <parameter name="device" value="iphone"/>
+        <classes>
+            <class name="com.github.wasiqb.coteafs.appium.ios.vodqa.test.IOSTest">
+                <methods>
+                    <include name="test1Login"/>
+                    <include name="test2VerticleSwipe"/>
+                    <include name="test3DragDrop"/>
+                    <include name="test4LongPress"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
+
