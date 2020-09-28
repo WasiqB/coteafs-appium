@@ -1,0 +1,22 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "contributorsPerLine": 7,
+  "contributorsSortAlphabetically": false,
+  "badgeTemplate": "[![All Contributors](https://img.shields.io/badge/all_contributors-<%= contributors.length %>-17BB8A.svg?style=for-the-badge&labelColor=000000)](#contributors)",
+  "types": {
+    "custom": {
+      "symbol": "🔭",
+      "description": "A custom contribution type.",
+      "link": "[<%= symbol %>](<%= url %> \"<%= description %>\"),"
+    }
+  },
+  "skipCi": true,
+  "contributors": [],
+  "projectName": "coteafs-appium",
+  "projectOwner": "WasiqB",
+  "repoType": "github",
+  "repoHost": "https://github.com"
+}

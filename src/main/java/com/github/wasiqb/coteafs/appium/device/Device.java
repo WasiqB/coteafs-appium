@@ -331,13 +331,13 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private void setDeviceSpecificCapabilities () {
         switch (this.setting.getPlatformType ()) {
-            case PlatformType.IOS:
+            case IOS:
                 setIOSCapabilities ();
                 break;
-            case PlatformType.ANDROID:
+            case ANDROID:
                 setAndroidCapabilities ();
                 break;
-            case PlatformType.WINDOWS:
+            case WINDOWS:
             default:
                 break;
         }
