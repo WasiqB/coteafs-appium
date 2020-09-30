@@ -1,111 +1,45 @@
-default: &default
-  working_directory: ~/repo
-  docker:
-    - image: circleci/openjdk:11-jdk-stretch
-    - image: circleci/node:8.12.0
-  environment:
-    MAVEN_OPTS: -Xmx3200m
-    ANDROID_HOME: /usr/local/android-sdk-linux
-version: 2
-jobs:
-  code_checkout:
-    <<: *default
-    steps:
-      - checkout
-      - save_cache:
-          key: repo-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - ~/repo
-  resolve_dependencies:
-    <<: *default
-    steps:
-      - restore_cache:
-          keys:
-            - repo-{{ .Branch }}-{{ .Revision }}
-      - run:
-          name: Resolve Dependencies
-          command: mvn dependency:resolve
-      - save_cache:
-          paths:
-            - ~/.m2
-          key: repo-dependency-{{ .Branch }}-{{ .Revision }}
-  build:
-    <<: *default
-    steps:
-      - restore_cache:
-          keys:
-            - repo-{{ .Branch }}-{{ .Revision }}
-            - repo-dependency-{{ .Branch }}-{{ .Revision }}
-      - run:
-          name: Build project
-          command: mvn clean install -DskipTests=true
-      - save_cache:
-          key: repo-target-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - target/
-  test:
-    <<: *default
-    steps:
-      - restore_cache:
-          keys:
-            - repo-{{ .Branch }}-{{ .Revision }}
-            - repo-dependencies-{{ .Branch }}-{{ .Revision }}
-            - repo-target-{{ .Branch }}-{{ .Revision }}
-      - run:
-          name: Install supporting packages
-          command: |
-            curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-            sudo apt-get install -y nodejs
-            sudo apt-get install -y build-essential
-            sudo apt-get install build-essential curl git m4 python-setuptools ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
-      - run:
-          name: Install Appium server
-          command: |
-            sudo npm update -g
-            sudo npm install -g appium
-      - run:
-          name: Run Tests with Sonar Coverage
-          command: mvn org.jacoco:jacoco-maven-plugin:prepare-agent install -Pcoverage-per-test
-      - save_cache:
-          key: repo-reports-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - reports/
-  code_analysis:
-    <<: *default
-    steps:
-      - restore_cache:
-          keys:
-            - repo-{{ .Branch }}-{{ .Revision }}
-            - repo-dependencies-{{ .Branch }}-{{ .Revision }}
-            - repo-target-{{ .Branch }}-{{ .Revision }}
-            - repo-reports-{{ .Branch }}-{{ .Revision }}
-      - run:
-          name: Update Sonar Analysis
-          command: mvn package sonar:sonar -Dsonar.host.url=$SONAR_HOST -Dsonar.organization=$SONAR_ORG -Dsonar.login=$SONAR_KEY -DskipTests=true
+version: 2.1
 
-filters: &all_branches
-  branches:
-    only:
-      - develop
-      - master
-      - release
-      - /issue-.*/
+orbs:
+  maven-deploy: wasiqb/maven-deploy@2.1.0
+
+branches: &all
+  only:
+    - master
+    - release
+    - /issue-.*/
 
 workflows:
-  version: 2
-  normal_flow:
+  workflow:
     jobs:
-      - code_checkout:
-          filters: *all_branches
-      - resolve_dependencies:
-          filters: *all_branches
+      - maven-deploy/code-checkout
+      - maven-deploy/resolve-dependency:
           requires:
-            - code_checkout
-      - build:
-          filters: *all_branches
+            - maven-deploy/code-checkout
+          filters:
+            branches:
+              <<: *all
+      - maven-deploy/build:
           requires:
-            - resolve_dependencies
-      - code_analysis:
-          filters: *all_branches
+            - maven-deploy/resolve-dependency
+          filters:
+            branches:
+              <<: *all
+      - maven-deploy/sonar-analysis:
           requires:
-            - build
+            - maven-deploy/build
+          filters:
+            branches:
+              <<: *all
+          context: RELEASE_PROFILE_WASIQB
+      - maven-deploy/deploy:
+          mentions: mfaisalkhatri,wbhamla1
+          fail_only: false
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - maven-deploy/sonar-analysis
+          context: RELEASE_PROFILE_WASIQB
+          deploy-command: mvn deploy --settings settings/settings.xml -DskipTests -Dcheckstyle.skip -B -Prelease
