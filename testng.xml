@@ -2,16 +2,17 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="coteafs-appium Test Suite" preserve-order="true">
     <listeners>
-        <listener class-name="com.github.wasiqb.coteafs.listeners.ConfigListener"/>
-        <listener class-name="com.github.wasiqb.coteafs.listeners.SuiteListener"/>
-        <listener class-name="com.github.wasiqb.coteafs.listeners.TestListener"/>
-        <listener class-name="com.github.wasiqb.coteafs.listeners.ExecutionListener"/>
-        <listener class-name="com.github.wasiqb.coteafs.listeners.DataProviderListener"/>
-        <listener class-name="com.github.wasiqb.coteafs.listeners.AnnotationTransformer"/>
+        <listener class-name="com.github.wasiqb.coteafs.listeners.ConfigListener" />
+        <listener class-name="com.github.wasiqb.coteafs.listeners.SuiteListener" />
+        <listener class-name="com.github.wasiqb.coteafs.listeners.TestListener" />
+        <listener class-name="com.github.wasiqb.coteafs.listeners.ExecutionListener" />
+        <listener class-name="com.github.wasiqb.coteafs.listeners.DataProviderListener" />
+        <listener class-name="com.github.wasiqb.coteafs.listeners.AnnotationTransformer" />
+        <listener class-name="com.github.wasiqb.coteafs.listeners.SuiteResultReporter" />
     </listeners>
     <test name="Android Test">
-        <parameter name="server" value="android"/>
-        <parameter name="device" value="test_local"/>
+        <parameter name="server" value="browserstack"/>
+        <parameter name="device" value="test_browserstack"/>
         <classes>
             <class name="com.github.wasiqb.coteafs.appium.android.VodQATest">
                 <methods>
