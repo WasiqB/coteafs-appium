@@ -26,8 +26,8 @@ workflows:
             branches:
               <<: *all
       - maven-deploy/test:
-          - maven-deploy/build
           requires:
+            - maven-deploy/build
           filters:
             branches:
               <<: *all
