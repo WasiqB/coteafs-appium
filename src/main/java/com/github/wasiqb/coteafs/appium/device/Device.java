@@ -231,7 +231,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         if (this.setting.getAppType () == ApplicationType.WEB) {
             setCapability (BROWSER_NAME, this.setting.getBrowser (), this.capabilities, true);
         } else {
-            String appPath = this.setting.getAppLocation ();
+            final String appPath = this.setting.getAppLocation ();
             if (appPath != null && !this.setting.isCloudApp ()) {
                 String path = "%s/src/test/resources/%s";
                 path = format (path, getProperty ("user.dir"), appPath);
@@ -245,7 +245,6 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
                     LOG.error (msg);
                     fail (DeviceAppNotFoundError.class, msg);
                 }
-                appPath = path;
             }
             if (this.setting.isCloudApp ()) {
                 this.setting.getCapabilities ()
