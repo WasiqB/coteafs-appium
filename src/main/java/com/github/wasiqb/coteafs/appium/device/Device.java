@@ -51,7 +51,6 @@ import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_R
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_RETRY_INTERVAL;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_ORG_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_SIGNING_ID;
-import static io.appium.java_client.remote.MobileCapabilityType.APP;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.CLEAR_SYSTEM_FILES;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
@@ -248,8 +247,9 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
                 }
                 appPath = path;
             }
-            if (this.setting.isCloudApp () || appPath != null) {
-                setCapability (APP, appPath, this.capabilities, true);
+            if (this.setting.isCloudApp ()) {
+                this.setting.getCapabilities ()
+                    .forEach ((key, value) -> setCapability (key, value, this.capabilities));
             }
         }
         LOG.trace ("Building Device capabilities completed...");
@@ -317,16 +317,18 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     }
 
     private void setCommonCapabilities () {
-        setCapability (DEVICE_NAME, this.setting.getDeviceName (), this.capabilities, true);
-        setCapability (PLATFORM_NAME, this.setting.getPlatformType (), this.capabilities, true);
-        setCapability (PLATFORM_VERSION, this.setting.getDeviceVersion (), this.capabilities);
-        setCapability (NO_RESET, this.setting.isNoReset (), this.capabilities);
-        setCapability (FULL_RESET, this.setting.isFullReset (), this.capabilities);
-        setCapability (NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
-        setCapability (CLEAR_SYSTEM_FILES, this.setting.isClearSystemFiles (), this.capabilities);
-        setCapability (AUTOMATION_NAME, this.setting.getAutomationName (), this.capabilities, true);
-        setCapability (UDID, this.setting.getUdid (), this.capabilities);
-        setCapability (EVENT_TIMINGS, this.setting.isEventTimings (), this.capabilities);
+        if (!this.setting.isCloudApp ()) {
+            setCapability (DEVICE_NAME, this.setting.getDeviceName (), this.capabilities, true);
+            setCapability (PLATFORM_NAME, this.setting.getPlatformType (), this.capabilities, true);
+            setCapability (PLATFORM_VERSION, this.setting.getDeviceVersion (), this.capabilities);
+            setCapability (NO_RESET, this.setting.isNoReset (), this.capabilities);
+            setCapability (FULL_RESET, this.setting.isFullReset (), this.capabilities);
+            setCapability (NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
+            setCapability (CLEAR_SYSTEM_FILES, this.setting.isClearSystemFiles (), this.capabilities);
+            setCapability (AUTOMATION_NAME, this.setting.getAutomationName (), this.capabilities, true);
+            setCapability (UDID, this.setting.getUdid (), this.capabilities);
+            setCapability (EVENT_TIMINGS, this.setting.isEventTimings (), this.capabilities);
+        }
     }
 
     private void setDeviceSpecificCapabilities () {
