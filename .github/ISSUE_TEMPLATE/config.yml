@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Suggestions, Ideas, Bugs, Queries
+    url: https://github.com/WasiqB/coteafs-appium/issues/new/choose
+    about: Please raise a ticket.

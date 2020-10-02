@@ -28,8 +28,8 @@ servers:
     protocol: HTTPS
     host: hub-cloud.browserstack.com
     cloud: true
-    user_name: ${env.user}
-    password: ${env.pass}
+    user_name: ${CLOUD_USER}
+    password: ${CLOUD_KEY}
 
 device: &default_device
   platform_type: ANDROID
@@ -62,11 +62,16 @@ devices:
       avd_args: -gpu swiftshader_indirect
       apk_install_timeout: 60000
   test_browserstack:
-    device_name: Samsung Galaxy S8
-    device_version: 7.0
-    app_location: ${env.app}
     cloud_app: true
     automation_name: APPIUM
+    capabilities:
+      os_version: 9.0
+      device: Samsung Galaxy S10
+      app: ${APP}
+      project: Project Appium
+      build: Build-1
+      name: Test 1
+      browserstack.appium_version: 1.18.0
     <<: *default_device
   iphone:
     device_name: iPhone 11
