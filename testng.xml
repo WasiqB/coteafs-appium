@@ -18,7 +18,7 @@
                 <methods>
                     <include name="testLogin"/>
                     <include name="testLongPress"/>
-                    <include name="testDoubleTap"/>
+<!--                    <include name="testDoubleTap"/>-->
                     <include name="testDragDrop"/>
                     <include name="testNativeView"/>
                     <include name="testSlider"/>
