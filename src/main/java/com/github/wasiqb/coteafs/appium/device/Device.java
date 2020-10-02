@@ -51,6 +51,7 @@ import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_R
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_RETRY_INTERVAL;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_ORG_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_SIGNING_ID;
+import static io.appium.java_client.remote.MobileCapabilityType.APP;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.CLEAR_SYSTEM_FILES;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
@@ -231,7 +232,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         if (this.setting.getAppType () == ApplicationType.WEB) {
             setCapability (BROWSER_NAME, this.setting.getBrowser (), this.capabilities, true);
         } else {
-            final String appPath = this.setting.getAppLocation ();
+            String appPath = this.setting.getAppLocation ();
             if (appPath != null && !this.setting.isCloudApp ()) {
                 String path = "%s/src/test/resources/%s";
                 path = format (path, getProperty ("user.dir"), appPath);
@@ -245,10 +246,15 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
                     LOG.error (msg);
                     fail (DeviceAppNotFoundError.class, msg);
                 }
+                appPath = path;
             }
             if (this.setting.isCloudApp ()) {
                 this.setting.getCapabilities ()
                     .forEach ((key, value) -> setCapability (key, value, this.capabilities));
+            } else {
+                if (appPath != null) {
+                    setCapability (APP, appPath, this.capabilities, true);
+                }
             }
         }
         LOG.trace ("Building Device capabilities completed...");
