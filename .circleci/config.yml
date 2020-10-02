@@ -25,9 +25,15 @@ workflows:
           filters:
             branches:
               <<: *all
-      - maven-deploy/sonar-analysis:
+      - maven-deploy/test:
           requires:
             - maven-deploy/build
+          filters:
+            branches:
+              <<: *all
+      - maven-deploy/sonar-analysis:
+          requires:
+            - maven-deploy/test
           filters:
             branches:
               <<: *all
