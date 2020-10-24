@@ -51,6 +51,7 @@ import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_R
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_RETRY_INTERVAL;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_ORG_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_SIGNING_ID;
+import static io.appium.java_client.remote.MobileCapabilityType.APP;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.CLEAR_SYSTEM_FILES;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
@@ -249,6 +250,10 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
             if (this.setting.isCloudApp ()) {
                 this.setting.getCapabilities ()
                     .forEach ((key, value) -> setCapability (key, value, this.capabilities));
+            } else {
+                if (appPath != null) {
+                    setCapability (APP, appPath, this.capabilities, true);
+                }
             }
         }
         LOG.trace ("Building Device capabilities completed...");
