@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>com.github.wasiqb.coteafs</groupId>
 		<artifactId>parent</artifactId>
-		<version>3.3.5</version>
+		<version>3.5.0</version>
 	</parent>
 
 	<scm>
