@@ -20,18 +20,21 @@ workflows:
             branches:
               <<: *all
       - maven-deploy/build:
+          executor-version: 15-jdk-buster
           requires:
             - maven-deploy/resolve-dependency
           filters:
             branches:
               <<: *all
       - maven-deploy/test:
+          executor-version: 15-jdk-buster
           requires:
             - maven-deploy/build
           filters:
             branches:
               <<: *all
       - maven-deploy/sonar-analysis:
+          executor-version: 15-jdk-buster
           requires:
             - maven-deploy/test
           filters:
@@ -39,7 +42,7 @@ workflows:
               <<: *all
           context: RELEASE_PROFILE_WASIQB
       - maven-deploy/deploy:
-          mentions: mfaisalkhatri,wbhamla1
+          executor-version: 15-jdk-buster
           fail_only: false
           filters:
             branches:
