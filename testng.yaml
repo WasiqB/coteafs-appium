@@ -15,8 +15,9 @@ tests:
         includedMethods:
           - testLogin
           - testLongPress
-          - testDragDrop
           - testNativeView
           - testSlider
           - testVerticleSwipe
           - testRotation
+        excludedMethods:
+          - testDragDrop
