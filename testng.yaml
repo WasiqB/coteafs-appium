@@ -9,9 +9,7 @@ listeners:
   - com.github.wasiqb.coteafs.listeners.SuiteResultReporter
 tests:
   - name: Android Test
-    parameters:
-      - server: browserstack
-      - device: test_browserstack
+    parameters: { server: browserstack, device: test_browserstack }
     classes:
       - name: com.github.wasiqb.coteafs.appium.android.VodQATest
         includedMethods:
