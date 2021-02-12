@@ -30,7 +30,7 @@
 	</ciManagement>
 
 	<properties>
-		<appium-version>7.3.0</appium-version>
+		<appium-version>7.4.1</appium-version>
 		<selenium-version>3.141.59</selenium-version>
 		<coteafs.config.version>2.3.0</coteafs.config.version>
 		<coteafs.error.version>1.15.0</coteafs.error.version>
@@ -39,6 +39,7 @@
 		<lombok.version>1.18.18</lombok.version>
 		<log4j.version>2.14.0</log4j.version>
 		<jackson.version>2.12.1</jackson.version>
+		<io.version>2.8.0</io.version>
 	</properties>
 
 	<dependencies>
@@ -149,6 +150,11 @@
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
 			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${io.version}</version>
 		</dependency>
 	</dependencies>
 </project>
