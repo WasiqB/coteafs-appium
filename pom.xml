@@ -36,8 +36,8 @@
 		<coteafs.error.version>1.15.0</coteafs.error.version>
 		<coteafs.logger.version>2.5.0</coteafs.logger.version>
 		<commons.text.version>1.9</commons.text.version>
-		<coteafs.listeners.version>2.5.0</coteafs.listeners.version>
-		<lombok.version>1.18.12</lombok.version>
+		<coteafs.listeners.version>3.0.0</coteafs.listeners.version>
+		<lombok.version>1.18.18</lombok.version>
 	</properties>
 
 	<dependencies>
