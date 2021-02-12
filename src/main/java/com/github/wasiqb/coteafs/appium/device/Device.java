@@ -15,8 +15,6 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
-import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_DEFAULT_FILE;
-import static com.github.wasiqb.coteafs.appium.constants.ConfigKeys.COTEAFS_CONFIG_KEY;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
@@ -92,7 +90,7 @@ import com.github.wasiqb.coteafs.appium.error.DeviceDriverInitializationFailedEr
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverNotStartingError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverNotStoppingError;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
-import com.github.wasiqb.coteafs.config.loader.ConfigLoader;
+import com.github.wasiqb.coteafs.datasource.DataSource;
 import com.google.common.reflect.TypeToken;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -131,10 +129,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
      */
     protected Device (final AppiumServer server, final String name) {
         this.server = server;
-        this.setting = ConfigLoader.settings ()
-            .withKey (COTEAFS_CONFIG_KEY)
-            .withDefault (COTEAFS_CONFIG_DEFAULT_FILE)
-            .load (AppiumSetting.class)
+        this.setting = DataSource.parse (AppiumSetting.class)
             .getDevice (name);
         this.platform = this.setting.getPlatformType ();
         buildCapabilities ();
