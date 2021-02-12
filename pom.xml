@@ -34,10 +34,11 @@
 		<selenium-version>3.141.59</selenium-version>
 		<coteafs.config.version>2.3.0</coteafs.config.version>
 		<coteafs.error.version>1.15.0</coteafs.error.version>
-		<coteafs.logger.version>2.5.0</coteafs.logger.version>
 		<commons.text.version>1.9</commons.text.version>
 		<coteafs.listeners.version>3.0.0</coteafs.listeners.version>
 		<lombok.version>1.18.18</lombok.version>
+		<log4j.version>2.14.0</log4j.version>
+		<jackson.version>2.12.1</jackson.version>
 	</properties>
 
 	<dependencies>
@@ -63,11 +64,6 @@
 			<artifactId>error</artifactId>
 			<version>${coteafs.error.version}</version>
 			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.github.wasiqb.coteafs</groupId>
-			<artifactId>logger</artifactId>
-			<version>${coteafs.logger.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
@@ -133,6 +129,26 @@
 					<artifactId>selenium-java</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
 		</dependency>
 	</dependencies>
 </project>

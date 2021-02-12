@@ -129,7 +129,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:10:11 PM
      */
-    public Device (final AppiumServer server, final String name) {
+    protected Device (final AppiumServer server, final String name) {
         this.server = server;
         this.setting = ConfigLoader.settings ()
             .withKey (COTEAFS_CONFIG_KEY)
