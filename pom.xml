@@ -35,8 +35,8 @@
 		<coteafs.config.version>2.3.0</coteafs.config.version>
 		<coteafs.error.version>1.15.0</coteafs.error.version>
 		<commons.text.version>1.9</commons.text.version>
-		<coteafs.listeners.version>2.5.0</coteafs.listeners.version>
-		<lombok.version>1.18.12</lombok.version>
+		<coteafs.listeners.version>3.0.0</coteafs.listeners.version>
+		<lombok.version>1.18.18</lombok.version>
 		<log4j.version>2.14.0</log4j.version>
 		<jackson.version>2.12.1</jackson.version>
 	</properties>
@@ -130,7 +130,6 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
-
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
