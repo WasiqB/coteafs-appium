@@ -28,8 +28,8 @@ servers:
     protocol: HTTPS
     host: hub-cloud.browserstack.com
     cloud: true
-    user_name: ${CLOUD_USER}
-    password: ${CLOUD_KEY}
+    user_name: ${env:CLOUD_USER}
+    password: ${env:CLOUD_KEY}
 
 device: &default_device
   platform_type: ANDROID
@@ -67,7 +67,7 @@ devices:
     capabilities:
       os_version: 9.0
       device: Samsung Galaxy S10
-      app: ${APP}
+      app: ${env:APP}
       project: Project Appium
       build: Build-1
       name: Test 1

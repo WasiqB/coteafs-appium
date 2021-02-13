@@ -32,7 +32,7 @@
 	<properties>
 		<appium-version>7.4.1</appium-version>
 		<selenium-version>3.141.59</selenium-version>
-		<coteafs.config.version>2.3.0</coteafs.config.version>
+		<coteafs.data.version>1.2.0</coteafs.data.version>
 		<coteafs.error.version>1.15.0</coteafs.error.version>
 		<commons.text.version>1.9</commons.text.version>
 		<coteafs.listeners.version>3.0.0</coteafs.listeners.version>
@@ -51,9 +51,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
-			<artifactId>configs</artifactId>
-			<version>${coteafs.config.version}</version>
-			<scope>provided</scope>
+			<artifactId>datasource</artifactId>
+			<version>${coteafs.data.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
