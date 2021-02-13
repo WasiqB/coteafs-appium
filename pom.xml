@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>com.github.wasiqb.coteafs</groupId>
 		<artifactId>parent</artifactId>
-		<version>3.3.5</version>
+		<version>3.5.0</version>
 	</parent>
 
 	<scm>
@@ -30,14 +30,16 @@
 	</ciManagement>
 
 	<properties>
-		<appium-version>7.3.0</appium-version>
+		<appium-version>7.4.1</appium-version>
 		<selenium-version>3.141.59</selenium-version>
-		<coteafs.config.version>2.3.0</coteafs.config.version>
+		<coteafs.data.version>1.2.0</coteafs.data.version>
 		<coteafs.error.version>1.15.0</coteafs.error.version>
-		<coteafs.logger.version>2.5.0</coteafs.logger.version>
 		<commons.text.version>1.9</commons.text.version>
-		<coteafs.listeners.version>2.5.0</coteafs.listeners.version>
-		<lombok.version>1.18.12</lombok.version>
+		<coteafs.listeners.version>3.0.0</coteafs.listeners.version>
+		<lombok.version>1.18.18</lombok.version>
+		<log4j.version>2.14.0</log4j.version>
+		<jackson.version>2.12.1</jackson.version>
+		<io.version>2.8.0</io.version>
 	</properties>
 
 	<dependencies>
@@ -49,8 +51,8 @@
 		</dependency>
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
-			<artifactId>configs</artifactId>
-			<version>${coteafs.config.version}</version>
+			<artifactId>datasource</artifactId>
+			<version>${coteafs.data.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -61,11 +63,7 @@
 			<groupId>com.github.wasiqb.coteafs</groupId>
 			<artifactId>error</artifactId>
 			<version>${coteafs.error.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.wasiqb.coteafs</groupId>
-			<artifactId>logger</artifactId>
-			<version>${coteafs.logger.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.github.wasiqb.coteafs</groupId>
@@ -73,9 +71,15 @@
 			<version>${coteafs.listeners.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.yaml</groupId>
+			<artifactId>snakeyaml</artifactId>
+			<version>${snake.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>org.testng</groupId>
 			<artifactId>testng</artifactId>
 			<version>${testng.version}</version>
+			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
@@ -87,11 +91,13 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>${commons.version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.google.truth</groupId>
 			<artifactId>truth</artifactId>
 			<version>${truth.version}</version>
+			<scope>provided</scope>
 			<exclusions>
 				<exclusion>
 					<groupId>com.google.guava</groupId>
@@ -123,6 +129,31 @@
 					<artifactId>selenium-java</artifactId>
 				</exclusion>
 			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.dataformat</groupId>
+			<artifactId>jackson-dataformat-yaml</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-databind</artifactId>
+			<version>${jackson.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${io.version}</version>
 		</dependency>
 	</dependencies>
 </project>

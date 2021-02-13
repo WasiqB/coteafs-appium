@@ -17,10 +17,13 @@ package com.github.wasiqb.coteafs.appium.config;
 
 import java.util.Map;
 
+import com.github.wasiqb.coteafs.datasource.annotation.DataFile;
+
 /**
  * @author wasiq.bhamla
  * @since 12-Apr-2017 8:58:57 PM
  */
+@DataFile (fileName = "appium-config.yaml")
 public class AppiumSetting {
     private DeviceSetting              device;
     private Map<String, DeviceSetting> devices;
@@ -29,93 +32,105 @@ public class AppiumSetting {
 
     /**
      * @return the device
+     *
      * @author wasiqb
      * @since Oct 16, 2018
      */
-    public DeviceSetting getDevice() {
+    public DeviceSetting getDevice () {
         return this.device;
     }
 
     /**
      * @param key
+     *
      * @return the device
+     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 9:00:16 PM
      */
-    public DeviceSetting getDevice(final String key) {
-        return this.devices.get(key);
+    public DeviceSetting getDevice (final String key) {
+        return this.devices.get (key);
     }
 
     /**
      * @return the devices
+     *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:59:40 PM
      */
-    public Map<String, DeviceSetting> getDevices() {
+    public Map<String, DeviceSetting> getDevices () {
         return this.devices;
     }
 
     /**
      * @return the server
+     *
      * @author wasiqb
      * @since Oct 16, 2018
      */
-    public ServerSetting getServer() {
+    public ServerSetting getServer () {
         return this.server;
     }
 
     /**
      * @param key
+     *
      * @return the server
+     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 9:00:16 PM
      */
-    public ServerSetting getServer(final String key) {
-        return this.servers.get(key);
+    public ServerSetting getServer (final String key) {
+        return this.servers.get (key);
     }
 
     /**
      * @return the servers
+     *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:59:40 PM
      */
-    public Map<String, ServerSetting> getServers() {
+    public Map<String, ServerSetting> getServers () {
         return this.servers;
     }
 
     /**
      * @param device the device to set
+     *
      * @author wasiqb
      * @since Oct 16, 2018
      */
-    public void setDevice(final DeviceSetting device) {
+    public void setDevice (final DeviceSetting device) {
         this.device = device;
     }
 
     /**
      * @param devices the devices to set
+     *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:59:40 PM
      */
-    public void setDevices(final Map<String, DeviceSetting> devices) {
+    public void setDevices (final Map<String, DeviceSetting> devices) {
         this.devices = devices;
     }
 
     /**
      * @param server the server to set
+     *
      * @author wasiqb
      * @since Oct 16, 2018
      */
-    public void setServer(final ServerSetting server) {
+    public void setServer (final ServerSetting server) {
         this.server = server;
     }
 
     /**
      * @param servers the servers to set
+     *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:59:40 PM
      */
-    public void setServers(final Map<String, ServerSetting> servers) {
+    public void setServers (final Map<String, ServerSetting> servers) {
         this.servers = servers;
     }
 }
