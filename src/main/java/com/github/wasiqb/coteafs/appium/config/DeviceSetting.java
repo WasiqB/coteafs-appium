@@ -74,7 +74,6 @@ public class DeviceSetting {
 
     /**
      * @return the android
-     *
      * @author wasiq.bhamla
      * @since Jan 18, 2018 9:45:15 PM
      */
@@ -84,7 +83,6 @@ public class DeviceSetting {
 
     /**
      * @return the appLocation
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:48 PM
      */
@@ -94,7 +92,6 @@ public class DeviceSetting {
 
     /**
      * @return the appType
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -104,7 +101,6 @@ public class DeviceSetting {
 
     /**
      * @return the automationName
-     *
      * @author wasiq.bhamla
      * @since 24-Apr-2017 9:15:54 PM
      */
@@ -114,7 +110,6 @@ public class DeviceSetting {
 
     /**
      * @return the browser
-     *
      * @author wasiq.bhamla
      * @since Jul 15, 2017 5:05:42 PM
      */
@@ -123,8 +118,7 @@ public class DeviceSetting {
     }
 
     /**
-     * @return
-     *
+     * @return capabilities
      * @since 01-Oct-2020
      */
     public Map<String, String> getCapabilities () {
@@ -133,7 +127,6 @@ public class DeviceSetting {
 
     /**
      * @return the deviceName
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -143,7 +136,6 @@ public class DeviceSetting {
 
     /**
      * @return the deviceType
-     *
      * @author wasiq.bhamla
      * @since Aug 1, 2017 3:57:48 PM
      */
@@ -153,7 +145,6 @@ public class DeviceSetting {
 
     /**
      * @return the deviceVersion
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -163,7 +154,6 @@ public class DeviceSetting {
 
     /**
      * @return the ios
-     *
      * @author wasiq.bhamla
      * @since Jan 18, 2018 9:45:15 PM
      */
@@ -173,7 +163,6 @@ public class DeviceSetting {
 
     /**
      * @return the keyTypingDelay
-     *
      * @author wasiq.bhamla
      * @since Nov 19, 2017 9:54:14 PM
      */
@@ -183,7 +172,6 @@ public class DeviceSetting {
 
     /**
      * @return the deviceType
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -193,7 +181,6 @@ public class DeviceSetting {
 
     /**
      * @return the playback
-     *
      * @author wasiq.bhamla
      * @since Jan 18, 2018 9:45:15 PM
      */
@@ -203,7 +190,6 @@ public class DeviceSetting {
 
     /**
      * @return the sessionTimeout
-     *
      * @author wasiq.bhamla
      * @since 08-May-2017 7:59:42 PM
      */
@@ -213,7 +199,6 @@ public class DeviceSetting {
 
     /**
      * @return the udid
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -223,7 +208,6 @@ public class DeviceSetting {
 
     /**
      * @return the clearSystemFiles
-     *
      * @author wasiq.bhamla
      * @since 23-May-2017 4:45:23 PM
      */
@@ -233,7 +217,6 @@ public class DeviceSetting {
 
     /**
      * @return the cloudApp
-     *
      * @author wasiqb
      * @since Sep 29, 2018
      */
@@ -243,7 +226,6 @@ public class DeviceSetting {
 
     /**
      * @return the eventTimings
-     *
      * @author wasiq.bhamla
      * @since Nov 19, 2017 9:54:14 PM
      */
@@ -253,7 +235,6 @@ public class DeviceSetting {
 
     /**
      * @return the externalApp
-     *
      * @author wasiq.bhamla
      * @since 30-Apr-2017 8:00:43 PM
      */
@@ -263,7 +244,6 @@ public class DeviceSetting {
 
     /**
      * @return the fullReset
-     *
      * @author wasiq.bhamla
      * @since 08-May-2017 3:16:16 PM
      */
@@ -273,7 +253,6 @@ public class DeviceSetting {
 
     /**
      * @return the noReset
-     *
      * @author wasiq.bhamla
      * @since 08-May-2017 3:16:16 PM
      */
@@ -283,7 +262,6 @@ public class DeviceSetting {
 
     /**
      * @param android the android to set
-     *
      * @author wasiq.bhamla
      * @since Jan 18, 2018 9:45:15 PM
      */
@@ -293,7 +271,6 @@ public class DeviceSetting {
 
     /**
      * @param appLocation the appLocation to set
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -303,7 +280,6 @@ public class DeviceSetting {
 
     /**
      * @param appType the appType to set
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -313,7 +289,6 @@ public class DeviceSetting {
 
     /**
      * @param automationName the automationName to set
-     *
      * @author wasiq.bhamla
      * @since 24-Apr-2017 9:15:54 PM
      */
@@ -323,7 +298,6 @@ public class DeviceSetting {
 
     /**
      * @param browser the browser to set
-     *
      * @author wasiq.bhamla
      * @since Jul 15, 2017 5:05:42 PM
      */
@@ -333,7 +307,6 @@ public class DeviceSetting {
 
     /**
      * @param capabilities
-     *
      * @since 01-Oct-2020
      */
     public void setCapabilities (final Map<String, String> capabilities) {
@@ -342,7 +315,6 @@ public class DeviceSetting {
 
     /**
      * @param clearSystemFiles the clearSystemFiles to set
-     *
      * @author wasiq.bhamla
      * @since 23-May-2017 4:45:23 PM
      */
@@ -352,7 +324,6 @@ public class DeviceSetting {
 
     /**
      * @param cloudApp the cloudApp to set
-     *
      * @author wasiqb
      * @since Sep 29, 2018
      */
@@ -362,7 +333,6 @@ public class DeviceSetting {
 
     /**
      * @param deviceName the deviceName to set
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -372,7 +342,6 @@ public class DeviceSetting {
 
     /**
      * @param deviceType the deviceType to set
-     *
      * @author wasiq.bhamla
      * @since Aug 1, 2017 3:57:48 PM
      */
@@ -382,7 +351,6 @@ public class DeviceSetting {
 
     /**
      * @param deviceVersion the deviceVersion to set
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -392,7 +360,6 @@ public class DeviceSetting {
 
     /**
      * @param eventTimings the eventTimings to set
-     *
      * @author wasiq.bhamla
      * @since Nov 19, 2017 9:54:14 PM
      */
@@ -402,7 +369,6 @@ public class DeviceSetting {
 
     /**
      * @param externalApp the externalApp to set
-     *
      * @author wasiq.bhamla
      * @since 30-Apr-2017 8:00:43 PM
      */
@@ -412,7 +378,6 @@ public class DeviceSetting {
 
     /**
      * @param fullReset the fullReset to set
-     *
      * @author wasiq.bhamla
      * @since 08-May-2017 3:16:16 PM
      */
@@ -422,7 +387,6 @@ public class DeviceSetting {
 
     /**
      * @param ios the ios to set
-     *
      * @author wasiq.bhamla
      * @since Jan 18, 2018 9:45:15 PM
      */
@@ -432,7 +396,6 @@ public class DeviceSetting {
 
     /**
      * @param keyTypingDelay the keyTypingDelay to set
-     *
      * @author wasiq.bhamla
      * @since Nov 19, 2017 9:54:14 PM
      */
@@ -442,7 +405,6 @@ public class DeviceSetting {
 
     /**
      * @param noReset the noReset to set
-     *
      * @author wasiq.bhamla
      * @since 08-May-2017 3:16:16 PM
      */
@@ -452,7 +414,6 @@ public class DeviceSetting {
 
     /**
      * @param deviceType the deviceType to set
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */
@@ -462,7 +423,6 @@ public class DeviceSetting {
 
     /**
      * @param playback the playback to set
-     *
      * @author wasiq.bhamla
      * @since Jan 18, 2018 9:45:15 PM
      */
@@ -472,7 +432,6 @@ public class DeviceSetting {
 
     /**
      * @param sessionTimeout the sessionTimeout to set
-     *
      * @author wasiq.bhamla
      * @since 08-May-2017 7:59:42 PM
      */
@@ -482,7 +441,6 @@ public class DeviceSetting {
 
     /**
      * @param udid the udid to set
-     *
      * @author wasiq.bhamla
      * @since 12-Apr-2017 8:42:49 PM
      */

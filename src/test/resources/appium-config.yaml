@@ -72,6 +72,17 @@ devices:
       build: Build-1
       name: Test 1
       browserstack.appium_version: 1.18.0
+  test_browserstack_ios:
+    cloud_app: true
+    automation_name: APPIUM
+    capabilities:
+      os_version: 14.0
+      device: iPhone 12 Pro Max
+      app: ${env:APP_IOS}
+      project: Project Appium
+      build: Build-1
+      name: IOS_Test 1
+      browserstack.appium_version: 1.18.0
     <<: *default_device
   iphone:
     device_name: iPhone 11

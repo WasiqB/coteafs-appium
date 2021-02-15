@@ -21,3 +21,11 @@ tests:
           - testRotation
         excludedMethods:
           - testDragDrop
+    classes:
+      - name: com.github.wasiqb.coteafs.appium.ios.vodqa.test.IOSTest
+        includedMethods:
+          - test1Login
+          - test2VerticleSwipe
+          - test3DragDrop
+          - test4LongPress
+
