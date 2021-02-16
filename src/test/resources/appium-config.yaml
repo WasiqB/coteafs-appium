@@ -1,10 +1,11 @@
 server: &default_server
+  log_file_path: logs/ios-server.log
   appium_js_path: /usr/local/lib/node_modules/appium/build/lib/main.js
   arguments:
     log_level: DEBUG
     log_time_stamp: true
-    local_time_zone: true
     session_override: true
+    local_time_zone: true
     android:
       suppress_adb_kill_server: true
 

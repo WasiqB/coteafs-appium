@@ -8,23 +8,22 @@ listeners:
   - com.github.wasiqb.coteafs.listeners.AnnotationTransformer
   - com.github.wasiqb.coteafs.listeners.SuiteResultReporter
 tests:
-  - name: Android Test
-    parameters: { server: browserstack, device: test_browserstack }
-    classes:
-      - name: com.github.wasiqb.coteafs.appium.android.VodQATest
+#  - name: Android Test
+#    parameters: { server: browserstack, device: test_browserstack }
+#    classes:
+#      - name: com.github.wasiqb.coteafs.appium.android.VodQATest
+#        includedMethods:
+#          - testLogin
+#          - testLongPress
+#          - testNativeView
+#          - testSlider
+#          - testVerticleSwipe
+#          - testRotation
+#        excludedMethods:
+#          - testDragDrop
+  - name: IOS Test
+    parameters: { server: browserstack, device: test_browserstack_ios }
+    classes: 
+      - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest 
         includedMethods:
           - testLogin
-          - testLongPress
-          - testNativeView
-          - testSlider
-          - testVerticleSwipe
-          - testRotation
-        excludedMethods:
-          - testDragDrop
-    classes:
-      - name: com.github.wasiqb.coteafs.appium.ios.vodqa.test.IOSTest
-        includedMethods:
-          - test1Login
-          - test2VerticleSwipe
-          - test3DragDrop
-          - test4LongPress
