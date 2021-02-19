@@ -2,7 +2,6 @@ package com.github.wasiqb.coteafs.appium.ios.webdriverioapp.action;
 
 import com.github.wasiqb.coteafs.appium.ios.IOSActivityActions;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
-import com.github.wasiqb.coteafs.appium.ios.webdriverioapp.activities.BaseActivity;
 import com.github.wasiqb.coteafs.appium.ios.webdriverioapp.activities.LoginActivity;
 
 /**
@@ -22,16 +21,14 @@ public class LoginActivityAction extends IOSActivityActions {
     @Override
     public void perform () {
 
-        final BaseActivity basePage = new BaseActivity (getDevice ());
-        basePage.onElement ("Login")
-            .tap ();
-
         final LoginActivity login = new LoginActivity (getDevice ());
+        login.onElement ("LoginTab")
+            .tap ();
         login.onElement ("Username")
             .enterText (value ("Username"));
         login.onElement ("Password")
             .enterText (value ("Password"));
-        login.onElement ("Login")
+        login.onElement ("LoginBtn")
             .tap ();
     }
 }

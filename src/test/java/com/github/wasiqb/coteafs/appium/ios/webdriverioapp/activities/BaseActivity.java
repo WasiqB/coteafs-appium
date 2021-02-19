@@ -24,25 +24,25 @@ public class BaseActivity extends IOSActivity {
     protected DeviceElement prepare () {
 
         final DeviceElement main = DeviceElement.create ("Form")
-            .forIos (MobileBy.AccessibilityId ("Home WebView Login Forms Swipe"));
+            .forIos (MobileBy.iOSNsPredicateString ("type == 'XCUIElementTypeWindow' && index ==0"));
 
-        DeviceElement.create ("Home")
+        DeviceElement.create ("HomeTab")
             .parent (main)
             .forIos (MobileBy.AccessibilityId ("Home"));
 
-        DeviceElement.create ("WebView")
+        DeviceElement.create ("WebViewTab")
             .parent (main)
             .forIos (MobileBy.AccessibilityId ("WebView"));
 
-        DeviceElement.create ("Login")
+        DeviceElement.create ("LoginTab")
             .parent (main)
             .forIos (MobileBy.AccessibilityId ("Login"));
 
-        DeviceElement.create ("Forms")
+        DeviceElement.create ("FormsTab")
             .parent (main)
             .forIos (MobileBy.AccessibilityId ("Forms"));
 
-        DeviceElement.create ("Swipe")
+        DeviceElement.create ("SwipeTab")
             .parent (main)
             .forIos (MobileBy.AccessibilityId ("Swipe"));
 
