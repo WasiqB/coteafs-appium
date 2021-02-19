@@ -4,7 +4,6 @@ import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import com.github.wasiqb.coteafs.appium.ios.IOSActivity;
 import com.github.wasiqb.coteafs.appium.ios.IOSDevice;
 import io.appium.java_client.MobileBy;
-import org.openqa.selenium.By;
 
 /**
  * @author Faisal Khatri
@@ -25,27 +24,27 @@ public class BaseActivity extends IOSActivity {
     protected DeviceElement prepare () {
 
         final DeviceElement main = DeviceElement.create ("Form")
-            .forIos (By.name ("Home WebView Login Forms Swipe"));
+            .forIos (MobileBy.AccessibilityId ("Home WebView Login Forms Swipe"));
 
         DeviceElement.create ("Home")
             .parent (main)
-            .forIos (MobileBy.iOSNsPredicateString ("name == 'Home'"));
+            .forIos (MobileBy.AccessibilityId ("Home"));
 
         DeviceElement.create ("WebView")
             .parent (main)
-            .forIos (MobileBy.iOSNsPredicateString ("name == 'WebView'"));
+            .forIos (MobileBy.AccessibilityId ("WebView"));
 
         DeviceElement.create ("Login")
             .parent (main)
-            .forIos (MobileBy.iOSNsPredicateString ("name == 'Login'"));
+            .forIos (MobileBy.AccessibilityId ("Login"));
 
         DeviceElement.create ("Forms")
             .parent (main)
-            .forIos (MobileBy.iOSNsPredicateString ("name == 'Forms'"));
+            .forIos (MobileBy.AccessibilityId ("Forms"));
 
         DeviceElement.create ("Swipe")
             .parent (main)
-            .forIos (MobileBy.iOSNsPredicateString ("name == 'Swipe'"));
+            .forIos (MobileBy.AccessibilityId ("Swipe"));
 
         return main;
     }

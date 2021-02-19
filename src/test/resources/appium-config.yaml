@@ -75,9 +75,9 @@ devices:
       browserstack.appium_version: 1.18.0
   test_browserstack_ios:
     cloud_app: true
-    automation_name: APPIUM
+    automation_name: XCUI
     capabilities:
-      os_version: 14.0
+      os_version: 14
       device: iPhone 12 Pro Max
       app: ${env:APP_IOS}
       project: Project Appium

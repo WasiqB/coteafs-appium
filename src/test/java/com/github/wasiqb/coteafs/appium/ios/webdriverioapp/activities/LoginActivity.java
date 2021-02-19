@@ -20,16 +20,16 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     protected DeviceElement prepare () {
-        final DeviceElement loginForm = super.prepare ();
+        final DeviceElement loginForm = DeviceElement.create ("LoginForm");
         DeviceElement.create ("Username")
             .parent (loginForm)
-            .forIos (MobileBy.iOSNsPredicateString ("name == 'input-email'"));
+            .forIos (MobileBy.AccessibilityId ("input-email"));
         DeviceElement.create ("Password")
             .parent (loginForm)
-            .forIos (MobileBy.iOSNsPredicateString ("name == 'input-password'"));
+            .forIos (MobileBy.AccessibilityId ("input-password"));
         DeviceElement.create ("Login")
             .parent (loginForm)
-            .forIos (MobileBy.iOSNsPredicateString ("name == 'button-LOGIN'"));
+            .forIos (MobileBy.AccessibilityId ("button-LOGIN"));
         return loginForm;
     }
 }
