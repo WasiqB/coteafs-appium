@@ -10,43 +10,36 @@ import io.appium.java_client.MobileBy;
  * @since Feb 16, 2021
  */
 public class BaseActivity extends IOSActivity {
-
     /**
-     * @author Faisal Khatri
      * @param device
+     *
+     * @author Faisal Khatri
      */
-    public BaseActivity (IOSDevice device) {
+    public BaseActivity (final IOSDevice device) {
         super (device);
-
     }
 
     @Override
     protected DeviceElement prepare () {
-
         final DeviceElement main = DeviceElement.create ("Form")
-            .forIos (MobileBy.iOSNsPredicateString ("type == 'XCUIElementTypeWindow' && index ==0"));
+            .forIos (MobileBy.iOSNsPredicateString ("type == 'XCUIElementTypeWindow'"));
 
         DeviceElement.create ("HomeTab")
             .parent (main)
             .forIos (MobileBy.AccessibilityId ("Home"));
-
         DeviceElement.create ("WebViewTab")
             .parent (main)
             .forIos (MobileBy.AccessibilityId ("WebView"));
-
         DeviceElement.create ("LoginTab")
             .parent (main)
-            .forIos (MobileBy.AccessibilityId ("Login"));
-
+            .forIos (MobileBy.iOSNsPredicateString ("label == \"Login\""));
         DeviceElement.create ("FormsTab")
             .parent (main)
             .forIos (MobileBy.AccessibilityId ("Forms"));
-
         DeviceElement.create ("SwipeTab")
             .parent (main)
             .forIos (MobileBy.AccessibilityId ("Swipe"));
 
         return main;
     }
-
 }

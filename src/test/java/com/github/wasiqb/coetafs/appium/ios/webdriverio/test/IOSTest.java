@@ -15,7 +15,6 @@ import org.testng.annotations.Test;
  * @since Feb 16, 2021
  */
 public class IOSTest {
-
     private IOSDevice    device;
     private AppiumServer server;
 
@@ -29,10 +28,11 @@ public class IOSTest {
     }
 
     /**
-     * @author Faisal Khatri
-     * @since Feb 16, 2021
      * @param server
      * @param device
+     *
+     * @author Faisal Khatri
+     * @since Feb 16, 2021
      */
     @Parameters ({ "server", "device" })
     @BeforeTest (alwaysRun = true)
@@ -72,5 +72,4 @@ public class IOSTest {
             .addInputValue ("Password", "Test1234!")
             .perform ();
     }
-
 }

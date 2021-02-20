@@ -1,5 +1,5 @@
 server: &default_server
-  log_file_path: logs/ios-server.log
+  log_file_path: logs/appium-server.log
   appium_js_path: /usr/local/lib/node_modules/appium/build/lib/main.js
   arguments:
     log_level: DEBUG
@@ -17,6 +17,7 @@ servers:
   ios:
     host: 0.0.0.0
     port: 4725
+    log_file_path: logs/appium-ios-server.log
     appium_js_path: /usr/local/lib/node_modules/appium/build/lib/main.js
     arguments:
       log_level: DEBUG
@@ -75,6 +76,7 @@ devices:
       browserstack.appium_version: 1.18.0
   test_browserstack_ios:
     cloud_app: true
+    platform_type: IOS
     automation_name: XCUI
     capabilities:
       os_version: 14
@@ -86,9 +88,9 @@ devices:
       browserstack.appium_version: 1.18.0
     <<: *default_device
   iphone:
-    device_name: iPhone 11
-    device_version: 13.3
-    app_location: apps/ios/vodqa.zip
+    device_name: iPhone 12 Pro
+    device_version: 14.1
+    app_location: apps/ios/wdio-app.app.zip
     automation_name: XCUI
     device_type: SIMULATOR
     platform_type: IOS

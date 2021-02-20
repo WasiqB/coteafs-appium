@@ -9,12 +9,12 @@ import io.appium.java_client.MobileBy;
  * @since Feb 16, 2021
  */
 public class LoginActivity extends BaseActivity {
-
     /**
-     * @author Faisal Khatri
      * @param device
+     *
+     * @author Faisal Khatri
      */
-    public LoginActivity (IOSDevice device) {
+    public LoginActivity (final IOSDevice device) {
         super (device);
     }
 

@@ -9,18 +9,17 @@ import com.github.wasiqb.coteafs.appium.ios.webdriverioapp.activities.LoginActiv
  * @since Feb 16, 2021
  */
 public class LoginActivityAction extends IOSActivityActions {
-
     /**
-     * @author Faisal Khatri
      * @param device
+     *
+     * @author Faisal Khatri
      */
-    public LoginActivityAction (IOSDevice device) {
+    public LoginActivityAction (final IOSDevice device) {
         super (device);
     }
 
     @Override
     public void perform () {
-
         final LoginActivity login = new LoginActivity (getDevice ());
         login.onElement ("LoginTab")
             .tap ();
