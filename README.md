@@ -35,13 +35,16 @@
 </p>
 
 ## :rocket: [Quick Start][wiki]
-* The [documentations][wiki] of coteafs-appium includes all the information you need to get started including setup, usage, advantages, sample test.
+
+* The [documentations][wiki] of coteafs-appium includes all the information you need to get started including setup,
+  usage, advantages, sample test.
 * To know what changes are Released, check out the [change log][] for complete list of changes.
 * Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
 ## :pushpin: [Want to know Key Features?][intro-doc]
 
-In order to use a framework, it's important to know it's advantages. Let's see what are the key features of this framework:
+In order to use a framework, it's important to know it's advantages. Let's see what are the key features of this
+framework:
 
 :point_right: :iphone: Supports Android and iOS Real Devices and Emulators.
 
@@ -72,10 +75,11 @@ In order to use a framework, it's important to know it's advantages. Let's see w
 ## :pushpin: Usage?
 
 ```xml
+
 <dependency>
-  <groupId>com.github.wasiqb.coteafs</groupId>
-  <artifactId>appium</artifactId>
-  <version>3.3.0</version>
+    <groupId>com.github.wasiqb.coteafs</groupId>
+    <artifactId>appium</artifactId>
+    <version>3.5.0</version>
 </dependency>
 ```
 
@@ -85,7 +89,8 @@ In order to use a framework, it's important to know it's advantages. Let's see w
   <summary><strong>1. :factory: <a href="https://wasiqb.github.io/projects/appium/config-basics/">How to configure the tests?</a></strong></summary>
   <br/>
 
-First step in writing tests using coteafs-appium framework is defining a Yaml config file in the `src/test/resources` folder.
+First step in writing tests using coteafs-appium framework is defining a Yaml config file in the `src/test/resources`
+folder.
 
 **(_For more details, check the link above._)**
 
@@ -127,8 +132,8 @@ devices:
   <summary><strong>2. :dart: <a href="https://wasiqb.github.io/projects/appium/sample-test-class/">How simple it is to write the tests?</a></strong></summary>
   <br/>
 
-By using Action classes for each Activity, the flow specific for that activity can be modularized and tests looks much clean and readable.
-See the sample test below.
+By using Action classes for each Activity, the flow specific for that activity can be modularized and tests looks much
+clean and readable. See the sample test below.
 
 ```java
 import org.testng.annotations.AfterClass;
@@ -140,31 +145,33 @@ import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityActio
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 
 public class SampleTest {
-  protected AndroidDevice androidDevice;
-  private AppiumServer androidServer;
+    protected AndroidDevice androidDevice;
+    private   AppiumServer  androidServer;
 
-  @BeforeClass
-  public void setupTestSuite () {
-    this.androidServer = new AppiumServer ("android");  // Here the parameter refers to the key in server block in config file.
-    this.androidServer.start ();
+    @BeforeClass
+    public void setupTestSuite () {
+        // Here the parameter refers to the key in server block in config file.
+        this.androidServer = new AppiumServer ("android");
+        this.androidServer.start ();
 
-    this.androidDevice = new AndroidDevice (this.androidServer, "test");  // Here the param refers to the key in devices block in config file.
-    this.androidDevice.start ();
-  }
+        // Here the param refers to the key in devices block in config file.
+        this.androidDevice = new AndroidDevice (this.androidServer, "test");
+        this.androidDevice.start ();
+    }
 
-  @AfterClass (alwaysRun = true)
-  public void tearDownTestSuite () {
-    this.androidDevice.stop ();
-    this.androidServer.stop ();
-  }
+    @AfterClass (alwaysRun = true)
+    public void tearDownTestSuite () {
+        this.androidDevice.stop ();
+        this.androidServer.stop ();
+    }
 
-  @Test
-  public void login () {
-    final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
-    login.addInputValue ("UserName", "admin")
-      .addInputValue ("Password", "admin")
-      .perform ();
-  }
+    @Test
+    public void login () {
+        final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
+        login.addInputValue ("UserName", "admin")
+            .addInputValue ("Password", "admin")
+            .perform ();
+    }
 }
 ```
 
@@ -186,32 +193,33 @@ import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 
 public class LoginActivity extends AndroidActivity {
-  public LoginActivity (final AndroidDevice device) {
-    super (device);
-  }
+    public LoginActivity (final AndroidDevice device) {
+        super (device);
+    }
 
-  @Override
-  protected DeviceElement prepare () {
-    final DeviceElement main = DeviceElement.create ("Main")
-      .forAndroid (By.id ("android:id/content"));
-    DeviceElement.create ("Back")
-      .parent (main)
-      .forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
-      // We can set multiple locators for different Automation names.
-      .forAndroid (AutomationType.UIAUTOMATOR2, MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
-    DeviceElement.create ("UserName")
-      .forAndroid (MobileBy.AccessibilityId ("username"))
-      .parent (main);
-    DeviceElement.create ("Password")
-      .forAndroid (MobileBy.AccessibilityId ("password"))
-      .parent (main);
-    DeviceElement.create ("Login")
-      .index (1)    // Index of element when multiple elements for same locator exists.
-      .waitStrategy (WaitStrategy.VISIBLE)  // Wait strategy to be used while finding the element.
-      .forAndroid (MobileBy.AccessibilityId ("login"))     // Locator used to find the element.
-      .parent (main);    // Parent of current element.
-    return main;
-  }
+    @Override
+    protected DeviceElement prepare () {
+        final DeviceElement main = DeviceElement.create ("Main")
+            .forAndroid (By.id ("android:id/content"));
+        DeviceElement.create ("Back")
+            .parent (main)
+            .forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
+            // We can set multiple locators for different Automation names.
+            .forAndroid (AutomationType.UIAUTOMATOR2,
+                MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
+        DeviceElement.create ("UserName")
+            .forAndroid (MobileBy.AccessibilityId ("username"))
+            .parent (main);
+        DeviceElement.create ("Password")
+            .forAndroid (MobileBy.AccessibilityId ("password"))
+            .parent (main);
+        DeviceElement.create ("Login")
+            .index (1)    // Index of element when multiple elements for same locator exists.
+            .waitStrategy (WaitStrategy.VISIBLE)  // Wait strategy to be used while finding the element.
+            .forAndroid (MobileBy.AccessibilityId ("login"))     // Locator used to find the element.
+            .parent (main);    // Parent of current element.
+        return main;
+    }
 }
 ```
 
@@ -221,7 +229,7 @@ public class LoginActivity extends AndroidActivity {
   <summary><strong>4. :soccer: <a href="https://wasiqb.github.io/projects/appium/action-class/">How to create your Activity action class?</a></strong></summary>
   <br/>
 
-There is abstract action class provided by framework where Activity specific flow is implemented in perform method.
+There is abstract action class provided by the framework where Activity specific flow is implemented in perform method.
 See the sample Activity action class below.
 
 ```java
@@ -230,22 +238,22 @@ import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LoginActivity;
 
 public class LoginActivityAction extends AndroidActivityActions {
-  public LoginActivityAction (final AndroidDevice device) {
-    super (device);
-  }
+    public LoginActivityAction (final AndroidDevice device) {
+        super (device);
+    }
 
-  @Override
-  public void perform () {
-    final LoginActivity login = new LoginActivity (getDevice ());
-    login.onElement ("UserName")
-      .enterText (value ("UserName"));
-    login.onElement ("Password")
-      .enterText (value ("Password"));
-    login.onDevice ()
-      .hideKeyboard ();
-    login.onElement ("Login")
-      .tap ();
-  }
+    @Override
+    public void perform () {
+        final LoginActivity login = new LoginActivity (getDevice ());
+        login.onElement ("UserName")
+            .enterText (value ("UserName"));
+        login.onElement ("Password")
+            .enterText (value ("Password"));
+        login.onDevice ()
+            .hideKeyboard ();
+        login.onElement ("Login")
+            .tap ();
+    }
 }
 ```
 

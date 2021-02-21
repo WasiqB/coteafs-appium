@@ -52,6 +52,8 @@ public class IOSTest {
     /**
      * @author wasiqb
      * @since Oct 28, 2018
+     * @param server
+     * @param device
      */
     @Parameters ({ "server", "device" })
     @BeforeTest (alwaysRun = true)
