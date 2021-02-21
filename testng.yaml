@@ -21,3 +21,15 @@ tests:
           - testRotation
         excludedMethods:
           - testDragDrop
+  #  - name: IOS Test Local
+  #    parameters: { server: ios, device: iphone }
+  #    classes:
+  #      - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
+  #        includedMethods:
+  #          - testLogin
+  - name: IOS Test BrowserStack
+    parameters: { server: browserstack, device: test_browserstack_ios }
+    classes:
+      - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
+        includedMethods:
+          - testLogin
