@@ -8,9 +8,6 @@
 
 <div align="center">
 
-> **Note:** Documentation site is under updation. Although some part of documentation is ready.
-> Checkout this space to know when the documentation is ready.
-
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)][home]
 [![Gitter](https://badges.gitter.im/WasiqB/coteafs-appium.svg)](https://gitter.im/WasiqB/coteafs-appium?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)][circleci]
