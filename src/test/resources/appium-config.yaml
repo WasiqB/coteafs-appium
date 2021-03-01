@@ -1,35 +1,28 @@
 server: &default_server
-  log_file_path: logs/appium-server.log
-  appium_js_path: /usr/local/lib/node_modules/appium/build/lib/main.js
-  arguments:
-    log_level: DEBUG
-    log_time_stamp: true
-    session_override: true
-    local_time_zone: true
-    android:
-      suppress_adb_kill_server: true
+  host: 0.0.0.0
+  appium_path: /usr/local/lib/node_modules/appium/build/lib/main.js
+  session_override: true
+  logs:
+    level: DEBUG
+    path: logs/appium-server.log
+    timestamp: true
+    local_timezone: true
+    debug_spacing: true
+  android:
+    suppress_adb_kill: true
 
 servers:
   android:
-    host: 0.0.0.0
-    port: 4723
     <<: *default_server
+    port: 4723
   ios:
-    host: 0.0.0.0
+    <<: *default_server
     port: 4725
-    log_file_path: logs/appium-ios-server.log
-    appium_js_path: /usr/local/lib/node_modules/appium/build/lib/main.js
-    arguments:
-      log_level: DEBUG
-      log_time_stamp: true
-      local_time_zone: true
-      session_override: true
-      ios:
-        wda_port: 8101
+    ios:
+      wda_port: 8101
   browserstack:
     protocol: HTTPS
-    host: hub-cloud.browserstack.com
-    cloud: true
+    cloud: BROWSERSTACK
     user_name: ${env:CLOUD_USER}
     password: ${env:CLOUD_KEY}
 
