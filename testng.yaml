@@ -9,7 +9,7 @@ listeners:
   - com.github.wasiqb.coteafs.listeners.SuiteResultReporter
 tests:
   - name: Android Test
-    parameters: { server: browserstack, device: test_browserstack }
+    parameters: { server: browserstack, device: android_bs }
     classes:
       - name: com.github.wasiqb.coteafs.appium.android.VodQATest
         includedMethods:
@@ -22,7 +22,7 @@ tests:
         excludedMethods:
           - testDragDrop
   - name: IOS Test BrowserStack
-    parameters: { server: browserstack, device: test_browserstack_ios }
+    parameters: { server: browserstack, device: ios_bs }
     classes:
       - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
         includedMethods:

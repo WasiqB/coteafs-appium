@@ -17,6 +17,7 @@ package com.github.wasiqb.coteafs.appium.config;
 
 import java.util.Map;
 
+import com.github.wasiqb.coteafs.appium.config.device.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.server.ServerSetting;
 import com.github.wasiqb.coteafs.datasource.annotation.DataFile;
 import lombok.Data;

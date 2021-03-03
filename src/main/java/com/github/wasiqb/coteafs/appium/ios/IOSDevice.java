@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.ios;
 
-import com.github.wasiqb.coteafs.appium.config.RecordSetting;
+import com.github.wasiqb.coteafs.appium.config.device.RecordSetting;
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import io.appium.java_client.MobileElement;
@@ -33,25 +33,26 @@ public class IOSDevice extends Device<IOSDriver<MobileElement>, IOSTouchAction> 
     /**
      * @param server
      * @param name
+     *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:12:09 PM
      */
-    public IOSDevice(final AppiumServer server, final String name) {
-        super(server, name);
+    public IOSDevice (final AppiumServer server, final String name) {
+        super (server, name);
     }
 
     /*
      * (non-Javadoc)
      * @see com.github.wasiqb.coteafs.appium.device.Device#startRecordSetting()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
-    protected IOSStartScreenRecordingOptions startRecordSetting() {
-        final IOSStartScreenRecordingOptions options = IOSStartScreenRecordingOptions.startScreenRecordingOptions();
-        final RecordSetting record = this.setting.getPlayback()
-            .getRecord();
-        if (record.getQuality() != VideoQuality.MEDIUM) {
-            options.withVideoQuality(record.getQuality());
+    protected IOSStartScreenRecordingOptions startRecordSetting () {
+        final IOSStartScreenRecordingOptions options = IOSStartScreenRecordingOptions.startScreenRecordingOptions ();
+        final RecordSetting record = this.setting.getPlayback ()
+            .getVideo ();
+        if (record.getQuality () != VideoQuality.MEDIUM) {
+            options.withVideoQuality (record.getQuality ());
         }
         return options;
     }
@@ -60,9 +61,9 @@ public class IOSDevice extends Device<IOSDriver<MobileElement>, IOSTouchAction> 
      * (non-Javadoc)
      * @see com.github.wasiqb.coteafs.appium.device.Device#stopRecordSetting()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
-    protected IOSStopScreenRecordingOptions stopRecordSetting() {
-        return IOSStopScreenRecordingOptions.stopScreenRecordingOptions();
+    protected IOSStopScreenRecordingOptions stopRecordSetting () {
+        return IOSStopScreenRecordingOptions.stopScreenRecordingOptions ();
     }
 }

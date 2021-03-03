@@ -32,15 +32,16 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class AndroidActivity
     extends DeviceActivity<AndroidDriver<MobileElement>, AndroidDevice, AndroidTouchAction> {
-    private static final Logger LOG = LogManager.getLogger(AndroidActivity.class);
+    private static final Logger LOG = LogManager.getLogger (AndroidActivity.class);
 
     /**
      * @param device
+     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 6:20:08 PM
      */
-    public AndroidActivity(final AndroidDevice device) {
-        super(device, new AndroidTouchAction(device.getDriver()));
+    public AndroidActivity (final AndroidDevice device) {
+        super (device, new AndroidTouchAction (device.getDriver ()));
     }
 
     /*
@@ -48,10 +49,10 @@ public abstract class AndroidActivity
      * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#onDevice()
      */
     @Override
-    public AndroidDeviceActions onDevice() {
-        checkBattery();
-        LOG.trace("Preparing to perform actions on Android device...");
-        return new AndroidDeviceActions(this.device);
+    public AndroidDeviceActions onDevice () {
+        checkBattery ();
+        LOG.trace ("Preparing to perform actions on Android device...");
+        return new AndroidDeviceActions (this.device);
     }
 
     /*
@@ -61,20 +62,20 @@ public abstract class AndroidActivity
      * String)
      */
     @Override
-    public AndroidDeviceElementActions onElement(final String name) {
-        checkBattery();
-        LOG.trace("Preparing to perform actions on Android device element [{}]...", name);
-        return new AndroidDeviceElementActions(this.device, name, getElement(name));
+    public AndroidDeviceElementActions onElement (final String name) {
+        checkBattery ();
+        LOG.trace ("Preparing to perform actions on Android device element [{}]...", name);
+        return new AndroidDeviceElementActions (this.device, name, getElement (name));
     }
 
-    private void checkBattery() {
-        if (this.device.getSetting()
-            .getAutomationName() == AutomationType.UIAUTOMATOR2 && !this.device.getSetting()
-            .isCloudApp()) {
-            final AndroidBatteryInfo battery = this.device.getDriver()
-                .getBatteryInfo();
-            check(battery.getState()
-                .name(), battery.getLevel());
+    private void checkBattery () {
+        if (this.device.getSetting ()
+            .getAutomation () == AutomationType.UIAUTOMATOR2 && !this.device.getSetting ()
+            .isCloud ()) {
+            final AndroidBatteryInfo battery = this.device.getDriver ()
+                .getBatteryInfo ();
+            check (battery.getState ()
+                .name (), battery.getLevel ());
         }
     }
 }

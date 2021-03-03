@@ -18,7 +18,6 @@ package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
-import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import io.appium.java_client.MobileBy;
 import org.openqa.selenium.By;
@@ -30,11 +29,12 @@ import org.openqa.selenium.By;
 public class DefaultActivity extends AndroidActivity {
     /**
      * @param device
+     *
      * @author wasiq.bhamla
      * @since Jan 24, 2018 5:22:20 PM
      */
-    public DefaultActivity(final AndroidDevice device) {
-        super(device);
+    public DefaultActivity (final AndroidDevice device) {
+        super (device);
     }
 
     /*
@@ -42,14 +42,15 @@ public class DefaultActivity extends AndroidActivity {
      * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
      */
     @Override
-    protected DeviceElement prepare() {
-        final DeviceElement main = DeviceElement.create("Main")
-            .waitStrategy(WaitStrategy.VISIBLE)
-            .forAndroid(By.id("android:id/content"));
-        DeviceElement.create("Back")
-            .parent(main)
-            .forAndroid(By.xpath("//android.widget.TextView[@text=\"Back\"]"))
-            .forAndroid(AutomationType.UIAUTOMATOR2, MobileBy.AndroidUIAutomator("new UiSelector ().text (\"Back\");"));
+    protected DeviceElement prepare () {
+        final DeviceElement main = DeviceElement.create ("Main")
+            .forAndroid (AutomationType.UIAUTOMATOR2,
+                MobileBy.AndroidUIAutomator ("new UiSelector ().resourceId (\"android:id/content\")"));
+        DeviceElement.create ("Back")
+            .parent (main)
+            .forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
+            .forAndroid (AutomationType.UIAUTOMATOR2,
+                MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
         return main;
     }
 }
