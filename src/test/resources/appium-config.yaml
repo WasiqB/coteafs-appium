@@ -1,6 +1,6 @@
 server: &default_server
   host: 0.0.0.0
-  appium_path: /usr/local/lib/node_modules/appium/build/lib/main.js
+  appium_path: /Users/in-wasiq.bhamla/.nvm/versions/node/v14.15.4/lib/node_modules/appium/build/lib/main.js
   session_override: true
   logs:
     level: DEBUG
@@ -42,7 +42,7 @@ device: &default_device
       before_tap: 0
       after_tap: 0
       implicit: 1
-      explicit: 10
+      explicit: 20
 
 devices:
   android:
@@ -72,7 +72,7 @@ devices:
       project: Project Appium
       build: Build-1
       name: Test 1
-      browserstack.appium_version: 1.18.0
+      browserstack.appium_version: 1.20.2
   ios_bs:
     name: iPhone 12 Pro Max
     os: IOS
@@ -84,7 +84,7 @@ devices:
       project: Project Appium
       build: Build-1
       name: IOS_Test 1
-      browserstack.appium_version: 1.18.0
+      browserstack.appium_version: 1.20.2
   iphone:
     <<: *default_device
     name: iPhone 12 Pro

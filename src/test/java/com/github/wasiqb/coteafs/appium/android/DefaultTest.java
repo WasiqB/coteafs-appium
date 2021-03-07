@@ -36,45 +36,46 @@ public class DefaultTest {
      * @author wasiqb
      * @since Oct 13, 2018
      */
-    @BeforeMethod(alwaysRun = true)
-    public void setupMethod() {
-        this.androidDevice.startRecording();
+    @BeforeMethod (alwaysRun = true)
+    public void setupMethod () {
+        this.androidDevice.startRecording ();
     }
 
     /**
      * @param server
      * @param device
+     *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 10:10:45 PM
      */
-    @Parameters( { "server", "device" })
-    @BeforeTest(alwaysRun = true)
-    public void setupTest(final String server, final String device) {
-        this.androidServer = new AppiumServer(server);
-        this.androidServer.start();
+    @Parameters ({ "server", "device" })
+    @BeforeTest (alwaysRun = true)
+    public void setupTest (final String server, final String device) {
+        this.androidServer = new AppiumServer (server);
+        this.androidServer.start ();
 
-        this.androidDevice = new AndroidDevice(this.androidServer, device);
-        this.androidDevice.start();
+        this.androidDevice = new AndroidDevice (this.androidServer, device);
+        this.androidDevice.start ();
 
-        this.main = new MainActivity(this.androidDevice);
-    }
-
-    /**
-     * @author wasiq.bhamla
-     * @since 17-Apr-2017 3:47:41 PM
-     */
-    @AfterTest(alwaysRun = true)
-    public void tearDownTest() {
-        this.androidDevice.stop();
-        this.androidServer.stop();
+        this.main = new MainActivity (this.androidDevice);
     }
 
     /**
      * @author wasiqb
      * @since Oct 20, 2018
      */
-    @AfterMethod(alwaysRun = true)
-    public void teardownMethod() {
-        this.androidDevice.stopRecording();
+    @AfterMethod (alwaysRun = true)
+    public void tearDownMethod () {
+        this.androidDevice.stopRecording ();
+    }
+
+    /**
+     * @author wasiq.bhamla
+     * @since 17-Apr-2017 3:47:41 PM
+     */
+    @AfterTest (alwaysRun = true)
+    public void tearDownTest () {
+        this.androidDevice.stop ();
+        this.androidServer.stop ();
     }
 }

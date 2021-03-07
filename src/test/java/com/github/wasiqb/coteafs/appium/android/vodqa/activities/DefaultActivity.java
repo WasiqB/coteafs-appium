@@ -18,6 +18,7 @@ package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 import com.github.wasiqb.coteafs.appium.android.AndroidActivity;
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
+import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import io.appium.java_client.MobileBy;
 import org.openqa.selenium.By;
@@ -44,8 +45,8 @@ public class DefaultActivity extends AndroidActivity {
     @Override
     protected DeviceElement prepare () {
         final DeviceElement main = DeviceElement.create ("Main")
-            .forAndroid (AutomationType.UIAUTOMATOR2,
-                MobileBy.AndroidUIAutomator ("new UiSelector ().resourceId (\"android:id/content\")"));
+            .waitStrategy (WaitStrategy.PRESENT)
+            .forAndroid (By.id ("android:id/content"));
         DeviceElement.create ("Back")
             .parent (main)
             .forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))

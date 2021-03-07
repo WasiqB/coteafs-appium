@@ -13,17 +13,18 @@ tests:
     classes:
       - name: com.github.wasiqb.coteafs.appium.android.VodQATest
         includedMethods:
-          - testLogin
-          - testLongPress
-          - testNativeView
-          - testSlider
-          - testVerticleSwipe
-          - testRotation
+          - test1Login
+          - test2NativeView
+          - test3LongPress
+          - test4Rotation
+          - test5Slider
+          - test6VerticalSwipe
+          - test7DragDrop
         excludedMethods:
-          - testDragDrop
-#  - name: IOS Test Local
-#    parameters: { server: ios, device: iphone }
-#    classes:
-#      - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
-#        includedMethods:
-#          - testLogin
+          - test8DoubleTap
+  - name: IOS Test Local
+    parameters: { server: ios, device: iphone }
+    classes:
+      - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
+        includedMethods:
+          - testLogin
