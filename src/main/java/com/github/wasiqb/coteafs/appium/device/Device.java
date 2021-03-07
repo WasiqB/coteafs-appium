@@ -64,6 +64,8 @@ import static io.appium.java_client.remote.MobileCapabilityType.AUTO_WEBVIEW;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIMEOUT;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION;
+import static java.lang.System.getProperty;
+import static java.text.MessageFormat.format;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
 import static org.openqa.selenium.remote.CapabilityType.BROWSER_NAME;
@@ -74,7 +76,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.time.Duration;
 import java.util.Map;
-import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
@@ -249,10 +250,8 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         if (isExternal) {
             return path;
         }
-        final URL resource = getClass ().getClassLoader ()
-            .getResource (path);
-        return Objects.requireNonNull (resource)
-            .getPath ();
+        final String appPath = "{0}/src/test/resources/{1}";
+        return format (appPath, getProperty ("user.dir"), path);
     }
 
     @SuppressWarnings ("unchecked")
