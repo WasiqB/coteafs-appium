@@ -203,14 +203,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     public void start () {
         startDriver ();
         setImplicitWait ();
-    }
-
-    /**
-     * @author wasiqb
-     * @since 27-Nov-2020
-     */
-    public void startRecording () {
-        startRecord ((CanRecordScreen) this.driver);
+        startRecording ();
     }
 
     /**
@@ -219,19 +212,12 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
      */
     public void stop () {
         if (this.driver != null) {
+            stopRecording ();
             quitApp ();
             this.driver = null;
         } else {
             LOG.trace ("[{}] device driver already stopped...", this.setting.getOs ());
         }
-    }
-
-    /**
-     * @author wasiqb
-     * @since 27-Nov-2020
-     */
-    public void stopRecording () {
-        stopRecord ((CanRecordScreen) this.driver);
     }
 
     protected abstract <X extends BaseStartScreenRecordingOptions<X>> X startRecordSetting ();
@@ -462,6 +448,10 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         }
     }
 
+    private void startRecording () {
+        startRecord ((CanRecordScreen) this.driver);
+    }
+
     private <X extends BaseStopScreenRecordingOptions<X>> void stopRecord (final CanRecordScreen screen) {
         final RecordSetting record = this.setting.getPlayback ()
             .getVideo ();
@@ -470,5 +460,9 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
             final String content = screen.<X>stopRecordingScreen (stopRecordSetting ());
             saveRecording (content, record);
         }
+    }
+
+    private void stopRecording () {
+        stopRecord ((CanRecordScreen) this.driver);
     }
 }

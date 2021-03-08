@@ -36,6 +36,10 @@ device: &default_device
     full_reset: true
     clear_logs: true
   playback:
+    screenshot:
+      on_error: true
+    video:
+      enabled: true
     delay:
       before_swipe: 200
       after_swipe: 100

@@ -17,9 +17,7 @@ package com.github.wasiqb.coteafs.appium.android;
 
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.MainActivity;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
@@ -31,15 +29,6 @@ public class DefaultTest {
     protected AndroidDevice androidDevice;
     protected MainActivity  main;
     private   AppiumServer  androidServer;
-
-    /**
-     * @author wasiqb
-     * @since Oct 13, 2018
-     */
-    @BeforeMethod (alwaysRun = true)
-    public void setupMethod () {
-        this.androidDevice.startRecording ();
-    }
 
     /**
      * @param server
@@ -58,15 +47,6 @@ public class DefaultTest {
         this.androidDevice.start ();
 
         this.main = new MainActivity (this.androidDevice);
-    }
-
-    /**
-     * @author wasiqb
-     * @since Oct 20, 2018
-     */
-    @AfterMethod (alwaysRun = true)
-    public void tearDownMethod () {
-        this.androidDevice.stopRecording ();
     }
 
     /**
