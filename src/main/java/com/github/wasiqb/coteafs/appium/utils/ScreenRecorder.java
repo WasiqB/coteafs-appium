@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.utils;
 
-import static java.lang.String.format;
+import static java.text.MessageFormat.format;
 import static org.apache.commons.io.FileUtils.writeByteArrayToFile;
 
 import java.io.File;
@@ -51,7 +51,7 @@ public class ScreenRecorder {
             final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-HHmmss");
             final String timeStamp = date.format (Calendar.getInstance ()
                 .getTime ());
-            final String fileName = format ("%s/%s-%s.%s", path, prefix, timeStamp, "mp4");
+            final String fileName = format ("{0}/{1}-{2}.{3}", path, prefix, timeStamp, "mp4");
             LOG.info ("Saving video recording to [{}] path...", fileName);
             writeByteArrayToFile (new File (fileName), decode);
         } catch (final IOException e) {

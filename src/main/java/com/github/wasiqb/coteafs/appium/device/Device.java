@@ -443,7 +443,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         if (record.isEnabled ()) {
             LOG.info ("Starting video recording...");
             final X option = startRecordSetting ();
-            option.withTimeLimit (Duration.ofMinutes (record.getDuration ()));
+            option.withTimeLimit (Duration.ofMinutes (record.getTimeLimit ()));
             screen.startRecordingScreen (option);
         }
     }

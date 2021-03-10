@@ -40,6 +40,8 @@ device: &default_device
       on_error: true
     video:
       enabled: true
+      time_limit: 5
+      fps: 30
     delay:
       before_swipe: 200
       after_swipe: 100

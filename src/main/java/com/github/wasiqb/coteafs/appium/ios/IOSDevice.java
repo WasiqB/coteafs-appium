@@ -54,6 +54,12 @@ public class IOSDevice extends Device<IOSDriver<MobileElement>, IOSTouchAction> 
         if (record.getQuality () != VideoQuality.MEDIUM) {
             options.withVideoQuality (record.getQuality ());
         }
+        if (record.getFps () > 0) {
+            options.withFps (record.getFps ());
+        }
+        if (record.getCodec () != null) {
+            options.withVideoType (record.getCodec ());
+        }
         return options;
     }
 
