@@ -42,56 +42,16 @@ import org.testng.annotations.Test;
 public class VodQATest extends DefaultTest {
     /**
      * @return orientation list
+     *
      * @author wasiqb
      * @since Oct 21, 2018
      */
     @DataProvider
-    public static Iterator<Object[]> getOrientation() {
-        final List<Object[]> data = new ArrayList<>();
-        data.add(new Object[] { ScreenOrientation.LANDSCAPE });
-        data.add(new Object[] { ScreenOrientation.PORTRAIT });
-        return data.iterator();
-    }
-
-    /**
-     * @author wasiq.bhamla
-     * @since Feb 8, 2018 4:21:19 PM
-     */
-    @Test
-    public void testDoubleTap() {
-        this.main.onElement("DoubleTap")
-            .tap();
-
-        final DoubleTapActivity p = new DoubleTapActivity(this.androidDevice);
-        p.onElement("Button")
-            .doubleTap();
-
-        final String message = p.onDevice()
-            .handleAlert();
-        Assert.assertEquals(message, "Double tap successful!");
-
-        this.main.onElement("Back")
-            .tap();
-    }
-
-    /**
-     * @author wasiq.bhamla
-     * @since Feb 2, 2018 2:59:25 PM
-     */
-    @Test
-    public void testDragDrop() {
-        this.main.onElement("DragDrop")
-            .tap();
-
-        final DragDropActivity dd = new DragDropActivity(this.androidDevice);
-        dd.onElement("DropMe")
-            .dragDrop(dd.getElement("DropZone"));
-        dd.onElement("Success")
-            .verifyThat()
-            .textShouldBeEqualTo("Circle dropped");
-
-        this.main.onElement("Back")
-            .tap();
+    public static Iterator<Object[]> getOrientation () {
+        final List<Object[]> data = new ArrayList<> ();
+        data.add (new Object[] { ScreenOrientation.LANDSCAPE });
+        data.add (new Object[] { ScreenOrientation.PORTRAIT });
+        return data.iterator ();
     }
 
     /**
@@ -99,11 +59,39 @@ public class VodQATest extends DefaultTest {
      * @since Oct 20, 2018
      */
     @Test
-    public void testLogin() {
-        final LoginActivityAction login = new LoginActivityAction(this.androidDevice);
-        login.addInputValue("UserName", "admin")
-            .addInputValue("Password", "admin")
-            .perform();
+    public void test1Login () {
+        final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
+        login.addInputValue ("UserName", "admin")
+            .addInputValue ("Password", "admin")
+            .perform ();
+
+        this.main.onElement ("ChainedView")
+            .verifyThat ()
+            .shouldBeDisplayed ();
+    }
+
+    /**
+     * @author wasiq.bhamla
+     * @since Jan 23, 2018 9:39:20 PM
+     */
+    @Test
+    public void test2NativeView () {
+        this.main.onElement ("ChainedView")
+            .tap ();
+
+        final ChainedViewActivity chained = new ChainedViewActivity (this.androidDevice);
+        chained.onElement ("Text1")
+            .verifyThat ()
+            .textShouldBeEqualTo ("Hello World, I'm View one ");
+        chained.onElement ("Text2")
+            .verifyThat ()
+            .textShouldBeEqualTo ("Hello World, I'm View two ");
+        chained.onElement ("Text3")
+            .verifyThat ()
+            .textShouldBeEqualTo ("Hello World, I'm View three ");
+
+        this.main.onElement ("Back")
+            .tap ();
     }
 
     /**
@@ -111,58 +99,34 @@ public class VodQATest extends DefaultTest {
      * @since Feb 8, 2018 4:15:53 PM
      */
     @Test
-    public void testLongPress() {
-        this.main.onElement("LongPress")
-            .tap();
+    public void test3LongPress () {
+        this.main.onElement ("LongPress")
+            .tap ();
 
-        final LongPressActivity lp = new LongPressActivity(this.androidDevice);
-        lp.onElement("Button")
-            .longPress();
-        final String message = lp.onDevice()
-            .handleAlert();
-        Assert.assertEquals(message, "you pressed me hard :P");
+        final LongPressActivity lp = new LongPressActivity (this.androidDevice);
+        lp.onElement ("Button")
+            .longPress ();
+        final String message = lp.onDevice ()
+            .handleAlert ();
+        Assert.assertEquals (message, "you pressed me hard :P");
 
-        this.main.onElement("Back")
-            .tap();
-    }
-
-    /**
-     * @throws InterruptedException
-     * @author wasiq.bhamla
-     * @since Jan 23, 2018 9:39:20 PM
-     */
-    @Test
-    public void testNativeView() throws InterruptedException {
-        this.main.onElement("ChainedView")
-            .tap();
-
-        final ChainedViewActivity chained = new ChainedViewActivity(this.androidDevice);
-        chained.onElement("Text1")
-            .verifyThat()
-            .textShouldBeEqualTo("Hello World, I'm View one ");
-        chained.onElement("Text2")
-            .verifyThat()
-            .textShouldBeEqualTo("Hello World, I'm View two ");
-        chained.onElement("Text3")
-            .verifyThat()
-            .textShouldBeEqualTo("Hello World, I'm View three ");
-
-        this.main.onElement("Back")
-            .tap();
+        this.main.onElement ("Back")
+            .tap ();
     }
 
     /**
      * @param orientation
+     *
      * @author wasiqb
      * @since Oct 21, 2018
      */
-    @Test(dataProvider = "getOrientation")
-    public void testRotation(final ScreenOrientation orientation) {
-        this.main.onDevice()
-            .rotate(orientation);
-        assertThat(this.main.onDevice()
-            .rotation()
-            .name()).isEqualTo(orientation.name());
+    @Test (dataProvider = "getOrientation")
+    public void test4Rotation (final ScreenOrientation orientation) {
+        this.main.onDevice ()
+            .rotate (orientation);
+        assertThat (this.main.onDevice ()
+            .rotation ()
+            .name ()).isEqualTo (orientation.name ());
     }
 
     /**
@@ -170,18 +134,18 @@ public class VodQATest extends DefaultTest {
      * @since Jan 27, 2018 7:45:48 PM
      */
     @Test
-    public void testSlider() {
-        this.main.onElement("Slider")
-            .tap();
+    public void test5Slider () {
+        this.main.onElement ("Slider")
+            .tap ();
 
-        final SliderActivity slide = new SliderActivity(this.androidDevice);
-        slide.onElement("Slider")
-            .swipe(SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
-        slide.onElement("Slider1")
-            .swipe(SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
+        final SliderActivity slide = new SliderActivity (this.androidDevice);
+        slide.onElement ("Slider")
+            .swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
+        slide.onElement ("Slider1")
+            .swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
 
-        this.main.onElement("Back")
-            .tap();
+        this.main.onElement ("Back")
+            .tap ();
     }
 
     /**
@@ -189,17 +153,58 @@ public class VodQATest extends DefaultTest {
      * @since Feb 1, 2018 3:15:23 PM
      */
     @Test
-    public void testVerticleSwipe() {
-        this.main.onElement("VerticalSwipe")
-            .tap();
+    public void test6VerticalSwipe () {
+        this.main.onElement ("VerticalSwipe")
+            .tap ();
 
-        final VerticleSwipeActivity vs = new VerticleSwipeActivity(this.androidDevice);
-        vs.onElement("List")
-            .swipe(SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
-        vs.onElement("List")
-            .swipe(SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
+        final VerticleSwipeActivity vs = new VerticleSwipeActivity (this.androidDevice);
+        vs.onElement ("List")
+            .swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
+        vs.onElement ("List")
+            .swipe (SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
 
-        this.main.onElement("Back")
-            .tap();
+        this.main.onElement ("Back")
+            .tap ();
+    }
+
+    /**
+     * @author wasiq.bhamla
+     * @since Feb 2, 2018 2:59:25 PM
+     */
+    @Test
+    public void test7DragDrop () {
+        this.main.onElement ("DragDrop")
+            .tap ();
+
+        final DragDropActivity dd = new DragDropActivity (this.androidDevice);
+        dd.onElement ("DropMe")
+            .dragDrop (dd.getElement ("DropZone"));
+        dd.onElement ("Success")
+            .verifyThat ()
+            .textShouldBeEqualTo ("Circle dropped");
+
+        this.main.onElement ("Back")
+            .tap ();
+    }
+
+    /**
+     * @author wasiq.bhamla
+     * @since Feb 8, 2018 4:21:19 PM
+     */
+    @Test
+    public void test8DoubleTap () {
+        this.main.onElement ("DoubleTap")
+            .tap ();
+
+        final DoubleTapActivity p = new DoubleTapActivity (this.androidDevice);
+        p.onElement ("Button")
+            .doubleTap ();
+
+        final String message = p.onDevice ()
+            .handleAlert ();
+        Assert.assertEquals (message, "Double tap successful!");
+
+        this.main.onElement ("Back")
+            .tap ();
     }
 }

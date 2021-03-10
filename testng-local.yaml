@@ -8,6 +8,20 @@ listeners:
   - com.github.wasiqb.coteafs.listeners.AnnotationTransformer
   - com.github.wasiqb.coteafs.listeners.SuiteResultReporter
 tests:
+  - name: Android Test Local
+    parameters: { server: android, device: android }
+    classes:
+      - name: com.github.wasiqb.coteafs.appium.android.VodQATest
+        includedMethods:
+          - test1Login
+          - test2NativeView
+          - test3LongPress
+          - test4Rotation
+          - test5Slider
+          - test6VerticalSwipe
+          - test7DragDrop
+        excludedMethods:
+          - test8DoubleTap
   - name: IOS Test Local
     parameters: { server: ios, device: iphone }
     classes:

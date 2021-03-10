@@ -30,11 +30,12 @@ import org.openqa.selenium.By;
 public class DefaultActivity extends AndroidActivity {
     /**
      * @param device
+     *
      * @author wasiq.bhamla
      * @since Jan 24, 2018 5:22:20 PM
      */
-    public DefaultActivity(final AndroidDevice device) {
-        super(device);
+    public DefaultActivity (final AndroidDevice device) {
+        super (device);
     }
 
     /*
@@ -42,14 +43,15 @@ public class DefaultActivity extends AndroidActivity {
      * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
      */
     @Override
-    protected DeviceElement prepare() {
-        final DeviceElement main = DeviceElement.create("Main")
-            .waitStrategy(WaitStrategy.VISIBLE)
-            .forAndroid(By.id("android:id/content"));
-        DeviceElement.create("Back")
-            .parent(main)
-            .forAndroid(By.xpath("//android.widget.TextView[@text=\"Back\"]"))
-            .forAndroid(AutomationType.UIAUTOMATOR2, MobileBy.AndroidUIAutomator("new UiSelector ().text (\"Back\");"));
+    protected DeviceElement prepare () {
+        final DeviceElement main = DeviceElement.create ("Main")
+            .waitStrategy (WaitStrategy.PRESENT)
+            .forAndroid (By.id ("android:id/content"));
+        DeviceElement.create ("Back")
+            .parent (main)
+            .forAndroid (By.xpath ("//android.widget.TextView[@text=\"Back\"]"))
+            .forAndroid (AutomationType.UIAUTOMATOR2,
+                MobileBy.AndroidUIAutomator ("new UiSelector ().text (\"Back\");"));
         return main;
     }
 }

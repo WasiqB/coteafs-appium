@@ -19,6 +19,7 @@ import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STO
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static com.github.wasiqb.coteafs.appium.utils.ScreenRecorder.saveRecording;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ADB_PORT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.APP_ACTIVITY;
@@ -32,14 +33,22 @@ import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_ARGS;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_LAUNCH_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_READY_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
-import static io.appium.java_client.remote.AndroidMobileCapabilityType.DEVICE_READY_TIMEOUT;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROME_OPTIONS;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.DONT_STOP_APP_ON_RESET;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.IGNORE_UNIMPORTANT_VIEWS;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.IS_HEADLESS;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.NETWORK_SPEED;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.REMOTE_ADB_HOST;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.SKIP_UNLOCK;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.SYSTEM_PORT;
-import static io.appium.java_client.remote.IOSMobileCapabilityType.APP_NAME;
-import static io.appium.java_client.remote.IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS;
-import static io.appium.java_client.remote.IOSMobileCapabilityType.AUTO_DISMISS_ALERTS;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.UNLOCK_KEY;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.UNLOCK_TYPE;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.BUNDLE_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.LAUNCH_TIMEOUT;
-import static io.appium.java_client.remote.IOSMobileCapabilityType.SHOW_XCODE_LOG;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.NATIVE_WEB_TAP;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.SAFARI_ALLOW_POPUPS;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.SAFARI_INITIAL_URL;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_NEW_WDA;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_PREBUILT_WDA;
@@ -51,21 +60,17 @@ import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_ORG_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_SIGNING_ID;
 import static io.appium.java_client.remote.MobileCapabilityType.APP;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
-import static io.appium.java_client.remote.MobileCapabilityType.CLEAR_SYSTEM_FILES;
+import static io.appium.java_client.remote.MobileCapabilityType.AUTO_WEBVIEW;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
-import static io.appium.java_client.remote.MobileCapabilityType.EVENT_TIMINGS;
-import static io.appium.java_client.remote.MobileCapabilityType.FULL_RESET;
 import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIMEOUT;
-import static io.appium.java_client.remote.MobileCapabilityType.NO_RESET;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION;
-import static io.appium.java_client.remote.MobileCapabilityType.UDID;
-import static java.lang.String.format;
 import static java.lang.System.getProperty;
+import static java.text.MessageFormat.format;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
 import static org.openqa.selenium.remote.CapabilityType.BROWSER_NAME;
 import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
@@ -75,16 +80,22 @@ import java.util.concurrent.TimeUnit;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
-import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
-import com.github.wasiqb.coteafs.appium.config.RecordSetting;
-import com.github.wasiqb.coteafs.appium.config.android.AndroidDeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.device.DeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.device.RecordSetting;
+import com.github.wasiqb.coteafs.appium.config.device.android.AdbSetting;
+import com.github.wasiqb.coteafs.appium.config.device.android.AndroidAppSetting;
+import com.github.wasiqb.coteafs.appium.config.device.android.AndroidDeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.device.android.AndroidWebSetting;
+import com.github.wasiqb.coteafs.appium.config.device.android.AvdSetting;
+import com.github.wasiqb.coteafs.appium.config.device.android.WebOptions;
+import com.github.wasiqb.coteafs.appium.config.device.ios.IOSAppSetting;
+import com.github.wasiqb.coteafs.appium.config.device.ios.IOSDeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.device.ios.IOSWebSetting;
+import com.github.wasiqb.coteafs.appium.config.device.ios.WDASetting;
 import com.github.wasiqb.coteafs.appium.config.enums.ApplicationType;
 import com.github.wasiqb.coteafs.appium.config.enums.DeviceType;
 import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
-import com.github.wasiqb.coteafs.appium.config.ios.IOSDeviceSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
-import com.github.wasiqb.coteafs.appium.error.DeviceAppNotFoundError;
-import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverDefaultWaitError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverInitializationFailedError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverNotStartingError;
@@ -102,6 +113,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.NoSuchSessionException;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
@@ -131,24 +143,24 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         this.server = server;
         this.setting = DataSource.parse (AppiumSetting.class)
             .getDevice (name);
-        this.platform = this.setting.getPlatformType ();
+        this.platform = this.setting.getOs ();
         buildCapabilities ();
     }
 
     /**
      * @author wasiq.bhamla
-     * @since Nov 17, 2017 3:34:33 PM
+     * @since 27-Nov-2020
      */
     public void checkServerRunning () {
         ServerChecker.checkServerRunning (this.server);
     }
 
     /**
-     * @param command
-     * @param args
+     * @param command Command to execute
+     * @param args Command args
      *
      * @author wasiqb
-     * @since Oct 28, 2018
+     * @since 27-Nov-2020
      */
     public void executeCommand (final String command, final Map<String, Object> args) {
         this.driver.executeScript (command, args);
@@ -158,18 +170,27 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
      * @return driver
      *
      * @author wasiq.bhamla
-     * @since 01-May-2017 7:08:10 PM
+     * @since 27-Nov-2020
      */
     public D getDriver () {
-        LOG.trace ("Getting [{}] device driver...", this.platform);
+        LOG.trace ("Getting [{}] device driver...", this.setting.getOs ());
         return this.driver;
+    }
+
+    /**
+     * @return Appium server
+     *
+     * @since 29-11-2020
+     */
+    public AppiumServer getServer () {
+        return this.server;
     }
 
     /**
      * @return the setting
      *
      * @author wasiq.bhamla
-     * @since Oct 9, 2017 4:36:02 PM
+     * @since 27-Nov-2020
      */
     public DeviceSetting getSetting () {
         return this.setting;
@@ -177,40 +198,26 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     /**
      * @author wasiq.bhamla
-     * @since 17-Apr-2017 4:46:12 PM
+     * @since 27-Nov-2020
      */
     public void start () {
         startDriver ();
         setImplicitWait ();
-    }
-
-    /**
-     * @author wasiqb
-     * @since Oct 13, 2018
-     */
-    public void startRecording () {
-        startRecord ((CanRecordScreen) this.driver);
+        startRecording ();
     }
 
     /**
      * @author wasiq.bhamla
-     * @since 17-Apr-2017 4:46:02 PM
+     * @since 27-Nov-2020
      */
     public void stop () {
         if (this.driver != null) {
+            stopRecording ();
             quitApp ();
             this.driver = null;
         } else {
-            LOG.trace ("[{}] device driver already stopped...", this.platform);
+            LOG.trace ("[{}] device driver already stopped...", this.setting.getOs ());
         }
-    }
-
-    /**
-     * @author wasiqb
-     * @since Oct 13, 2018
-     */
-    public void stopRecording () {
-        stopRecord ((CanRecordScreen) this.driver);
     }
 
     protected abstract <X extends BaseStartScreenRecordingOptions<X>> X startRecordSetting ();
@@ -220,39 +227,17 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     private void buildCapabilities () {
         LOG.trace ("Building Device capabilities...");
         this.capabilities = new DesiredCapabilities ();
-
-        setCommonCapabilities ();
-        setDeviceSpecificCapabilities ();
-
-        if (this.setting.getAppType () == ApplicationType.WEB) {
-            setCapability (BROWSER_NAME, this.setting.getBrowser (), this.capabilities, true);
-        } else {
-            String appPath = this.setting.getAppLocation ();
-            if (appPath != null && !this.setting.isCloudApp ()) {
-                String path = "%s/src/test/resources/%s";
-                path = format (path, getProperty ("user.dir"), appPath);
-
-                if (this.setting.isExternalApp ()) {
-                    path = appPath;
-                }
-                final File file = new File (path);
-                if (!file.exists ()) {
-                    final String msg = format ("App not found on mentioned location [%s]...", path);
-                    LOG.error (msg);
-                    fail (DeviceAppNotFoundError.class, msg);
-                }
-                appPath = path;
-            }
-            if (this.setting.isCloudApp ()) {
-                this.setting.getCapabilities ()
-                    .forEach ((key, value) -> setCapability (key, value, this.capabilities));
-            } else {
-                if (appPath != null) {
-                    setCapability (APP, appPath, this.capabilities, true);
-                }
-            }
-        }
+        setLocalCapabilities ();
+        setCloudCapabilities ();
         LOG.trace ("Building Device capabilities completed...");
+    }
+
+    private String getAppPath (final String path, final boolean isExternal) {
+        if (isExternal) {
+            return path;
+        }
+        final String appPath = "{0}/src/test/resources/{1}";
+        return format (appPath, getProperty ("user.dir"), path);
     }
 
     @SuppressWarnings ("unchecked")
@@ -273,7 +258,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     }
 
     private void quitApp () {
-        LOG.trace ("Closing & Quitting [{}] device driver...", this.platform);
+        LOG.trace ("Closing & Quitting [{}] device driver...", this.setting.getOs ());
         try {
             this.driver.closeApp ();
             this.driver.quit ();
@@ -284,60 +269,102 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         }
     }
 
-    private void setAndroidCapabilities () {
-        final AndroidDeviceSetting android = this.setting.getAndroid ();
+    private void setAdbSetting (final AdbSetting adb) {
+        setCapability (ADB_PORT, adb.getPort (), this.capabilities);
+        setCapability (REMOTE_ADB_HOST, adb.getHost (), this.capabilities);
+        setCapability (ADB_EXEC_TIMEOUT, adb.getTimeout (), this.capabilities);
+    }
+
+    private void setAndroidAppSetting (final AndroidAppSetting app) {
+        setCapability (APP, getAppPath (app.getPath (), app.isExternal ()), this.capabilities);
+        setCapability (ANDROID_INSTALL_TIMEOUT, app.getInstallTimeout (), this.capabilities);
+        setCapability (APP_ACTIVITY, app.getActivityName (), this.capabilities);
+        setCapability (APP_PACKAGE, app.getPackageName (), this.capabilities);
+        setCapability (APP_WAIT_ACTIVITY, app.getWaitActivity (), this.capabilities);
+        setCapability (APP_WAIT_PACKAGE, app.getWaitPackage (), this.capabilities);
+        setCapability (APP_WAIT_DURATION, app.getWaitTimeout (), this.capabilities);
+        setCapability (AUTO_GRANT_PERMISSIONS, app.isGrantPermission (), this.capabilities);
+        setCapability (DONT_STOP_APP_ON_RESET, app.isNoStopOnReset (), this.capabilities);
+        setCapability (IGNORE_UNIMPORTANT_VIEWS, app.isIgnoreUnimportantViews (), this.capabilities);
+        setCapability ("otherApps", app.getOtherApps (), this.capabilities);
+    }
+
+    private void setAndroidCapabilities (final AndroidDeviceSetting android) {
         if (android != null) {
-            if (this.setting.getDeviceType () == DeviceType.SIMULATOR) {
-                setCapability (AVD, android.getAvd (), this.capabilities, true);
-                setCapability (AVD_READY_TIMEOUT, SECONDS.toMillis (android.getAvdReadyTimeout ()), this.capabilities);
-                setCapability (AVD_LAUNCH_TIMEOUT, SECONDS.toMillis (android.getAvdLaunchTimeout ()),
-                    this.capabilities);
-                setCapability (AVD_ARGS, android.getAvdArgs (), this.capabilities);
+            if (android.getUnlockType () != null) {
+                setCapability (UNLOCK_KEY, android.getUnlockKey (), this.capabilities);
+                setCapability (UNLOCK_TYPE, android.getUnlockType ()
+                    .name ()
+                    .toLowerCase (), this.capabilities);
             }
-            if (this.setting.getAppType () != ApplicationType.WEB) {
-                final String packageName = android.getAppPackage ();
-                final String app = this.setting.getAppLocation ();
-                if (packageName == null && app == null) {
-                    fail (DeviceDesiredCapabilitiesNotSetError.class, "Either App or Package name is mandatory...");
-                }
-                setCapability (APP_ACTIVITY, android.getAppActivity (), this.capabilities);
-                setCapability (APP_PACKAGE, android.getAppPackage (), this.capabilities);
-                setCapability (APP_WAIT_ACTIVITY, android.getAppWaitActivity (), this.capabilities);
-                setCapability (APP_WAIT_DURATION, android.getAppWaitTimeout (), this.capabilities);
-                setCapability (APP_WAIT_PACKAGE, android.getAppWaitPackage (), this.capabilities);
-                setCapability (ANDROID_INSTALL_TIMEOUT, android.getApkInstallTimeout (), this.capabilities);
-                setCapability (AUTO_GRANT_PERMISSIONS, android.isAutoGrantPermissions (), this.capabilities);
-            } else {
-                setCapability (CHROMEDRIVER_EXECUTABLE, android.getChromeDriverPath (), this.capabilities);
-            }
+            setCapability (SKIP_UNLOCK, android.isSkipUnlock (), this.capabilities);
             setCapability (SYSTEM_PORT, android.getSystemPort (), this.capabilities);
-            setCapability (ADB_PORT, android.getAdbPort (), this.capabilities);
-            setCapability (DEVICE_READY_TIMEOUT, android.getDeviceReadyTimeout (), this.capabilities);
+            if (this.setting.getType () == DeviceType.SIMULATOR) {
+                setAvdSetting (android.getAvd ());
+            }
+            setAdbSetting (android.getAdb ());
+            if (android.getApp ()
+                .getType () != ApplicationType.WEB) {
+                setAndroidAppSetting (android.getApp ());
+            } else {
+                setAndroidWebSetting (android.getWeb ());
+            }
         }
     }
 
-    private void setCommonCapabilities () {
-        if (!this.setting.isCloudApp ()) {
-            setCapability (DEVICE_NAME, this.setting.getDeviceName (), this.capabilities, true);
-            setCapability (PLATFORM_NAME, this.setting.getPlatformType (), this.capabilities, true);
-            setCapability (PLATFORM_VERSION, this.setting.getDeviceVersion (), this.capabilities);
-            setCapability (NO_RESET, this.setting.isNoReset (), this.capabilities);
-            setCapability (FULL_RESET, this.setting.isFullReset (), this.capabilities);
-            setCapability (NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
-            setCapability (CLEAR_SYSTEM_FILES, this.setting.isClearSystemFiles (), this.capabilities);
-            setCapability (AUTOMATION_NAME, this.setting.getAutomationName (), this.capabilities, true);
-            setCapability (UDID, this.setting.getUdid (), this.capabilities);
-            setCapability (EVENT_TIMINGS, this.setting.isEventTimings (), this.capabilities);
+    private void setAndroidWebSetting (final AndroidWebSetting web) {
+        setCapability (CHROMEDRIVER_EXECUTABLE, web.getChromeDriverPath (), this.capabilities);
+        setCapability (ACCEPT_SSL_CERTS, web.isAcceptSslCerts (), this.capabilities);
+        setCapability (NATIVE_WEB_SCREENSHOT, web.isNativeScreenshot (), this.capabilities);
+        setCapability ("showChromedriverLog", web.isShowBrowserLogs (), this.capabilities);
+        setChromeOptions (web.getOptions ());
+    }
+
+    private void setAvdSetting (final AvdSetting avd) {
+        setCapability (NETWORK_SPEED, avd.getNetworkSpeed (), this.capabilities);
+        setCapability (AVD, avd.getName (), this.capabilities);
+        setCapability (AVD_READY_TIMEOUT, SECONDS.toMillis (avd.getReadyTimeout ()), this.capabilities);
+        setCapability (AVD_LAUNCH_TIMEOUT, SECONDS.toMillis (avd.getLaunchTimeout ()), this.capabilities);
+        setCapability (AVD_ARGS, avd.getArgs (), this.capabilities);
+    }
+
+    private void setChromeOptions (final WebOptions options) {
+        final ChromeOptions chromeOptions = new ChromeOptions ();
+        chromeOptions.addArguments (options.getArgs ());
+        chromeOptions.setExperimentalOption ("enableNetwork", options.getPerformancePreferences ()
+            .isNetwork ());
+        chromeOptions.setExperimentalOption ("enablePage", options.getPerformancePreferences ()
+            .isPage ());
+        setCapability (CHROME_OPTIONS, chromeOptions.asMap ()
+            .toString (), this.capabilities);
+    }
+
+    private void setCloudCapabilities () {
+        if (this.setting.isCloud ()) {
+            this.setting.getCloudCapabilities ()
+                .forEach ((key, value) -> setCapability (key, value, this.capabilities));
         }
+    }
+
+    private void setDeviceCapabilities () {
+        setCapability (DEVICE_NAME, this.setting.getName (), this.capabilities, true);
+        setCapability (PLATFORM_NAME, this.setting.getOs (), this.capabilities, true);
+        setCapability (PLATFORM_VERSION, this.setting.getVersion (), this.capabilities);
+        setCapability (NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
+        setCapability (AUTOMATION_NAME, this.setting.getAutomation (), this.capabilities);
+        setCapability (BROWSER_NAME, this.setting.getBrowser (), this.capabilities);
+        setCapability (IS_HEADLESS, this.setting.isHeadless (), this.capabilities);
+        setCapability (LAUNCH_TIMEOUT, this.setting.getLaunchTimeout (), this.capabilities);
+        setCapability (AUTO_WEBVIEW, this.setting.isAutoWebView (), this.capabilities);
     }
 
     private void setDeviceSpecificCapabilities () {
-        switch (this.setting.getPlatformType ()) {
+        switch (this.setting.getOs ()) {
             case IOS:
-                setIOSCapabilities ();
+                setIOSCapabilities (this.setting.getIos ());
                 break;
             case ANDROID:
-                setAndroidCapabilities ();
+                setAndroidCapabilities (this.setting.getAndroid ());
                 break;
             case WINDOWS:
             default:
@@ -345,28 +372,11 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         }
     }
 
-    private void setIOSCapabilities () {
-        final IOSDeviceSetting ios = this.setting.getIos ();
+    private void setIOSCapabilities (final IOSDeviceSetting ios) {
         if (ios != null) {
-            if (this.setting.getAppType () != ApplicationType.WEB) {
-                setCapability (BUNDLE_ID, ios.getBundleId (), this.capabilities);
-            }
-            setCapability (XCODE_ORG_ID, ios.getTeamId (), this.capabilities);
-            setCapability (XCODE_SIGNING_ID, ios.getSigningId (), this.capabilities);
-            setCapability (APP_NAME, ios.getAppName (), this.capabilities);
-            setCapability (WDA_CONNECTION_TIMEOUT, ios.getWdaConnectionTimeout (), this.capabilities);
-            setCapability ("bootstrapPath", ios.getBootstrapPath (), this.capabilities);
-            setCapability ("agentPath", ios.getAgentPath (), this.capabilities);
-            setCapability (UPDATE_WDA_BUNDLEID, ios.getUpdatedWdaBundleId (), this.capabilities);
-            setCapability (USE_NEW_WDA, ios.isUseNewWda (), this.capabilities);
-            setCapability (USE_PREBUILT_WDA, ios.isUsePrebuiltWda (), this.capabilities);
-            setCapability (SHOW_XCODE_LOG, ios.isShowXcodeLog (), this.capabilities);
-            setCapability (WDA_STARTUP_RETRIES, ios.getWdaStartupRetries (), this.capabilities);
-            setCapability (WDA_STARTUP_RETRY_INTERVAL, ios.getWdaStartupRetryInterval (), this.capabilities);
-            setCapability (AUTO_ACCEPT_ALERTS, ios.isAutoAcceptAlerts (), this.capabilities);
-            setCapability (AUTO_DISMISS_ALERTS, ios.isAutoDismissAlerts (), this.capabilities);
-            setCapability (WDA_LOCAL_PORT, ios.getWdaLocalPort (), this.capabilities);
-            setCapability (LAUNCH_TIMEOUT, ios.getLaunchTimeout (), this.capabilities);
+            setIosAppCapabilities (ios.getApp ());
+            setIosWdaCapabilities (ios.getWda ());
+            setIosWebCapabilities (ios.getWeb ());
         }
     }
 
@@ -375,7 +385,8 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
             this.driver.manage ()
                 .timeouts ()
                 .implicitlyWait (this.setting.getPlayback ()
-                    .getDefaultWait (), TimeUnit.SECONDS);
+                    .getDelay ()
+                    .getImplicit (), TimeUnit.SECONDS);
         } catch (final NoSuchSessionException e) {
             fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
         } catch (final Exception e) {
@@ -383,19 +394,53 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         }
     }
 
+    private void setIosAppCapabilities (final IOSAppSetting app) {
+        setCapability (APP, getAppPath (app.getPath (), app.isExternal ()), this.capabilities);
+        setCapability (BUNDLE_ID, app.getBundleId (), this.capabilities);
+    }
+
+    private void setIosWdaCapabilities (final WDASetting wda) {
+        setCapability (XCODE_ORG_ID, wda.getTeamId (), this.capabilities);
+        setCapability (XCODE_SIGNING_ID, wda.getSigningId (), this.capabilities);
+        setCapability (WDA_CONNECTION_TIMEOUT, wda.getConnectionTimeout (), this.capabilities);
+        setCapability ("bootstrapPath", wda.getBootstrapPath (), this.capabilities);
+        setCapability ("agentPath", wda.getAgentPath (), this.capabilities);
+        setCapability (UPDATE_WDA_BUNDLEID, wda.getUpdateBundleId (), this.capabilities);
+        setCapability (USE_NEW_WDA, wda.isUseNew (), this.capabilities);
+        setCapability (USE_PREBUILT_WDA, wda.isUsePrebuilt (), this.capabilities);
+        setCapability (WDA_STARTUP_RETRIES, wda.getStartupRetries (), this.capabilities);
+        setCapability (WDA_STARTUP_RETRY_INTERVAL, wda.getStartupRetryInterval (), this.capabilities);
+        setCapability (WDA_LOCAL_PORT, wda.getLocalPort (), this.capabilities);
+    }
+
+    private void setIosWebCapabilities (final IOSWebSetting web) {
+        setCapability (SAFARI_ALLOW_POPUPS, web.isAllowPopups (), this.capabilities);
+        setCapability ("showSafariConsoleLog", web.isConsoleLogs (), this.capabilities);
+        setCapability ("showSafariNetworkLog", web.isNetworkLogs (), this.capabilities);
+        setCapability (SAFARI_INITIAL_URL, web.getInitialUrl (), this.capabilities);
+        setCapability (NATIVE_WEB_TAP, web.isNativeTaps (), this.capabilities);
+    }
+
+    private void setLocalCapabilities () {
+        if (!this.setting.isCloud ()) {
+            setDeviceCapabilities ();
+            setDeviceSpecificCapabilities ();
+        }
+    }
+
     private void startDriver () {
-        LOG.trace ("Starting [{}] device driver...", this.platform);
+        LOG.trace ("Starting [{}] device driver...", this.setting.getOs ());
         try {
             this.driver = init (this.server.getServiceUrl (), this.capabilities);
         } catch (final Exception e) {
-            fail (DeviceDriverNotStartingError.class, "Error occured starting device driver", e);
+            fail (DeviceDriverNotStartingError.class, "Error occurred starting device driver", e);
         }
     }
 
     private <X extends BaseStartScreenRecordingOptions<X>> void startRecord (final CanRecordScreen screen) {
         final RecordSetting record = this.setting.getPlayback ()
-            .getRecord ();
-        if (record.isEnabled () && !this.setting.isCloudApp ()) {
+            .getVideo ();
+        if (record.isEnabled ()) {
             LOG.info ("Starting video recording...");
             final X option = startRecordSetting ();
             option.withTimeLimit (Duration.ofMinutes (record.getDuration ()));
@@ -403,13 +448,21 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         }
     }
 
+    private void startRecording () {
+        startRecord ((CanRecordScreen) this.driver);
+    }
+
     private <X extends BaseStopScreenRecordingOptions<X>> void stopRecord (final CanRecordScreen screen) {
         final RecordSetting record = this.setting.getPlayback ()
-            .getRecord ();
-        if (record.isEnabled () && !this.setting.isCloudApp ()) {
+            .getVideo ();
+        if (record.isEnabled ()) {
             LOG.info ("Stopping video recording...");
             final String content = screen.<X>stopRecordingScreen (stopRecordSetting ());
             saveRecording (content, record);
         }
+    }
+
+    private void stopRecording () {
+        stopRecord ((CanRecordScreen) this.driver);
     }
 }

@@ -26,11 +26,12 @@ import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LoginActivity;
 public class LoginActivityAction extends AndroidActivityActions {
     /**
      * @param device
+     *
      * @author wasiq.bhamla
      * @since Jan 22, 2018 9:03:26 PM
      */
-    public LoginActivityAction(final AndroidDevice device) {
-        super(device);
+    public LoginActivityAction (final AndroidDevice device) {
+        super (device);
     }
 
     /*
@@ -38,15 +39,9 @@ public class LoginActivityAction extends AndroidActivityActions {
      * @see com.github.wasiqb.coteafs.appium.device.DeviceActivityActions#perform()
      */
     @Override
-    public void perform() {
-        final LoginActivity login = new LoginActivity(getDevice());
-        // login.onElement ("UserName")
-        // .enterText (value ("UserName"));
-        // login.onElement ("Password")
-        // .enterText (value ("Password"));
-        // login.onDevice ()
-        // .hideKeyboard ();
-        login.onElement("Login")
-            .tap();
+    public void perform () {
+        final LoginActivity login = new LoginActivity (getDevice ());
+        login.onElement ("Login")
+            .tap ();
     }
 }

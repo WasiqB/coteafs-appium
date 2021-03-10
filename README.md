@@ -107,20 +107,40 @@ servers:
     android:
       suppress_adb_kill: true
 devices:
-  android_device:
-    platform_type: ANDROID
-    device_name: MI Redmi Note 4
-    device_version: 7.0
-    app_type: HYBRID
-    device_type: REAL
-    automation_name: APPIUM
-    app_location: apps/android/VodQA.apk
+  android:
+    os: ANDROID
+    name: Google Pixel 3
+    version: 8.1
+    type: SIMULATOR
+    others:
+      clear_files: true
+      no_reset: false
+      full_reset: true
+      clear_logs: true
+    automation: UIAUTOMATOR2
+    android:
+      avd:
+        name: Pixel_3_XL_API_27
+        launch_timeout: 60000
+        ready_timeout: 60000
+        args: -gpu swiftshader_indirect
+      app:
+        install_timeout: 60000
+        type: HYBRID
+        path: apps/android/VodQA.apk
     session_timeout: 120000
     playback:
-      delay_before_swipe: 200
-      delay_after_swipe: 100
-      delay_before_tap: 0
-      delay_after_tap: 0
+      screenshot:
+        on_error: true
+      video:
+        enabled: true
+      delay:
+        before_swipe: 200
+        after_swipe: 100
+        before_tap: 0
+        after_tap: 0
+        implicit: 1
+        explicit: 20
 ```
 
 </details>
