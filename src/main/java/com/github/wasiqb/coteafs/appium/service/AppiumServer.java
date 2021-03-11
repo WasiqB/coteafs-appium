@@ -289,13 +289,16 @@ public final class AppiumServer {
     private void setCommonArguments () {
         setArgument (() -> "--allow-cors", this.setting.isAllowCors ());
         setArgument (STRICT_CAPS, this.setting.isStrictCapabilities ());
-        setArgument (ALLOW_INSECURE, join (",", this.setting.getAllowInsecure ()));
         setArgument (RELAXED_SECURITY, this.setting.isRelaxedSecurity ());
         setArgument (PRE_LAUNCH, this.setting.isPreLaunch ());
         setArgument (SESSION_OVERRIDE, this.setting.isSessionOverride ());
         setArgument (CONFIGURATION_FILE, this.setting.getNodeConfig ());
         setArgument (CALLBACK_ADDRESS, this.setting.getCallbackIp ());
         setArgument (CALLBACK_PORT, this.setting.getCallbackPort ());
+        if (this.setting.getAllowInsecure () != null && !this.setting.getAllowInsecure ()
+            .isEmpty ()) {
+            setArgument (ALLOW_INSECURE, join (",", this.setting.getAllowInsecure ()));
+        }
     }
 
     private void setEnvironmentVariables () {

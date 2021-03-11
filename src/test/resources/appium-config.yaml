@@ -92,13 +92,6 @@ devices:
     playback:
       screenshot:
         on_error: true
-      video:
-        enabled: true
-        time_limit: 5
-        android:
-          size: 500x720
-        ios:
-          fps: 30
   ios_bs:
     name: iPhone 12 Pro Max
     os: IOS

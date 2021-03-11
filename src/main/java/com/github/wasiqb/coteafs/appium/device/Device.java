@@ -233,9 +233,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         final VideoStreamSetting streamSetting = this.setting.getPlayback ()
             .getVideo ()
             .getStream ();
-        if (this.setting.getPlayback ()
-            .getVideo ()
-            .isEnabled ()) {
+        if (streamSetting.isEnabled ()) {
             LOG.info ("Starting Video streaming...");
             final Map<String, Object> args = getVideoStreamArgs (streamSetting);
             executeCommand ("mobile: startScreenStreaming", args);
@@ -270,6 +268,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     public void stopStreaming () {
         if (this.setting.getPlayback ()
             .getVideo ()
+            .getStream ()
             .isEnabled ()) {
             LOG.info ("Stopping Video streaming...");
             executeCommand ("mobile: stopScreenStreaming");
