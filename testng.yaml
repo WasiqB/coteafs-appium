@@ -20,6 +20,7 @@ tests:
           - test5Slider
           - test6VerticalSwipe
           - test7DragDrop
+        excludedMethods:
           - test8DoubleTap
   - name: IOS Test BrowserStack
     parameters: { server: browserstack, device: ios_bs }

@@ -66,6 +66,7 @@ import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIME
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION;
 import static java.lang.System.getProperty;
 import static java.text.MessageFormat.format;
+import static java.time.Duration.ofMinutes;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
 import static org.openqa.selenium.remote.CapabilityType.BROWSER_NAME;
@@ -74,7 +75,6 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -203,7 +203,10 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     public void start () {
         startDriver ();
         setImplicitWait ();
-        startRecording ();
+    }
+
+    public void startRecording () {
+        startRecord ((CanRecordScreen) this.driver);
     }
 
     /**
@@ -212,12 +215,15 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
      */
     public void stop () {
         if (this.driver != null) {
-            stopRecording ();
             quitApp ();
             this.driver = null;
         } else {
             LOG.trace ("[{}] device driver already stopped...", this.setting.getOs ());
         }
+    }
+
+    public void stopRecording () {
+        stopRecord ((CanRecordScreen) this.driver);
     }
 
     protected abstract <X extends BaseStartScreenRecordingOptions<X>> X startRecordSetting ();
@@ -390,7 +396,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         } catch (final NoSuchSessionException e) {
             fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
         } catch (final Exception e) {
-            fail (DeviceDriverDefaultWaitError.class, "Error occured while setting device driver default wait.", e);
+            fail (DeviceDriverDefaultWaitError.class, "Error occurred while setting device driver default wait.", e);
         }
     }
 
@@ -443,13 +449,9 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         if (record.isEnabled ()) {
             LOG.info ("Starting video recording...");
             final X option = startRecordSetting ();
-            option.withTimeLimit (Duration.ofMinutes (record.getTimeLimit ()));
+            option.withTimeLimit (ofMinutes (record.getTimeLimit ()));
             screen.startRecordingScreen (option);
         }
-    }
-
-    private void startRecording () {
-        startRecord ((CanRecordScreen) this.driver);
     }
 
     private <X extends BaseStopScreenRecordingOptions<X>> void stopRecord (final CanRecordScreen screen) {
@@ -460,9 +462,5 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
             final String content = screen.<X>stopRecordingScreen (stopRecordSetting ());
             saveRecording (content, record);
         }
-    }
-
-    private void stopRecording () {
-        stopRecord ((CanRecordScreen) this.driver);
     }
 }

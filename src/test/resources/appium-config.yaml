@@ -41,7 +41,10 @@ device: &default_device
     video:
       enabled: true
       time_limit: 5
-      fps: 30
+      android:
+        size: 800x720
+      ios:
+        fps: 30
     delay:
       before_swipe: 200
       after_swipe: 100
@@ -79,6 +82,16 @@ devices:
       build: Build-1
       name: Test 1
       browserstack.appium_version: 1.20.2
+    playback:
+      screenshot:
+        on_error: true
+      video:
+        enabled: true
+        time_limit: 5
+        android:
+          size: 500x720
+        ios:
+          fps: 30
   ios_bs:
     name: iPhone 12 Pro Max
     os: IOS
