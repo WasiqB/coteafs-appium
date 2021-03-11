@@ -23,8 +23,11 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.github.wasiqb.coteafs.appium.config.device.RecordSetting;
+import com.github.wasiqb.coteafs.appium.config.device.VideoStreamSetting;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,11 +36,30 @@ import org.apache.logging.log4j.Logger;
  * @since Oct 13, 2018
  */
 public class ScreenRecorder {
-    private static final Logger LOG = LogManager.getLogger (ScreenRecorder.class);
+    private static final Logger LOG = LogManager.getLogger ();
 
     /**
-     * @param content
-     * @param setting
+     * @param streamSetting Video Stream settings
+     *
+     * @return streaming args
+     *
+     * @author Wasiq Bhamla
+     * @since 11-Mar-2021
+     */
+    public static Map<String, Object> getVideoStreamArgs (final VideoStreamSetting streamSetting) {
+        final Map<String, Object> args = new HashMap<> ();
+        args.put ("width", streamSetting.getWidth ());
+        args.put ("height", streamSetting.getHeight ());
+        args.put ("quality", streamSetting.getQuality ()
+            .getQuality ());
+        args.put ("bitRate", streamSetting.getBitRate () * 10000);
+        LOG.trace ("Video streaming args: {}", args);
+        return args;
+    }
+
+    /**
+     * @param content Video content
+     * @param setting Video record settings
      *
      * @author wasiqb
      * @since Oct 13, 2018

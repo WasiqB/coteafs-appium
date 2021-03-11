@@ -18,6 +18,7 @@
 package com.github.wasiqb.coteafs.appium.config.server;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.github.wasiqb.coteafs.appium.config.enums.CloudProviders;
@@ -31,6 +32,7 @@ import lombok.Data;
 @Data
 public class ServerSetting {
     private boolean             allowCors;
+    private List<String>        allowInsecure;
     private AndroidSetting      android        = new AndroidSetting ();
     private String              appiumPath;
     private String              callbackIp;

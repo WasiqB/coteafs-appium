@@ -13,6 +13,8 @@ servers:
   android:
     <<: *default_server
     port: 4723
+    allow_insecure:
+      - adb_screen_streaming
     android:
       suppress_adb_kill: true
   ios:
@@ -45,6 +47,11 @@ device: &default_device
         size: 800x720
       ios:
         fps: 30
+      stream:
+        width: 700
+        height: 1024
+        quality: HIGH
+        bit_rate: 50
     delay:
       before_swipe: 200
       after_swipe: 100
