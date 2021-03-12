@@ -231,7 +231,6 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
      */
     public void startStreaming () {
         final VideoStreamSetting streamSetting = this.setting.getPlayback ()
-            .getVideo ()
             .getStream ();
         if (streamSetting.isEnabled ()) {
             LOG.info ("Starting Video streaming...");
@@ -267,7 +266,6 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
      */
     public void stopStreaming () {
         if (this.setting.getPlayback ()
-            .getVideo ()
             .getStream ()
             .isEnabled ()) {
             LOG.info ("Stopping Video streaming...");
@@ -494,7 +492,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private <X extends BaseStartScreenRecordingOptions<X>> void startRecord (final CanRecordScreen screen) {
         final RecordSetting record = this.setting.getPlayback ()
-            .getVideo ();
+            .getRecord ();
         if (record.isEnabled ()) {
             LOG.info ("Starting video recording...");
             final X option = startRecordSetting ();
@@ -505,7 +503,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private <X extends BaseStopScreenRecordingOptions<X>> void stopRecord (final CanRecordScreen screen) {
         final RecordSetting record = this.setting.getPlayback ()
-            .getVideo ();
+            .getRecord ();
         if (record.isEnabled ()) {
             LOG.info ("Stopping video recording...");
             final String content = screen.<X>stopRecordingScreen (stopRecordSetting ());

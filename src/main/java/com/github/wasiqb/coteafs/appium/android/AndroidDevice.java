@@ -49,7 +49,7 @@ public class AndroidDevice extends Device<AndroidDriver<MobileElement>, AndroidT
     protected AndroidStartScreenRecordingOptions startRecordSetting () {
         final AndroidStartScreenRecordingOptions options = AndroidStartScreenRecordingOptions.startScreenRecordingOptions ();
         final AndroidVideoSetting record = this.setting.getPlayback ()
-            .getVideo ()
+            .getRecord ()
             .getAndroid ();
         if (record.getBitRate () != 4) {
             options.withBitRate (record.getBitRate ());

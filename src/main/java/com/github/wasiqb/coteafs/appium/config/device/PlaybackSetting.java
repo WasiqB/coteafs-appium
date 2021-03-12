@@ -25,7 +25,8 @@ import lombok.Data;
  */
 @Data
 public class PlaybackSetting {
-    private DelaySetting      delay      = new DelaySetting ();
-    private ScreenshotSetting screenshot = new ScreenshotSetting ();
-    private RecordSetting     video      = new RecordSetting ();
+    private DelaySetting       delay      = new DelaySetting ();
+    private RecordSetting      record     = new RecordSetting ();
+    private ScreenshotSetting  screenshot = new ScreenshotSetting ();
+    private VideoStreamSetting stream     = new VideoStreamSetting ();
 }

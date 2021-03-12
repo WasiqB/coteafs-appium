@@ -50,7 +50,7 @@ public class IOSDevice extends Device<IOSDriver<MobileElement>, IOSTouchAction> 
     protected IOSStartScreenRecordingOptions startRecordSetting () {
         final IOSStartScreenRecordingOptions options = IOSStartScreenRecordingOptions.startScreenRecordingOptions ();
         final IOSVideoSetting record = this.setting.getPlayback ()
-            .getVideo ()
+            .getRecord ()
             .getIos ();
         if (record.getQuality () != VideoQuality.MEDIUM) {
             options.withVideoQuality (record.getQuality ());

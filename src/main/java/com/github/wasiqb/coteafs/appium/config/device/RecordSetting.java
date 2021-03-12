@@ -35,6 +35,5 @@ public class RecordSetting {
     private IOSVideoSetting     ios       = new IOSVideoSetting ();
     private String              path      = format ("{0}/videos", getProperty ("user.dir"));
     private String              prefix    = "VID";
-    private VideoStreamSetting  stream    = new VideoStreamSetting ();
     private int                 timeLimit = 3;
 }

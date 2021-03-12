@@ -38,20 +38,21 @@ device: &default_device
     full_reset: true
     clear_logs: true
   playback:
+    stream:
+      enabled: true
+      width: 700
+      height: 1024
+      quality: HIGH
+      bit_rate: 50
     screenshot:
       on_error: true
-    video:
+    record:
       enabled: true
       time_limit: 5
       android:
         size: 800x720
       ios:
         fps: 30
-      stream:
-        width: 700
-        height: 1024
-        quality: HIGH
-        bit_rate: 50
     delay:
       before_swipe: 200
       after_swipe: 100
