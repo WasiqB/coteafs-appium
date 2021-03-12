@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.ios;
 
-import com.github.wasiqb.coteafs.appium.config.device.RecordSetting;
+import com.github.wasiqb.coteafs.appium.config.device.ios.IOSVideoSetting;
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import io.appium.java_client.MobileElement;
@@ -49,10 +49,17 @@ public class IOSDevice extends Device<IOSDriver<MobileElement>, IOSTouchAction> 
     @Override
     protected IOSStartScreenRecordingOptions startRecordSetting () {
         final IOSStartScreenRecordingOptions options = IOSStartScreenRecordingOptions.startScreenRecordingOptions ();
-        final RecordSetting record = this.setting.getPlayback ()
-            .getVideo ();
+        final IOSVideoSetting record = this.setting.getPlayback ()
+            .getRecord ()
+            .getIos ();
         if (record.getQuality () != VideoQuality.MEDIUM) {
             options.withVideoQuality (record.getQuality ());
+        }
+        if (record.getFps () > 0) {
+            options.withFps (record.getFps ());
+        }
+        if (record.getCodec () != null) {
+            options.withVideoType (record.getCodec ());
         }
         return options;
     }

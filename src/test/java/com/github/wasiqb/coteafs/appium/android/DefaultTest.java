@@ -45,6 +45,8 @@ public class DefaultTest {
 
         this.androidDevice = new AndroidDevice (this.androidServer, device);
         this.androidDevice.start ();
+        this.androidDevice.startRecording ();
+        this.androidDevice.startStreaming ();
 
         this.main = new MainActivity (this.androidDevice);
     }
@@ -55,6 +57,8 @@ public class DefaultTest {
      */
     @AfterTest (alwaysRun = true)
     public void tearDownTest () {
+        this.androidDevice.stopStreaming ();
+        this.androidDevice.stopRecording ();
         this.androidDevice.stop ();
         this.androidServer.stop ();
     }

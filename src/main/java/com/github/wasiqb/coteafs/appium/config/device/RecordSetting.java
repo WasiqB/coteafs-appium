@@ -17,9 +17,11 @@
  */
 package com.github.wasiqb.coteafs.appium.config.device;
 
-import static java.lang.String.format;
+import static java.lang.System.getProperty;
+import static java.text.MessageFormat.format;
 
-import io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality;
+import com.github.wasiqb.coteafs.appium.config.device.android.AndroidVideoSetting;
+import com.github.wasiqb.coteafs.appium.config.device.ios.IOSVideoSetting;
 import lombok.Data;
 
 /**
@@ -28,11 +30,10 @@ import lombok.Data;
  */
 @Data
 public class RecordSetting {
-    private int          bitRate  = 4;
-    private int          duration = 3;
-    private boolean      enabled;
-    private String       path     = format ("%s/videos", System.getProperty ("user.dir"));
-    private String       prefix   = "VID";
-    private VideoQuality quality  = VideoQuality.MEDIUM;
-    private String       size;
+    private AndroidVideoSetting android   = new AndroidVideoSetting ();
+    private boolean             enabled;
+    private IOSVideoSetting     ios       = new IOSVideoSetting ();
+    private String              path      = format ("{0}/videos", getProperty ("user.dir"));
+    private String              prefix    = "VID";
+    private int                 timeLimit = 3;
 }

@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright (c) 2020, Wasiq Bhamla.
+ *  Copyright (c) 2021, Wasiq Bhamla.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,18 +15,21 @@
  *  limitations under the License.
  *
  */
-package com.github.wasiqb.coteafs.appium.config.device;
+package com.github.wasiqb.coteafs.appium.config.enums;
 
-import lombok.Data;
+public enum VideoQuality {
+    HD (100),
+    HIGH (75),
+    LOW (25),
+    MEDIUM (50);
 
-/**
- * @author wasiq.bhamla
- * @since Jan 18, 2018 9:32:14 PM
- */
-@Data
-public class PlaybackSetting {
-    private DelaySetting       delay      = new DelaySetting ();
-    private RecordSetting      record     = new RecordSetting ();
-    private ScreenshotSetting  screenshot = new ScreenshotSetting ();
-    private VideoStreamSetting stream     = new VideoStreamSetting ();
+    private final int quality;
+
+    VideoQuality (final int quality) {
+        this.quality = quality;
+    }
+
+    public int getQuality () {
+        return this.quality;
+    }
 }

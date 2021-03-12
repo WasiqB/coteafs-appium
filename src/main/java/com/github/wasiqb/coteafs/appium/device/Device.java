@@ -18,6 +18,7 @@ package com.github.wasiqb.coteafs.appium.device;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.appium.utils.ScreenRecorder.getVideoStreamArgs;
 import static com.github.wasiqb.coteafs.appium.utils.ScreenRecorder.saveRecording;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ADB_PORT;
@@ -66,6 +67,7 @@ import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIME
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION;
 import static java.lang.System.getProperty;
 import static java.text.MessageFormat.format;
+import static java.time.Duration.ofMinutes;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.openqa.selenium.remote.CapabilityType.ACCEPT_SSL_CERTS;
 import static org.openqa.selenium.remote.CapabilityType.BROWSER_NAME;
@@ -74,7 +76,6 @@ import static org.openqa.selenium.remote.CapabilityType.PLATFORM_NAME;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
-import java.time.Duration;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -82,6 +83,7 @@ import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.device.DeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.device.RecordSetting;
+import com.github.wasiqb.coteafs.appium.config.device.VideoStreamSetting;
 import com.github.wasiqb.coteafs.appium.config.device.android.AdbSetting;
 import com.github.wasiqb.coteafs.appium.config.device.android.AndroidAppSetting;
 import com.github.wasiqb.coteafs.appium.config.device.android.AndroidDeviceSetting;
@@ -124,7 +126,7 @@ import org.openqa.selenium.remote.DesiredCapabilities;
  * @since 12-Apr-2017 9:38:38 PM
  */
 public abstract class Device<D extends AppiumDriver<MobileElement>, T extends TouchAction<T>> {
-    private static final Logger LOG = LogManager.getLogger (Device.class);
+    private static final Logger LOG = LogManager.getLogger ();
 
     protected       DesiredCapabilities capabilities;
     protected       D                   driver;
@@ -133,8 +135,8 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     private final   PlatformType        platform;
 
     /**
-     * @param server
-     * @param name
+     * @param server Server instance
+     * @param name Device name in Config
      *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:10:11 PM
@@ -167,13 +169,23 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     }
 
     /**
+     * @param command Command to execute
+     *
+     * @author Wasiq Bhamla
+     * @since 11-Mar-2021
+     */
+    public void executeCommand (final String command) {
+        this.driver.executeScript (command);
+    }
+
+    /**
      * @return driver
      *
      * @author wasiq.bhamla
      * @since 27-Nov-2020
      */
     public D getDriver () {
-        LOG.trace ("Getting [{}] device driver...", this.setting.getOs ());
+        LOG.trace ("Getting [{}] device driver...", this.platform);
         return this.driver;
     }
 
@@ -203,7 +215,28 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     public void start () {
         startDriver ();
         setImplicitWait ();
-        startRecording ();
+    }
+
+    /**
+     * @author Wasiq Bhamla
+     * @since 11-Mar-2021
+     */
+    public void startRecording () {
+        startRecord ((CanRecordScreen) this.driver);
+    }
+
+    /**
+     * @author Wasiq Bhamla
+     * @since 11-Mar-2021
+     */
+    public void startStreaming () {
+        final VideoStreamSetting streamSetting = this.setting.getPlayback ()
+            .getStream ();
+        if (streamSetting.isEnabled ()) {
+            LOG.info ("Starting Video streaming...");
+            final Map<String, Object> args = getVideoStreamArgs (streamSetting);
+            executeCommand ("mobile: startScreenStreaming", args);
+        }
     }
 
     /**
@@ -212,11 +245,31 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
      */
     public void stop () {
         if (this.driver != null) {
-            stopRecording ();
             quitApp ();
             this.driver = null;
         } else {
-            LOG.trace ("[{}] device driver already stopped...", this.setting.getOs ());
+            LOG.trace ("[{}] device driver already stopped...", this.platform);
+        }
+    }
+
+    /**
+     * @author Wasiq Bhamla
+     * @since 11-Mar-2021
+     */
+    public void stopRecording () {
+        stopRecord ((CanRecordScreen) this.driver);
+    }
+
+    /**
+     * @author Wasiq Bhamla
+     * @since 11-Mar-2021
+     */
+    public void stopStreaming () {
+        if (this.setting.getPlayback ()
+            .getStream ()
+            .isEnabled ()) {
+            LOG.info ("Stopping Video streaming...");
+            executeCommand ("mobile: stopScreenStreaming");
         }
     }
 
@@ -258,7 +311,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     }
 
     private void quitApp () {
-        LOG.trace ("Closing & Quitting [{}] device driver...", this.setting.getOs ());
+        LOG.trace ("Closing & Quitting [{}] device driver...", this.platform);
         try {
             this.driver.closeApp ();
             this.driver.quit ();
@@ -348,7 +401,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private void setDeviceCapabilities () {
         setCapability (DEVICE_NAME, this.setting.getName (), this.capabilities, true);
-        setCapability (PLATFORM_NAME, this.setting.getOs (), this.capabilities, true);
+        setCapability (PLATFORM_NAME, this.platform, this.capabilities, true);
         setCapability (PLATFORM_VERSION, this.setting.getVersion (), this.capabilities);
         setCapability (NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
         setCapability (AUTOMATION_NAME, this.setting.getAutomation (), this.capabilities);
@@ -359,7 +412,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     }
 
     private void setDeviceSpecificCapabilities () {
-        switch (this.setting.getOs ()) {
+        switch (this.platform) {
             case IOS:
                 setIOSCapabilities (this.setting.getIos ());
                 break;
@@ -390,7 +443,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         } catch (final NoSuchSessionException e) {
             fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
         } catch (final Exception e) {
-            fail (DeviceDriverDefaultWaitError.class, "Error occured while setting device driver default wait.", e);
+            fail (DeviceDriverDefaultWaitError.class, "Error occurred while setting device driver default wait.", e);
         }
     }
 
@@ -429,7 +482,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     }
 
     private void startDriver () {
-        LOG.trace ("Starting [{}] device driver...", this.setting.getOs ());
+        LOG.trace ("Starting [{}] device driver...", this.platform);
         try {
             this.driver = init (this.server.getServiceUrl (), this.capabilities);
         } catch (final Exception e) {
@@ -439,30 +492,22 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private <X extends BaseStartScreenRecordingOptions<X>> void startRecord (final CanRecordScreen screen) {
         final RecordSetting record = this.setting.getPlayback ()
-            .getVideo ();
+            .getRecord ();
         if (record.isEnabled ()) {
             LOG.info ("Starting video recording...");
             final X option = startRecordSetting ();
-            option.withTimeLimit (Duration.ofMinutes (record.getDuration ()));
+            option.withTimeLimit (ofMinutes (record.getTimeLimit ()));
             screen.startRecordingScreen (option);
         }
     }
 
-    private void startRecording () {
-        startRecord ((CanRecordScreen) this.driver);
-    }
-
     private <X extends BaseStopScreenRecordingOptions<X>> void stopRecord (final CanRecordScreen screen) {
         final RecordSetting record = this.setting.getPlayback ()
-            .getVideo ();
+            .getRecord ();
         if (record.isEnabled ()) {
             LOG.info ("Stopping video recording...");
             final String content = screen.<X>stopRecordingScreen (stopRecordSetting ());
             saveRecording (content, record);
         }
-    }
-
-    private void stopRecording () {
-        stopRecord ((CanRecordScreen) this.driver);
     }
 }

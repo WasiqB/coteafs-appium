@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
-import com.github.wasiqb.coteafs.appium.config.device.RecordSetting;
+import com.github.wasiqb.coteafs.appium.config.device.android.AndroidVideoSetting;
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import io.appium.java_client.MobileElement;
@@ -48,8 +48,9 @@ public class AndroidDevice extends Device<AndroidDriver<MobileElement>, AndroidT
     @Override
     protected AndroidStartScreenRecordingOptions startRecordSetting () {
         final AndroidStartScreenRecordingOptions options = AndroidStartScreenRecordingOptions.startScreenRecordingOptions ();
-        final RecordSetting record = this.setting.getPlayback ()
-            .getVideo ();
+        final AndroidVideoSetting record = this.setting.getPlayback ()
+            .getRecord ()
+            .getAndroid ();
         if (record.getBitRate () != 4) {
             options.withBitRate (record.getBitRate ());
         }

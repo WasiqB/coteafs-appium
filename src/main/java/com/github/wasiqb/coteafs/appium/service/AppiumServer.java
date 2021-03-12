@@ -22,6 +22,7 @@ import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME_DRIVER_PORT;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.REBOOT;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.SUPPRESS_ADB_KILL_SERVER;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.ALLOW_INSECURE;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.ASYNC_TRACE;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_PORT;
@@ -41,6 +42,7 @@ import static io.appium.java_client.service.local.flags.IOSServerFlag.IPA_ABSOLU
 import static io.appium.java_client.service.local.flags.IOSServerFlag.SAFARI;
 import static io.appium.java_client.service.local.flags.IOSServerFlag.TRACE_DIRECTORY_ABSOLUTE_PATH;
 import static io.appium.java_client.service.local.flags.IOSServerFlag.WEBKIT_DEBUG_PROXY_PORT;
+import static java.lang.String.join;
 import static java.text.MessageFormat.format;
 import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
@@ -293,6 +295,10 @@ public final class AppiumServer {
         setArgument (CONFIGURATION_FILE, this.setting.getNodeConfig ());
         setArgument (CALLBACK_ADDRESS, this.setting.getCallbackIp ());
         setArgument (CALLBACK_PORT, this.setting.getCallbackPort ());
+        if (this.setting.getAllowInsecure () != null && !this.setting.getAllowInsecure ()
+            .isEmpty ()) {
+            setArgument (ALLOW_INSECURE, join (",", this.setting.getAllowInsecure ()));
+        }
     }
 
     private void setEnvironmentVariables () {

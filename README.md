@@ -132,7 +132,9 @@ devices:
     playback:
       screenshot:
         on_error: true
-      video:
+      record:
+        enabled: true
+      stream:
         enabled: true
       delay:
         before_swipe: 200
@@ -174,10 +176,14 @@ public class SampleTest {
         // Here the param refers to the key in devices block in config file.
         this.androidDevice = new AndroidDevice (this.androidServer, "android_device");
         this.androidDevice.start ();
+        this.androidDevice.startRecording ();
+        this.androidDevice.startStreaming ();
     }
 
     @AfterClass (alwaysRun = true)
     public void tearDownTestSuite () {
+        this.androidDevice.stopStreaming ();
+        this.androidDevice.stopRecording ();
         this.androidDevice.stop ();
         this.androidServer.stop ();
     }

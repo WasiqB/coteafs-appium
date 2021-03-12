@@ -17,7 +17,7 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
-import static java.lang.String.format;
+import static java.text.MessageFormat.format;
 import static java.time.Duration.ofSeconds;
 
 import java.io.File;
@@ -103,7 +103,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
         final SimpleDateFormat date = new SimpleDateFormat ("yyyyMMdd-HHmmss");
         final String timeStamp = date.format (Calendar.getInstance ()
             .getTime ());
-        final String fileName = "%s/%s-%s.%s";
+        final String fileName = "{0}/{1}-{2}.{3}";
         captureScreenshot (format (fileName, path, prefix, timeStamp, "jpeg"));
     }
 

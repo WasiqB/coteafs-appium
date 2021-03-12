@@ -13,6 +13,8 @@ servers:
   android:
     <<: *default_server
     port: 4723
+    allow_insecure:
+      - adb_screen_streaming
     android:
       suppress_adb_kill: true
   ios:
@@ -36,10 +38,21 @@ device: &default_device
     full_reset: true
     clear_logs: true
   playback:
+    stream:
+      enabled: true
+      width: 700
+      height: 1024
+      quality: HIGH
+      bit_rate: 50
     screenshot:
       on_error: true
-    video:
+    record:
       enabled: true
+      time_limit: 5
+      android:
+        size: 800x720
+      ios:
+        fps: 30
     delay:
       before_swipe: 200
       after_swipe: 100
@@ -77,6 +90,9 @@ devices:
       build: Build-1
       name: Test 1
       browserstack.appium_version: 1.20.2
+    playback:
+      screenshot:
+        on_error: true
   ios_bs:
     name: iPhone 12 Pro Max
     os: IOS

@@ -20,8 +20,8 @@ tests:
           - test5Slider
           - test6VerticalSwipe
           - test7DragDrop
-        excludedMethods:
           - test8DoubleTap
+  #        excludedMethods:
   - name: IOS Test Local
     parameters: { server: ios, device: iphone }
     classes:

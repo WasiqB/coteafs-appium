@@ -1,6 +1,6 @@
 /*
  *
- *  Copyright (c) 2020, Wasiq Bhamla.
+ *  Copyright (c) 2021, Wasiq Bhamla.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -15,18 +15,16 @@
  *  limitations under the License.
  *
  */
-package com.github.wasiqb.coteafs.appium.config.device;
+package com.github.wasiqb.coteafs.appium.config.device.ios;
 
+import static io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality.MEDIUM;
+
+import io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality;
 import lombok.Data;
 
-/**
- * @author wasiq.bhamla
- * @since Jan 18, 2018 9:32:14 PM
- */
 @Data
-public class PlaybackSetting {
-    private DelaySetting       delay      = new DelaySetting ();
-    private RecordSetting      record     = new RecordSetting ();
-    private ScreenshotSetting  screenshot = new ScreenshotSetting ();
-    private VideoStreamSetting stream     = new VideoStreamSetting ();
+public class IOSVideoSetting {
+    private String       codec   = "mpeg4";
+    private int          fps     = 10;
+    private VideoQuality quality = MEDIUM;
 }
