@@ -37,7 +37,9 @@ public final class SwipeUtils {
      * @param fromElement
      * @param toElement
      * @param actions
+     *
      * @return touch action
+     *
      * @author wasiq.bhamla
      * @since Feb 2, 2018 3:25:54 PM
      */
@@ -61,7 +63,9 @@ public final class SwipeUtils {
      * @param elementSize
      * @param elementLocation
      * @param actions
+     *
      * @return action
+     *
      * @author wasiq.bhamla
      * @since Sep 18, 2018 8:03:55 PM
      */
