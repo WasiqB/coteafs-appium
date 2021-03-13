@@ -20,6 +20,8 @@ import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapabili
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static com.github.wasiqb.coteafs.appium.utils.ScreenRecorder.getVideoStreamArgs;
 import static com.github.wasiqb.coteafs.appium.utils.ScreenRecorder.saveRecording;
+import static io.appium.java_client.Setting.IGNORE_UNIMPORTANT_VIEWS;
+import static io.appium.java_client.Setting.NATIVE_WEB_TAP;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ADB_PORT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ANDROID_INSTALL_TIMEOUT;
@@ -36,7 +38,6 @@ import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_READY
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROME_OPTIONS;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.DONT_STOP_APP_ON_RESET;
-import static io.appium.java_client.remote.AndroidMobileCapabilityType.IGNORE_UNIMPORTANT_VIEWS;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.IS_HEADLESS;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.NETWORK_SPEED;
@@ -47,7 +48,6 @@ import static io.appium.java_client.remote.AndroidMobileCapabilityType.UNLOCK_KE
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.UNLOCK_TYPE;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.BUNDLE_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.LAUNCH_TIMEOUT;
-import static io.appium.java_client.remote.IOSMobileCapabilityType.NATIVE_WEB_TAP;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.SAFARI_ALLOW_POPUPS;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.SAFARI_INITIAL_URL;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.UPDATE_WDA_BUNDLEID;
@@ -64,6 +64,7 @@ import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTO_WEBVIEW;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIMEOUT;
+import static io.appium.java_client.remote.MobileCapabilityType.OTHER_APPS;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION;
 import static java.lang.System.getProperty;
 import static java.text.MessageFormat.format;
@@ -104,6 +105,7 @@ import com.github.wasiqb.coteafs.appium.error.DeviceDriverNotStartingError;
 import com.github.wasiqb.coteafs.appium.error.DeviceDriverNotStoppingError;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import com.github.wasiqb.coteafs.datasource.DataSource;
+import com.github.wasiqb.coteafs.error.OperationNotSupportedError;
 import com.google.common.reflect.TypeToken;
 import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
@@ -215,6 +217,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     public void start () {
         startDriver ();
         setImplicitWait ();
+        setSettings ();
     }
 
     /**
@@ -338,8 +341,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         setCapability (APP_WAIT_DURATION, app.getWaitTimeout (), this.capabilities);
         setCapability (AUTO_GRANT_PERMISSIONS, app.isGrantPermission (), this.capabilities);
         setCapability (DONT_STOP_APP_ON_RESET, app.isNoStopOnReset (), this.capabilities);
-        setCapability (IGNORE_UNIMPORTANT_VIEWS, app.isIgnoreUnimportantViews (), this.capabilities);
-        setCapability ("otherApps", app.getOtherApps (), this.capabilities);
+        setCapability (OTHER_APPS, app.getOtherApps (), this.capabilities);
     }
 
     private void setAndroidCapabilities (final AndroidDeviceSetting android) {
@@ -471,7 +473,6 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         setCapability ("showSafariConsoleLog", web.isConsoleLogs (), this.capabilities);
         setCapability ("showSafariNetworkLog", web.isNetworkLogs (), this.capabilities);
         setCapability (SAFARI_INITIAL_URL, web.getInitialUrl (), this.capabilities);
-        setCapability (NATIVE_WEB_TAP, web.isNativeTaps (), this.capabilities);
     }
 
     private void setLocalCapabilities () {
@@ -479,6 +480,29 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
             setDeviceCapabilities ();
             setDeviceSpecificCapabilities ();
         }
+    }
+
+    private void setSettings () {
+        LOG.trace ("Updating Appium settings...");
+        switch (this.platform) {
+            case ANDROID -> setSettings (IGNORE_UNIMPORTANT_VIEWS.toString (), this.setting.getAndroid ()
+                .getApp ()
+                .isIgnoreUnimportantViews ());
+            case IOS -> {
+                if (this.setting.getIos () != null) {
+                    setSettings (NATIVE_WEB_TAP.toString (), this.setting.getIos ()
+                        .getWeb ()
+                        .isNativeTaps ());
+                }
+            }
+            default -> fail (OperationNotSupportedError.class,
+                format ("Appium setting is not supported for {0} platform.", this.platform));
+        }
+    }
+
+    private void setSettings (final String name, final Object value) {
+        LOG.trace ("{}: {}", name, value);
+        this.driver.setSetting (name, value);
     }
 
     private void startDriver () {

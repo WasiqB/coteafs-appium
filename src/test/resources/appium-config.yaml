@@ -78,7 +78,6 @@ devices:
         install_timeout: 60000
         type: HYBRID
         path: apps/android/VodQA.apk
-        ignore_unimportant_views: true
   android_bs:
     name: Samsung Galaxy S10
     automation: UIAUTOMATOR2
@@ -93,6 +92,9 @@ devices:
     playback:
       screenshot:
         on_error: true
+    android:
+      app:
+        ignore_unimportant_views: false
   ios_bs:
     name: iPhone 12 Pro Max
     os: IOS
