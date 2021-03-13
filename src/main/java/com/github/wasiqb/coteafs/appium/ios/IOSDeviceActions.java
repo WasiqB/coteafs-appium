@@ -18,6 +18,9 @@ package com.github.wasiqb.coteafs.appium.ios;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,6 +29,7 @@ import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import io.appium.java_client.MobileElement;
+import io.appium.java_client.clipboard.ClipboardContentType;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSTouchAction;
 import org.apache.logging.log4j.LogManager;
@@ -39,15 +43,15 @@ import org.openqa.selenium.TimeoutException;
  * @since 26-Apr-2017 11:34:39 PM
  */
 public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IOSDevice, IOSTouchAction> {
-    private static final Logger log = LogManager.getLogger(IOSDeviceActions.class);
+    private static final Logger log = LogManager.getLogger (IOSDeviceActions.class);
 
     /**
      * @param device
      * @author wasiq.bhamla
      * @since 26-Apr-2017 11:34:58 PM
      */
-    public IOSDeviceActions(final IOSDevice device) {
-        super(device, new IOSTouchAction(device.getDriver()));
+    public IOSDeviceActions (final IOSDevice device) {
+        super (device, new IOSTouchAction (device.getDriver ()));
     }
 
     /**
@@ -55,9 +59,9 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @author wasiqb
      * @since Nov 2, 2018
      */
-    public String clipboard() {
-        log.info("Getting clipboard text...");
-        return this.driver.getClipboardText();
+    public String clipboard () {
+        log.info ("Getting clipboard text...");
+        return this.driver.getClipboardText ();
     }
 
     /**
@@ -66,9 +70,55 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @author wasiqb
      * @since Nov 2, 2018
      */
-    public String clipboard(final ClipboardType type) {
-        log.info("Getting clipboard for [{}]...", type);
-        return this.driver.getClipboard(type.getType());
+    public String clipboard (final ClipboardType type) {
+        log.info ("Getting clipboard for [{}]...", type);
+        return this.driver.getClipboard (type.getType ());
+    }
+
+    /**
+     * @author Faisal Khatri
+     * @since Mar 13, 2021
+     * @param text
+     */
+    public void setClipboardText (String text) {
+        log.info ("Setting clipboard text...");
+        this.driver.setClipboardText (text);
+    }
+
+    /**
+     * @author Faisal Khatri
+     * @since Mar 13, 2021
+     * @param url
+     */
+    public void setClipboardUrl (URL url) {
+        log.info ("Setting clipboard URL [{}]...", url);
+        this.driver.setClipboardUrl (url);
+    }
+
+    /**
+     * @author Faisal Khatri
+     * @since Mar 13, 2021
+     * @param img
+     */
+    public void setClipBoardImage (BufferedImage img) {
+        log.info ("Setting clipboard Image [{}]...", img);
+        try {
+            this.driver.setClipboardImage (img);
+        } catch (final IOException e) {
+            log.warn ("Error while setting Clipboard Image....");
+            log.warn (e.getMessage ());
+        }
+    }
+
+    /**
+     * @author Faisal Khatri
+     * @since Mar 13, 2021
+     * @param type
+     * @param base64Content
+     */
+    public void setClipboard (ClipboardContentType type, byte [] base64Content) {
+        log.info ("Setting clipboard Image [{}], [{}]...", type, base64Content);
+        this.driver.setClipboard (type, base64Content);
     }
 
     /**
@@ -76,20 +126,20 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @author wasiq.bhamla
      * @since 09-May-2017 8:46:51 PM
      */
-    public String handleAlert() {
-        log.trace("Handling iOS Alert pop-up...");
+    public String handleAlert () {
+        log.trace ("Handling iOS Alert pop-up...");
         try {
-            final Alert alert = this.wait.until(d -> d.switchTo()
-                .alert());
-            final String description = alert.getText();
-            log.info("Alert Text: [{}]", description);
-            alert.accept();
+            final Alert alert = this.wait.until (d -> d.switchTo ()
+                .alert ());
+            final String description = alert.getText ();
+            log.info ("Alert Text: [{}]", description);
+            alert.accept ();
             return description;
         } catch (final TimeoutException e) {
-            log.warn("Expecting Alert not displayed...");
-            log.warn(e.getMessage());
+            log.warn ("Expecting Alert not displayed...");
+            log.warn (e.getMessage ());
         } catch (final NoSuchSessionException e) {
-            fail(AppiumServerStoppedError.class, SERVER_STOPPED, e);
+            fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
         }
         return null;
     }
@@ -100,14 +150,14 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @author wasiq.bhamla
      * @since 08-May-2017 3:21:20 PM
      */
-    public void hideKeyboard(final String strategy, final String keyName) {
-        log.info("Hiding keyboard on device using %s strategy for key {}...", strategy, keyName);
+    public void hideKeyboard (final String strategy, final String keyName) {
+        log.info ("Hiding keyboard on device using %s strategy for key {}...", strategy, keyName);
         try {
-            if (this.driver.isKeyboardShown()) {
-                this.driver.hideKeyboard(strategy, keyName);
+            if (this.driver.isKeyboardShown ()) {
+                this.driver.hideKeyboard (strategy, keyName);
             }
         } catch (final NoSuchSessionException e) {
-            fail(AppiumServerStoppedError.class, SERVER_STOPPED, e);
+            fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
         }
     }
 
@@ -116,24 +166,24 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @see com.github.wasiqb.coteafs.appium.device.DeviceActions#pinch(int)
      */
     @Override
-    public void pinch(final int distance) {
-        log.info("Pinching on device screen by [{}] distance...", distance);
-        final Map<String, Object> param = new HashMap<>();
-        param.put("scale", 0.5);
-        param.put("velocity", distance);
-        this.device.executeCommand("mobile: pinch", param);
+    public void pinch (final int distance) {
+        log.info ("Pinching on device screen by [{}] distance...", distance);
+        final Map<String, Object> param = new HashMap<> ();
+        param.put ("scale", 0.5);
+        param.put ("velocity", distance);
+        this.device.executeCommand ("mobile: pinch", param);
     }
 
     /**
      * @author wasiq.bhamla
      * @since 26-Apr-2017 11:37:04 PM
      */
-    public void shake() {
-        log.info("Shaking the device...");
+    public void shake () {
+        log.info ("Shaking the device...");
         try {
-            this.driver.shake();
+            this.driver.shake ();
         } catch (final NoSuchSessionException e) {
-            fail(AppiumServerStoppedError.class, SERVER_STOPPED, e);
+            fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
         }
     }
 
@@ -142,12 +192,12 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @author wasiqb
      * @since Oct 28, 2018
      */
-    public void swipe(final SwipeDirection direction) {
-        log.info("Swiping [{}] on device screen...", direction);
-        final Map<String, Object> param = new HashMap<>();
-        param.put("direction", direction.name()
-            .toLowerCase());
-        this.device.executeCommand("mobile: swipe", param);
+    public void swipe (final SwipeDirection direction) {
+        log.info ("Swiping [{}] on device screen...", direction);
+        final Map<String, Object> param = new HashMap<> ();
+        param.put ("direction", direction.name ()
+            .toLowerCase ());
+        this.device.executeCommand ("mobile: swipe", param);
     }
 
     /*
@@ -155,11 +205,11 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @see com.github.wasiqb.coteafs.appium.device.DeviceActions#zoom(int)
      */
     @Override
-    public void zoom(final int distance) {
-        log.info("Zooming in device screen by [{}] distance...", distance);
-        final Map<String, Object> param = new HashMap<>();
-        param.put("scale", 1.5);
-        param.put("velocity", distance);
-        this.device.executeCommand("mobile: pinch", param);
+    public void zoom (final int distance) {
+        log.info ("Zooming in device screen by [{}] distance...", distance);
+        final Map<String, Object> param = new HashMap<> ();
+        param.put ("scale", 1.5);
+        param.put ("velocity", distance);
+        this.device.executeCommand ("mobile: pinch", param);
     }
 }

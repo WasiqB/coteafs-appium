@@ -50,6 +50,11 @@ public class DeviceSetting {
     private DeviceType           type              = DeviceType.SIMULATOR;
     private String               version;
 
+    /**
+     * @author Wasiq Bhamla
+     * @since Mar 13, 2021
+     * @return Cloud Capabilities
+     */
     public boolean isCloud () {
         return getCloudCapabilities ().size () > 0;
     }

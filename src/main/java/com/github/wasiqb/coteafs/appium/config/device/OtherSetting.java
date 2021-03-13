@@ -19,6 +19,11 @@ package com.github.wasiqb.coteafs.appium.config.device;
 
 import lombok.Data;
 
+/**
+ * @author Wasiq Bhamla
+ * @since Mar 13, 2021
+ *
+ */
 @Data
 public class OtherSetting {
     private boolean clearFiles;

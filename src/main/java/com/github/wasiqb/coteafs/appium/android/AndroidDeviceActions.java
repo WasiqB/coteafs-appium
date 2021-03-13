@@ -32,6 +32,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidTouchAction;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.clipboard.ClipboardContentType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
@@ -47,7 +48,6 @@ public class AndroidDeviceActions
 
     /**
      * @param device
-     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 9:05:43 PM
      */
@@ -57,31 +57,49 @@ public class AndroidDeviceActions
 
     /**
      * @return clipboard text
-     *
      * @author wasiqb
      * @since Nov 2, 2018
      */
-    public String clipboard () {
+    public String getClipboard () {
         LOG.info ("Getting clipboard text...");
         return this.driver.getClipboardText ();
+
     }
 
     /**
      * @param type
-     *
      * @return clipboard
-     *
      * @author wasiqb
      * @since Nov 2, 2018
      */
-    public String clipboard (final ClipboardType type) {
+    public String getClipboard (final ClipboardType type) {
         LOG.info ("Getting clipboard for [{}]...", type);
         return this.driver.getClipboard (type.getType ());
     }
 
     /**
+     * @author Faisal Khatri
+     * @since Mar 13, 2021
+     * @param text
+     */
+    public void setClipboardText (String text) {
+        LOG.info ("Setting Clipboard Text...");
+        this.driver.setClipboardText (text);
+    }
+
+    /**
+     * @author Faisal Khatri
+     * @since Mar 13, 2021
+     * @param base64Content Clipboard Content Type has been set to Plaintext as
+     *     currently Android supports only PlainText
+     */
+    public void setClipboard (byte [] base64Content) {
+        LOG.info ("Setting Clipboard Text for PLAINTEXT, [{}]....", base64Content);
+        this.driver.setClipboard (ClipboardContentType.PLAINTEXT, base64Content);
+    }
+
+    /**
      * @return activity
-     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 9:09:43 PM
      */
@@ -91,7 +109,6 @@ public class AndroidDeviceActions
 
     /**
      * @return message
-     *
      * @author wasiq.bhamla
      * @since Feb 8, 2018 4:01:35 PM
      */
@@ -115,9 +132,7 @@ public class AndroidDeviceActions
 
     /**
      * @param buttonText
-     *
      * @return message
-     *
      * @author wasiq.bhamla
      * @since 09-May-2017 9:14:16 PM
      */
@@ -156,7 +171,6 @@ public class AndroidDeviceActions
 
     /**
      * @return isLocked
-     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 9:11:35 PM
      */

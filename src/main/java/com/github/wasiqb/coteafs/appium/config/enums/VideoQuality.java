@@ -17,6 +17,10 @@
  */
 package com.github.wasiqb.coteafs.appium.config.enums;
 
+/**
+ * @author Wasiq Bhamla
+ * @since Mar 13, 2021
+ */
 public enum VideoQuality {
     HD (100),
     HIGH (75),

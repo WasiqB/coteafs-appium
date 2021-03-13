@@ -80,15 +80,14 @@ import org.apache.logging.log4j.Logger;
  * @since 08-11-2020
  */
 public final class AppiumServer {
-    private static final Logger log = LogManager.getLogger ();
+    private static final Logger      log = LogManager.getLogger ();
 
-    private       AppiumServiceBuilder     builder;
-    private       AppiumDriverLocalService service;
-    private final ServerSetting            setting;
+    private AppiumServiceBuilder     builder;
+    private AppiumDriverLocalService service;
+    private final ServerSetting      setting;
 
     /**
      * @param name Server settings block name
-     *
      * @author wasiq.bhamla
      * @since 08-11-2020
      */
@@ -103,7 +102,6 @@ public final class AppiumServer {
 
     /**
      * @return url
-     *
      * @author wasiq.bhamla
      * @since 08-11-2020
      */
@@ -122,14 +120,18 @@ public final class AppiumServer {
         return null;
     }
 
+    /**
+     * @author Wasiq Bhamla
+     * @since Mar 13, 2021
+     * @return cloud settings
+     */
     public boolean isCloud () {
-        return this.setting.getCloud () != null && isNotEmpty (this.setting.getUserName ()) && isNotEmpty (
-            this.setting.getPassword ());
+        return this.setting.getCloud () != null && isNotEmpty (this.setting.getUserName ())
+            && isNotEmpty (this.setting.getPassword ());
     }
 
     /**
      * @return isRunning
-     *
      * @author wasiq.bhamla
      * @since 08-11-2020
      */
@@ -287,7 +289,7 @@ public final class AppiumServer {
     }
 
     private void setCommonArguments () {
-        setArgument (() -> "--allow-cors", this.setting.isAllowCors ());
+        setArgument ( () -> "--allow-cors", this.setting.isAllowCors ());
         setArgument (STRICT_CAPS, this.setting.isStrictCapabilities ());
         setArgument (RELAXED_SECURITY, this.setting.isRelaxedSecurity ());
         setArgument (PRE_LAUNCH, this.setting.isPreLaunch ());
@@ -314,7 +316,7 @@ public final class AppiumServer {
             setArgument (DEFAULT_DEVICE, ios.getDefaultDevice ());
             setArgument (TRACE_DIRECTORY_ABSOLUTE_PATH, ios.getTracePath ());
             setArgument (WEBKIT_DEBUG_PROXY_PORT, ios.getWkdProxyPort ());
-            setArgument (() -> "--webdriveragent-port", ios.getWdaPort ());
+            setArgument ( () -> "--webdriveragent-port", ios.getWdaPort ());
         }
     }
 

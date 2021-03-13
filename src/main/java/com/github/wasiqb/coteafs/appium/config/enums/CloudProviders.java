@@ -24,6 +24,10 @@ package com.github.wasiqb.coteafs.appium.config.enums;
  * @since 29-11-2020
  */
 public enum CloudProviders {
+    /**
+     * @author Wasiq Bhamla
+     * @since Mar 13, 2021 Cloud Provider URL
+     */
     BROWSERSTACK ("hub-cloud.browserstack.com");
 
     private final String url;
