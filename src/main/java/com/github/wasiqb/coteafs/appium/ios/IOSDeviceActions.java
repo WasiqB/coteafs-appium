@@ -80,7 +80,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @since Mar 13, 2021
      * @param text
      */
-    public void setClipboardText (String text) {
+    public void clipboardText (final String text) {
         log.info ("Setting clipboard text...");
         this.driver.setClipboardText (text);
     }
@@ -90,7 +90,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @since Mar 13, 2021
      * @param url
      */
-    public void setClipboardUrl (URL url) {
+    public void clipboardUrl (final URL url) {
         log.info ("Setting clipboard URL [{}]...", url);
         this.driver.setClipboardUrl (url);
     }
@@ -100,12 +100,12 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @since Mar 13, 2021
      * @param img
      */
-    public void setClipBoardImage (BufferedImage img) {
-        log.info ("Setting clipboard Image [{}]...", img);
+    public void clipBoardImage (final BufferedImage img) {
+        log.info ("Setting clipboard image [{}]...", img);
         try {
             this.driver.setClipboardImage (img);
         } catch (final IOException e) {
-            log.warn ("Error while setting Clipboard Image....");
+            log.warn ("Error while setting clipboard image....");
             log.warn (e.getMessage ());
         }
     }
@@ -116,8 +116,8 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
      * @param type
      * @param base64Content
      */
-    public void setClipboard (ClipboardContentType type, byte [] base64Content) {
-        log.info ("Setting clipboard Image [{}], [{}]...", type, base64Content);
+    public void clipboard (final ClipboardContentType type, final byte [] base64Content) {
+        log.info ("Setting clipboard [{}], [{}]...", type, base64Content);
         this.driver.setClipboard (type, base64Content);
     }
 

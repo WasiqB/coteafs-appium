@@ -60,7 +60,7 @@ public class AndroidDeviceActions
      * @author wasiqb
      * @since Nov 2, 2018
      */
-    public String getClipboard () {
+    public String clipboard () {
         LOG.info ("Getting clipboard text...");
         return this.driver.getClipboardText ();
 
@@ -72,9 +72,10 @@ public class AndroidDeviceActions
      * @author wasiqb
      * @since Nov 2, 2018
      */
-    public String getClipboard (final ClipboardType type) {
+    public String clipboard (final ClipboardType type) {
         LOG.info ("Getting clipboard for [{}]...", type);
         return this.driver.getClipboard (type.getType ());
+
     }
 
     /**
@@ -82,7 +83,7 @@ public class AndroidDeviceActions
      * @since Mar 13, 2021
      * @param text
      */
-    public void setClipboardText (String text) {
+    public void clipboardText (final String text) {
         LOG.info ("Setting Clipboard Text...");
         this.driver.setClipboardText (text);
     }
@@ -93,7 +94,7 @@ public class AndroidDeviceActions
      * @param base64Content Clipboard Content Type has been set to Plaintext as
      *     currently Android supports only PlainText
      */
-    public void setClipboard (byte [] base64Content) {
+    public void clipboard (final byte [] base64Content) {
         LOG.info ("Setting Clipboard Text for PLAINTEXT, [{}]....", base64Content);
         this.driver.setClipboard (ClipboardContentType.PLAINTEXT, base64Content);
     }
