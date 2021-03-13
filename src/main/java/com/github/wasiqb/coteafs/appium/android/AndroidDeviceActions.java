@@ -18,6 +18,13 @@ package com.github.wasiqb.coteafs.appium.android;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -47,7 +54,8 @@ public class AndroidDeviceActions
     private static final Logger LOG = LogManager.getLogger (AndroidDeviceActions.class);
 
     /**
-     * @param device
+     * @param device Device under test
+     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 9:05:43 PM
      */
@@ -57,6 +65,7 @@ public class AndroidDeviceActions
 
     /**
      * @return clipboard text
+     *
      * @author wasiqb
      * @since Nov 2, 2018
      */
@@ -67,8 +76,10 @@ public class AndroidDeviceActions
     }
 
     /**
-     * @param type
+     * @param type Type for which to get clipboard value
+     *
      * @return clipboard
+     *
      * @author wasiqb
      * @since Nov 2, 2018
      */
@@ -79,28 +90,50 @@ public class AndroidDeviceActions
     }
 
     /**
+     * @param text Set clipboard with text
+     *
      * @author Faisal Khatri
      * @since Mar 13, 2021
-     * @param text
      */
-    public void clipboardText (final String text) {
-        LOG.info ("Setting Clipboard Text...");
+    public void clipboard (final String text) {
+        LOG.info ("Setting clipboard text to [{}]...", text);
         this.driver.setClipboardText (text);
     }
 
     /**
-     * @author Faisal Khatri
-     * @since Mar 13, 2021
-     * @param base64Content Clipboard Content Type has been set to Plaintext as
-     *     currently Android supports only PlainText
+     * @param url URL to set clipboard with.
+     *
+     * @author Wasiq Bhamla
+     * @since 13-Mar-2021
      */
-    public void clipboard (final byte [] base64Content) {
-        LOG.info ("Setting Clipboard Text for PLAINTEXT, [{}]....", base64Content);
-        this.driver.setClipboard (ClipboardContentType.PLAINTEXT, base64Content);
+    public void clipboard (final URL url) {
+        LOG.info ("Setting clipboard URL to [{}]...", url);
+        this.driver.setClipboard (ClipboardContentType.URL, Base64.getMimeEncoder ()
+            .encode (url.getPath ()
+                .getBytes (StandardCharsets.UTF_8)));
+    }
+
+    /**
+     * @param image Set clipboard with image
+     *
+     * @author Wasiq Bhamla
+     * @since 13-Mar-2021
+     */
+    public void clipboard (final BufferedImage image) {
+        LOG.info ("Setting clipboard image...");
+        try (final ByteArrayOutputStream os = new ByteArrayOutputStream ()) {
+            ImageIO.write (image, "png", os);
+            this.driver.setClipboard (ClipboardContentType.IMAGE, Base64.getMimeEncoder ()
+                .encode (os.toByteArray ()));
+        } catch (final IOException e) {
+            LOG.error ("Error occurred while setting Image clipboard.");
+            LOG.catching (e);
+        }
     }
 
     /**
      * @return activity
+     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 9:09:43 PM
      */
@@ -110,6 +143,7 @@ public class AndroidDeviceActions
 
     /**
      * @return message
+     *
      * @author wasiq.bhamla
      * @since Feb 8, 2018 4:01:35 PM
      */
@@ -132,8 +166,10 @@ public class AndroidDeviceActions
     }
 
     /**
-     * @param buttonText
+     * @param buttonText Button text to click on
+     *
      * @return message
+     *
      * @author wasiq.bhamla
      * @since 09-May-2017 9:14:16 PM
      */
@@ -172,6 +208,7 @@ public class AndroidDeviceActions
 
     /**
      * @return isLocked
+     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 9:11:35 PM
      */

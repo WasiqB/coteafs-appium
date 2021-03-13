@@ -47,6 +47,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @param <D>
  * @param <E>
  * @param <T>
+ *
  * @author wasiq.bhamla
  * @since 26-Apr-2017 8:39:17 PM
  */
@@ -56,6 +57,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     /**
      * @param source
      * @param destination
+     *
      * @author wasiq.bhamla
      * @since Jul 22, 2017 11:03:48 PM
      */
@@ -68,15 +70,16 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
         }
     }
 
-    protected final E             device;
-    protected final D             driver;
-    protected final WebDriverWait wait;
-    private final T               actions;
-    private final PlaybackSetting setting;
+    protected final E               device;
+    protected final D               driver;
+    protected final WebDriverWait   wait;
+    private final   T               actions;
+    private final   PlaybackSetting setting;
 
     /**
      * @param device
      * @param actions
+     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 8:39:17 PM
      */
@@ -87,7 +90,6 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
         this.setting = device.setting.getPlayback ();
         this.wait = new WebDriverWait (this.driver, ofSeconds (this.setting.getDelay ()
             .getExplicit ()).getSeconds ());
-
     }
 
     /**
@@ -107,17 +109,18 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
 
     /**
      * @param url
+     *
      * @author wasiq.bhamla
      * @since Jul 15, 2017 5:19:41 PM
      */
     public void navigateTo (final String url) {
         LOG.info ("Navigating to URL [{}]...", url);
-
         this.driver.get (url);
     }
 
     /**
      * @param distance
+     *
      * @author wasiq.bhamla
      * @since Oct 20, 2017 8:45:31 PM
      */
@@ -129,6 +132,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
 
     /**
      * @param type
+     *
      * @author wasiqb
      * @since Oct 20, 2018
      */
@@ -139,6 +143,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
 
     /**
      * @return rotation
+     *
      * @author wasiqb
      * @since Oct 20, 2018
      */
@@ -151,6 +156,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
      * @param direction
      * @param start
      * @param distance
+     *
      * @author wasiq.bhamla
      * @since Oct 20, 2017 7:52:29 PM
      */
@@ -162,6 +168,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
 
     /**
      * @param distance
+     *
      * @author wasiq.bhamla
      * @since Oct 20, 2017 8:44:00 PM
      */
@@ -196,5 +203,4 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
             .window ()
             .getSize (), null, null, this.actions);
     }
-
 }

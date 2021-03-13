@@ -29,7 +29,6 @@ import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import io.appium.java_client.MobileElement;
-import io.appium.java_client.clipboard.ClipboardContentType;
 import io.appium.java_client.ios.IOSDriver;
 import io.appium.java_client.ios.IOSTouchAction;
 import org.apache.logging.log4j.LogManager;
@@ -47,6 +46,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
 
     /**
      * @param device
+     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 11:34:58 PM
      */
@@ -56,6 +56,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
 
     /**
      * @return clipboard text
+     *
      * @author wasiqb
      * @since Nov 2, 2018
      */
@@ -66,42 +67,25 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
 
     /**
      * @param type
+     *
      * @return clipboard
+     *
      * @author wasiqb
      * @since Nov 2, 2018
      */
     public String clipboard (final ClipboardType type) {
-        log.info ("Getting clipboard for [{}]...", type);
+        log.info ("Getting clipboard [{}]...", type);
         return this.driver.getClipboard (type.getType ());
     }
 
     /**
-     * @author Faisal Khatri
-     * @since Mar 13, 2021
-     * @param text
-     */
-    public void clipboardText (final String text) {
-        log.info ("Setting clipboard text...");
-        this.driver.setClipboardText (text);
-    }
-
-    /**
-     * @author Faisal Khatri
-     * @since Mar 13, 2021
-     * @param url
-     */
-    public void clipboardUrl (final URL url) {
-        log.info ("Setting clipboard URL [{}]...", url);
-        this.driver.setClipboardUrl (url);
-    }
-
-    /**
-     * @author Faisal Khatri
-     * @since Mar 13, 2021
      * @param img
+     *
+     * @author Faisal Khatri
+     * @since Mar 13, 2021
      */
-    public void clipBoardImage (final BufferedImage img) {
-        log.info ("Setting clipboard image [{}]...", img);
+    public void clipboard (final BufferedImage img) {
+        log.info ("Setting clipboard image...");
         try {
             this.driver.setClipboardImage (img);
         } catch (final IOException e) {
@@ -111,18 +95,30 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     }
 
     /**
+     * @param text
+     *
      * @author Faisal Khatri
      * @since Mar 13, 2021
-     * @param type
-     * @param base64Content
      */
-    public void clipboard (final ClipboardContentType type, final byte [] base64Content) {
-        log.info ("Setting clipboard [{}], [{}]...", type, base64Content);
-        this.driver.setClipboard (type, base64Content);
+    public void clipboard (final String text) {
+        log.trace ("Setting clipboard text to [{}]...", text);
+        this.driver.setClipboardText (text);
+    }
+
+    /**
+     * @param url
+     *
+     * @author Faisal Khatri
+     * @since Mar 13, 2021
+     */
+    public void clipboard (final URL url) {
+        log.trace ("Setting clipboard URL to [{}]...", url);
+        this.driver.setClipboardUrl (url);
     }
 
     /**
      * @return message
+     *
      * @author wasiq.bhamla
      * @since 09-May-2017 8:46:51 PM
      */
@@ -147,6 +143,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     /**
      * @param strategy
      * @param keyName
+     *
      * @author wasiq.bhamla
      * @since 08-May-2017 3:21:20 PM
      */
@@ -189,6 +186,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
 
     /**
      * @param direction
+     *
      * @author wasiqb
      * @since Oct 28, 2018
      */

@@ -33,6 +33,9 @@ public enum VideoQuality {
         this.quality = quality;
     }
 
+    /**
+     * @return video quality
+     */
     public int getQuality () {
         return this.quality;
     }

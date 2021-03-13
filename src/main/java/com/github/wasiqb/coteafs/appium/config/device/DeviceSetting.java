@@ -51,9 +51,10 @@ public class DeviceSetting {
     private String               version;
 
     /**
+     * @return Cloud Capabilities
+     *
      * @author Wasiq Bhamla
      * @since Mar 13, 2021
-     * @return Cloud Capabilities
      */
     public boolean isCloud () {
         return getCloudCapabilities ().size () > 0;
