@@ -18,7 +18,6 @@ package com.github.wasiqb.coteafs.appium.android;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 
-import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -27,6 +26,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import javax.imageio.ImageIO;
 
 import com.github.wasiqb.coteafs.appium.android.system.AlertActivity;
 import com.github.wasiqb.coteafs.appium.android.system.PermissionActivity;
