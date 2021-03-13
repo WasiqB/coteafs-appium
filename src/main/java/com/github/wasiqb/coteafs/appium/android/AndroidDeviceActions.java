@@ -18,8 +18,15 @@ package com.github.wasiqb.coteafs.appium.android;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import javax.imageio.ImageIO;
 
 import com.github.wasiqb.coteafs.appium.android.system.AlertActivity;
 import com.github.wasiqb.coteafs.appium.android.system.PermissionActivity;
@@ -32,6 +39,7 @@ import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidTouchAction;
 import io.appium.java_client.android.nativekey.AndroidKey;
 import io.appium.java_client.android.nativekey.KeyEvent;
+import io.appium.java_client.clipboard.ClipboardContentType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
@@ -46,7 +54,7 @@ public class AndroidDeviceActions
     private static final Logger LOG = LogManager.getLogger (AndroidDeviceActions.class);
 
     /**
-     * @param device
+     * @param device Device under test
      *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 9:05:43 PM
@@ -64,10 +72,11 @@ public class AndroidDeviceActions
     public String clipboard () {
         LOG.info ("Getting clipboard text...");
         return this.driver.getClipboardText ();
+
     }
 
     /**
-     * @param type
+     * @param type Type for which to get clipboard value
      *
      * @return clipboard
      *
@@ -77,6 +86,49 @@ public class AndroidDeviceActions
     public String clipboard (final ClipboardType type) {
         LOG.info ("Getting clipboard for [{}]...", type);
         return this.driver.getClipboard (type.getType ());
+
+    }
+
+    /**
+     * @param text Set clipboard with text
+     *
+     * @author Faisal Khatri
+     * @since Mar 13, 2021
+     */
+    public void clipboard (final String text) {
+        LOG.info ("Setting clipboard text to [{}]...", text);
+        this.driver.setClipboardText (text);
+    }
+
+    /**
+     * @param url URL to set clipboard with.
+     *
+     * @author Wasiq Bhamla
+     * @since 13-Mar-2021
+     */
+    public void clipboard (final URL url) {
+        LOG.info ("Setting clipboard URL to [{}]...", url);
+        this.driver.setClipboard (ClipboardContentType.URL, Base64.getMimeEncoder ()
+            .encode (url.getPath ()
+                .getBytes (StandardCharsets.UTF_8)));
+    }
+
+    /**
+     * @param image Set clipboard with image
+     *
+     * @author Wasiq Bhamla
+     * @since 13-Mar-2021
+     */
+    public void clipboard (final BufferedImage image) {
+        LOG.info ("Setting clipboard image...");
+        try (final ByteArrayOutputStream os = new ByteArrayOutputStream ()) {
+            ImageIO.write (image, "png", os);
+            this.driver.setClipboard (ClipboardContentType.IMAGE, Base64.getMimeEncoder ()
+                .encode (os.toByteArray ()));
+        } catch (final IOException e) {
+            LOG.error ("Error occurred while setting Image clipboard.");
+            LOG.catching (e);
+        }
     }
 
     /**
@@ -114,7 +166,7 @@ public class AndroidDeviceActions
     }
 
     /**
-     * @param buttonText
+     * @param buttonText Button text to click on
      *
      * @return message
      *

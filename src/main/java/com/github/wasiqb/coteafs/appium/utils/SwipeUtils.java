@@ -86,6 +86,7 @@ public final class SwipeUtils {
             .release ();
     }
 
+    @SuppressWarnings ("preview")
     private static Point getStartPoint (final SwipeStartPosition start, final Dimension screenSize,
         final Dimension elementSize, final Point elementLocation) {
         int x = 0;

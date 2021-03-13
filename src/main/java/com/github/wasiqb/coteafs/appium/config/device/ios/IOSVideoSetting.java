@@ -22,6 +22,10 @@ import static io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQual
 import io.appium.java_client.ios.IOSStartScreenRecordingOptions.VideoQuality;
 import lombok.Data;
 
+/**
+ * @author Wasiq Bhamla
+ * @since Mar 13, 2021
+ */
 @Data
 public class IOSVideoSetting {
     private String       codec   = "mpeg4";

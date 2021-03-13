@@ -22,6 +22,10 @@ import static java.text.MessageFormat.format;
 import com.github.wasiqb.coteafs.appium.config.enums.LogLevel;
 import lombok.Data;
 
+/**
+ * @author Wasiq Bhamla
+ * @since Mar 13, 2021
+ */
 @Data
 public class LogSetting {
     private static final String PATH_PATTERN = "{0}/logs/server-{1}.log";

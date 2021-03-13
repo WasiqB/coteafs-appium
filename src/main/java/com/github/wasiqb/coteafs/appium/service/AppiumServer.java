@@ -122,6 +122,12 @@ public final class AppiumServer {
         return null;
     }
 
+    /**
+     * @return cloud settings
+     *
+     * @author Wasiq Bhamla
+     * @since Mar 13, 2021
+     */
     public boolean isCloud () {
         return this.setting.getCloud () != null && isNotEmpty (this.setting.getUserName ()) && isNotEmpty (
             this.setting.getPassword ());

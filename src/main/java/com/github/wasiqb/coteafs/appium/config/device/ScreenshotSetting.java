@@ -22,6 +22,10 @@ import static java.text.MessageFormat.format;
 
 import lombok.Data;
 
+/**
+ * @author Wasiq Bhamla
+ * @since Mar 13, 2021
+ */
 @Data
 public class ScreenshotSetting {
     private boolean onError;

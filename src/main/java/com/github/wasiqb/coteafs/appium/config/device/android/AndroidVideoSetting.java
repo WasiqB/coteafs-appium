@@ -19,6 +19,10 @@ package com.github.wasiqb.coteafs.appium.config.device.android;
 
 import lombok.Data;
 
+/**
+ * @author Wasiq Bhamla
+ * @since Mar 13, 2021
+ */
 @Data
 public class AndroidVideoSetting {
     private int    bitRate = 4;
