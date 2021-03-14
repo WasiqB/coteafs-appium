@@ -15,9 +15,11 @@
  */
 package com.github.wasiqb.coteafs.appium.android.vodqa.activities;
 
+import static com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy.VISIBLE;
+import static io.appium.java_client.MobileBy.AccessibilityId;
+
 import com.github.wasiqb.coteafs.appium.android.AndroidDevice;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
-import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.device.DeviceElement;
 import io.appium.java_client.MobileBy;
 import org.openqa.selenium.By;
@@ -47,51 +49,51 @@ public class MainActivity extends DefaultActivity {
 
         final DeviceElement scroll = DeviceElement.create ("ScrollView")
             .parent (main)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("scrollView"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("scrollView"));
 
         DeviceElement.create ("ChainedView")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("Chained View"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("Chained View"));
         DeviceElement.create ("Slider")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("Slide your number"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("Slide your number"));
         DeviceElement.create ("VerticalSwipe")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
+            .waitStrategy (VISIBLE)
             .forAndroid (By.xpath ("//android.view.ViewGroup[@content-desc=\"verticalSwipe\"]"))
             .forAndroid (AutomationType.UIAUTOMATOR2,
                 MobileBy.AndroidUIAutomator ("new UiSelector ().description (\"verticalSwipe\");"));
         DeviceElement.create ("DragDrop")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("Demo drag and drop"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("Demo drag and drop"));
         DeviceElement.create ("DoubleTap")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("Demo double tap button"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("Demo double tap button"));
         DeviceElement.create ("WebView")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("View hacker news"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("View hacker news"));
         DeviceElement.create ("LongPress")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("longPress"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("longPress"));
         DeviceElement.create ("PhotoView")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("Ping & Zoom"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("Ping & Zoom"));
         DeviceElement.create ("HorizontalSwipe")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("Demos swipe left & right"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("Demos swipe left & right"));
         DeviceElement.create ("WheelPicker")
             .parent (scroll)
-            .waitStrategy (WaitStrategy.VISIBLE)
-            .forAndroid (MobileBy.AccessibilityId ("Demos wheel picker color"));
+            .waitStrategy (VISIBLE)
+            .forAndroid (AccessibilityId ("Demos wheel picker color"));
 
         return main;
     }

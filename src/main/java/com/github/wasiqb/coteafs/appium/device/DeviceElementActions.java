@@ -15,8 +15,14 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
+import static com.github.wasiqb.coteafs.appium.checker.DeviceChecker.checkDeviceElementEnabled;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
+import static io.appium.java_client.touch.TapOptions.tapOptions;
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.offset.ElementOption.element;
+import static io.appium.java_client.touch.offset.PointOption.point;
 import static java.lang.String.format;
 import static java.time.Duration.ofMillis;
 
@@ -33,11 +39,6 @@ import io.appium.java_client.AppiumDriver;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.MultiTouchAction;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.LongPressOptions;
-import io.appium.java_client.touch.TapOptions;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.ElementOption;
-import io.appium.java_client.touch.offset.PointOption;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
@@ -129,7 +130,10 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
      * @since Feb 2, 2018 1:45:15 PM
      */
     public void dragDrop (final MobileElement dropElement) {
-        perform ("Performing drag on", e -> SwipeUtils.dragTo (this.setting, e, dropElement, this.touch)
+        perform ("Performing drag on", e -> SwipeUtils.<T>builder ().actions (this.touch)
+            .setting (this.setting)
+            .build ()
+            .dragTo (e, dropElement)
             .perform ());
     }
 
@@ -181,12 +185,10 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
      * @since Sep 18, 2018 3:21:26 PM
      */
     public void longPress () {
-        perform ("Performing long press on",
-            e -> this.touch.waitAction (WaitOptions.waitOptions (ofMillis (this.afterTap)))
-                .longPress (LongPressOptions.longPressOptions ()
-                    .withElement (ElementOption.element (e)))
-                .waitAction (WaitOptions.waitOptions (ofMillis (this.afterTap)))
-                .perform ());
+        perform ("Performing long press on", e -> this.touch.waitAction (waitOptions (ofMillis (this.afterTap)))
+            .longPress (longPressOptions ().withElement (element (e)))
+            .waitAction (waitOptions (ofMillis (this.afterTap)))
+            .perform ());
     }
 
     /**
@@ -199,7 +201,7 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
         perform (format ("Performing [%d] taps on", times), e -> {
             final Point center = e.getCenter ();
             for (int index = 0; index < times; index++) {
-                this.touch.press (PointOption.point (center.getX (), center.getY ()))
+                this.touch.press (point (center.getX (), center.getY ()))
                     .release ()
                     .perform ();
             }
@@ -253,10 +255,9 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
      * @since 12-May-2017 10:08:55 PM
      */
     public void tap () {
-        perform ("Tapping on", e -> this.touch.waitAction (WaitOptions.waitOptions (ofMillis (this.beforeTap)))
-            .tap (TapOptions.tapOptions ()
-                .withElement (ElementOption.element (e)))
-            .waitAction (WaitOptions.waitOptions (ofMillis (this.afterTap)))
+        perform ("Tapping on", e -> this.touch.waitAction (waitOptions (ofMillis (this.beforeTap)))
+            .tap (tapOptions ().withElement (element (e)))
+            .waitAction (waitOptions (ofMillis (this.afterTap)))
             .perform ());
     }
 
@@ -303,7 +304,7 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
     }
 
     private void checkElementEnabled () {
-        DeviceChecker.checkDeviceElementEnabled (this.element, this.name);
+        checkDeviceElementEnabled (this.element, this.name);
     }
 
     private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
@@ -337,8 +338,17 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
     }
 
     private T swipeTo (final SwipeDirection direction, final SwipeStartPosition start, final int distancePercent) {
-        return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting, this.driver.manage ()
-            .window ()
-            .getSize (), this.element.getSize (), this.element.getLocation (), this.touch);
+        return SwipeUtils.<T>builder ().direction (direction)
+            .startPosition (start)
+            .distancePercent (distancePercent)
+            .setting (this.setting)
+            .screenSize (this.driver.manage ()
+                .window ()
+                .getSize ())
+            .elementSize (this.element.getSize ())
+            .elementLocation (this.element.getLocation ())
+            .actions (this.touch)
+            .build ()
+            .swipe ();
     }
 }

@@ -15,15 +15,16 @@
  */
 package com.github.wasiqb.coteafs.appium.utils;
 
-import java.time.Duration;
+import static io.appium.java_client.touch.WaitOptions.waitOptions;
+import static io.appium.java_client.touch.offset.PointOption.point;
+import static java.time.Duration.ofMillis;
 
 import com.github.wasiqb.coteafs.appium.config.device.DelaySetting;
 import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.TouchAction;
-import io.appium.java_client.touch.WaitOptions;
-import io.appium.java_client.touch.offset.PointOption;
+import lombok.Builder;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
 
@@ -31,66 +32,62 @@ import org.openqa.selenium.Point;
  * @author wasiq.bhamla
  * @since Feb 1, 2018 12:23:46 PM
  */
-public final class SwipeUtils {
+@Builder
+public final class SwipeUtils<T extends TouchAction<T>> {
+    private final T                  actions;
+    private final SwipeDirection     direction;
+    private final int                distancePercent;
+    private final Point              elementLocation;
+    private final Dimension          elementSize;
+    private final Dimension          screenSize;
+    private final DelaySetting       setting;
+    private final SwipeStartPosition startPosition;
+
     /**
-     * @param setting
      * @param fromElement
      * @param toElement
-     * @param actions
      *
      * @return touch action
      *
      * @author wasiq.bhamla
      * @since Feb 2, 2018 3:25:54 PM
      */
-    public static <T extends TouchAction<T>> T dragTo (final DelaySetting setting, final MobileElement fromElement,
-        final MobileElement toElement, final T actions) {
+    public T dragTo (final MobileElement fromElement, final MobileElement toElement) {
         final Point source = fromElement.getCenter ();
         final Point target = toElement.getCenter ();
-        return actions.press (PointOption.point (source.getX (), source.getY ()))
-            .waitAction (WaitOptions.waitOptions (Duration.ofMillis (setting.getBeforeSwipe ())))
-            .moveTo (PointOption.point (target.getX (), target.getY ()))
+        return this.actions.press (point (source.getX (), source.getY ()))
+            .waitAction (waitOptions (ofMillis (this.setting.getBeforeSwipe ())))
+            .moveTo (point (target.getX (), target.getY ()))
             .release ()
-            .waitAction (WaitOptions.waitOptions (Duration.ofMillis (setting.getAfterSwipe ())));
+            .waitAction (waitOptions (ofMillis (this.setting.getAfterSwipe ())));
     }
 
     /**
-     * @param direction
-     * @param startPosition
-     * @param distancePercent
-     * @param setting
-     * @param screenSize
-     * @param elementSize
-     * @param elementLocation
-     * @param actions
-     *
      * @return action
      *
      * @author wasiq.bhamla
      * @since Sep 18, 2018 8:03:55 PM
      */
-    public static <T extends TouchAction<T>> T swipeTo (final SwipeDirection direction,
-        final SwipeStartPosition startPosition, final int distancePercent, final DelaySetting setting,
-        final Dimension screenSize, final Dimension elementSize, final Point elementLocation, final T actions) {
-        final double distance = distancePercent / 100.0;
-        final Point source = getStartPoint (startPosition, screenSize, elementSize, elementLocation);
-        int endX = source.getX () + (int) (source.getX () * direction.getX () * distance);
-        int endY = source.getY () + (int) (source.getY () * direction.getY () * distance);
-        if (elementSize != null) {
-            endX = source.getX () + (int) (elementSize.getWidth () * direction.getX () * distance);
-            endY = source.getY () + (int) (elementSize.getHeight () * direction.getY () * distance);
+    public T swipe () {
+        final double distance = this.distancePercent / 100.0;
+        final Point source = getStartPoint (this.startPosition, this.screenSize, this.elementSize,
+            this.elementLocation);
+        int endX = source.getX () + (int) (source.getX () * this.direction.getX () * distance);
+        int endY = source.getY () + (int) (source.getY () * this.direction.getY () * distance);
+        if (this.elementSize != null) {
+            endX = source.getX () + (int) (this.elementSize.getWidth () * this.direction.getX () * distance);
+            endY = source.getY () + (int) (this.elementSize.getHeight () * this.direction.getY () * distance);
         }
-        return actions.press (PointOption.point (source.getX (), source.getY ()))
-            .waitAction (WaitOptions.waitOptions (Duration.ofMillis (setting.getBeforeSwipe ())))
-            .moveTo (PointOption.point (endX, endY))
+        return this.actions.press (point (source.getX (), source.getY ()))
+            .waitAction (waitOptions (ofMillis (this.setting.getBeforeSwipe ())))
+            .moveTo (point (endX, endY))
             .release ();
     }
 
-    @SuppressWarnings ("preview")
-    private static Point getStartPoint (final SwipeStartPosition start, final Dimension screenSize,
+    private Point getStartPoint (final SwipeStartPosition start, final Dimension screenSize,
         final Dimension elementSize, final Point elementLocation) {
-        int x = 0;
-        int y = 0;
+        final int x;
+        final int y;
         int width = screenSize.getWidth ();
         int height = screenSize.getHeight ();
         Point location = new Point (0, 0);
@@ -124,9 +121,5 @@ public final class SwipeUtils {
             }
         }
         return new Point (location.getX () + x, location.getY () + y);
-    }
-
-    private SwipeUtils () {
-        // Util class.
     }
 }

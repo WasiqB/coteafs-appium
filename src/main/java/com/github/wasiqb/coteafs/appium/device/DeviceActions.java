@@ -52,7 +52,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @since 26-Apr-2017 8:39:17 PM
  */
 public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Device<D, T>, T extends TouchAction<T>> {
-    private static final Logger LOG = LogManager.getLogger (DeviceActions.class);
+    private static final Logger LOG = LogManager.getLogger ();
 
     /**
      * @param source
@@ -65,7 +65,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
         try {
             FileUtils.copyFile (source, new File (destination));
         } catch (final IOException e) {
-            LOG.error ("Error occurred while capturing screensshot...");
+            LOG.error ("Error occurred while capturing screenshot...");
             LOG.catching (e);
         }
     }
@@ -86,8 +86,9 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     public DeviceActions (final E device, final T actions) {
         this.device = device;
         this.actions = actions;
-        this.driver = this.device.getDriver ();
-        this.setting = device.setting.getPlayback ();
+        this.driver = device.getDriver ();
+        this.setting = device.getSetting ()
+            .getPlayback ();
         this.wait = new WebDriverWait (this.driver, ofSeconds (this.setting.getDelay ()
             .getExplicit ()).getSeconds ());
     }
@@ -199,8 +200,15 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     }
 
     private T swipeTo (final SwipeDirection direction, final SwipeStartPosition start, final int distancePercent) {
-        return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting.getDelay (), this.driver.manage ()
-            .window ()
-            .getSize (), null, null, this.actions);
+        return SwipeUtils.<T>builder ().actions (this.actions)
+            .setting (this.setting.getDelay ())
+            .direction (direction)
+            .startPosition (start)
+            .distancePercent (distancePercent)
+            .screenSize (this.driver.manage ()
+                .window ()
+                .getSize ())
+            .build ()
+            .swipe ();
     }
 }

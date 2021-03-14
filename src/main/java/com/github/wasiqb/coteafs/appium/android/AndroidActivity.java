@@ -15,9 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
+import static com.github.wasiqb.coteafs.appium.config.enums.AutomationType.UIAUTOMATOR2;
 import static com.github.wasiqb.coteafs.appium.utils.BatteryHealth.check;
 
-import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.device.DeviceActivity;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidBatteryInfo;
@@ -40,7 +40,7 @@ public abstract class AndroidActivity
      * @author wasiq.bhamla
      * @since 26-Apr-2017 6:20:08 PM
      */
-    public AndroidActivity (final AndroidDevice device) {
+    protected AndroidActivity (final AndroidDevice device) {
         super (device, new AndroidTouchAction (device.getDriver ()));
     }
 
@@ -70,7 +70,7 @@ public abstract class AndroidActivity
 
     private void checkBattery () {
         if (this.device.getSetting ()
-            .getAutomation () == AutomationType.UIAUTOMATOR2 && !this.device.getSetting ()
+            .getAutomation () == UIAUTOMATOR2 && !this.device.getSetting ()
             .isCloud ()) {
             final AndroidBatteryInfo battery = this.device.getDriver ()
                 .getBatteryInfo ();

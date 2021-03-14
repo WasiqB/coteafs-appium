@@ -21,15 +21,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.github.wasiqb.coteafs.appium.android.vodqa.actions.DragDropAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
+import com.github.wasiqb.coteafs.appium.android.vodqa.actions.SliderActivityAction;
+import com.github.wasiqb.coteafs.appium.android.vodqa.actions.VerticalSwipeAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DoubleTapActivity;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DragDropActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LongPressActivity;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.SliderActivity;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.VerticleSwipeActivity;
-import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
-import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 import org.openqa.selenium.ScreenOrientation;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -64,10 +62,6 @@ public class VodQATest extends DefaultTest {
         login.addInputValue ("UserName", "admin")
             .addInputValue ("Password", "admin")
             .perform ();
-
-        this.main.onElement ("ChainedView")
-            .verifyThat ()
-            .shouldBeDisplayed ();
     }
 
     /**
@@ -90,8 +84,7 @@ public class VodQATest extends DefaultTest {
             .verifyThat ()
             .textShouldBeEqualTo ("Hello World, I'm View three ");
 
-        this.main.onElement ("Back")
-            .tap ();
+        moveBack ();
     }
 
     /**
@@ -110,8 +103,7 @@ public class VodQATest extends DefaultTest {
             .handleAlert ();
         Assert.assertEquals (message, "you pressed me hard :P");
 
-        this.main.onElement ("Back")
-            .tap ();
+        moveBack ();
     }
 
     /**
@@ -137,15 +129,9 @@ public class VodQATest extends DefaultTest {
     public void test5Slider () {
         this.main.onElement ("Slider")
             .tap ();
-
-        final SliderActivity slide = new SliderActivity (this.androidDevice);
-        slide.onElement ("Slider")
-            .swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
-        slide.onElement ("Slider1")
-            .swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
-
-        this.main.onElement ("Back")
-            .tap ();
+        final SliderActivityAction sliderAction = new SliderActivityAction (this.androidDevice);
+        sliderAction.perform ();
+        moveBack ();
     }
 
     /**
@@ -156,15 +142,9 @@ public class VodQATest extends DefaultTest {
     public void test6VerticalSwipe () {
         this.main.onElement ("VerticalSwipe")
             .tap ();
-
-        final VerticleSwipeActivity vs = new VerticleSwipeActivity (this.androidDevice);
-        vs.onElement ("List")
-            .swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
-        vs.onElement ("List")
-            .swipe (SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
-
-        this.main.onElement ("Back")
-            .tap ();
+        final VerticalSwipeAction verticalSwipeAction = new VerticalSwipeAction (this.androidDevice);
+        verticalSwipeAction.perform ();
+        moveBack ();
     }
 
     /**
@@ -175,16 +155,9 @@ public class VodQATest extends DefaultTest {
     public void test7DragDrop () {
         this.main.onElement ("DragDrop")
             .tap ();
-
-        final DragDropActivity dd = new DragDropActivity (this.androidDevice);
-        dd.onElement ("DropMe")
-            .dragDrop (dd.getElement ("DropZone"));
-        dd.onElement ("Success")
-            .verifyThat ()
-            .textShouldBeEqualTo ("Circle dropped");
-
-        this.main.onElement ("Back")
-            .tap ();
+        final DragDropAction dragDropAction = new DragDropAction (this.androidDevice);
+        dragDropAction.perform ();
+        moveBack ();
     }
 
     /**
@@ -203,8 +176,15 @@ public class VodQATest extends DefaultTest {
         final String message = p.onDevice ()
             .handleAlert ();
         Assert.assertEquals (message, "Double tap successful!");
+        moveBack ();
+    }
 
+    private void moveBack () {
         this.main.onElement ("Back")
             .tap ();
+
+        this.main.onElement ("ChainedView")
+            .verifyThat ()
+            .shouldBeDisplayed ();
     }
 }

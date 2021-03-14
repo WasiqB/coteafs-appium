@@ -74,7 +74,7 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
      * @author wasiq.bhamla
      * @since 26-Apr-2017 4:32:45 PM
      */
-    public DeviceActivity (final E device, final T touch) {
+    protected DeviceActivity (final E device, final T touch) {
         this.device = device;
         this.touch = touch;
         this.deviceElements = new HashMap<> ();
