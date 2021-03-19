@@ -21,10 +21,11 @@ tests:
           - test6VerticalSwipe
           - test7DragDrop
           - test8DoubleTap
-  #        excludedMethods:
+          - test9PushPullFile
   - name: IOS Test Local
     parameters: { server: ios, device: iphone }
     classes:
       - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
         includedMethods:
-          - testLogin
+          - test1Login
+          - test2PushPullFile

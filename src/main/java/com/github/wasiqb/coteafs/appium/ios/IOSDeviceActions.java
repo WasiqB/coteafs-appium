@@ -19,6 +19,7 @@ import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STO
 import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
@@ -45,7 +46,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     private static final Logger log = LogManager.getLogger (IOSDeviceActions.class);
 
     /**
-     * @param device
+     * @param device Device instance
      *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 11:34:58 PM
@@ -66,7 +67,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     }
 
     /**
-     * @param type
+     * @param type Getting clipboard for type
      *
      * @return clipboard
      *
@@ -79,7 +80,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     }
 
     /**
-     * @param img
+     * @param img Image to save on clipboard
      *
      * @author Faisal Khatri
      * @since Mar 13, 2021
@@ -95,7 +96,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     }
 
     /**
-     * @param text
+     * @param text Text to save in Clipboard
      *
      * @author Faisal Khatri
      * @since Mar 13, 2021
@@ -106,7 +107,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     }
 
     /**
-     * @param url
+     * @param url Navigation URL
      *
      * @author Faisal Khatri
      * @since Mar 13, 2021
@@ -141,14 +142,14 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     }
 
     /**
-     * @param strategy
-     * @param keyName
+     * @param strategy Hide keyboard strategy
+     * @param keyName Key name to press for hiding keyboard
      *
      * @author wasiq.bhamla
      * @since 08-May-2017 3:21:20 PM
      */
     public void hideKeyboard (final String strategy, final String keyName) {
-        log.info ("Hiding keyboard on device using %s strategy for key {}...", strategy, keyName);
+        log.info ("Hiding keyboard on device using {} strategy for key {}...", strategy, keyName);
         try {
             if (this.driver.isKeyboardShown ()) {
                 this.driver.hideKeyboard (strategy, keyName);
@@ -172,6 +173,23 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     }
 
     /**
+     * @param devicePath Path on device
+     * @param filePath File path to put on device
+     *
+     * @author Wasiq Bhamla
+     * @since 19-Mar-2021
+     */
+    public void pushFile (final String devicePath, final String filePath) {
+        log.info ("Pushing file to Android device...");
+        try {
+            this.driver.pushFile (devicePath, new File (filePath));
+        } catch (final IOException e) {
+            log.error ("Error while pushing file to device...");
+            log.catching (e);
+        }
+    }
+
+    /**
      * @author wasiq.bhamla
      * @since 26-Apr-2017 11:37:04 PM
      */
@@ -185,7 +203,7 @@ public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IO
     }
 
     /**
-     * @param direction
+     * @param direction Swipe direction
      *
      * @author wasiqb
      * @since Oct 28, 2018

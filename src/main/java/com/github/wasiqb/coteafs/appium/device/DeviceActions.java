@@ -55,8 +55,8 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     private static final Logger LOG = LogManager.getLogger (DeviceActions.class);
 
     /**
-     * @param source
-     * @param destination
+     * @param source File copy source
+     * @param destination File copy destination
      *
      * @author wasiq.bhamla
      * @since Jul 22, 2017 11:03:48 PM
@@ -77,8 +77,8 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     private final   PlaybackSetting setting;
 
     /**
-     * @param device
-     * @param actions
+     * @param device Device instance
+     * @param actions Touch actions instance
      *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 8:39:17 PM
@@ -108,7 +108,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     }
 
     /**
-     * @param url
+     * @param url URL to navigate to.
      *
      * @author wasiq.bhamla
      * @since Jul 15, 2017 5:19:41 PM
@@ -119,7 +119,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     }
 
     /**
-     * @param distance
+     * @param distance Distance percent to pinch
      *
      * @author wasiq.bhamla
      * @since Oct 20, 2017 8:45:31 PM
@@ -131,7 +131,33 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     }
 
     /**
-     * @param type
+     * @param devicePath File device path to pull
+     *
+     * @return Base64 decoded content of the file.
+     *
+     * @author Wasiq Bhamla
+     * @since 19-Mar-2021
+     */
+    public byte[] pullFile (final String devicePath) {
+        LOG.info ("Pulling file [{}] from Android device...", devicePath);
+        return this.driver.pullFile (devicePath);
+    }
+
+    /**
+     * @param devicePath Folder device path to pull
+     *
+     * @return Base64 decoded content of folder path.
+     *
+     * @author Wasiq Bhamla
+     * @since 19-Mar-2021
+     */
+    public byte[] pullFolder (final String devicePath) {
+        LOG.info ("Pulling folder [{}] from Android device...", devicePath);
+        return this.driver.pullFolder (devicePath);
+    }
+
+    /**
+     * @param type Screen orientation type
      *
      * @author wasiqb
      * @since Oct 20, 2018
@@ -153,9 +179,9 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     }
 
     /**
-     * @param direction
-     * @param start
-     * @param distance
+     * @param direction Swipe direction
+     * @param start Finger start position
+     * @param distance Distance percent to swipe
      *
      * @author wasiq.bhamla
      * @since Oct 20, 2017 7:52:29 PM
@@ -167,7 +193,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     }
 
     /**
-     * @param distance
+     * @param distance Distance percent to zoom
      *
      * @author wasiq.bhamla
      * @since Oct 20, 2017 8:44:00 PM
