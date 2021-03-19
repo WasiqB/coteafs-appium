@@ -16,6 +16,8 @@
 package com.github.wasiqb.coteafs.appium.android;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.System.getProperty;
+import static java.text.MessageFormat.format;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -206,5 +208,15 @@ public class VodQATest extends DefaultTest {
 
         this.main.onElement ("Back")
             .tap ();
+    }
+
+    @Test
+    public void test9PushPullFile () {
+        final String filePath = format ("{0}/assets/coteafs-appium-logo.png", getProperty ("user.dir"));
+        this.main.onDevice ()
+            .pushFile ("/mnt/sdcard/Pictures/img.png", filePath);
+        final byte[] content = this.main.onDevice ()
+            .pullFile ("/mnt/sdcard/Pictures/img.png");
+        assertThat (content).isNotEmpty ();
     }
 }
