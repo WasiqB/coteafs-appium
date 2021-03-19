@@ -20,6 +20,7 @@ import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -132,7 +133,7 @@ public class AndroidDeviceActions
     }
 
     /**
-     * @return activity
+     * @return Current Activity name
      *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 9:09:43 PM
@@ -142,7 +143,7 @@ public class AndroidDeviceActions
     }
 
     /**
-     * @return message
+     * @return Pop-up message
      *
      * @author wasiq.bhamla
      * @since Feb 8, 2018 4:01:35 PM
@@ -252,6 +253,24 @@ public class AndroidDeviceActions
      */
     public void pressEnter () {
         perform ("Pressing Enter button on Android device...", d -> d.pressKey (new KeyEvent (AndroidKey.ENTER)));
+    }
+
+    /**
+     * @param devicePath Path on device
+     * @param filePath File path to put on device
+     *
+     * @author Wasiq Bhamla
+     * @since 19-Mar-2021
+     */
+    public void pushFile (final String devicePath, final String filePath) {
+        perform ("Pushing file to Android device...", d -> {
+            try {
+                d.pushFile (devicePath, new File (filePath));
+            } catch (final IOException e) {
+                LOG.error ("Error while pushing file to device...");
+                LOG.catching (e);
+            }
+        });
     }
 
     /**
