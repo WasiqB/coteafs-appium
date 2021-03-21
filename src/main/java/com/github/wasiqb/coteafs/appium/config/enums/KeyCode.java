@@ -24,11 +24,29 @@ import io.appium.java_client.android.nativekey.AndroidKey;
  * @since 21-Mar-2021
  */
 public enum KeyCode {
+    /**
+     * Home key
+     */
     HOME (AndroidKey.HOME),
+    /**
+     * Power key
+     */
     POWER (AndroidKey.POWER),
+    /**
+     * Volume up key
+     */
     VOLUME_UP (AndroidKey.VOLUME_UP),
+    /**
+     * Volume down key
+     */
     VOLUME_DOWN (AndroidKey.VOLUME_DOWN),
+    /**
+     * Back key
+     */
     BACK (AndroidKey.BACK),
+    /**
+     * Enter key
+     */
     ENTER (AndroidKey.ENTER);
 
     private final AndroidKey key;
