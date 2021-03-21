@@ -30,22 +30,28 @@ import org.openqa.selenium.Point;
 
 /**
  * @author wasiq.bhamla
- * @since Feb 1, 2018 12:23:46 PM
+ * @since 21-Mar-2021
  */
-@Builder
+@Builder (builderMethodName = "init", buildMethodName = "prepare")
 public final class SwipeUtils<T extends TouchAction<T>> {
     private final T                  actions;
-    private final SwipeDirection     direction;
-    private final int                distancePercent;
+    @Builder.Default
+    private final SwipeDirection     direction       = SwipeDirection.DOWN;
+    @Builder.Default
+    private final int                distancePercent = 20;
     private final Point              elementLocation;
     private final Dimension          elementSize;
+    @Builder.Default
+    private final int                maxSwipe        = 5;
     private final Dimension          screenSize;
     private final DelaySetting       setting;
-    private final SwipeStartPosition startPosition;
+    @Builder.Default
+    private final SwipeStartPosition startPosition   = SwipeStartPosition.CENTER;
+    private final MobileElement      targetElement;
 
     /**
-     * @param fromElement
-     * @param toElement
+     * @param fromElement Drag element
+     * @param toElement Drop `fromElement` to this element
      *
      * @return touch action
      *
@@ -82,6 +88,23 @@ public final class SwipeUtils<T extends TouchAction<T>> {
             .waitAction (waitOptions (ofMillis (this.setting.getBeforeSwipe ())))
             .moveTo (point (endX, endY))
             .release ();
+    }
+
+    /**
+     * @return action
+     *
+     * @author Wasiq Bhamla
+     * @since 21-Mar-2021
+     */
+    public T swipeTo () {
+        T result = this.actions;
+        for (int index = 0; index < this.maxSwipe; index++) {
+            if (this.targetElement.isDisplayed ()) {
+                break;
+            }
+            result = swipe ();
+        }
+        return result;
     }
 
     private Point getStartPoint (final SwipeStartPosition start, final Dimension screenSize,

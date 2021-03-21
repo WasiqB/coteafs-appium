@@ -60,7 +60,8 @@ public class IOSDeviceElementActions extends DeviceElementActions<IOSDriver<Mobi
         final Point toCenter = dropElement.getCenter ();
 
         final Map<String, Object> param = prepareParam ();
-        param.put ("duration", this.setting.getBeforeSwipe ());
+        param.put ("duration", this.setting.getDelay ()
+            .getBeforeSwipe ());
         param.put ("fromX", fromCenter.getX () - fromLocation.getX ());
         param.put ("fromY", fromCenter.getY () - fromLocation.getY ());
         param.put ("toX", toCenter.getX () - fromLocation.getX ());
