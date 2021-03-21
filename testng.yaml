@@ -20,6 +20,7 @@ tests:
           - test5Slider
           - test6VerticalSwipe
           - test7DragDrop
+          - test9PushPullFile
         excludedMethods:
           - test8DoubleTap
   - name: IOS Test BrowserStack
@@ -27,4 +28,5 @@ tests:
     classes:
       - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
         includedMethods:
-          - testLogin
+          - test1Login
+          - test2PushPullFile

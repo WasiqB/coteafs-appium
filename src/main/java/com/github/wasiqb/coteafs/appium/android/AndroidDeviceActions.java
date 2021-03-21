@@ -20,6 +20,7 @@ import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -32,14 +33,16 @@ import com.github.wasiqb.coteafs.appium.android.system.AlertActivity;
 import com.github.wasiqb.coteafs.appium.android.system.PermissionActivity;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.config.enums.ClipboardType;
+import com.github.wasiqb.coteafs.appium.config.enums.KeyCode;
 import com.github.wasiqb.coteafs.appium.device.DeviceActions;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
 import io.appium.java_client.MobileElement;
 import io.appium.java_client.android.AndroidDriver;
 import io.appium.java_client.android.AndroidTouchAction;
-import io.appium.java_client.android.nativekey.AndroidKey;
+import io.appium.java_client.android.SupportsNetworkStateManagement;
 import io.appium.java_client.android.nativekey.KeyEvent;
 import io.appium.java_client.clipboard.ClipboardContentType;
+import io.appium.java_client.clipboard.HasClipboard;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.NoSuchSessionException;
@@ -70,9 +73,7 @@ public class AndroidDeviceActions
      * @since Nov 2, 2018
      */
     public String clipboard () {
-        LOG.info ("Getting clipboard text...");
-        return this.driver.getClipboardText ();
-
+        return getValue ("Getting clipboard text...", HasClipboard::getClipboardText);
     }
 
     /**
@@ -84,9 +85,7 @@ public class AndroidDeviceActions
      * @since Nov 2, 2018
      */
     public String clipboard (final ClipboardType type) {
-        LOG.info ("Getting clipboard for [{}]...", type);
-        return this.driver.getClipboard (type.getType ());
-
+        return getValue ("Getting clipboard for [{}]...", d -> d.getClipboard (type.getType ()), type);
     }
 
     /**
@@ -96,8 +95,7 @@ public class AndroidDeviceActions
      * @since Mar 13, 2021
      */
     public void clipboard (final String text) {
-        LOG.info ("Setting clipboard text to [{}]...", text);
-        this.driver.setClipboardText (text);
+        perform ("Setting clipboard text to [{}]...", d -> d.setClipboardText (text), text);
     }
 
     /**
@@ -107,10 +105,11 @@ public class AndroidDeviceActions
      * @since 13-Mar-2021
      */
     public void clipboard (final URL url) {
-        LOG.info ("Setting clipboard URL to [{}]...", url);
-        this.driver.setClipboard (ClipboardContentType.URL, Base64.getMimeEncoder ()
-            .encode (url.getPath ()
-                .getBytes (StandardCharsets.UTF_8)));
+        perform ("Setting clipboard URL to [{}]...", d -> {
+            d.setClipboard (ClipboardContentType.URL, Base64.getMimeEncoder ()
+                .encode (url.getPath ()
+                    .getBytes (StandardCharsets.UTF_8)));
+        }, url);
     }
 
     /**
@@ -120,19 +119,20 @@ public class AndroidDeviceActions
      * @since 13-Mar-2021
      */
     public void clipboard (final BufferedImage image) {
-        LOG.info ("Setting clipboard image...");
-        try (final ByteArrayOutputStream os = new ByteArrayOutputStream ()) {
-            ImageIO.write (image, "png", os);
-            this.driver.setClipboard (ClipboardContentType.IMAGE, Base64.getMimeEncoder ()
-                .encode (os.toByteArray ()));
-        } catch (final IOException e) {
-            LOG.error ("Error occurred while setting Image clipboard.");
-            LOG.catching (e);
-        }
+        perform ("Setting clipboard image...", d -> {
+            try (final ByteArrayOutputStream os = new ByteArrayOutputStream ()) {
+                ImageIO.write (image, "png", os);
+                d.setClipboard (ClipboardContentType.IMAGE, Base64.getMimeEncoder ()
+                    .encode (os.toByteArray ()));
+            } catch (final IOException e) {
+                LOG.error ("Error occurred while setting Image clipboard.");
+                LOG.catching (e);
+            }
+        });
     }
 
     /**
-     * @return activity
+     * @return Current Activity name
      *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 9:09:43 PM
@@ -142,7 +142,7 @@ public class AndroidDeviceActions
     }
 
     /**
-     * @return message
+     * @return Pop-up message
      *
      * @author wasiq.bhamla
      * @since Feb 8, 2018 4:01:35 PM
@@ -196,14 +196,11 @@ public class AndroidDeviceActions
      * @since Oct 20, 2018
      */
     public void hideKeyboard () {
-        LOG.info ("Hiding the keyboard...");
-        try {
-            if (this.driver.isKeyboardShown ()) {
-                this.driver.hideKeyboard ();
+        perform ("Hiding the keyboard...", d -> {
+            if (d.isKeyboardShown ()) {
+                d.hideKeyboard ();
             }
-        } catch (final NoSuchSessionException e) {
-            fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
-        }
+        });
     }
 
     /**
@@ -213,7 +210,7 @@ public class AndroidDeviceActions
      * @since 26-Apr-2017 9:11:35 PM
      */
     public boolean isLocked () {
-        return getValue ("Checking if device is locked...", AndroidDriver<MobileElement>::isDeviceLocked);
+        return getValue ("Checking if device is locked...", AndroidDriver::isDeviceLocked);
     }
 
     /**
@@ -222,6 +219,17 @@ public class AndroidDeviceActions
      */
     public void lock () {
         perform ("Locking the Android device...", AndroidDriver<MobileElement>::lockDevice);
+    }
+
+    /**
+     * @param keyCode Key to long press
+     *
+     * @author Wasiq Bhamla
+     * @since 21-Mar-2021
+     */
+    public void longPressKey (final KeyCode keyCode) {
+        perform ("Pressing [{}] button on Android device...", d -> d.longPressKey (new KeyEvent (keyCode.getKey ())),
+            keyCode);
     }
 
     /*
@@ -239,19 +247,32 @@ public class AndroidDeviceActions
     }
 
     /**
-     * @author wasiq.bhamla
-     * @since Oct 21, 2017 8:27:50 PM
+     * @param keyCode Key to press
+     *
+     * @author Wasiq Bhamla
+     * @since 21-Mar-2021
      */
-    public void pressBack () {
-        perform ("Pressing Back button on Android device...", d -> d.pressKey (new KeyEvent (AndroidKey.BACK)));
+    public void pressKey (final KeyCode keyCode) {
+        perform ("Pressing [{}] button on Android device...", d -> d.pressKey (new KeyEvent (keyCode.getKey ())),
+            keyCode);
     }
 
     /**
-     * @author wasiq.bhamla
-     * @since Mar 5, 2018 10:50:09 PM
+     * @param devicePath Path on device
+     * @param filePath File path to put on device
+     *
+     * @author Wasiq Bhamla
+     * @since 19-Mar-2021
      */
-    public void pressEnter () {
-        perform ("Pressing Enter button on Android device...", d -> d.pressKey (new KeyEvent (AndroidKey.ENTER)));
+    public void pushFile (final String devicePath, final String filePath) {
+        perform ("Pushing file to Android device...", d -> {
+            try {
+                d.pushFile (devicePath, new File (filePath));
+            } catch (final IOException e) {
+                LOG.error ("Error while pushing file to device...");
+                LOG.catching (e);
+            }
+        });
     }
 
     /**
@@ -259,8 +280,7 @@ public class AndroidDeviceActions
      * @since Nov 2, 2018
      */
     public void toggleAirplane () {
-        LOG.info ("Toggling Airplane...");
-        this.driver.toggleAirplaneMode ();
+        perform ("Toggling Airplane...", SupportsNetworkStateManagement::toggleAirplaneMode);
     }
 
     /**
@@ -268,8 +288,7 @@ public class AndroidDeviceActions
      * @since Nov 2, 2018
      */
     public void toggleData () {
-        LOG.info ("Toggling Data...");
-        this.driver.toggleData ();
+        perform ("Toggling Data...", SupportsNetworkStateManagement::toggleData);
     }
 
     /**
@@ -277,8 +296,7 @@ public class AndroidDeviceActions
      * @since Nov 2, 2018
      */
     public void toggleLocation () {
-        LOG.info ("Toggling Location services...");
-        this.driver.toggleLocationServices ();
+        perform ("Toggling Location services...", AndroidDriver::toggleLocationServices);
     }
 
     /**
@@ -286,8 +304,7 @@ public class AndroidDeviceActions
      * @since Nov 2, 2018
      */
     public void toggleWifi () {
-        LOG.info ("Toggling Wifi...");
-        this.driver.toggleWifi ();
+        perform ("Toggling Wifi...", SupportsNetworkStateManagement::toggleWifi);
     }
 
     /**
