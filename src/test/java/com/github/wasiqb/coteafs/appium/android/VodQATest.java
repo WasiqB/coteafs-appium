@@ -30,6 +30,8 @@ import com.github.wasiqb.coteafs.appium.android.vodqa.actions.VerticalSwipeActio
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DoubleTapActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LongPressActivity;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
+import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 import org.openqa.selenium.ScreenOrientation;
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
@@ -59,7 +61,7 @@ public class VodQATest extends DefaultTest {
      * @since Oct 20, 2018
      */
     @Test
-    public void test1Login () {
+    public void test01Login () {
         final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
         login.addInputValue ("UserName", "admin")
             .addInputValue ("Password", "admin")
@@ -71,7 +73,7 @@ public class VodQATest extends DefaultTest {
      * @since Jan 23, 2018 9:39:20 PM
      */
     @Test
-    public void test2NativeView () {
+    public void test02NativeView () {
         this.main.onElement ("ChainedView")
             .tap ();
 
@@ -94,7 +96,7 @@ public class VodQATest extends DefaultTest {
      * @since Feb 8, 2018 4:15:53 PM
      */
     @Test
-    public void test3LongPress () {
+    public void test03LongPress () {
         this.main.onElement ("LongPress")
             .tap ();
 
@@ -115,7 +117,7 @@ public class VodQATest extends DefaultTest {
      * @since Oct 21, 2018
      */
     @Test (dataProvider = "getOrientation")
-    public void test4Rotation (final ScreenOrientation orientation) {
+    public void test04Rotation (final ScreenOrientation orientation) {
         this.main.onDevice ()
             .rotate (orientation);
         assertThat (this.main.onDevice ()
@@ -128,7 +130,7 @@ public class VodQATest extends DefaultTest {
      * @since Jan 27, 2018 7:45:48 PM
      */
     @Test
-    public void test5Slider () {
+    public void test05Slider () {
         this.main.onElement ("Slider")
             .tap ();
         final SliderActivityAction sliderAction = new SliderActivityAction (this.androidDevice);
@@ -141,7 +143,7 @@ public class VodQATest extends DefaultTest {
      * @since Feb 1, 2018 3:15:23 PM
      */
     @Test
-    public void test6VerticalSwipe () {
+    public void test06VerticalSwipe () {
         this.main.onElement ("VerticalSwipe")
             .tap ();
         final VerticalSwipeAction verticalSwipeAction = new VerticalSwipeAction (this.androidDevice);
@@ -154,7 +156,7 @@ public class VodQATest extends DefaultTest {
      * @since Feb 2, 2018 2:59:25 PM
      */
     @Test
-    public void test7DragDrop () {
+    public void test07DragDrop () {
         this.main.onElement ("DragDrop")
             .tap ();
         final DragDropAction dragDropAction = new DragDropAction (this.androidDevice);
@@ -167,7 +169,7 @@ public class VodQATest extends DefaultTest {
      * @since Feb 8, 2018 4:21:19 PM
      */
     @Test
-    public void test8DoubleTap () {
+    public void test08DoubleTap () {
         this.main.onElement ("DoubleTap")
             .tap ();
 
@@ -181,6 +183,25 @@ public class VodQATest extends DefaultTest {
         moveBack ();
     }
 
+    @Test
+    public void test09PushPullFile () {
+        final String filePath = format ("{0}/assets/coteafs-appium-logo.png", getProperty ("user.dir"));
+        this.main.onDevice ()
+            .pushFile ("/mnt/sdcard/Pictures/img.png", filePath);
+        final byte[] content = this.main.onDevice ()
+            .pullFile ("/mnt/sdcard/Pictures/img.png");
+        assertThat (content).isNotEmpty ();
+    }
+
+    @Test
+    public void test10ScrollOnDeviceUntilElement () {
+        this.main.onDevice ()
+            .swipe (this.main.getElement ("WheelPicker"), SwipeDirection.UP, SwipeStartPosition.CENTER, 50);
+        this.main.onElement ("WheelPicker")
+            .verifyThat ()
+            .shouldBeDisplayed ();
+    }
+
     private void moveBack () {
         this.main.onElement ("Back")
             .tap ();
@@ -188,15 +209,5 @@ public class VodQATest extends DefaultTest {
         this.main.onElement ("ChainedView")
             .verifyThat ()
             .shouldBeDisplayed ();
-    }
-
-    @Test
-    public void test9PushPullFile () {
-        final String filePath = format ("{0}/assets/coteafs-appium-logo.png", getProperty ("user.dir"));
-        this.main.onDevice ()
-            .pushFile ("/mnt/sdcard/Pictures/img.png", filePath);
-        final byte[] content = this.main.onDevice ()
-            .pullFile ("/mnt/sdcard/Pictures/img.png");
-        assertThat (content).isNotEmpty ();
     }
 }

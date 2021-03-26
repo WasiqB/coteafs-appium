@@ -15,7 +15,9 @@
  */
 package com.github.wasiqb.coteafs.appium.device;
 
-import static java.lang.String.format;
+import static com.github.wasiqb.coteafs.appium.config.enums.AutomationType.APPIUM;
+import static com.github.wasiqb.coteafs.appium.config.enums.PlatformType.ANDROID;
+import static java.text.MessageFormat.format;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -33,13 +35,15 @@ import org.openqa.selenium.By;
  */
 public class DeviceElement {
     /**
-     * @param name
+     * @param name Device name
+     *
      * @return instance
+     *
      * @author wasiq.bhamla
      * @since 25-Apr-2017 7:34:42 PM
      */
-    public static DeviceElement create(final String name) {
-        return new DeviceElement(name);
+    public static DeviceElement create (final String name) {
+        return new DeviceElement (name);
     }
 
     private final List<DeviceElement>                        childs;
@@ -49,149 +53,170 @@ public class DeviceElement {
     private       DeviceElement                              parent;
     private       WaitStrategy                               wait;
 
-    private DeviceElement(final String name) {
-        this.childs = new ArrayList<>();
+    private DeviceElement (final String name) {
+        this.childs = new ArrayList<> ();
         this.name = name;
         this.wait = WaitStrategy.NONE;
-        this.locators = new EnumMap<>(PlatformType.class);
+        this.locators = new EnumMap<> (PlatformType.class);
     }
 
     /**
      * @return childs
+     *
      * @author wasiq.bhamla
      * @since 25-Apr-2017 7:49:17 PM
      */
-    public List<DeviceElement> childs() {
+    public List<DeviceElement> childs () {
         return this.childs;
     }
 
     /**
-     * @param automation
-     * @param findBy
+     * @param automation Automation type
+     * @param findBy By locator
+     *
      * @return instance
+     *
      * @author wasiqb
      * @since Nov 4, 2018
      */
-    public DeviceElement forAndroid(final AutomationType automation, final By findBy) {
-        return using(PlatformType.ANDROID, automation, findBy);
+    public DeviceElement forAndroid (final AutomationType automation, final By findBy) {
+        return using (ANDROID, automation, findBy);
     }
 
     /**
-     * @param findBy
+     * @param findBy By locator
+     *
      * @return instance
+     *
      * @author wasiqb
      * @since Nov 4, 2018
      */
-    public DeviceElement forAndroid(final By findBy) {
-        return using(PlatformType.ANDROID, AutomationType.APPIUM, findBy);
+    public DeviceElement forAndroid (final By findBy) {
+        return using (ANDROID, APPIUM, findBy);
     }
 
     /**
-     * @param automation
-     * @param findBy
+     * @param automation Automation type
+     * @param findBy By locator
+     *
      * @return instance
+     *
      * @author wasiqb
      * @since Nov 4, 2018
      */
-    public DeviceElement forIos(final AutomationType automation, final By findBy) {
-        return using(PlatformType.IOS, automation, findBy);
+    public DeviceElement forIos (final AutomationType automation, final By findBy) {
+        return using (PlatformType.IOS, automation, findBy);
     }
 
     /**
-     * @param findBy
+     * @param findBy By Locator
+     *
      * @return instance
+     *
      * @author wasiqb
      * @since Nov 4, 2018
      */
-    public DeviceElement forIos(final By findBy) {
-        return using(PlatformType.IOS, AutomationType.XCUI, findBy);
+    public DeviceElement forIos (final By findBy) {
+        return using (PlatformType.IOS, AutomationType.XCUI, findBy);
     }
 
     /**
      * @return index
+     *
      * @author wasiq.bhamla
      * @since 25-Apr-2017 7:45:09 PM
      */
-    public int index() {
+    public int index () {
         return this.index;
     }
 
     /**
-     * @param location
+     * @param location Index location
+     *
      * @return instance
+     *
      * @author wasiq.bhamla
      * @since 25-Apr-2017 7:44:39 PM
      */
-    public DeviceElement index(final int location) {
+    public DeviceElement index (final int location) {
         this.index = location;
         return this;
     }
 
     /**
      * @return by locator
+     *
      * @author wasiqb
      * @since Oct 23, 2018
      */
-    public By locator() {
-        return locator(AutomationType.APPIUM);
+    public By locator () {
+        return locator (APPIUM);
     }
 
     /**
-     * @param automation
+     * @param automation Automation type
+     *
      * @return by locator
+     *
      * @author wasiqb
      * @since Oct 23, 2018
      */
-    public By locator(final AutomationType automation) {
-        return locator(PlatformType.ANDROID, automation);
+    public By locator (final AutomationType automation) {
+        return locator (ANDROID, automation);
     }
 
     /**
-     * @param platform
-     * @param automation
+     * @param platform Platform type
+     * @param automation Automation type
+     *
      * @return by locator
+     *
      * @author wasiqb
      * @since Oct 23, 2018
      */
-    public By locator(final PlatformType platform, final AutomationType automation) {
-        final Map<AutomationType, By> locator = this.locators.get(platform);
-        if (!locator.containsKey(automation) && automation != AutomationType.APPIUM) {
-            return locator.get(AutomationType.APPIUM);
+    public By locator (final PlatformType platform, final AutomationType automation) {
+        final Map<AutomationType, By> locator = this.locators.get (platform);
+        if (!locator.containsKey (automation) && automation != APPIUM) {
+            return locator.get (APPIUM);
         }
-        return locator.get(automation);
+        return locator.get (automation);
     }
 
     /**
      * @return name
+     *
      * @author wasiq.bhamla
      * @since 25-Apr-2017 7:35:06 PM
      */
-    public String name() {
+    public String name () {
         return this.name;
     }
 
     /**
      * @return parent
+     *
      * @author wasiq.bhamla
      * @since 25-Apr-2017 7:50:29 PM
      */
-    public DeviceElement parent() {
+    public DeviceElement parent () {
         return this.parent;
     }
 
     /**
-     * @param elementParent
+     * @param elementParent Parent element
+     *
      * @return instance
+     *
      * @author wasiq.bhamla
      * @since 25-Apr-2017 7:49:46 PM
      */
-    public DeviceElement parent(final DeviceElement elementParent) {
+    public DeviceElement parent (final DeviceElement elementParent) {
         if (this.parent == null) {
             this.parent = elementParent;
         }
-        if (!elementParent.childs()
-            .contains(this)) {
-            elementParent.addChild(this);
+        if (!elementParent.childs ()
+            .contains (this)) {
+            elementParent.addChild (this);
         }
         return this;
     }
@@ -201,56 +226,49 @@ public class DeviceElement {
      * @see java.lang.Object#toString()
      */
     @Override
-    public String toString() {
-        final String line1 = "Name: %s";
-        final String line2 = "By: %s";
-        final String line4 = "Index: %d";
-        final String line3 = "Childs: %s";
-        final StringBuilder sb = new StringBuilder(format(line1, this.name)).append("\n");
-        sb.append(format(line2, this.locators))
-            .append("\n");
-        sb.append(format(line4, this.index))
-            .append("\n");
-        sb.append(format(line3, this.childs))
-            .append("\n");
-        return sb.toString();
+    public String toString () {
+        final String detail = "Name: {0}\nBy: {1}\nIndex: {2}\nChildren: {3}";
+        return format (detail, this.name, this.locators, this.index, this.childs);
     }
 
     /**
      * @return {@link WaitStrategy}
+     *
      * @author wasiq.bhamla
      * @since Jan 30, 2018 7:32:07 PM
      */
-    public WaitStrategy waitStrategy() {
+    public WaitStrategy waitStrategy () {
         return this.wait;
     }
 
     /**
-     * @param strategy
+     * @param strategy Wait strategy
+     *
      * @return instance
+     *
      * @author wasiq.bhamla
      * @since Jan 30, 2018 7:32:23 PM
      */
-    public DeviceElement waitStrategy(final WaitStrategy strategy) {
+    public DeviceElement waitStrategy (final WaitStrategy strategy) {
         this.wait = strategy;
         return this;
     }
 
-    private void addChild(final DeviceElement child) {
-        this.childs.add(child);
-        if (child.parent() == null || !child.parent()
-            .equals(this)) {
-            child.parent(this);
+    private void addChild (final DeviceElement child) {
+        this.childs.add (child);
+        if (child.parent () == null || !child.parent ()
+            .equals (this)) {
+            child.parent (this);
         }
     }
 
-    private DeviceElement using(final PlatformType platform, final AutomationType automation, final By findBy) {
-        Map<AutomationType, By> platformLocator = new EnumMap<>(AutomationType.class);
-        if (this.locators.containsKey(platform)) {
-            platformLocator = this.locators.get(platform);
+    private DeviceElement using (final PlatformType platform, final AutomationType automation, final By findBy) {
+        Map<AutomationType, By> platformLocator = new EnumMap<> (AutomationType.class);
+        if (this.locators.containsKey (platform)) {
+            platformLocator = this.locators.get (platform);
         }
-        platformLocator.put(automation, findBy);
-        this.locators.put(platform, platformLocator);
+        platformLocator.put (automation, findBy);
+        this.locators.put (platform, platformLocator);
         return this;
     }
 }

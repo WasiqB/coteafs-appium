@@ -33,7 +33,6 @@ import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.error.AppiumSelectorNotImplementedError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
-import com.github.wasiqb.coteafs.appium.error.DeviceElementFindTimedOutError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementNameNotFoundError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementNotFoundError;
 import io.appium.java_client.AppiumDriver;
@@ -175,9 +174,8 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
             }
             return result.get (index);
         } catch (final TimeoutException e) {
-            captureScreenshotOnError ();
             final String message = String.format ("[%s] locator timed out.", locator);
-            fail (DeviceElementFindTimedOutError.class, message, e);
+            log.warn (message);
         } catch (final NoSuchSessionException e) {
             fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
         } catch (final InvalidSelectorException e) {
