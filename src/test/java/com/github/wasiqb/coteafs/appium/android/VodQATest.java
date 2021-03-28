@@ -66,6 +66,9 @@ public class VodQATest extends DefaultTest {
         login.addInputValue ("UserName", "admin")
             .addInputValue ("Password", "admin")
             .perform ();
+        this.main.onElement ("ChainedView")
+            .verifyThat ()
+            .shouldBeDisplayed ();
     }
 
     /**
@@ -118,6 +121,9 @@ public class VodQATest extends DefaultTest {
      */
     @Test (dataProvider = "getOrientation")
     public void test04Rotation (final ScreenOrientation orientation) {
+        this.main.onElement ("ChainedView")
+            .verifyThat ()
+            .shouldBeDisplayed ();
         this.main.onDevice ()
             .rotate (orientation);
         assertThat (this.main.onDevice ()

@@ -254,6 +254,6 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
                 .window ()
                 .getSize ())
             .prepare ()
-            .swipe ();
+            .swipeTo ();
     }
 }

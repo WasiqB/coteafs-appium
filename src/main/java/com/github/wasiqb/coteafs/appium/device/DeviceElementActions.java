@@ -367,6 +367,6 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
             .elementLocation (this.element.getLocation ())
             .actions (this.touch)
             .prepare ()
-            .swipe ();
+            .swipeTo ();
     }
 }
