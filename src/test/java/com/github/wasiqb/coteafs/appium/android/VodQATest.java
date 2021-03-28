@@ -23,13 +23,13 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.github.wasiqb.coteafs.appium.android.vodqa.actions.DragDropAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.actions.LoginActivityAction;
+import com.github.wasiqb.coteafs.appium.android.vodqa.actions.SliderActivityAction;
+import com.github.wasiqb.coteafs.appium.android.vodqa.actions.VerticalSwipeAction;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.ChainedViewActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DoubleTapActivity;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.DragDropActivity;
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.LongPressActivity;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.SliderActivity;
-import com.github.wasiqb.coteafs.appium.android.vodqa.activities.VerticleSwipeActivity;
 import com.github.wasiqb.coteafs.appium.config.enums.SwipeDirection;
 import com.github.wasiqb.coteafs.appium.config.enums.SwipeStartPosition;
 import org.openqa.selenium.ScreenOrientation;
@@ -61,12 +61,11 @@ public class VodQATest extends DefaultTest {
      * @since Oct 20, 2018
      */
     @Test
-    public void test1Login () {
+    public void test01Login () {
         final LoginActivityAction login = new LoginActivityAction (this.androidDevice);
         login.addInputValue ("UserName", "admin")
             .addInputValue ("Password", "admin")
             .perform ();
-
         this.main.onElement ("ChainedView")
             .verifyThat ()
             .shouldBeDisplayed ();
@@ -77,7 +76,7 @@ public class VodQATest extends DefaultTest {
      * @since Jan 23, 2018 9:39:20 PM
      */
     @Test
-    public void test2NativeView () {
+    public void test02NativeView () {
         this.main.onElement ("ChainedView")
             .tap ();
 
@@ -92,8 +91,7 @@ public class VodQATest extends DefaultTest {
             .verifyThat ()
             .textShouldBeEqualTo ("Hello World, I'm View three ");
 
-        this.main.onElement ("Back")
-            .tap ();
+        moveBack ();
     }
 
     /**
@@ -101,7 +99,7 @@ public class VodQATest extends DefaultTest {
      * @since Feb 8, 2018 4:15:53 PM
      */
     @Test
-    public void test3LongPress () {
+    public void test03LongPress () {
         this.main.onElement ("LongPress")
             .tap ();
 
@@ -112,8 +110,7 @@ public class VodQATest extends DefaultTest {
             .handleAlert ();
         Assert.assertEquals (message, "you pressed me hard :P");
 
-        this.main.onElement ("Back")
-            .tap ();
+        moveBack ();
     }
 
     /**
@@ -123,7 +120,10 @@ public class VodQATest extends DefaultTest {
      * @since Oct 21, 2018
      */
     @Test (dataProvider = "getOrientation")
-    public void test4Rotation (final ScreenOrientation orientation) {
+    public void test04Rotation (final ScreenOrientation orientation) {
+        this.main.onElement ("ChainedView")
+            .verifyThat ()
+            .shouldBeDisplayed ();
         this.main.onDevice ()
             .rotate (orientation);
         assertThat (this.main.onDevice ()
@@ -136,18 +136,12 @@ public class VodQATest extends DefaultTest {
      * @since Jan 27, 2018 7:45:48 PM
      */
     @Test
-    public void test5Slider () {
+    public void test05Slider () {
         this.main.onElement ("Slider")
             .tap ();
-
-        final SliderActivity slide = new SliderActivity (this.androidDevice);
-        slide.onElement ("Slider")
-            .swipe (SwipeDirection.RIGHT, SwipeStartPosition.LEFT, 75);
-        slide.onElement ("Slider1")
-            .swipe (SwipeDirection.LEFT, SwipeStartPosition.RIGHT, 75);
-
-        this.main.onElement ("Back")
-            .tap ();
+        final SliderActivityAction sliderAction = new SliderActivityAction (this.androidDevice);
+        sliderAction.perform ();
+        moveBack ();
     }
 
     /**
@@ -155,18 +149,12 @@ public class VodQATest extends DefaultTest {
      * @since Feb 1, 2018 3:15:23 PM
      */
     @Test
-    public void test6VerticalSwipe () {
+    public void test06VerticalSwipe () {
         this.main.onElement ("VerticalSwipe")
             .tap ();
-
-        final VerticleSwipeActivity vs = new VerticleSwipeActivity (this.androidDevice);
-        vs.onElement ("List")
-            .swipe (SwipeDirection.UP, SwipeStartPosition.BOTTOM, 25);
-        vs.onElement ("List")
-            .swipe (SwipeDirection.DOWN, SwipeStartPosition.TOP, 25);
-
-        this.main.onElement ("Back")
-            .tap ();
+        final VerticalSwipeAction verticalSwipeAction = new VerticalSwipeAction (this.androidDevice);
+        verticalSwipeAction.perform ();
+        moveBack ();
     }
 
     /**
@@ -174,19 +162,12 @@ public class VodQATest extends DefaultTest {
      * @since Feb 2, 2018 2:59:25 PM
      */
     @Test
-    public void test7DragDrop () {
+    public void test07DragDrop () {
         this.main.onElement ("DragDrop")
             .tap ();
-
-        final DragDropActivity dd = new DragDropActivity (this.androidDevice);
-        dd.onElement ("DropMe")
-            .dragDrop (dd.getElement ("DropZone"));
-        dd.onElement ("Success")
-            .verifyThat ()
-            .textShouldBeEqualTo ("Circle dropped");
-
-        this.main.onElement ("Back")
-            .tap ();
+        final DragDropAction dragDropAction = new DragDropAction (this.androidDevice);
+        dragDropAction.perform ();
+        moveBack ();
     }
 
     /**
@@ -194,7 +175,7 @@ public class VodQATest extends DefaultTest {
      * @since Feb 8, 2018 4:21:19 PM
      */
     @Test
-    public void test8DoubleTap () {
+    public void test08DoubleTap () {
         this.main.onElement ("DoubleTap")
             .tap ();
 
@@ -205,18 +186,34 @@ public class VodQATest extends DefaultTest {
         final String message = p.onDevice ()
             .handleAlert ();
         Assert.assertEquals (message, "Double tap successful!");
-
-        this.main.onElement ("Back")
-            .tap ();
+        moveBack ();
     }
 
     @Test
-    public void test9PushPullFile () {
+    public void test09PushPullFile () {
         final String filePath = format ("{0}/assets/coteafs-appium-logo.png", getProperty ("user.dir"));
         this.main.onDevice ()
             .pushFile ("/mnt/sdcard/Pictures/img.png", filePath);
         final byte[] content = this.main.onDevice ()
             .pullFile ("/mnt/sdcard/Pictures/img.png");
         assertThat (content).isNotEmpty ();
+    }
+
+    @Test
+    public void test10ScrollOnDeviceUntilElement () {
+        this.main.onDevice ()
+            .swipe (this.main.getElement ("WheelPicker"), SwipeDirection.UP, SwipeStartPosition.CENTER, 50);
+        this.main.onElement ("WheelPicker")
+            .verifyThat ()
+            .shouldBeDisplayed ();
+    }
+
+    private void moveBack () {
+        this.main.onElement ("Back")
+            .tap ();
+
+        this.main.onElement ("ChainedView")
+            .verifyThat ()
+            .shouldBeDisplayed ();
     }
 }

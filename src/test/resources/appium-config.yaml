@@ -39,7 +39,7 @@ device: &default_device
     clear_logs: true
   playback:
     stream:
-      enabled: true
+      enabled: false
       width: 700
       height: 1024
       quality: HIGH
@@ -47,7 +47,7 @@ device: &default_device
     screenshot:
       on_error: true
     record:
-      enabled: true
+      enabled: false
       time_limit: 5
       android:
         size: 800x720

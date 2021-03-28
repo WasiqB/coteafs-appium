@@ -13,16 +13,17 @@ tests:
     classes:
       - name: com.github.wasiqb.coteafs.appium.android.VodQATest
         includedMethods:
-          - test1Login
-          - test2NativeView
-          - test3LongPress
-          - test4Rotation
-          - test5Slider
-          - test6VerticalSwipe
-          - test7DragDrop
-          - test9PushPullFile
+          - test01Login
+          - test02NativeView
+          - test03LongPress
+          - test04Rotation
+          - test05Slider
+          - test06VerticalSwipe
+          - test07DragDrop
+          - test09PushPullFile
+          - test10ScrollOnDeviceUntilElement
         excludedMethods:
-          - test8DoubleTap
+          - test08DoubleTap
   - name: IOS Test BrowserStack
     parameters: { server: browserstack, device: ios_bs }
     classes:

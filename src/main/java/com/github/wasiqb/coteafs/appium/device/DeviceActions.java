@@ -52,7 +52,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @since 26-Apr-2017 8:39:17 PM
  */
 public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Device<D, T>, T extends TouchAction<T>> {
-    private static final Logger LOG = LogManager.getLogger (DeviceActions.class);
+    private static final Logger LOG = LogManager.getLogger ();
 
     /**
      * @param source File copy source
@@ -65,7 +65,7 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
         try {
             FileUtils.copyFile (source, new File (destination));
         } catch (final IOException e) {
-            LOG.error ("Error occurred while capturing screensshot...");
+            LOG.error ("Error occurred while capturing screenshot...");
             LOG.catching (e);
         }
     }
@@ -86,8 +86,9 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     public DeviceActions (final E device, final T actions) {
         this.device = device;
         this.actions = actions;
-        this.driver = this.device.getDriver ();
-        this.setting = device.setting.getPlayback ();
+        this.driver = device.getDriver ();
+        this.setting = device.getSetting ()
+            .getPlayback ();
         this.wait = new WebDriverWait (this.driver, ofSeconds (this.setting.getDelay ()
             .getExplicit ()).getSeconds ());
     }
@@ -189,7 +190,23 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
     public void swipe (final SwipeDirection direction, final SwipeStartPosition start, final int distance) {
         LOG.info ("Swiping [{}] on device screen by [{}] perc distance from [{}] of the screen...", direction, distance,
             start);
-        swipeTo (direction, start, distance).perform ();
+        swipeTo (null, direction, start, distance).perform ();
+    }
+
+    /**
+     * @param targetElement Element until swipe needs to be done
+     * @param direction Swipe direction
+     * @param start Finger start position
+     * @param distance Distance percent to swipe
+     *
+     * @author Wasiq Bhamla
+     * @since 21-Mar-2021
+     */
+    public void swipe (final MobileElement targetElement, final SwipeDirection direction,
+        final SwipeStartPosition start, final int distance) {
+        LOG.info ("Swiping [{}] on device screen by [{}] % distance from [{}] of the screen...", direction, distance,
+            start);
+        swipeTo (targetElement, direction, start, distance).perform ();
     }
 
     /**
@@ -216,17 +233,27 @@ public class DeviceActions<D extends AppiumDriver<MobileElement>, E extends Devi
 
     private void doubleFingerGesture (final SwipeDirection finger1, final SwipeDirection finger2,
         final SwipeStartPosition start1, final SwipeStartPosition start2, final int distancePercent) {
-        final T firstFinger = swipeTo (finger1, start1, distancePercent);
-        final T secondFinger = swipeTo (finger2, start2, distancePercent);
+        final T firstFinger = swipeTo (null, finger1, start1, distancePercent);
+        final T secondFinger = swipeTo (null, finger2, start2, distancePercent);
         final MultiTouchAction multiTouch = new MultiTouchAction (this.driver);
         multiTouch.add (firstFinger)
             .add (secondFinger)
             .perform ();
     }
 
-    private T swipeTo (final SwipeDirection direction, final SwipeStartPosition start, final int distancePercent) {
-        return SwipeUtils.swipeTo (direction, start, distancePercent, this.setting.getDelay (), this.driver.manage ()
-            .window ()
-            .getSize (), null, null, this.actions);
+    private T swipeTo (final MobileElement targetElement, final SwipeDirection direction,
+        final SwipeStartPosition start, final int distancePercent) {
+        return SwipeUtils.<T>init ().actions (this.actions)
+            .setting (this.setting.getDelay ())
+            .direction (direction)
+            .startPosition (start)
+            .targetElement (targetElement)
+            .maxSwipe (this.setting.getMaxSwipeCount ())
+            .distancePercent (distancePercent)
+            .screenSize (this.driver.manage ()
+                .window ()
+                .getSize ())
+            .prepare ()
+            .swipeTo ();
     }
 }
