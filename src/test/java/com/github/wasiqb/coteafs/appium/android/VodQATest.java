@@ -208,6 +208,15 @@ public class VodQATest extends DefaultTest {
             .shouldBeDisplayed ();
     }
 
+    @Test
+    public void test11ScrollOnElementUntilElement () {
+        this.main.onElement ("ScrollView")
+            .swipe (this.main.getElement ("ChainedView"), SwipeDirection.DOWN, SwipeStartPosition.CENTER, 50);
+        this.main.onElement ("ChainedView")
+            .verifyThat ()
+            .shouldBeDisplayed ();
+    }
+
     private void moveBack () {
         this.main.onElement ("Back")
             .tap ();

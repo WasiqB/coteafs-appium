@@ -23,6 +23,7 @@ tests:
           - test08DoubleTap
           - test09PushPullFile
           - test10ScrollOnDeviceUntilElement
+          - test11ScrollOnElementUntilElement
   - name: IOS Test Local
     parameters: { server: ios, device: iphone }
     classes:

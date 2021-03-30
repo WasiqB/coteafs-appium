@@ -59,7 +59,7 @@ device: &default_device
       before_tap: 0
       after_tap: 0
       implicit: 1
-      explicit: 20
+      explicit: 5
 
 devices:
   android:
@@ -110,7 +110,7 @@ devices:
   iphone:
     <<: *default_device
     name: iPhone 12 Pro
-    version: 14.1
+    version: 14.4
     automation: XCUI
     type: SIMULATOR
     os: IOS

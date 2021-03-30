@@ -67,9 +67,9 @@ public class IOSTest {
         final String filePath = format ("{0}/assets/coteafs-appium-logo.png", getProperty ("user.dir"));
         final LoginActivity login = new LoginActivity (this.device);
         login.onDevice ()
-            .pushFile ("/mnt/sdcard/Pictures/img.png", filePath);
+            .pushFile ("img.png", filePath);
         final byte[] content = login.onDevice ()
-            .pullFile ("/mnt/sdcard/Pictures/img.png");
+            .pullFile ("img.png");
         assertThat (content).isNotEmpty ();
     }
 }
