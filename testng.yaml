@@ -22,6 +22,7 @@ tests:
           - test07DragDrop
           - test09PushPullFile
           - test10ScrollOnDeviceUntilElement
+          - test11ScrollOnElementUntilElement
         excludedMethods:
           - test08DoubleTap
   - name: IOS Test BrowserStack
