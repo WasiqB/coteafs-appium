@@ -17,9 +17,9 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
 import static com.github.wasiqb.coteafs.appium.utils.ScreenRecorder.getVideoStreamArgs;
 import static com.github.wasiqb.coteafs.appium.utils.ScreenRecorder.saveRecording;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 import static io.appium.java_client.Setting.IGNORE_UNIMPORTANT_VIEWS;
 import static io.appium.java_client.Setting.NATIVE_WEB_TAP;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.ADB_EXEC_TIMEOUT;
@@ -308,7 +308,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
             final Constructor<D> ctor = cls.getDeclaredConstructor (argTypes);
             return ctor.newInstance (url, capability);
         } catch (final NoSuchMethodException | SecurityException | InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-            fail (DeviceDriverInitializationFailedError.class, "Error occured while initializing device driver.", e);
+            fail (DeviceDriverInitializationFailedError.class, "Error occurred while initializing device driver.", e);
         }
         return null;
     }
@@ -321,7 +321,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         } catch (final NoSuchSessionException e) {
             fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
         } catch (final Exception e) {
-            fail (DeviceDriverNotStoppingError.class, "Error occured while stopping device driver.", e);
+            fail (DeviceDriverNotStoppingError.class, "Error occurred while stopping device driver.", e);
         }
     }
 

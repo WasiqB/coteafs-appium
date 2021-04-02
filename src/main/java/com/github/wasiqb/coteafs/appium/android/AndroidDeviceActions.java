@@ -16,7 +16,7 @@
 package com.github.wasiqb.coteafs.appium.android;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -54,7 +54,7 @@ import org.openqa.selenium.TimeoutException;
  */
 public class AndroidDeviceActions
     extends DeviceActions<AndroidDriver<MobileElement>, AndroidDevice, AndroidTouchAction> {
-    private static final Logger LOG = LogManager.getLogger (AndroidDeviceActions.class);
+    private static final Logger LOG = LogManager.getLogger ();
 
     /**
      * @param device Device under test
@@ -105,11 +105,10 @@ public class AndroidDeviceActions
      * @since 13-Mar-2021
      */
     public void clipboard (final URL url) {
-        perform ("Setting clipboard URL to [{}]...", d -> {
-            d.setClipboard (ClipboardContentType.URL, Base64.getMimeEncoder ()
+        perform ("Setting clipboard URL to [{}]...", d -> d.setClipboard (ClipboardContentType.URL,
+            Base64.getMimeEncoder ()
                 .encode (url.getPath ()
-                    .getBytes (StandardCharsets.UTF_8)));
-        }, url);
+                    .getBytes (StandardCharsets.UTF_8))), url);
     }
 
     /**
@@ -210,7 +209,7 @@ public class AndroidDeviceActions
      * @since 26-Apr-2017 9:11:35 PM
      */
     public boolean isLocked () {
-        return getValue ("Checking if device is locked...", AndroidDriver::isDeviceLocked);
+        return getValue ("Checking if device is locked...", AndroidDriver<MobileElement>::isDeviceLocked);
     }
 
     /**

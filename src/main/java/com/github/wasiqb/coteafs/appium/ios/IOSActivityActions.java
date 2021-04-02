@@ -27,11 +27,12 @@ import io.appium.java_client.ios.IOSTouchAction;
 public abstract class IOSActivityActions
     extends DeviceActivityActions<IOSDriver<MobileElement>, IOSDevice, IOSTouchAction> {
     /**
-     * @param device
+     * @param device Device instance
+     *
      * @author wasiq.bhamla
      * @since Oct 23, 2017 11:06:33 PM
      */
-    public IOSActivityActions(final IOSDevice device) {
-        super(device);
+    protected IOSActivityActions (final IOSDevice device) {
+        super (device);
     }
 }

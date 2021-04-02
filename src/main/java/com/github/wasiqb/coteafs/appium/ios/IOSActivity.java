@@ -31,15 +31,15 @@ import org.apache.logging.log4j.Logger;
  * @since 26-Apr-2017 7:41:49 PM
  */
 public abstract class IOSActivity extends DeviceActivity<IOSDriver<MobileElement>, IOSDevice, IOSTouchAction> {
-    private static final Logger log = LogManager.getLogger (IOSActivity.class);
+    private static final Logger log = LogManager.getLogger ();
 
     /**
-     * @param device
+     * @param device Device instance
      *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 7:42:13 PM
      */
-    public IOSActivity (final IOSDevice device) {
+    protected IOSActivity (final IOSDevice device) {
         super (device, new IOSTouchAction (device.getDriver ()));
     }
 

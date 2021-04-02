@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.checker;
 
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 
 import com.github.wasiqb.coteafs.appium.error.AppiumConfigParameterNotFoundError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotRunningError;
@@ -27,30 +27,32 @@ import com.github.wasiqb.coteafs.appium.service.AppiumServer;
  */
 public final class ServerChecker {
     /**
-     * @param key
-     * @param value
+     * @param key Config key
+     * @param value Config value
+     *
      * @author wasiq.bhamla
      * @since 09-May-2017 3:52:30 PM
      */
-    public static void checkServerConfigParams(final String key, final Object value) {
+    public static void checkServerConfigParams (final String key, final Object value) {
         if (value == null) {
             final String msg = "Server Config value for %s key not set.";
-            fail(AppiumConfigParameterNotFoundError.class, String.format(msg, key));
+            fail (AppiumConfigParameterNotFoundError.class, String.format (msg, key));
         }
     }
 
     /**
-     * @param server
+     * @param server Server instance
+     *
      * @author wasiq.bhamla
      * @since 04-May-2017 4:36:57 PM
      */
-    public static void checkServerRunning(final AppiumServer server) {
-        if (!server.isRunning()) {
-            fail(AppiumServerNotRunningError.class, "Server not started yet.");
+    public static void checkServerRunning (final AppiumServer server) {
+        if (!server.isRunning ()) {
+            fail (AppiumServerNotRunningError.class, "Server not started yet.");
         }
     }
 
-    private ServerChecker() {
+    private ServerChecker () {
         // Utility class.
     }
 }

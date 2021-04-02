@@ -26,11 +26,12 @@ import io.appium.java_client.ios.IOSTouchAction;
  */
 public class IOSElementVerify extends DeviceElementVerify<IOSDriver<MobileElement>, IOSDevice, IOSTouchAction> {
     /**
-     * @param actions
+     * @param actions Action instance
+     *
      * @author wasiq.bhamla
      * @since 20-May-2017 12:31:51 PM
      */
-    public IOSElementVerify(final IOSDeviceElementActions actions) {
-        super(actions);
+    public IOSElementVerify (final IOSDeviceElementActions actions) {
+        super (actions);
     }
 }

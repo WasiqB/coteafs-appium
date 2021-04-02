@@ -32,10 +32,10 @@ import org.apache.logging.log4j.Logger;
  */
 public abstract class AndroidActivity
     extends DeviceActivity<AndroidDriver<MobileElement>, AndroidDevice, AndroidTouchAction> {
-    private static final Logger LOG = LogManager.getLogger (AndroidActivity.class);
+    private static final Logger LOG = LogManager.getLogger ();
 
     /**
-     * @param device
+     * @param device Device instance
      *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 6:20:08 PM
@@ -72,6 +72,7 @@ public abstract class AndroidActivity
         if (this.device.getSetting ()
             .getAutomation () == UIAUTOMATOR2 && !this.device.getSetting ()
             .isCloud ()) {
+            LOG.trace ("Checking Battery status...");
             final AndroidBatteryInfo battery = this.device.getDriver ()
                 .getBatteryInfo ();
             check (battery.getState ()

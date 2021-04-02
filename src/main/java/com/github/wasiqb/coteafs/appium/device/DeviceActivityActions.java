@@ -26,42 +26,46 @@ import io.appium.java_client.TouchAction;
  * @param <D> Driver
  * @param <E> Device
  * @param <T>
+ *
  * @author wasiq.bhamla
  * @since Oct 23, 2017 10:51:31 PM
  */
-public abstract class DeviceActivityActions<D extends AppiumDriver<MobileElement>, E extends Device<D, T>,
-    T extends TouchAction<T>> {
+public abstract class DeviceActivityActions<D extends AppiumDriver<MobileElement>, E extends Device<D, T>, T extends TouchAction<T>> {
     private final E                   device;
     private final Map<String, Object> values;
 
     /**
-     * @param device
+     * @param device Device instance
+     *
      * @author wasiq.bhamla
      * @since Oct 23, 2017 10:51:31 PM
      */
-    public DeviceActivityActions(final E device) {
+    protected DeviceActivityActions (final E device) {
         this.device = device;
-        this.values = new HashMap<>();
+        this.values = new HashMap<> ();
     }
 
     /**
-     * @param element
-     * @param value
+     * @param element Element name
+     * @param value Input value
+     *
      * @return instance
+     *
      * @author wasiq.bhamla
      * @since Oct 23, 2017 11:01:15 PM
      */
-    public DeviceActivityActions<D, E, T> addInputValue(final String element, final Object value) {
-        this.values.put(element, value);
+    public DeviceActivityActions<D, E, T> addInputValue (final String element, final Object value) {
+        this.values.put (element, value);
         return this;
     }
 
     /**
      * @return the device
+     *
      * @author wasiq.bhamla
      * @since Oct 23, 2017 10:55:13 PM
      */
-    public E getDevice() {
+    public E getDevice () {
         return this.device;
     }
 
@@ -69,10 +73,10 @@ public abstract class DeviceActivityActions<D extends AppiumDriver<MobileElement
      * @author wasiq.bhamla
      * @since Oct 23, 2017 10:53:59 PM
      */
-    public abstract void perform();
+    public abstract void perform ();
 
-    @SuppressWarnings("unchecked")
-    protected <X> X value(final String element) {
-        return (X) this.values.get(element);
+    @SuppressWarnings ("unchecked")
+    protected <X> X value (final String element) {
+        return (X) this.values.get (element);
     }
 }

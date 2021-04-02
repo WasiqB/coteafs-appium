@@ -35,9 +35,9 @@ public class IOSDeviceElementActions extends DeviceElementActions<IOSDriver<Mobi
     private static final Logger log = LogManager.getLogger (IOSDeviceElementActions.class);
 
     /**
-     * @param device
-     * @param name
-     * @param element
+     * @param device Device instance
+     * @param name Element name
+     * @param element Element under test
      *
      * @author wasiq.bhamla
      * @since 02-May-2017 6:38:12 PM
@@ -97,7 +97,7 @@ public class IOSDeviceElementActions extends DeviceElementActions<IOSDriver<Mobi
     }
 
     /**
-     * @param direction
+     * @param direction Swipe direction
      *
      * @author wasiqb
      * @since Oct 28, 2018

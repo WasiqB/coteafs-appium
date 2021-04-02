@@ -17,7 +17,7 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.checker.DeviceChecker.checkDeviceElementEnabled;
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 import static io.appium.java_client.touch.LongPressOptions.longPressOptions;
 import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
@@ -53,7 +53,7 @@ import org.openqa.selenium.Point;
  * @since 26-Apr-2017 6:39:03 PM
  */
 public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E extends Device<D, T>, T extends TouchAction<T>> {
-    private static final Logger log = LogManager.getLogger (DeviceElementActions.class);
+    private static final Logger log = LogManager.getLogger ();
 
     protected final E               device;
     protected final MobileElement   element;
