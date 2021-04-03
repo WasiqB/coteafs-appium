@@ -75,7 +75,7 @@ framework:
 <dependency>
     <groupId>com.github.wasiqb.coteafs</groupId>
     <artifactId>appium</artifactId>
-    <version>3.5.1</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 
@@ -348,4 +348,4 @@ For allowing us to run our unit tests on different platforms.
 [maven]: https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium
 [contributing]: .github/CONTRIBUTING.md
 [intro-doc]: https://wasiqb.github.io/projects/appium
-[discord]: https://discord.gg/Bdf8sJxK7x
+[discord]: https://discord.gg/vkR9TBdKxZ

@@ -470,8 +470,8 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private void setIosWebCapabilities (final IOSWebSetting web) {
         setCapability (SAFARI_ALLOW_POPUPS, web.isAllowPopups (), this.capabilities);
-        setCapability ("showSafariConsoleLog", web.isConsoleLogs (), this.capabilities);
-        setCapability ("showSafariNetworkLog", web.isNetworkLogs (), this.capabilities);
+        setCapability ("appium:showSafariConsoleLog", web.isConsoleLogs (), this.capabilities);
+        setCapability ("appium:showSafariNetworkLog", web.isNetworkLogs (), this.capabilities);
         setCapability (SAFARI_INITIAL_URL, web.getInitialUrl (), this.capabilities);
     }
 
