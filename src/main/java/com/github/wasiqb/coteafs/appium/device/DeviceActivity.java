@@ -16,7 +16,7 @@
 package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 import static java.time.Duration.ofSeconds;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -56,7 +56,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @since 26-Apr-2017 4:31:24 PM
  */
 public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E extends Device<D, T>, T extends TouchAction<T>> {
-    private static final Logger log = LogManager.getLogger (DeviceActivity.class);
+    private static final Logger log = LogManager.getLogger ();
 
     protected final AutomationType             automation;
     protected final E                          device;
@@ -67,8 +67,8 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
     private final   WebDriverWait              wait;
 
     /**
-     * @param device
-     * @param touch
+     * @param device Device instance
+     * @param touch Action instance
      *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 4:32:45 PM
@@ -86,7 +86,7 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
     }
 
     /**
-     * @param name
+     * @param name Element name
      *
      * @return element
      *
@@ -112,7 +112,7 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
     }
 
     /**
-     * @param name
+     * @param name Element name
      *
      * @return element actions
      *
@@ -126,8 +126,8 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
     }
 
     /**
-     * @param name
-     * @param index
+     * @param name Element name
+     * @param index Element index
      *
      * @return actions
      *
@@ -234,8 +234,8 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
     }
 
     /**
-     * @param locator
-     * @param waitStrategy
+     * @param locator Element locator
+     * @param waitStrategy Wait strategy
      *
      * @author wasiq.bhamla
      * @since Jan 30, 2018 7:33:47 PM

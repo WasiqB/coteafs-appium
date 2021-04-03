@@ -31,8 +31,8 @@ import io.appium.java_client.ios.IOSTouchAction;
  */
 public class IOSDevice extends Device<IOSDriver<MobileElement>, IOSTouchAction> {
     /**
-     * @param server
-     * @param name
+     * @param server Server instance
+     * @param name Server name
      *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:12:09 PM

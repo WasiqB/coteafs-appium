@@ -16,7 +16,7 @@
 package com.github.wasiqb.coteafs.appium.ios;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -43,7 +43,7 @@ import org.openqa.selenium.TimeoutException;
  * @since 26-Apr-2017 11:34:39 PM
  */
 public class IOSDeviceActions extends DeviceActions<IOSDriver<MobileElement>, IOSDevice, IOSTouchAction> {
-    private static final Logger log = LogManager.getLogger (IOSDeviceActions.class);
+    private static final Logger log = LogManager.getLogger ();
 
     /**
      * @param device Device instance

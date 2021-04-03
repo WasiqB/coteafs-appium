@@ -29,12 +29,12 @@ import org.apache.logging.log4j.Logger;
  */
 public class AndroidDeviceElementActions
     extends DeviceElementActions<AndroidDriver<MobileElement>, AndroidDevice, AndroidTouchAction> {
-    private static final Logger log = LogManager.getLogger (AndroidDeviceElementActions.class);
+    private static final Logger log = LogManager.getLogger ();
 
     /**
-     * @param device
-     * @param name
-     * @param element
+     * @param device Device instance
+     * @param name Name of element
+     * @param element Element under test
      *
      * @author wasiq.bhamla
      * @since 02-May-2017 6:32:14 PM

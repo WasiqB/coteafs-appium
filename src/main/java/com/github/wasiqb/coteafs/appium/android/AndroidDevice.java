@@ -30,8 +30,8 @@ import io.appium.java_client.android.AndroidTouchAction;
  */
 public class AndroidDevice extends Device<AndroidDriver<MobileElement>, AndroidTouchAction> {
     /**
-     * @param server
-     * @param name
+     * @param server Server instance
+     * @param name Device name
      *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:12:47 PM
