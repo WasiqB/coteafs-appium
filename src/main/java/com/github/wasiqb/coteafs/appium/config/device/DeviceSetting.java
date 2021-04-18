@@ -25,6 +25,7 @@ import com.github.wasiqb.coteafs.appium.config.device.ios.IOSDeviceSetting;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.config.enums.Browser;
 import com.github.wasiqb.coteafs.appium.config.enums.DeviceType;
+import com.github.wasiqb.coteafs.appium.config.enums.Language;
 import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import lombok.Data;
 
@@ -41,6 +42,7 @@ public class DeviceSetting {
     private Map<String, String>  cloudCapabilities = new HashMap<> ();
     private boolean              headless;
     private IOSDeviceSetting     ios;
+    private Language             language          = Language.US;
     private long                 launchTimeout;
     private String               name;
     private PlatformType         os                = PlatformType.ANDROID;
