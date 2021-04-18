@@ -63,6 +63,8 @@ import static io.appium.java_client.remote.MobileCapabilityType.APP;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTO_WEBVIEW;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
+import static io.appium.java_client.remote.MobileCapabilityType.LANGUAGE;
+import static io.appium.java_client.remote.MobileCapabilityType.LOCALE;
 import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIMEOUT;
 import static io.appium.java_client.remote.MobileCapabilityType.OTHER_APPS;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION;
@@ -346,6 +348,9 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private void setAndroidCapabilities (final AndroidDeviceSetting android) {
         if (android != null) {
+            setCapability (LOCALE, this.setting.getLanguage ()
+                .getLocale ()
+                .getCountry (), this.capabilities);
             if (android.getUnlockType () != null) {
                 setCapability (UNLOCK_KEY, android.getUnlockKey (), this.capabilities);
                 setCapability (UNLOCK_TYPE, android.getUnlockType ()
@@ -406,6 +411,9 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         setCapability (PLATFORM_NAME, this.platform, this.capabilities, true);
         setCapability (PLATFORM_VERSION, this.setting.getVersion (), this.capabilities);
         setCapability (NEW_COMMAND_TIMEOUT, this.setting.getSessionTimeout (), this.capabilities);
+        setCapability (LANGUAGE, this.setting.getLanguage ()
+            .getLocale ()
+            .getLanguage (), this.capabilities);
         setCapability (AUTOMATION_NAME, this.setting.getAutomation (), this.capabilities);
         setCapability (BROWSER_NAME, this.setting.getBrowser (), this.capabilities);
         setCapability (IS_HEADLESS, this.setting.isHeadless (), this.capabilities);
@@ -429,6 +437,9 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private void setIOSCapabilities (final IOSDeviceSetting ios) {
         if (ios != null) {
+            setCapability (LOCALE, this.setting.getLanguage ()
+                .getLocale ()
+                .toLanguageTag (), this.capabilities);
             setIosAppCapabilities (ios.getApp ());
             setIosWdaCapabilities (ios.getWda ());
             setIosWebCapabilities (ios.getWeb ());
