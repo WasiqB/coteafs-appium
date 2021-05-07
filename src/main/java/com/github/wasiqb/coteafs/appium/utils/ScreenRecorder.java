@@ -48,11 +48,13 @@ public class ScreenRecorder {
      */
     public static Map<String, Object> getVideoStreamArgs (final VideoStreamSetting streamSetting) {
         final Map<String, Object> args = new HashMap<> ();
+        args.put ("host", streamSetting.getHost ());
+        args.put ("port", streamSetting.getPort ());
         args.put ("width", streamSetting.getWidth ());
         args.put ("height", streamSetting.getHeight ());
         args.put ("quality", streamSetting.getQuality ()
             .getQuality ());
-        args.put ("bitRate", streamSetting.getBitRate () * 10000);
+        args.put ("bitRate", streamSetting.getBitRate () * 100000);
         LOG.trace ("Video streaming args: {}", args);
         return args;
     }
