@@ -1,110 +1,121 @@
 server: &default_server
-  log_file_path: logs/appium-server.log
-  appium_js_path: /usr/local/lib/node_modules/appium/build/lib/main.js
-  arguments:
-    log_level: DEBUG
-    log_time_stamp: true
-    session_override: true
-    local_time_zone: true
-    android:
-      suppress_adb_kill_server: true
+  host: 0.0.0.0
+  appium_path: /Users/in-wasiq.bhamla/.nvm/versions/node/v14.15.4/lib/node_modules/appium/build/lib/main.js
+  session_override: true
+  logs:
+    level: DEBUG
+    path: logs/appium-server.log
+    timestamp: true
+    local_timezone: true
+    debug_spacing: true
 
 servers:
   android:
-    host: 0.0.0.0
-    port: 4723
     <<: *default_server
+    port: 4723
+    allow_insecure:
+      - adb_screen_streaming
+    android:
+      suppress_adb_kill: true
   ios:
-    host: 0.0.0.0
+    <<: *default_server
     port: 4725
-    log_file_path: logs/appium-ios-server.log
-    appium_js_path: /usr/local/lib/node_modules/appium/build/lib/main.js
-    arguments:
-      log_level: DEBUG
-      log_time_stamp: true
-      local_time_zone: true
-      session_override: true
-      ios:
-        wda_port: 8101
+    ios:
+      wda_port: 8101
   browserstack:
     protocol: HTTPS
-    host: hub-cloud.browserstack.com
-    cloud: true
+    cloud: BROWSERSTACK
     user_name: ${env:CLOUD_USER}
     password: ${env:CLOUD_KEY}
 
 device: &default_device
-  platform_type: ANDROID
-  app_type: HYBRID
-  device_type: REAL
+  os: ANDROID
+  type: REAL
+  language: US
   session_timeout: 120000
-  clear_system_files: true
-  no_reset: false
-  full_reset: true
+  others:
+    clear_files: true
+    no_reset: false
+    full_reset: true
+    clear_logs: true
   playback:
+    stream:
+      enabled: false
+      width: 700
+      height: 1024
+      quality: HIGH
+      bit_rate: 50
+    screenshot:
+      on_error: true
     record:
       enabled: false
-    delay_before_swipe: 200
-    delay_after_swipe: 100
-    delay_before_tap: 0
-    delay_after_tap: 0
+      time_limit: 5
+      android:
+        size: 800x720
+      ios:
+        fps: 30
+    delay:
+      before_swipe: 200
+      after_swipe: 100
+      before_tap: 0
+      after_tap: 0
+      implicit: 1
+      explicit: 5
 
 devices:
-  test_local:
-    device_name: emulator-5554
-    device_version: 8.1
-    app_location: apps/android/VodQA.apk
-    automation_name: UIAUTOMATOR2
+  android:
     <<: *default_device
-    device_type: SIMULATOR
+    name: emulator-5554
+    version: 8.1
+    automation: UIAUTOMATOR2
+    type: SIMULATOR
     android:
-      avd: emulator-5554
-      avd_launch_timeout: 60000
-      avd_ready_timeout: 60000
-      avd_args: -gpu swiftshader_indirect
-      apk_install_timeout: 60000
-  test_browserstack:
-    cloud_app: true
-    automation_name: APPIUM
-    capabilities:
+      avd:
+        name: Pixel_3_XL_API_27
+        launch_timeout: 60000
+        ready_timeout: 60000
+        args: -gpu swiftshader_indirect
+      app:
+        install_timeout: 60000
+        type: HYBRID
+        path: apps/android/VodQA.apk
+  android_bs:
+    name: Samsung Galaxy S10
+    automation: UIAUTOMATOR2
+    cloud_capabilities:
       os_version: 9.0
       device: Samsung Galaxy S10
       app: ${env:APP}
       project: Project Appium
       build: Build-1
       name: Test 1
-      browserstack.appium_version: 1.18.0
-  test_browserstack_ios:
-    cloud_app: true
-    platform_type: IOS
-    automation_name: XCUI
-    capabilities:
+      browserstack.appium_version: 1.20.2
+    playback:
+      screenshot:
+        on_error: true
+    android:
+      app:
+        ignore_unimportant_views: false
+  ios_bs:
+    name: iPhone 12 Pro Max
+    os: IOS
+    automation: XCUI
+    cloud_capabilities:
       os_version: 14
       device: iPhone 12 Pro Max
       app: ${env:APP_IOS}
       project: Project Appium
       build: Build-1
       name: IOS_Test 1
-      browserstack.appium_version: 1.18.0
-    <<: *default_device
+      browserstack.appium_version: 1.20.2
   iphone:
-    device_name: iPhone 12 Pro
-    device_version: 14.1
-    app_location: apps/ios/wdio-app.app.zip
-    automation_name: XCUI
-    device_type: SIMULATOR
-    platform_type: IOS
-    app_type: NATIVE
-    session_timeout: 120000
-    clear_system_files: true
-    no_reset: false
-    full_reset: true
-    playback:
-      record:
-        enabled: false
-      delay_before_swipe: 200
-      delay_after_swipe: 100
-      delay_before_tap: 0
-      delay_after_tap: 0
+    <<: *default_device
+    name: iPhone 12 Pro
+    version: 14.4
+    automation: XCUI
+    type: SIMULATOR
+    os: IOS
     ios:
-      auto_accept_alerts: true
+      app:
+        path: apps/ios/wdio-app.app.zip
+        type: HYBRID

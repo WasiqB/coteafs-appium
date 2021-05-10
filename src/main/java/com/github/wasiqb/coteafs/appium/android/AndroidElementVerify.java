@@ -27,11 +27,12 @@ import io.appium.java_client.android.AndroidTouchAction;
 public class AndroidElementVerify
     extends DeviceElementVerify<AndroidDriver<MobileElement>, AndroidDevice, AndroidTouchAction> {
     /**
-     * @param actions
+     * @param actions Actions instance
+     *
      * @author wasiq.bhamla
      * @since 20-May-2017 12:26:38 PM
      */
-    public AndroidElementVerify(final AndroidDeviceElementActions actions) {
-        super(actions);
+    public AndroidElementVerify (final AndroidDeviceElementActions actions) {
+        super (actions);
     }
 }

@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.utils;
 
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 
 import com.github.wasiqb.coteafs.appium.error.NotEnoughBatteryChargeError;
 import org.apache.logging.log4j.LogManager;
@@ -26,23 +26,24 @@ import org.apache.logging.log4j.Logger;
  * @since Oct 2, 2018
  */
 public final class BatteryHealth {
-    private static final Logger log = LogManager.getLogger(BatteryHealth.class);
+    private static final Logger log = LogManager.getLogger ();
 
     /**
-     * @param state
-     * @param level
+     * @param state Battery state
+     * @param level Battery level
+     *
      * @author wasiqb
      * @since Oct 2, 2018
      */
-    public static void check(final String state, final double level) {
-        log.trace("Current Battery status is [{}] with charge level as [{}%]...", state, level * 100);
-        if (!state.equals("CHARGING") && !state.equals("FULL") && level < 0.2) {
-            fail(NotEnoughBatteryChargeError.class,
+    public static void check (final String state, final double level) {
+        log.trace ("Current Battery status is [{}] with charge level as [{}%]...", state, level * 100);
+        if (!state.equals ("CHARGING") && !state.equals ("FULL") && level < 0.2) {
+            fail (NotEnoughBatteryChargeError.class,
                 "Battery does not have enough charging, to continue, put your device on USB...");
         }
     }
 
-    private BatteryHealth() {
+    private BatteryHealth () {
         // Utility class.
     }
 }

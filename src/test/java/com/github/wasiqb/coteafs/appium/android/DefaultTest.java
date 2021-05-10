@@ -17,9 +17,7 @@ package com.github.wasiqb.coteafs.appium.android;
 
 import com.github.wasiqb.coteafs.appium.android.vodqa.activities.MainActivity;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Parameters;
 
@@ -33,48 +31,35 @@ public class DefaultTest {
     private   AppiumServer  androidServer;
 
     /**
-     * @author wasiqb
-     * @since Oct 13, 2018
-     */
-    @BeforeMethod(alwaysRun = true)
-    public void setupMethod() {
-        this.androidDevice.startRecording();
-    }
-
-    /**
      * @param server
      * @param device
+     *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 10:10:45 PM
      */
-    @Parameters( { "server", "device" })
-    @BeforeTest(alwaysRun = true)
-    public void setupTest(final String server, final String device) {
-        this.androidServer = new AppiumServer(server);
-        this.androidServer.start();
+    @Parameters ({ "server", "device" })
+    @BeforeTest (alwaysRun = true)
+    public void setupTest (final String server, final String device) {
+        this.androidServer = new AppiumServer (server);
+        this.androidServer.start ();
 
-        this.androidDevice = new AndroidDevice(this.androidServer, device);
-        this.androidDevice.start();
+        this.androidDevice = new AndroidDevice (this.androidServer, device);
+        this.androidDevice.start ();
+        this.androidDevice.startRecording ();
+        this.androidDevice.startStreaming ();
 
-        this.main = new MainActivity(this.androidDevice);
+        this.main = new MainActivity (this.androidDevice);
     }
 
     /**
      * @author wasiq.bhamla
      * @since 17-Apr-2017 3:47:41 PM
      */
-    @AfterTest(alwaysRun = true)
-    public void tearDownTest() {
-        this.androidDevice.stop();
-        this.androidServer.stop();
-    }
-
-    /**
-     * @author wasiqb
-     * @since Oct 20, 2018
-     */
-    @AfterMethod(alwaysRun = true)
-    public void teardownMethod() {
-        this.androidDevice.stopRecording();
+    @AfterTest (alwaysRun = true)
+    public void tearDownTest () {
+        this.androidDevice.stopStreaming ();
+        this.androidDevice.stopRecording ();
+        this.androidDevice.stop ();
+        this.androidServer.stop ();
     }
 }

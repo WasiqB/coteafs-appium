@@ -9,27 +9,26 @@ listeners:
   - com.github.wasiqb.coteafs.listeners.SuiteResultReporter
 tests:
   - name: Android Test
-    parameters: { server: browserstack, device: test_browserstack }
+    parameters: { server: browserstack, device: android_bs }
     classes:
       - name: com.github.wasiqb.coteafs.appium.android.VodQATest
         includedMethods:
-          - testLogin
-          - testLongPress
-          - testNativeView
-          - testSlider
-          - testVerticleSwipe
-          - testRotation
+          - test01Login
+          - test02NativeView
+          - test03LongPress
+          - test04Rotation
+          - test05Slider
+          - test06VerticalSwipe
+          - test07DragDrop
+          - test09PushPullFile
+          - test10ScrollOnDeviceUntilElement
+          - test11ScrollOnElementUntilElement
         excludedMethods:
-          - testDragDrop
-  #  - name: IOS Test Local
-  #    parameters: { server: ios, device: iphone }
-  #    classes:
-  #      - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
-  #        includedMethods:
-  #          - testLogin
+          - test08DoubleTap
   - name: IOS Test BrowserStack
-    parameters: { server: browserstack, device: test_browserstack_ios }
+    parameters: { server: browserstack, device: ios_bs }
     classes:
       - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
         includedMethods:
-          - testLogin
+          - test1Login
+          - test2PushPullFile

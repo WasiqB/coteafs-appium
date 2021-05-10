@@ -26,12 +26,13 @@ import org.openqa.selenium.By;
  */
 public class AlertActivity extends AndroidActivity {
     /**
-     * @param device
+     * @param device Device instance
+     *
      * @author wasiq.bhamla
      * @since Feb 8, 2018 3:44:36 PM
      */
-    public AlertActivity(final AndroidDevice device) {
-        super(device);
+    public AlertActivity (final AndroidDevice device) {
+        super (device);
     }
 
     /*
@@ -39,19 +40,19 @@ public class AlertActivity extends AndroidActivity {
      * @see com.github.wasiqb.coteafs.appium.device.DeviceActivity#prepare()
      */
     @Override
-    protected DeviceElement prepare() {
-        final DeviceElement alert = DeviceElement.create("Alert")
-            .forAndroid(By.id("android:id/parentPanel"));
+    protected DeviceElement prepare () {
+        final DeviceElement alert = DeviceElement.create ("Alert")
+            .forAndroid (By.id ("android:id/parentPanel"));
 
-        DeviceElement.create("Title")
-            .parent(alert)
-            .forAndroid(By.id("android:id/alertTitle"));
-        DeviceElement.create("Message")
-            .parent(alert)
-            .forAndroid(By.id("android:id/message"));
-        DeviceElement.create("OK")
-            .parent(alert)
-            .forAndroid(By.id("android:id/button1"));
+        DeviceElement.create ("Title")
+            .parent (alert)
+            .forAndroid (By.id ("android:id/alertTitle"));
+        DeviceElement.create ("Message")
+            .parent (alert)
+            .forAndroid (By.id ("android:id/message"));
+        DeviceElement.create ("OK")
+            .parent (alert)
+            .forAndroid (By.id ("android:id/button1"));
 
         return alert;
     }

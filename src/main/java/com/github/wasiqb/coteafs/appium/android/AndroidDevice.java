@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.android;
 
-import com.github.wasiqb.coteafs.appium.config.RecordSetting;
+import com.github.wasiqb.coteafs.appium.config.device.android.AndroidVideoSetting;
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import io.appium.java_client.MobileElement;
@@ -30,31 +30,32 @@ import io.appium.java_client.android.AndroidTouchAction;
  */
 public class AndroidDevice extends Device<AndroidDriver<MobileElement>, AndroidTouchAction> {
     /**
-     * @param server
-     * @param name
+     * @param server Server instance
+     * @param name Device name
+     *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:12:47 PM
      */
-    public AndroidDevice(final AppiumServer server, final String name) {
-        super(server, name);
+    public AndroidDevice (final AppiumServer server, final String name) {
+        super (server, name);
     }
 
     /*
      * (non-Javadoc)
      * @see com.github.wasiqb.coteafs.appium.device.Device#startRecordSetting()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
-    protected AndroidStartScreenRecordingOptions startRecordSetting() {
-        final AndroidStartScreenRecordingOptions options =
-            AndroidStartScreenRecordingOptions.startScreenRecordingOptions();
-        final RecordSetting record = this.setting.getPlayback()
-            .getRecord();
-        if (record.getBitRate() != 4) {
-            options.withBitRate(record.getBitRate());
+    protected AndroidStartScreenRecordingOptions startRecordSetting () {
+        final AndroidStartScreenRecordingOptions options = AndroidStartScreenRecordingOptions.startScreenRecordingOptions ();
+        final AndroidVideoSetting record = this.setting.getPlayback ()
+            .getRecord ()
+            .getAndroid ();
+        if (record.getBitRate () != 4) {
+            options.withBitRate (record.getBitRate ());
         }
-        if (record.getSize() != null) {
-            options.withVideoSize(record.getSize());
+        if (record.getSize () != null) {
+            options.withVideoSize (record.getSize ());
         }
         return options;
     }
@@ -63,9 +64,9 @@ public class AndroidDevice extends Device<AndroidDriver<MobileElement>, AndroidT
      * (non-Javadoc)
      * @see com.github.wasiqb.coteafs.appium.device.Device#stopRecordSetting()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
-    protected AndroidStopScreenRecordingOptions stopRecordSetting() {
-        return AndroidStopScreenRecordingOptions.stopScreenRecordingOptions();
+    protected AndroidStopScreenRecordingOptions stopRecordSetting () {
+        return AndroidStopScreenRecordingOptions.stopScreenRecordingOptions ();
     }
 }

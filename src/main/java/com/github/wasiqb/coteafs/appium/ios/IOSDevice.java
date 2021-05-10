@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.ios;
 
-import com.github.wasiqb.coteafs.appium.config.RecordSetting;
+import com.github.wasiqb.coteafs.appium.config.device.ios.IOSVideoSetting;
 import com.github.wasiqb.coteafs.appium.device.Device;
 import com.github.wasiqb.coteafs.appium.service.AppiumServer;
 import io.appium.java_client.MobileElement;
@@ -31,27 +31,35 @@ import io.appium.java_client.ios.IOSTouchAction;
  */
 public class IOSDevice extends Device<IOSDriver<MobileElement>, IOSTouchAction> {
     /**
-     * @param server
-     * @param name
+     * @param server Server instance
+     * @param name Server name
+     *
      * @author wasiq.bhamla
      * @since 13-Apr-2017 9:12:09 PM
      */
-    public IOSDevice(final AppiumServer server, final String name) {
-        super(server, name);
+    public IOSDevice (final AppiumServer server, final String name) {
+        super (server, name);
     }
 
     /*
      * (non-Javadoc)
      * @see com.github.wasiqb.coteafs.appium.device.Device#startRecordSetting()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
-    protected IOSStartScreenRecordingOptions startRecordSetting() {
-        final IOSStartScreenRecordingOptions options = IOSStartScreenRecordingOptions.startScreenRecordingOptions();
-        final RecordSetting record = this.setting.getPlayback()
-            .getRecord();
-        if (record.getQuality() != VideoQuality.MEDIUM) {
-            options.withVideoQuality(record.getQuality());
+    protected IOSStartScreenRecordingOptions startRecordSetting () {
+        final IOSStartScreenRecordingOptions options = IOSStartScreenRecordingOptions.startScreenRecordingOptions ();
+        final IOSVideoSetting record = this.setting.getPlayback ()
+            .getRecord ()
+            .getIos ();
+        if (record.getQuality () != VideoQuality.MEDIUM) {
+            options.withVideoQuality (record.getQuality ());
+        }
+        if (record.getFps () > 0) {
+            options.withFps (record.getFps ());
+        }
+        if (record.getCodec () != null) {
+            options.withVideoType (record.getCodec ());
         }
         return options;
     }
@@ -60,9 +68,9 @@ public class IOSDevice extends Device<IOSDriver<MobileElement>, IOSTouchAction> 
      * (non-Javadoc)
      * @see com.github.wasiqb.coteafs.appium.device.Device#stopRecordSetting()
      */
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings ("unchecked")
     @Override
-    protected IOSStopScreenRecordingOptions stopRecordSetting() {
-        return IOSStopScreenRecordingOptions.stopScreenRecordingOptions();
+    protected IOSStopScreenRecordingOptions stopRecordSetting () {
+        return IOSStopScreenRecordingOptions.stopScreenRecordingOptions ();
     }
 }

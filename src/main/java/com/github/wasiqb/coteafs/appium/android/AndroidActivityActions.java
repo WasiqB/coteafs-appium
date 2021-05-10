@@ -27,11 +27,12 @@ import io.appium.java_client.android.AndroidTouchAction;
 public abstract class AndroidActivityActions
     extends DeviceActivityActions<AndroidDriver<MobileElement>, AndroidDevice, AndroidTouchAction> {
     /**
-     * @param device
+     * @param device Device instance
+     *
      * @author wasiq.bhamla
      * @since Oct 23, 2017 11:05:14 PM
      */
-    public AndroidActivityActions(final AndroidDevice device) {
-        super(device);
+    protected AndroidActivityActions (final AndroidDevice device) {
+        super (device);
     }
 }

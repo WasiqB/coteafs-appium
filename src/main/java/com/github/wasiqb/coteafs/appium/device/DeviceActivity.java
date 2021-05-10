@@ -16,9 +16,9 @@
 package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 import static java.time.Duration.ofSeconds;
-import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfAllElementsLocatedBy;
+import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
 import java.util.HashMap;
 import java.util.List;
@@ -26,14 +26,13 @@ import java.util.Map;
 import java.util.Objects;
 
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
-import com.github.wasiqb.coteafs.appium.config.DeviceSetting;
-import com.github.wasiqb.coteafs.appium.config.PlaybackSetting;
+import com.github.wasiqb.coteafs.appium.config.device.DeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.device.PlaybackSetting;
 import com.github.wasiqb.coteafs.appium.config.enums.AutomationType;
 import com.github.wasiqb.coteafs.appium.config.enums.PlatformType;
 import com.github.wasiqb.coteafs.appium.config.enums.WaitStrategy;
 import com.github.wasiqb.coteafs.appium.error.AppiumSelectorNotImplementedError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerStoppedError;
-import com.github.wasiqb.coteafs.appium.error.DeviceElementFindTimedOutError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementNameNotFoundError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementNotFoundError;
 import io.appium.java_client.AppiumDriver;
@@ -52,12 +51,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @param <D>
  * @param <E>
  * @param <T>
+ *
  * @author wasiq.bhamla
  * @since 26-Apr-2017 4:31:24 PM
  */
-public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E extends Device<D, T>,
-    T extends TouchAction<T>> {
-    private static final Logger log = LogManager.getLogger(DeviceActivity.class);
+public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E extends Device<D, T>, T extends TouchAction<T>> {
+    private static final Logger log = LogManager.getLogger ();
 
     protected final AutomationType             automation;
     protected final E                          device;
@@ -68,179 +67,189 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
     private final   WebDriverWait              wait;
 
     /**
-     * @param device
-     * @param touch
+     * @param device Device instance
+     * @param touch Action instance
+     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 4:32:45 PM
      */
-    public DeviceActivity(final E device, final T touch) {
+    protected DeviceActivity (final E device, final T touch) {
         this.device = device;
         this.touch = touch;
-        this.deviceElements = new HashMap<>();
-        final DeviceSetting deviceSetting = device.getSetting();
-        this.automation = deviceSetting.getAutomationName();
-        this.platform = deviceSetting.getPlatformType();
-        this.playSetting = deviceSetting.getPlayback();
-        this.wait = new WebDriverWait(device.getDriver(),
-            ofSeconds(this.playSetting.getWaitForElementUntil()).getSeconds());
+        this.deviceElements = new HashMap<> ();
+        final DeviceSetting deviceSetting = device.getSetting ();
+        this.automation = deviceSetting.getAutomation ();
+        this.platform = deviceSetting.getOs ();
+        this.playSetting = deviceSetting.getPlayback ();
+        this.wait = new WebDriverWait (device.getDriver (), ofSeconds (this.playSetting.getDelay ()
+            .getExplicit ()).getSeconds ());
     }
 
     /**
-     * @param name
+     * @param name Element name
+     *
      * @return element
+     *
      * @author wasiq.bhamla
      * @since Feb 2, 2018 1:44:52 PM
      */
-    public MobileElement getElement(final String name) {
-        load();
-        log.trace("Getting element with name [{}]...", name);
-        return findElements(getDeviceElement(name));
+    public MobileElement getElement (final String name) {
+        load ();
+        log.trace ("Getting element with name [{}]...", name);
+        return findElements (getDeviceElement (name));
     }
 
     /**
      * @return device actions
+     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 8:41:07 PM
      */
-    public DeviceActions<D, E, T> onDevice() {
-        this.device.checkServerRunning();
-        log.info("Preparing to perform actions on device...");
-        return new DeviceActions<>(this.device, this.touch);
+    public DeviceActions<D, E, T> onDevice () {
+        this.device.checkServerRunning ();
+        log.info ("Preparing to perform actions on device...");
+        return new DeviceActions<> (this.device, this.touch);
     }
 
     /**
-     * @param name
+     * @param name Element name
+     *
      * @return element actions
+     *
      * @author wasiq.bhamla
      * @since 26-Apr-2017 6:45:09 PM
      */
-    public DeviceElementActions<D, E, T> onElement(final String name) {
-        ServerChecker.checkServerRunning(this.device.server);
-        log.trace("Preparing to perform actions on device element [{}]...", name);
-        return new DeviceElementActions<>(this.device, name, getElement(name), this.touch);
+    public DeviceElementActions<D, E, T> onElement (final String name) {
+        ServerChecker.checkServerRunning (this.device.server);
+        log.trace ("Preparing to perform actions on device element [{}]...", name);
+        return new DeviceElementActions<> (this.device, name, getElement (name), this.touch);
     }
 
     /**
-     * @param name
-     * @param index
+     * @param name Element name
+     * @param index Element index
+     *
      * @return actions
+     *
      * @author wasiq.bhamla
      * @since Jul 5, 2017 6:55:54 AM
      */
-    public DeviceElementActions<D, E, T> onElement(final String name, final int index) {
-        ServerChecker.checkServerRunning(this.device.server);
-        log.trace("Preparing to perform actions on dynamic device element [{}] on index [{}]...", name, index);
-        final DeviceElement e = getDeviceElement(name);
-        final DeviceElement element = Objects.requireNonNull(e, "Element not found.")
-            .index(index);
-        return new DeviceElementActions<>(this.device, name, findElements(element), this.touch);
+    public DeviceElementActions<D, E, T> onElement (final String name, final int index) {
+        ServerChecker.checkServerRunning (this.device.server);
+        log.trace ("Preparing to perform actions on dynamic device element [{}] on index [{}]...", name, index);
+        final DeviceElement e = getDeviceElement (name);
+        final DeviceElement element = Objects.requireNonNull (e, "Element not found.")
+            .index (index);
+        return new DeviceElementActions<> (this.device, name, findElements (element), this.touch);
     }
 
     /**
      * @return element
+     *
      * @author wasiq.bhamla
      * @since 02-May-2017 4:38:00 PM
      */
-    protected abstract DeviceElement prepare();
+    protected abstract DeviceElement prepare ();
 
-    private void captureScreenshotOnError() {
-        if (this.playSetting.isScreenshotOnError()) {
-            onDevice().captureScreenshot();
+    private void captureScreenshotOnError () {
+        if (this.playSetting.getScreenshot ()
+            .isOnError ()) {
+            onDevice ().captureScreenshot ();
         }
     }
 
-    private MobileElement find(final D deviceDriver, final DeviceElement parent, final By locator, final int index,
+    private MobileElement find (final D deviceDriver, final DeviceElement parent, final By locator, final int index,
         final WaitStrategy strategy) {
         try {
-            wait(locator, strategy);
+            wait (locator, strategy);
             List<MobileElement> result = null;
             if (parent != null) {
-                log.trace("Finding child element of [{}] parent using [{}] at index [{}]...", parent.name(), locator,
+                log.trace ("Finding child element of [{}] parent using [{}] at index [{}]...", parent.name (), locator,
                     index);
-                final MobileElement mobileElement = getElement(parent.name());
-                result = mobileElement.findElements(locator);
+                final MobileElement mobileElement = getElement (parent.name ());
+                result = mobileElement.findElements (locator);
             } else {
-                log.trace("Finding root element using [{}] at index [{}]...", locator, index);
-                result = deviceDriver.findElements(locator);
+                log.trace ("Finding root element using [{}] at index [{}]...", locator, index);
+                result = deviceDriver.findElements (locator);
             }
-            return result.get(index);
+            return result.get (index);
         } catch (final TimeoutException e) {
-            captureScreenshotOnError();
-            final String message = String.format("[%s] locator timed out.", locator);
-            fail(DeviceElementFindTimedOutError.class, message, e);
+            final String message = String.format ("[%s] locator timed out.", locator);
+            log.warn (message);
         } catch (final NoSuchSessionException e) {
-            fail(AppiumServerStoppedError.class, SERVER_STOPPED, e);
+            fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
         } catch (final InvalidSelectorException e) {
-            fail(AppiumSelectorNotImplementedError.class, "Selector not supported", e);
+            fail (AppiumSelectorNotImplementedError.class, "Selector not supported", e);
         } catch (final Exception e) {
-            captureScreenshotOnError();
+            captureScreenshotOnError ();
             String message = "";
             if (parent == null) {
-                message = String.format(
+                message = String.format (
                     "Error occured while finding root device element with locator [%s] at index [%d].", locator, index);
-                fail(DeviceElementNotFoundError.class, message, e);
+                fail (DeviceElementNotFoundError.class, message, e);
             } else {
-                message = String.format(
+                message = String.format (
                     "Error occured while finding device element with locator [%s] at index [%d] under parent %s.",
-                    locator, index, parent.name());
-                fail(DeviceElementNotFoundError.class, message, e);
+                    locator, index, parent.name ());
+                fail (DeviceElementNotFoundError.class, message, e);
             }
         }
         return null;
     }
 
-    private MobileElement findElements(final DeviceElement element) {
-        Objects.requireNonNull(element, "Element is required.");
-        final DeviceElement parent = element.parent();
-        final By locator = element.locator(this.platform, this.automation);
-        final int index = element.index();
-        final WaitStrategy strategy = element.waitStrategy();
-        return find(this.device.getDriver(), parent, locator, index, strategy);
+    private MobileElement findElements (final DeviceElement element) {
+        Objects.requireNonNull (element, "Element is required.");
+        final DeviceElement parent = element.parent ();
+        final By locator = element.locator (this.platform, this.automation);
+        final int index = element.index ();
+        final WaitStrategy strategy = element.waitStrategy ();
+        return find (this.device.getDriver (), parent, locator, index, strategy);
     }
 
-    private DeviceElement getDeviceElement(final String name) {
-        if (this.deviceElements.containsKey(name)) {
-            return this.deviceElements.get(name);
+    private DeviceElement getDeviceElement (final String name) {
+        if (this.deviceElements.containsKey (name)) {
+            return this.deviceElements.get (name);
         }
-        final String msg = String.format("DeviceElement with name [%s] not found.", name);
-        fail(DeviceElementNameNotFoundError.class, msg);
+        final String msg = String.format ("DeviceElement with name [%s] not found.", name);
+        fail (DeviceElementNameNotFoundError.class, msg);
         return null;
     }
 
-    private void load() {
-        if (this.deviceElements.size() == 0) {
-            log.trace("Loading elements on [{}] activity...", this.platform);
-            loadElements(prepare());
+    private void load () {
+        if (this.deviceElements.size () == 0) {
+            log.trace ("Loading elements on [{}] activity...", this.platform);
+            loadElements (prepare ());
         }
     }
 
-    private void loadElements(final DeviceElement rootElement) {
-        ServerChecker.checkServerRunning(this.device.server);
-        if (!this.deviceElements.containsKey(rootElement.name())) {
-            this.deviceElements.put(rootElement.name(), rootElement);
+    private void loadElements (final DeviceElement rootElement) {
+        ServerChecker.checkServerRunning (this.device.server);
+        if (!this.deviceElements.containsKey (rootElement.name ())) {
+            this.deviceElements.put (rootElement.name (), rootElement);
         }
-        final List<DeviceElement> childs = rootElement.childs();
+        final List<DeviceElement> childs = rootElement.childs ();
         for (final DeviceElement child : childs) {
-            loadElements(child);
+            loadElements (child);
         }
     }
 
     /**
-     * @param locator
-     * @param waitStrategy
+     * @param locator Element locator
+     * @param waitStrategy Wait strategy
+     *
      * @author wasiq.bhamla
      * @since Jan 30, 2018 7:33:47 PM
      */
-    private void wait(final By locator, final WaitStrategy waitStrategy) {
+    private void wait (final By locator, final WaitStrategy waitStrategy) {
         switch (waitStrategy) {
             case ENABLED:
-                this.wait.until(ExpectedConditions.elementToBeClickable(locator));
+                this.wait.until (ExpectedConditions.elementToBeClickable (locator));
                 break;
             case PRESENT:
-                this.wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(locator));
+                this.wait.until (ExpectedConditions.presenceOfElementLocated (locator));
                 break;
             case VISIBLE:
-                this.wait.until(visibilityOfAllElementsLocatedBy(locator));
+                this.wait.until (visibilityOfElementLocated (locator));
                 break;
             case NONE:
             default:

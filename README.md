@@ -9,7 +9,7 @@
 <div align="center">
 
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)][home]
-[![Gitter](https://badges.gitter.im/WasiqB/coteafs-appium.svg)](https://gitter.im/WasiqB/coteafs-appium?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Discord](https://img.shields.io/discord/771674310687326208?label=Discord&logo=Discord&style=for-the-badge)][discord]
 [![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)][circleci]
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=bugs)](https://sonarcloud.io/project/issues?id=com.github.wasiqb.coteafs%3Aappium&resolved=false)
 [![Test Coverage](https://sonarcloud.io/api/project_badges/measure?project=com.github.wasiqb.coteafs%3Aappium&metric=coverage)](https://sonarcloud.io/component_measures?id=com.github.wasiqb.coteafs%3Aappium&metric=Coverage)
@@ -35,7 +35,6 @@
 
 * The [documentations][wiki] of coteafs-appium includes all the information you need to get started including setup,
   usage, advantages, sample test.
-* To know what changes are Released, check out the [change log][] for complete list of changes.
 * Want to know when our next feature or fix release is going to happen? Watch out our planned [milestones][].
 
 ## :pushpin: [Want to know Key Features?][intro-doc]
@@ -45,7 +44,7 @@ framework:
 
 :point_right: :iphone: Supports Android and iOS Real Devices and Emulators.
 
-:point_right: :computer: Able to start and stop server on run-time and also can connect to already running server.
+:point_right: :computer: Able to start and stop the server on run-time and also can connect to an already running server.
 
 :point_right: :notebook: Enforces Page object model style of coding.
 
@@ -76,7 +75,7 @@ framework:
 <dependency>
     <groupId>com.github.wasiqb.coteafs</groupId>
     <artifactId>appium</artifactId>
-    <version>3.5.0</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 
@@ -95,32 +94,55 @@ Sample file is shown below.
 
 ```yaml
 servers:
-  android:
+  android_server:
     host: 127.0.0.1
     port: 4723
     external: true
-    arguments:
-      log_level: DEBUG
-      log_time_stamp: true
-      local_time_zone: true
-      session_override: true
-      android:
-        suppress_adb_kill_server: true
+    logs:
+      level: DEBUG
+      path: logs/appium-server.log
+      timestamp: true
+      local_timezone: true
+      debug_spacing: true
+    android:
+      suppress_adb_kill: true
 devices:
-  test:
-    platform_type: ANDROID
-    device_name: MI Redmi Note 4
-    device_version: 7.0
-    app_type: HYBRID
-    device_type: REAL
-    automation_name: APPIUM
-    app_location: apps/android/VodQA.apk
+  android:
+    os: ANDROID
+    name: Google Pixel 3
+    version: 8.1
+    type: SIMULATOR
+    others:
+      clear_files: true
+      no_reset: false
+      full_reset: true
+      clear_logs: true
+    automation: UIAUTOMATOR2
+    android:
+      avd:
+        name: Pixel_3_XL_API_27
+        launch_timeout: 60000
+        ready_timeout: 60000
+        args: -gpu swiftshader_indirect
+      app:
+        install_timeout: 60000
+        type: HYBRID
+        path: apps/android/VodQA.apk
     session_timeout: 120000
     playback:
-      delay_before_swipe: 200
-      delay_after_swipe: 100
-      delay_before_tap: 0
-      delay_after_tap: 0
+      screenshot:
+        on_error: true
+      record:
+        enabled: true
+      stream:
+        enabled: true
+      delay:
+        before_swipe: 200
+        after_swipe: 100
+        before_tap: 0
+        after_tap: 0
+        implicit: 1
+        explicit: 20
 ```
 
 </details>
@@ -148,16 +170,20 @@ public class SampleTest {
     @BeforeClass
     public void setupTestSuite () {
         // Here the parameter refers to the key in server block in config file.
-        this.androidServer = new AppiumServer ("android");
+        this.androidServer = new AppiumServer ("android_server");
         this.androidServer.start ();
 
         // Here the param refers to the key in devices block in config file.
-        this.androidDevice = new AndroidDevice (this.androidServer, "test");
+        this.androidDevice = new AndroidDevice (this.androidServer, "android_device");
         this.androidDevice.start ();
+        this.androidDevice.startRecording ();
+        this.androidDevice.startStreaming ();
     }
 
     @AfterClass (alwaysRun = true)
     public void tearDownTestSuite () {
+        this.androidDevice.stopStreaming ();
+        this.androidDevice.stopRecording ();
         this.androidDevice.stop ();
         this.androidServer.stop ();
     }
@@ -258,18 +284,16 @@ public class LoginActivityAction extends AndroidActivityActions {
 
 ## :question: What to do when you need help?
 
-- You can chat with us on our [Gitter][gitter] room.
+- You can chat with us on our [Discord server][discord].
 - Directly chat with me on my [site][] and I'll revert to you as soon as possible.
-- Discuss your queries by writing to us on our [mailing list][]
-- If you find any issue which is bottleneck for you, [search the issue tracker][] to see if it is already raised.
+- If you find any issue which is a bottleneck for you, [search the issue tracker][issues] to see if it is already raised.
 - If not raised, then you can create a [new issue][] with required details as mentioned in the issue template.
 
 ## :star: What you do if you like the project?
 
-- Spread the word with your network.
 - **Star** the project to make the project popular.
 - Stay updated with the project progress by **Watching** it.
-- Contribute to fix open issues, documentations or add new features. To know more, see our [contributing][] page.
+- Contribute to fix open issues, documentations or add new features. Check our [contributing][] page.
 
 ## :heavy_check_mark: Contributors
 
@@ -318,12 +342,10 @@ For allowing us to run our unit tests on different platforms.
 [circleci]: https://circleci.com/gh/WasiqB/coteafs-appium
 [wiki]: https://wasiqb.github.io/projects/appium/intro/
 [site]: https://wasiqb.github.io
-[mailing list]: https://groups.google.com/forum/#!forum/coteafs-appium-users
-[search the issue tracker]: https://github.com/WasiqB/coteafs-appium/issues?q=something
+[issues]: https://github.com/WasiqB/coteafs-appium/issues?q=something
 [new issue]: https://github.com/WasiqB/coteafs-appium/issues/new
-[change log]: CHANGELOG.md
 [milestones]: https://github.com/WasiqB/coteafs-appium/milestones
 [maven]: https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium
 [contributing]: .github/CONTRIBUTING.md
-[intro-doc]: https://wasiqb.github.io/projects/appium/intro/
-[gitter]: https://gitter.im/WasiqB/coteafs-selenium
+[intro-doc]: https://wasiqb.github.io/projects/appium
+[discord]: https://discord.gg/vkR9TBdKxZ

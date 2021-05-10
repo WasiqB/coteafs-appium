@@ -16,24 +16,35 @@
 package com.github.wasiqb.coteafs.appium.service;
 
 import static com.github.wasiqb.coteafs.appium.checker.ServerChecker.checkServerConfigParams;
-import static com.github.wasiqb.coteafs.appium.utils.CapabilityUtils.setCapability;
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.BOOTSTRAP_PORT_NUMBER;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME_DRIVER_EXECUTABLE;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.CHROME_DRIVER_PORT;
+import static io.appium.java_client.service.local.flags.AndroidServerFlag.REBOOT;
 import static io.appium.java_client.service.local.flags.AndroidServerFlag.SUPPRESS_ADB_KILL_SERVER;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.ALLOW_INSECURE;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.ASYNC_TRACE;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_ADDRESS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CALLBACK_PORT;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.CONFIGURATION_FILE;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.DEBUG_LOG_SPACING;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.LOCAL_TIMEZONE;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.LOG_LEVEL;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.LOG_NO_COLORS;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.LOG_TIMESTAMP;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.PRE_LAUNCH;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.RELAXED_SECURITY;
 import static io.appium.java_client.service.local.flags.GeneralServerFlag.SESSION_OVERRIDE;
+import static io.appium.java_client.service.local.flags.GeneralServerFlag.STRICT_CAPS;
 import static io.appium.java_client.service.local.flags.IOSServerFlag.BACK_END_RETRIES;
+import static io.appium.java_client.service.local.flags.IOSServerFlag.DEFAULT_DEVICE;
 import static io.appium.java_client.service.local.flags.IOSServerFlag.IPA_ABSOLUTE_PATH;
 import static io.appium.java_client.service.local.flags.IOSServerFlag.SAFARI;
+import static io.appium.java_client.service.local.flags.IOSServerFlag.TRACE_DIRECTORY_ABSOLUTE_PATH;
 import static io.appium.java_client.service.local.flags.IOSServerFlag.WEBKIT_DEBUG_PROXY_PORT;
-import static org.apache.commons.lang3.StringUtils.isNoneEmpty;
+import static java.lang.String.join;
+import static java.text.MessageFormat.format;
+import static org.apache.commons.lang3.StringUtils.isNotEmpty;
 
 import java.io.File;
 import java.io.IOException;
@@ -46,49 +57,46 @@ import java.nio.file.Files;
 import java.util.concurrent.TimeUnit;
 
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
-import com.github.wasiqb.coteafs.appium.config.ServerArgumentSetting;
-import com.github.wasiqb.coteafs.appium.config.ServerSetting;
-import com.github.wasiqb.coteafs.appium.config.android.AndroidArgumentSetting;
-import com.github.wasiqb.coteafs.appium.config.ios.IOSArgumentSetting;
+import com.github.wasiqb.coteafs.appium.config.server.AndroidSetting;
+import com.github.wasiqb.coteafs.appium.config.server.IOSSetting;
+import com.github.wasiqb.coteafs.appium.config.server.LogSetting;
+import com.github.wasiqb.coteafs.appium.config.server.ServerSetting;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerAlreadyRunningError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerLogFileError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotRunningError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotStartingError;
 import com.github.wasiqb.coteafs.appium.error.AppiumServerNotStoppingError;
 import com.github.wasiqb.coteafs.datasource.DataSource;
-import io.appium.java_client.remote.MobileCapabilityType;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServerHasNotBeenStartedLocallyException;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.ServerArgument;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.openqa.selenium.remote.DesiredCapabilities;
 
 /**
  * @author wasiq.bhamla
- * @since 12-Apr-2017 5:17:22 PM
+ * @since 08-11-2020
  */
 public final class AppiumServer {
-    private static final Logger log = LogManager.getLogger (AppiumServer.class);
+    private static final Logger log = LogManager.getLogger ();
 
     private       AppiumServiceBuilder     builder;
-    private       DesiredCapabilities      capabilities;
     private       AppiumDriverLocalService service;
     private final ServerSetting            setting;
 
     /**
-     * @param name
+     * @param name Server settings block name
      *
      * @author wasiq.bhamla
-     * @since 13-Apr-2017 7:33:24 PM
+     * @since 08-11-2020
      */
     public AppiumServer (final String name) {
         this.setting = DataSource.parse (AppiumSetting.class)
             .getServer (name);
-        if (!this.setting.isExternal () && !this.setting.isCloud ()) {
-            initService ();
-            buildCapabilities ();
+        if (!this.setting.isExternal ()) {
+            this.builder = new AppiumServiceBuilder ();
             buildService ();
         }
     }
@@ -97,14 +105,14 @@ public final class AppiumServer {
      * @return url
      *
      * @author wasiq.bhamla
-     * @since 13-Apr-2017 3:28:14 PM
+     * @since 08-11-2020
      */
     public URL getServiceUrl () {
         log.trace ("Fetching Appium Service URL...");
-        if (!this.setting.isExternal () && !this.setting.isCloud ()) {
+        if (!this.setting.isExternal () && !isCloud ()) {
             return this.service.getUrl ();
         }
-        final String url = String.format ("%s/wd/hub", getUrl ());
+        final String url = format ("{0}/wd/hub", getUrl ());
         try {
             return new URL (url);
         } catch (final MalformedURLException e) {
@@ -115,22 +123,33 @@ public final class AppiumServer {
     }
 
     /**
+     * @return cloud settings
+     *
+     * @author Wasiq Bhamla
+     * @since Mar 13, 2021
+     */
+    public boolean isCloud () {
+        return this.setting.getCloud () != null && isNotEmpty (this.setting.getUserName ()) && isNotEmpty (
+            this.setting.getPassword ());
+    }
+
+    /**
      * @return isRunning
      *
      * @author wasiq.bhamla
-     * @since 13-Apr-2017 5:30:12 PM
+     * @since 08-11-2020
      */
     public boolean isRunning () {
-        if (this.setting.isCloud ()) {
+        if (isCloud ()) {
             return true;
         }
         if (!this.setting.isExternal ()) {
             log.trace ("Checking if Appium Service is running...");
             return this.service.isRunning ();
         }
-        final SocketAddress addr = new InetSocketAddress (this.setting.getHost (), this.setting.getPort ());
+        final SocketAddress address = new InetSocketAddress (this.setting.getHost (), this.setting.getPort ());
         try (final Socket socket = new Socket ()) {
-            socket.connect (addr, 2000);
+            socket.connect (address, 2000);
         } catch (final IOException e) {
             fail (AppiumServerNotRunningError.class, "Error connecting to Server...", e);
         }
@@ -139,11 +158,11 @@ public final class AppiumServer {
 
     /**
      * @author wasiq.bhamla
-     * @since 12-Apr-2017 5:23:19 PM
+     * @since 08-11-2020
      */
     public void start () {
         log.trace ("Starting Appium Service...");
-        if (!this.setting.isExternal () && !this.setting.isCloud ()) {
+        if (!this.setting.isExternal () && !isCloud ()) {
             boolean failure = false;
             this.service = AppiumDriverLocalService.buildService (this.builder);
             try {
@@ -169,11 +188,11 @@ public final class AppiumServer {
 
     /**
      * @author wasiq.bhamla
-     * @since 12-Apr-2017 5:23:39 PM
+     * @since 08-11-2020
      */
     public void stop () {
         log.trace ("Trying to stop Appium Service...");
-        if (!this.setting.isExternal () && !this.setting.isCloud ()) {
+        if (!this.setting.isExternal () && !isCloud ()) {
             try {
                 this.service.stop ();
             } catch (final Exception e) {
@@ -186,46 +205,40 @@ public final class AppiumServer {
         }
     }
 
-    /**
-     * @author wasiq.bhamla
-     * @since 12-Apr-2017 9:29:17 PM
-     */
-    private void buildCapabilities () {
-        log.trace ("Building Appium Capabilities started...");
-        setCapability (MobileCapabilityType.NO_RESET, Boolean.toString (this.setting.isNoReset ()), this.capabilities);
-        setCapability (MobileCapabilityType.FULL_RESET, Boolean.toString (this.setting.isFullReset ()),
-            this.capabilities);
-        setCapability (MobileCapabilityType.NEW_COMMAND_TIMEOUT, Integer.toString (this.setting.getSessionTimeout ()),
-            this.capabilities);
-        log.trace ("Building Appium Capabilities completed...");
-    }
-
     private void buildService () {
         log.trace ("Building Appium Service started...");
-        checkServerConfigParams ("IP Host Address", this.setting.getHost ());
-        this.builder.withIPAddress (this.setting.getHost ())
-            .withStartUpTimeOut (this.setting.getStartUpTimeOutSeconds (), TimeUnit.SECONDS);
+        this.builder.withIPAddress (getHost ())
+            .withStartUpTimeOut (this.setting.getStartUpTimeout (), TimeUnit.SECONDS);
         setPort ();
         setLogFile ();
         setAppiumJS ();
         setNodeExe ();
-        setCapabilities ();
         setArguments ();
         setEnvironmentVariables ();
         log.trace ("Building Appium Service done...");
     }
 
+    private String getHost () {
+        if (this.setting.getCloud () != null) {
+            return this.setting.getCloud ()
+                .getUrl ();
+        }
+        checkServerConfigParams ("IP Host Address", this.setting.getHost ());
+        return this.setting.getHost ();
+    }
+
     private String getUrl () {
         final StringBuilder sb = new StringBuilder (this.setting.getProtocol ()
             .getName ()).append ("://");
-        if (this.setting.isCloud ()) {
+        if (isCloud ()) {
             checkServerConfigParams ("User Name", this.setting.getUserName ());
             checkServerConfigParams ("Password", this.setting.getPassword ());
             sb.append (this.setting.getUserName ())
                 .append (":")
                 .append (this.setting.getPassword ())
                 .append ("@")
-                .append (this.setting.getHost ());
+                .append (this.setting.getCloud ()
+                    .getUrl ());
         } else {
             sb.append (this.setting.getHost ());
         }
@@ -236,20 +249,20 @@ public final class AppiumServer {
         return sb.toString ();
     }
 
-    private void initService () {
-        log.trace ("Initializing Appium Service started...");
-        this.builder = new AppiumServiceBuilder ();
-        this.capabilities = new DesiredCapabilities ();
-        log.trace ("Initializing Appium Service done...");
+    private void setAndroidArguments () {
+        final AndroidSetting android = this.setting.getAndroid ();
+        if (android != null) {
+            setArgument (BOOTSTRAP_PORT_NUMBER, android.getBootstrapPort ());
+            setArgument (CHROME_DRIVER_PORT, android.getChromeDriverPort ());
+            setArgument (REBOOT, android.isReboot ());
+            setArgument (CHROME_DRIVER_EXECUTABLE, android.getChromeDriverPath ());
+            setArgument (SUPPRESS_ADB_KILL_SERVER, android.isSuppressAdbKill ());
+        }
     }
 
-    /**
-     * @author wasiq.bhamla
-     * @since Oct 27, 2017 12:39:17 PM
-     */
     private void setAppiumJS () {
-        if (this.setting.getAppiumJsPath () != null) {
-            final File appJs = new File (this.setting.getAppiumJsPath ());
+        if (this.setting.getAppiumPath () != null) {
+            final File appJs = new File (this.setting.getAppiumPath ());
             this.builder.withAppiumJS (appJs);
         }
     }
@@ -266,72 +279,65 @@ public final class AppiumServer {
         }
     }
 
-    /**
-     * @param flag
-     * @param value
-     *
-     * @author wasiq.bhamla
-     * @since Oct 27, 2017 3:15:05 PM
-     */
     private void setArgument (final ServerArgument flag, final String value) {
-        if (isNoneEmpty (value)) {
+        if (StringUtils.isNoneEmpty (value)) {
             this.builder.withArgument (flag, value);
         }
     }
 
-    /**
-     * @author wasiq.bhamla
-     * @since Oct 27, 2017 12:43:53 PM
-     */
     private void setArguments () {
-        final ServerArgumentSetting args = this.setting.getArguments ();
-        final IOSArgumentSetting ios = args.getIos ();
-        final AndroidArgumentSetting android = args.getAndroid ();
+        setIosArguments ();
+        setAndroidArguments ();
+        setLogArguments ();
+        setCommonArguments ();
+    }
 
+    private void setCommonArguments () {
+        setArgument (() -> "--allow-cors", this.setting.isAllowCors ());
+        setArgument (STRICT_CAPS, this.setting.isStrictCapabilities ());
+        setArgument (RELAXED_SECURITY, this.setting.isRelaxedSecurity ());
+        setArgument (PRE_LAUNCH, this.setting.isPreLaunch ());
+        setArgument (SESSION_OVERRIDE, this.setting.isSessionOverride ());
+        setArgument (CONFIGURATION_FILE, this.setting.getNodeConfig ());
+        setArgument (CALLBACK_ADDRESS, this.setting.getCallbackIp ());
+        setArgument (CALLBACK_PORT, this.setting.getCallbackPort ());
+        if (this.setting.getAllowInsecure () != null && !this.setting.getAllowInsecure ()
+            .isEmpty ()) {
+            setArgument (ALLOW_INSECURE, join (",", this.setting.getAllowInsecure ()));
+        }
+    }
+
+    private void setEnvironmentVariables () {
+        this.builder.withEnvironment (this.setting.getEnvironments ());
+    }
+
+    private void setIosArguments () {
+        final IOSSetting ios = this.setting.getIos ();
         if (ios != null) {
             setArgument (BACK_END_RETRIES, ios.getBackendRetries ());
-            setArgument (IPA_ABSOLUTE_PATH, ios.getIpaAbsolutePath ());
+            setArgument (IPA_ABSOLUTE_PATH, ios.getIpaPath ());
             setArgument (SAFARI, ios.isSafari ());
-            setArgument (WEBKIT_DEBUG_PROXY_PORT, ios.getWebkitDebugProxyPort ());
+            setArgument (DEFAULT_DEVICE, ios.getDefaultDevice ());
+            setArgument (TRACE_DIRECTORY_ABSOLUTE_PATH, ios.getTracePath ());
+            setArgument (WEBKIT_DEBUG_PROXY_PORT, ios.getWkdProxyPort ());
+            setArgument (() -> "--webdriveragent-port", ios.getWdaPort ());
         }
-        if (android != null) {
-            setArgument (BOOTSTRAP_PORT_NUMBER, android.getBootstrapPort ());
-            setArgument (CHROME_DRIVER_PORT, android.getChromeDriverPort ());
-            setArgument (CHROME_DRIVER_EXECUTABLE, android.getChromeDriverExePath ());
-            setArgument (SUPPRESS_ADB_KILL_SERVER, android.isSuppressAdbKillServer ());
-        }
-        setArgument (LOG_LEVEL, args.getLogLevel ()
+    }
+
+    private void setLogArguments () {
+        final LogSetting logs = this.setting.getLogs ();
+        setArgument (LOG_LEVEL, logs.getLevel ()
             .toString ());
-        setArgument (SESSION_OVERRIDE, args.isSessionOverride ());
-        setArgument (LOG_TIMESTAMP, args.isLogTimeStamp ());
-        setArgument (LOCAL_TIMEZONE, args.isLocalTimeZone ());
-        setArgument (CONFIGURATION_FILE, args.getNodeConfigFile ());
-        setArgument (CALLBACK_ADDRESS, args.getCallbackIp ());
-        setArgument (CALLBACK_PORT, args.getCallbackPort ());
+        setArgument (LOG_NO_COLORS, logs.isNoColors ());
+        setArgument (ASYNC_TRACE, logs.isAsyncTrace ());
+        setArgument (DEBUG_LOG_SPACING, logs.isDebugSpacing ());
+        setArgument (LOG_TIMESTAMP, logs.isTimestamp ());
+        setArgument (LOCAL_TIMEZONE, logs.isLocalTimezone ());
     }
 
-    /**
-     * @author wasiq.bhamla
-     * @since Oct 27, 2017 12:40:55 PM
-     */
-    private void setCapabilities () {
-        this.builder.withCapabilities (this.capabilities);
-    }
-
-    /**
-     * @author wasiq.bhamla
-     * @since Oct 27, 2017 1:10:26 PM
-     */
-    private void setEnvironmentVariables () {
-        this.builder = this.builder.withEnvironment (this.setting.getEnvironmentVariables ());
-    }
-
-    /**
-     * @author wasiq.bhamla
-     * @since Oct 27, 2017 3:00:49 PM
-     */
     private void setLogFile () {
-        final String logFilePath = this.setting.getLogFilePath ();
+        final String logFilePath = this.setting.getLogs ()
+            .getPath ();
         if (logFilePath != null) {
             final File logFile = new File (logFilePath);
             try {
@@ -341,26 +347,22 @@ public final class AppiumServer {
             } catch (final IOException e) {
                 fail (AppiumServerLogFileError.class, "Error while deleting log file!", e);
             }
-            this.builder = this.builder.withLogFile (logFile);
+            this.builder.withLogFile (logFile);
         }
     }
 
     private void setNodeExe () {
         if (this.setting.getNodePath () != null) {
             final File nde = new File (this.setting.getNodePath ());
-            this.builder = this.builder.usingDriverExecutable (nde);
+            this.builder.usingDriverExecutable (nde);
         }
     }
 
-    /**
-     * @author wasiq.bhamla
-     * @since Oct 27, 2017 12:42:30 PM
-     */
     private void setPort () {
         if (this.setting.getPort () > 0) {
-            this.builder = this.builder.usingPort (this.setting.getPort ());
+            this.builder.usingPort (this.setting.getPort ());
         } else {
-            this.builder = this.builder.usingAnyFreePort ();
+            this.builder.usingAnyFreePort ();
         }
     }
 }

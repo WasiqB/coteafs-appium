@@ -15,7 +15,7 @@
  */
 package com.github.wasiqb.coteafs.appium.checker;
 
-import static com.github.wasiqb.coteafs.appium.utils.ErrorUtils.fail;
+import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
 
 import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementDisabledError;
@@ -28,45 +28,48 @@ import io.appium.java_client.MobileElement;
  */
 public final class DeviceChecker {
     /**
-     * @param key
-     * @param value
+     * @param key Capability key
+     * @param value Capability value
+     *
      * @author wasiq.bhamla
      * @since 12-May-2017 7:31:31 PM
      */
-    public static void checkCapabilitiesParams(final String key, final Object value) {
+    public static void checkCapabilitiesParams (final String key, final Object value) {
         if (value == null) {
             final String msg = "Device Desired Capabilities value for [%s] key not set.";
-            fail(DeviceDesiredCapabilitiesNotSetError.class, String.format(msg, key));
+            fail (DeviceDesiredCapabilitiesNotSetError.class, String.format (msg, key));
         }
     }
 
     /**
-     * @param element
-     * @param name
+     * @param element Element under test
+     * @param name Name of element
+     *
      * @author wasiq.bhamla
      * @since 04-May-2017 10:10:28 PM
      */
-    public static void checkDeviceElementDisplayed(final MobileElement element, final String name) {
-        if (!element.isDisplayed()) {
+    public static void checkDeviceElementDisplayed (final MobileElement element, final String name) {
+        if (!element.isDisplayed ()) {
             final String msg = "Device element [%s] is not displayed.";
-            fail(DeviceElementNotDisplayedError.class, String.format(msg, name));
+            fail (DeviceElementNotDisplayedError.class, String.format (msg, name));
         }
     }
 
     /**
-     * @param element
-     * @param name
+     * @param element Element under test
+     * @param name Name of element
+     *
      * @author wasiq.bhamla
      * @since 04-May-2017 11:08:59 PM
      */
-    public static void checkDeviceElementEnabled(final MobileElement element, final String name) {
-        if (!element.isEnabled()) {
+    public static void checkDeviceElementEnabled (final MobileElement element, final String name) {
+        if (!element.isEnabled ()) {
             final String msg = "Device element [%s] is disabled.";
-            fail(DeviceElementDisabledError.class, String.format(msg, name));
+            fail (DeviceElementDisabledError.class, String.format (msg, name));
         }
     }
 
-    private DeviceChecker() {
+    private DeviceChecker () {
         // Utility class.
     }
 }
