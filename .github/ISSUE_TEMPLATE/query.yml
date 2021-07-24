@@ -1,0 +1,12 @@
+name: "❓ Query"
+description: Any query related to coteafs-appium
+title: "[Query]"
+labels:
+  - help
+body:
+  - type: textarea
+    attributes:
+      label: Write your query here
+      placeholder: What query you have?
+    validations:
+      required: true
