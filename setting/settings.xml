@@ -33,8 +33,8 @@
 	<servers>
 		<server>
 			<id>ossrh</id>
-			<username>${env.SERVER_OSSRH_USERNAME}</username>
-			<password>${env.SERVER_OSSRH_PASSWORD}</password>
+			<username>${env.NEXUS_USERNAME}</username>
+			<password>${env.NEXUS_PASSWORD}</password>
 		</server>
 	</servers>
 </settings>
