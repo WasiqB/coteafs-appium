@@ -2,18 +2,21 @@ name: Mark stale issues and pull requests
 
 on:
   schedule:
-  - cron: "30 1 * * *"
+    - cron: "0 0 * * *"
 
 jobs:
   stale:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/stale@v3
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
-        stale-issue-message: 'Stale issue message'
-        stale-pr-message: 'Stale pull request message'
-        stale-issue-label: 'no-issue-activity'
-        stale-pr-label: 'no-pr-activity'
+      - uses: actions/stale@v3
+        with:
+          repo-token: ${{ github.token }}
+          stale-issue-message: 'Ticket is stale since last 90 days.'
+          stale-pr-message: 'PR is stale since last 90 days'
+          stale-issue-label: 'no-issue-activity'
+          stale-pr-label: 'no-pr-activity'
+          days-before-stale: 90
+          days-before-close: 120
+          close-issue-message: 'Ticket is closed since no activity for last 120 days'
+          close-pr-message: 'PR is closed without merge since last 120 days.'
