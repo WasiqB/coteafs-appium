@@ -40,6 +40,11 @@ jobs:
     needs:
       - build
     runs-on: ubuntu-latest
+    env:
+      CLOUD_USER: ${{ secrets.CLOUD_USER }}
+      CLOUD_KEY: ${{ secrets.CLOUD_KEY }}
+      APP: ${{ secrets.APP }}
+      APP_IOS: ${{ secrets.APP_IOS }}
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
