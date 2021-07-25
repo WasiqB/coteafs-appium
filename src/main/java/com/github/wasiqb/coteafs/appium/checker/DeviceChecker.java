@@ -16,6 +16,7 @@
 package com.github.wasiqb.coteafs.appium.checker;
 
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static java.text.MessageFormat.format;
 
 import com.github.wasiqb.coteafs.appium.error.DeviceDesiredCapabilitiesNotSetError;
 import com.github.wasiqb.coteafs.appium.error.DeviceElementDisabledError;
@@ -36,8 +37,8 @@ public final class DeviceChecker {
      */
     public static void checkCapabilitiesParams (final String key, final Object value) {
         if (value == null) {
-            final String msg = "Device Desired Capabilities value for [%s] key not set.";
-            fail (DeviceDesiredCapabilitiesNotSetError.class, String.format (msg, key));
+            final String msg = "Device Desired Capabilities value for [{0}] key not set.";
+            fail (DeviceDesiredCapabilitiesNotSetError.class, format (msg, key));
         }
     }
 
@@ -50,8 +51,8 @@ public final class DeviceChecker {
      */
     public static void checkDeviceElementDisplayed (final MobileElement element, final String name) {
         if (!element.isDisplayed ()) {
-            final String msg = "Device element [%s] is not displayed.";
-            fail (DeviceElementNotDisplayedError.class, String.format (msg, name));
+            final String msg = "Device element [{0}] is not displayed.";
+            fail (DeviceElementNotDisplayedError.class, format (msg, name));
         }
     }
 
@@ -64,8 +65,8 @@ public final class DeviceChecker {
      */
     public static void checkDeviceElementEnabled (final MobileElement element, final String name) {
         if (!element.isEnabled ()) {
-            final String msg = "Device element [%s] is disabled.";
-            fail (DeviceElementDisabledError.class, String.format (msg, name));
+            final String msg = "Device element [{0}] is disabled.";
+            fail (DeviceElementDisabledError.class, format (msg, name));
         }
     }
 
