@@ -23,7 +23,7 @@ import static io.appium.java_client.touch.TapOptions.tapOptions;
 import static io.appium.java_client.touch.WaitOptions.waitOptions;
 import static io.appium.java_client.touch.offset.ElementOption.element;
 import static io.appium.java_client.touch.offset.PointOption.point;
-import static java.lang.String.format;
+import static java.text.MessageFormat.format;
 import static java.time.Duration.ofMillis;
 
 import java.util.function.Consumer;
@@ -96,7 +96,7 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
      */
     public void appendText (final String text) {
         tap ();
-        final String actionType = String.format ("Appending text [%s] in", text);
+        final String actionType = format ("Appending text [{0}] in", text);
         perform (actionType, e -> e.sendKeys (text));
     }
 
@@ -131,7 +131,8 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
      * @since Feb 2, 2018 1:45:15 PM
      */
     public void dragDrop (final MobileElement dropElement) {
-        perform ("Performing drag on", e -> SwipeUtils.<T>init ().actions (this.touch)
+        perform ("Performing drag on", e -> SwipeUtils.<T>init ()
+            .actions (this.touch)
             .setting (this.setting.getDelay ())
             .prepare ()
             .dragTo (e, dropElement)
@@ -157,7 +158,7 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
     public void enterText (final String text) {
         tap ();
         clear ();
-        final String actionType = String.format ("Entering text [%s] in", text);
+        final String actionType = format ("Entering text [{0}] in", text);
         perform (actionType, e -> e.sendKeys (text));
     }
 
@@ -199,7 +200,7 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
      * @since Oct 18, 2018
      */
     public void nTaps (final int times) {
-        perform (format ("Performing [%d] taps on", times), e -> {
+        perform (format ("Performing [{0}] taps on", times), e -> {
             final Point center = e.getCenter ();
             for (int index = 0; index < times; index++) {
                 this.touch.press (point (center.getX (), center.getY ()))
@@ -354,7 +355,8 @@ public class DeviceElementActions<D extends AppiumDriver<MobileElement>, E exten
 
     private T swipeTo (final MobileElement targetElement, final SwipeDirection direction,
         final SwipeStartPosition start, final int distancePercent) {
-        return SwipeUtils.<T>init ().direction (direction)
+        return SwipeUtils.<T>init ()
+            .direction (direction)
             .startPosition (start)
             .distancePercent (distancePercent)
             .setting (this.setting.getDelay ())

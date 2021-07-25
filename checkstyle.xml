@@ -1,10 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2020 Wasiq Bhamla
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~     http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
 <!DOCTYPE module PUBLIC
-        "-//Puppy Crawl//DTD Check Configuration 1.3//EN"
-        "http://checkstyle.sourceforge.net/dtds/configuration_1_3.dtd">
-<!-- The DuraSpace Code Style Requirements defined below are also described 
-	in the README.md file, which can be viewed in this directory or on Github: 
-	https://github.com/duraspace/resources/blob/master/checkstyle/README.md For 
+        "-//Checkstyle//DTD Checkstyle Configuration 1.3//EN"
+        "https://checkstyle.org/dtds/configuration_1_3.dtd">
+<!-- The DuraSpace Code Style Requirements defined below are also described
+	in the README.md file, which can be viewed in this directory or on Github:
+	https://github.com/duraspace/resources/blob/master/checkstyle/README.md For
 	more information on specific CheckStyle configurations, see: http://checkstyle.sourceforge.net/checks.html -->
 <module name="Checker">
     <!-- Configure checker to use UTF-8 encoding -->
@@ -102,7 +117,7 @@
         <!-- Requirements for Javadocs for methods -->
         <module name="JavadocMethod">
             <!-- All public methods MUST HAVE Javadocs -->
-            <property name="scope" value="public"/>
+            <property name="accessModifiers" value="public"/>
             <!-- Allow params, throws and return tags to be optional -->
             <property name="allowMissingParamTags" value="true"/>
             <property name="allowMissingReturnTag" value="true"/>
