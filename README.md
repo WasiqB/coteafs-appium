@@ -132,7 +132,7 @@ devices:
     playback:
       screenshot:
         on_error: true
-      record:
+      recording:
         enabled: true
       stream:
         enabled: true
