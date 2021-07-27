@@ -47,7 +47,7 @@ device: &default_device
       bit_rate: 50
     screenshot:
       on_error: true
-    record:
+    recording:
       enabled: false
       time_limit: 5
       android:

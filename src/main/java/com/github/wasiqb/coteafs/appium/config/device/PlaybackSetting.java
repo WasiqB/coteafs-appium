@@ -27,7 +27,7 @@ import lombok.Data;
 public class PlaybackSetting {
     private DelaySetting       delay         = new DelaySetting ();
     private int                maxSwipeCount = 5;
-    private RecordSetting      record        = new RecordSetting ();
+    private RecordSetting      recording     = new RecordSetting ();
     private ScreenshotSetting  screenshot    = new ScreenshotSetting ();
     private VideoStreamSetting stream        = new VideoStreamSetting ();
 }

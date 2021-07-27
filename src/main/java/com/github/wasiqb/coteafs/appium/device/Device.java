@@ -37,15 +37,18 @@ import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_LAUNC
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.AVD_READY_TIMEOUT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROMEDRIVER_EXECUTABLE;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.CHROME_OPTIONS;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.DISABLE_WINDOW_ANIMATION;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.DONT_STOP_APP_ON_RESET;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.IS_HEADLESS;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.NATIVE_WEB_SCREENSHOT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.NETWORK_SPEED;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.REMOTE_ADB_HOST;
+import static io.appium.java_client.remote.AndroidMobileCapabilityType.SKIP_DEVICE_INITIALIZATION;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.SKIP_UNLOCK;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.SYSTEM_PORT;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.UNLOCK_KEY;
 import static io.appium.java_client.remote.AndroidMobileCapabilityType.UNLOCK_TYPE;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.AUTO_ACCEPT_ALERTS;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.BUNDLE_ID;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.LAUNCH_TIMEOUT;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.SAFARI_ALLOW_POPUPS;
@@ -54,6 +57,7 @@ import static io.appium.java_client.remote.IOSMobileCapabilityType.UPDATE_WDA_BU
 import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_NEW_WDA;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.USE_PREBUILT_WDA;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_CONNECTION_TIMEOUT;
+import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_LAUNCH_TIMEOUT;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_LOCAL_PORT;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_RETRIES;
 import static io.appium.java_client.remote.IOSMobileCapabilityType.WDA_STARTUP_RETRY_INTERVAL;
@@ -62,10 +66,13 @@ import static io.appium.java_client.remote.IOSMobileCapabilityType.XCODE_SIGNING
 import static io.appium.java_client.remote.MobileCapabilityType.APP;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTOMATION_NAME;
 import static io.appium.java_client.remote.MobileCapabilityType.AUTO_WEBVIEW;
+import static io.appium.java_client.remote.MobileCapabilityType.CLEAR_SYSTEM_FILES;
 import static io.appium.java_client.remote.MobileCapabilityType.DEVICE_NAME;
+import static io.appium.java_client.remote.MobileCapabilityType.FULL_RESET;
 import static io.appium.java_client.remote.MobileCapabilityType.LANGUAGE;
 import static io.appium.java_client.remote.MobileCapabilityType.LOCALE;
 import static io.appium.java_client.remote.MobileCapabilityType.NEW_COMMAND_TIMEOUT;
+import static io.appium.java_client.remote.MobileCapabilityType.NO_RESET;
 import static io.appium.java_client.remote.MobileCapabilityType.OTHER_APPS;
 import static io.appium.java_client.remote.MobileCapabilityType.PLATFORM_VERSION;
 import static java.lang.System.getProperty;
@@ -85,6 +92,7 @@ import java.util.concurrent.TimeUnit;
 import com.github.wasiqb.coteafs.appium.checker.ServerChecker;
 import com.github.wasiqb.coteafs.appium.config.AppiumSetting;
 import com.github.wasiqb.coteafs.appium.config.device.DeviceSetting;
+import com.github.wasiqb.coteafs.appium.config.device.OtherSetting;
 import com.github.wasiqb.coteafs.appium.config.device.RecordSetting;
 import com.github.wasiqb.coteafs.appium.config.device.VideoStreamSetting;
 import com.github.wasiqb.coteafs.appium.config.device.android.AdbSetting;
@@ -359,6 +367,9 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
             }
             setCapability (SKIP_UNLOCK, android.isSkipUnlock (), this.capabilities);
             setCapability (SYSTEM_PORT, android.getSystemPort (), this.capabilities);
+            setCapability (DISABLE_WINDOW_ANIMATION, android.isDisableAnimation (), this.capabilities);
+            setCapability (SKIP_DEVICE_INITIALIZATION, android.isSkipDeviceInit (), this.capabilities);
+
             if (this.setting.getType () == DeviceType.SIMULATOR) {
                 setAvdSetting (android.getAvd ());
             }
@@ -419,6 +430,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         setCapability (IS_HEADLESS, this.setting.isHeadless (), this.capabilities);
         setCapability (LAUNCH_TIMEOUT, this.setting.getLaunchTimeout (), this.capabilities);
         setCapability (AUTO_WEBVIEW, this.setting.isAutoWebView (), this.capabilities);
+        setOtherCapabilities (this.setting.getOthers ());
     }
 
     private void setDeviceSpecificCapabilities () {
@@ -440,9 +452,15 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
             setCapability (LOCALE, this.setting.getLanguage ()
                 .getLocale ()
                 .toLanguageTag (), this.capabilities);
-            setIosAppCapabilities (ios.getApp ());
+            setCapability (AUTO_ACCEPT_ALERTS, this.setting.getIos ()
+                .isAutoAcceptAlerts (), this.capabilities);
+            if (ios.getApp ()
+                .getType () != ApplicationType.WEB) {
+                setIosAppCapabilities (ios.getApp ());
+            } else {
+                setIosWebCapabilities (ios.getWeb ());
+            }
             setIosWdaCapabilities (ios.getWda ());
-            setIosWebCapabilities (ios.getWeb ());
         }
     }
 
@@ -463,6 +481,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
     private void setIosAppCapabilities (final IOSAppSetting app) {
         setCapability (APP, getAppPath (app.getPath (), app.isExternal ()), this.capabilities);
         setCapability (BUNDLE_ID, app.getBundleId (), this.capabilities);
+        setCapability (LAUNCH_TIMEOUT, app.getLaunchTimeout (), this.capabilities);
     }
 
     private void setIosWdaCapabilities (final WDASetting wda) {
@@ -477,6 +496,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
         setCapability (WDA_STARTUP_RETRIES, wda.getStartupRetries (), this.capabilities);
         setCapability (WDA_STARTUP_RETRY_INTERVAL, wda.getStartupRetryInterval (), this.capabilities);
         setCapability (WDA_LOCAL_PORT, wda.getLocalPort (), this.capabilities);
+        setCapability (WDA_LAUNCH_TIMEOUT, wda.getLaunchTimeout (), this.capabilities);
     }
 
     private void setIosWebCapabilities (final IOSWebSetting web) {
@@ -491,6 +511,12 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
             setDeviceCapabilities ();
             setDeviceSpecificCapabilities ();
         }
+    }
+
+    private void setOtherCapabilities (final OtherSetting others) {
+        setCapability (CLEAR_SYSTEM_FILES, others.isClearFiles (), this.capabilities);
+        setCapability (FULL_RESET, others.isFullReset (), this.capabilities);
+        setCapability (NO_RESET, others.isNoReset (), this.capabilities);
     }
 
     private void setSettings () {
@@ -527,7 +553,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private <X extends BaseStartScreenRecordingOptions<X>> void startRecord (final CanRecordScreen screen) {
         final RecordSetting record = this.setting.getPlayback ()
-            .getRecord ();
+            .getRecording ();
         if (record.isEnabled ()) {
             LOG.info ("Starting video recording...");
             final X option = startRecordSetting ();
@@ -538,7 +564,7 @@ public abstract class Device<D extends AppiumDriver<MobileElement>, T extends To
 
     private <X extends BaseStopScreenRecordingOptions<X>> void stopRecord (final CanRecordScreen screen) {
         final RecordSetting record = this.setting.getPlayback ()
-            .getRecord ();
+            .getRecording ();
         if (record.isEnabled ()) {
             LOG.info ("Stopping video recording...");
             final String content = screen.<X>stopRecordingScreen (stopRecordSetting ());
