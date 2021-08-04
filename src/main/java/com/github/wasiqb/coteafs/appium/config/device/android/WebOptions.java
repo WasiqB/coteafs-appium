@@ -28,5 +28,5 @@ import lombok.Data;
 @Data
 public class WebOptions {
     private List<String>              args;
-    private WebPerformancePreferences performancePreferences;
+    private WebPerformancePreferences performancePreferences = new WebPerformancePreferences ();
 }

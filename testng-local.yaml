@@ -8,26 +8,9 @@ listeners:
   - com.github.wasiqb.coteafs.listeners.AnnotationTransformer
   - com.github.wasiqb.coteafs.listeners.SuiteResultReporter
 tests:
-  - name: Android Test Local
+  - name: Android Test Local App
     parameters: { server: android, device: android }
     classes:
-      - name: com.github.wasiqb.coteafs.appium.android.VodQATest
+      - name: com.github.wasiqb.coetafs.appium.saucedemo.android.SauceDemoTest
         includedMethods:
-          - test01Login
-          - test02NativeView
-          - test03LongPress
-          - test04Rotation
-          - test05Slider
-          - test06VerticalSwipe
-          - test07DragDrop
-          - test08DoubleTap
-          - test09PushPullFile
-          - test10ScrollOnDeviceUntilElement
-          - test11ScrollOnElementUntilElement
-  - name: IOS Test Local
-    parameters: { server: ios, device: iphone }
-    classes:
-      - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
-        includedMethods:
-          - test1Login
-          - test2PushPullFile
+          - testLogin

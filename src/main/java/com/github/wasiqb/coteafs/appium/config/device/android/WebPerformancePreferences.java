@@ -25,6 +25,6 @@ import lombok.Data;
  */
 @Data
 public class WebPerformancePreferences {
-    private boolean network;
-    private boolean page;
+    private boolean network = false;
+    private boolean page    = false;
 }

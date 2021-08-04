@@ -17,6 +17,8 @@
  */
 package com.github.wasiqb.coteafs.appium.config.device.android;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+
 import lombok.Data;
 
 /**
@@ -25,9 +27,9 @@ import lombok.Data;
  */
 @Data
 public class AndroidWebSetting {
-    private boolean    acceptSslCerts;
-    private String     chromeDriverPath;
+    private boolean    acceptSslCerts   = true;
+    private String     chromeDriverPath = EMPTY;
     private boolean    nativeScreenshot;
-    private WebOptions options;
+    private WebOptions options          = new WebOptions ();
     private boolean    showBrowserLogs;
 }

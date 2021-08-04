@@ -37,18 +37,17 @@ import lombok.Data;
 public class DeviceSetting {
     private AndroidDeviceSetting android;
     private boolean              autoWebView;
-    private AutomationType       automation        = AutomationType.UIAUTOMATOR2;
+    private AutomationType       automation        = AutomationType.APPIUM;
     private Browser              browser;
     private Map<String, String>  cloudCapabilities = new HashMap<> ();
     private boolean              headless;
     private IOSDeviceSetting     ios;
     private Language             language          = Language.US;
-    private long                 launchTimeout;
     private String               name;
     private PlatformType         os                = PlatformType.ANDROID;
     private OtherSetting         others            = new OtherSetting ();
     private PlaybackSetting      playback          = new PlaybackSetting ();
-    private int                  sessionTimeout    = 60000;
+    private int                  sessionTimeout    = 60;
     private DeviceType           type              = DeviceType.SIMULATOR;
     private String               version;
 
