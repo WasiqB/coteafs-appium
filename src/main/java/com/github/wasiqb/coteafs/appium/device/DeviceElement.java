@@ -16,6 +16,7 @@
 package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.config.enums.AutomationType.APPIUM;
+import static com.github.wasiqb.coteafs.appium.config.enums.AutomationType.UIAUTOMATOR2;
 import static com.github.wasiqb.coteafs.appium.config.enums.PlatformType.ANDROID;
 import static java.text.MessageFormat.format;
 
@@ -92,7 +93,7 @@ public class DeviceElement {
      * @since Nov 4, 2018
      */
     public DeviceElement forAndroid (final By findBy) {
-        return using (ANDROID, APPIUM, findBy);
+        return using (ANDROID, UIAUTOMATOR2, findBy);
     }
 
     /**

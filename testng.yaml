@@ -11,24 +11,6 @@ tests:
   - name: Android Test
     parameters: { server: browserstack, device: android_bs }
     classes:
-      - name: com.github.wasiqb.coteafs.appium.android.VodQATest
+      - name: com.github.wasiqb.coetafs.appium.saucedemo.android.SauceDemoTest
         includedMethods:
-          - test01Login
-          - test02NativeView
-          - test03LongPress
-          - test04Rotation
-          - test05Slider
-          - test06VerticalSwipe
-          - test07DragDrop
-          - test09PushPullFile
-          - test10ScrollOnDeviceUntilElement
-          - test11ScrollOnElementUntilElement
-        excludedMethods:
-          - test08DoubleTap
-  - name: IOS Test BrowserStack
-    parameters: { server: browserstack, device: ios_bs }
-    classes:
-      - name: com.github.wasiqb.coetafs.appium.ios.webdriverio.test.IOSTest
-        includedMethods:
-          - test1Login
-          - test2PushPullFile
+          - testLogin

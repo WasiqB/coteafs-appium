@@ -17,6 +17,7 @@ package com.github.wasiqb.coteafs.appium.device;
 
 import static com.github.wasiqb.coteafs.appium.constants.ErrorMessage.SERVER_STOPPED;
 import static com.github.wasiqb.coteafs.error.util.ErrorUtil.fail;
+import static java.text.MessageFormat.format;
 import static java.time.Duration.ofSeconds;
 import static org.openqa.selenium.support.ui.ExpectedConditions.visibilityOfElementLocated;
 
@@ -174,7 +175,7 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
             }
             return result.get (index);
         } catch (final TimeoutException e) {
-            final String message = String.format ("[%s] locator timed out.", locator);
+            final String message = format ("[{0}] locator timed out.", locator);
             log.warn (message);
         } catch (final NoSuchSessionException e) {
             fail (AppiumServerStoppedError.class, SERVER_STOPPED, e);
@@ -184,12 +185,12 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
             captureScreenshotOnError ();
             String message = "";
             if (parent == null) {
-                message = String.format (
-                    "Error occured while finding root device element with locator [%s] at index [%d].", locator, index);
+                message = format ("Error occurred while finding root device element with locator [{0}] at index [{1}].",
+                    locator, index);
                 fail (DeviceElementNotFoundError.class, message, e);
             } else {
-                message = String.format (
-                    "Error occured while finding device element with locator [%s] at index [%d] under parent %s.",
+                message = format (
+                    "Error occurred while finding device element with locator [{0}] at index [{1}] under parent {2}.",
                     locator, index, parent.name ());
                 fail (DeviceElementNotFoundError.class, message, e);
             }
@@ -210,7 +211,7 @@ public abstract class DeviceActivity<D extends AppiumDriver<MobileElement>, E ex
         if (this.deviceElements.containsKey (name)) {
             return this.deviceElements.get (name);
         }
-        final String msg = String.format ("DeviceElement with name [%s] not found.", name);
+        final String msg = format ("DeviceElement with name [{0}] not found.", name);
         fail (DeviceElementNameNotFoundError.class, msg);
         return null;
     }

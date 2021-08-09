@@ -36,5 +36,5 @@ public class AndroidDeviceSetting {
     private int               systemPort;
     private String            unlockKey;
     private UnlockType        unlockType;
-    private AndroidWebSetting web;
+    private AndroidWebSetting web = new AndroidWebSetting ();
 }

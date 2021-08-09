@@ -25,7 +25,7 @@ import lombok.Data;
  */
 @Data
 public class AdbSetting {
-    private int  host;
-    private int  port;
-    private long timeout;
+    private String host;
+    private int    port;
+    private long   timeout;
 }
