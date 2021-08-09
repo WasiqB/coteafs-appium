@@ -44,7 +44,8 @@ framework:
 
 :point_right: :iphone: Supports Android and iOS Real Devices and Emulators.
 
-:point_right: :computer: Able to start and stop the server on run-time and also can connect to an already running server.
+:point_right: :computer: Able to start and stop the server on run-time and also can connect to an already running
+server.
 
 :point_right: :notebook: Enforces Page object model style of coding.
 
@@ -75,7 +76,7 @@ framework:
 <dependency>
     <groupId>com.github.wasiqb.coteafs</groupId>
     <artifactId>appium</artifactId>
-    <version>4.0.0</version>
+    <version>4.1.0</version>
 </dependency>
 ```
 
@@ -286,7 +287,8 @@ public class LoginActivityAction extends AndroidActivityActions {
 
 - You can chat with us on our [Discord server][discord].
 - Directly chat with me on my [site][] and I'll revert to you as soon as possible.
-- If you find any issue which is a bottleneck for you, [search the issue tracker][issues] to see if it is already raised.
+- If you find any issue which is a bottleneck for you, [search the issue tracker][issues] to see if it is already
+  raised.
 - If not raised, then you can create a [new issue][] with required details as mentioned in the issue template.
 
 ## :star: What you do if you like the project?
@@ -339,13 +341,23 @@ For allowing us to run our unit tests on different platforms.
 </p>
 
 [home]: https://github.com/wasiqb/coteafs-appium
+
 [circleci]: https://circleci.com/gh/WasiqB/coteafs-appium
+
 [wiki]: https://wasiqb.github.io/projects/appium/intro/
+
 [site]: https://wasiqb.github.io
+
 [issues]: https://github.com/WasiqB/coteafs-appium/issues?q=something
+
 [new issue]: https://github.com/WasiqB/coteafs-appium/issues/new
+
 [milestones]: https://github.com/WasiqB/coteafs-appium/milestones
+
 [maven]: https://maven-badges.herokuapp.com/maven-central/com.github.wasiqb.coteafs/appium
+
 [contributing]: .github/CONTRIBUTING.md
+
 [intro-doc]: https://wasiqb.github.io/projects/appium
+
 [discord]: https://discord.gg/vkR9TBdKxZ
