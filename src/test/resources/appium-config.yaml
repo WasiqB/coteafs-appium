@@ -36,7 +36,7 @@ device: &default_device
   others:
     clear_files: true
     no_reset: false
-    full_reset: true
+    full_reset: false
     clear_logs: true
   playback:
     stream:
@@ -65,20 +65,21 @@ device: &default_device
 devices:
   android:
     <<: *default_device
-    name: emulator-5554
-    version: 8.1
+    name: Google_Pixel_4_XL
+    version: 11.0
     automation: UIAUTOMATOR2
     type: SIMULATOR
     android:
       avd:
-        name: Pixel_3_XL_API_27
+        name: Google_Pixel_4_XL
         launch_timeout: 60000
         ready_timeout: 60000
         args: -gpu swiftshader_indirect
       app:
         install_timeout: 60000
         type: HYBRID
-        path: apps/android/VodQA.apk
+        path: apps/android/saucedemo.apk
+        wait_activity: com.swaglabsmobileapp.MainActivity
   android_bs:
     name: Samsung Galaxy S10
     automation: UIAUTOMATOR2
@@ -117,5 +118,5 @@ devices:
     os: IOS
     ios:
       app:
-        path: apps/ios/wdio-app.app.zip
+        path: apps/ios/saucedemo.zip
         type: HYBRID

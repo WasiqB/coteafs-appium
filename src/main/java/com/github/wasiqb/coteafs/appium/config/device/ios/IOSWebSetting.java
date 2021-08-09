@@ -17,6 +17,8 @@
  */
 package com.github.wasiqb.coteafs.appium.config.device.ios;
 
+import static org.apache.commons.lang3.StringUtils.EMPTY;
+
 import lombok.Data;
 
 /**
@@ -27,7 +29,7 @@ import lombok.Data;
 public class IOSWebSetting {
     private boolean allowPopups;
     private boolean consoleLogs;
-    private String  initialUrl;
+    private String  initialUrl = EMPTY;
     private boolean nativeTaps;
     private boolean networkLogs;
 }
