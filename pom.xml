@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>com.github.wasiqb.coteafs</groupId>
 		<artifactId>parent</artifactId>
-		<version>3.6.4</version>
+		<version>3.8.0</version>
 	</parent>
 
 	<scm>
@@ -31,15 +31,15 @@
 	</ciManagement>
 
 	<properties>
-		<appium-version>7.5.1</appium-version>
+		<appium-version>7.6.0</appium-version>
 		<selenium-version>3.141.59</selenium-version>
-		<coteafs.data.version>1.3.0</coteafs.data.version>
+		<coteafs.data.version>1.4.0</coteafs.data.version>
 		<coteafs.error.version>1.15.0</coteafs.error.version>
 		<commons.text.version>1.9</commons.text.version>
-		<coteafs.listeners.version>3.2.0</coteafs.listeners.version>
-		<lombok.version>1.18.20</lombok.version>
-		<log4j.version>2.14.1</log4j.version>
-		<jackson.version>2.12.4</jackson.version>
+		<coteafs.listeners.version>3.3.0</coteafs.listeners.version>
+		<lombok.version>1.18.22</lombok.version>
+		<log4j.version>2.17.0</log4j.version>
+		<jackson.version>2.13.1</jackson.version>
 		<io.version>2.11.0</io.version>
 	</properties>
 

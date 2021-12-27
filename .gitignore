@@ -7,6 +7,9 @@
 /.classpath
 /.project
 
+# VS Code
+/.vscode
+
 # Other output folders
 /target/
 /bin/
