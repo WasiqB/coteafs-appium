@@ -4,9 +4,14 @@ on:
   workflow_dispatch:
     inputs:
       release_type:
-        description: 'Release Type: major, minor, patch'
+        type: choice
+        description: "Release Type"
         required: true
-        default: 'minor'
+        options:
+          - major
+          - minor
+          - patch
+        default: "minor"
 
 env:
   GPG_PRIVATE_KEY: ${{ secrets.GPG_PRIVATE_KEY }}
@@ -15,18 +20,7 @@ env:
   NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
 
 jobs:
-  validate-input:
-    runs-on: ubuntu-latest
-    if: ${{ github.event.inputs.release_type == 'major' ||
-      github.event.inputs.release_type == 'minor' ||
-      github.event.inputs.release_type == 'patch' }}
-    steps:
-      - name: Release Type selected for making release
-        run: echo "[${{ github.event.inputs.release_type }}] release in progress."
-
   prepare-release-snapshot:
-    needs:
-      - validate-input
     runs-on: ubuntu-latest
     steps:
       - name: Check out Git repository
@@ -35,8 +29,8 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@v2
         with:
-          java-version: '15'
-          distribution: 'adopt'
+          java-version: "15"
+          distribution: "adopt"
 
       - name: Restore local Maven repository
         uses: actions/cache@v2
@@ -78,8 +72,8 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@v2
         with:
-          java-version: '15'
-          distribution: 'adopt'
+          java-version: "15"
+          distribution: "adopt"
 
       - name: Restore local Maven repository
         uses: actions/cache@v2
@@ -114,8 +108,8 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@v2
         with:
-          java-version: '15'
-          distribution: 'adopt'
+          java-version: "15"
+          distribution: "adopt"
 
       - name: Restore local Maven repository
         uses: actions/cache@v2
@@ -162,8 +156,8 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@v2
         with:
-          java-version: '15'
-          distribution: 'adopt'
+          java-version: "15"
+          distribution: "adopt"
 
       - name: Restore local Maven repository
         uses: actions/cache@v2
@@ -200,8 +194,8 @@ jobs:
       - name: Install Java and Maven
         uses: actions/setup-java@v2
         with:
-          java-version: '15'
-          distribution: 'adopt'
+          java-version: "15"
+          distribution: "adopt"
 
       - name: Download target folder
         uses: actions/download-artifact@v2
@@ -281,11 +275,12 @@ jobs:
           GITHUB_TOKEN: ${{ github.token }}
           GITHUB_REPOSITORY: ${{ github.repository }}
         with:
-          body_path: changelogs/latest.md
           tag_name: v${{ needs.push-pom.outputs.release-version }}
           name: Version ${{ needs.push-pom.outputs.release-version }}
           prerelease: false
           draft: false
+          discussion_category_name: Announcements
+          generate_release_notes: true
           files: |
             target/*.jar
             target/*.pom
