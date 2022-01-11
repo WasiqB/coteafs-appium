@@ -32,7 +32,7 @@
 
 	<properties>
 		<appium-version>7.6.0</appium-version>
-		<selenium-version>4.1.1</selenium-version>
+		<selenium-version>3.141.59</selenium-version>
 		<coteafs.data.version>1.5.0</coteafs.data.version>
 		<coteafs.error.version>1.15.0</coteafs.error.version>
 		<commons.text.version>1.9</commons.text.version>
