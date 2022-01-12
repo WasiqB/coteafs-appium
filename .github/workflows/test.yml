@@ -81,7 +81,9 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: target
-          path: ${{ github.workspace }}/target
+          path: |
+            ${{ github.workspace }}/target
+            ${{ github.workspace }}/reports
 
   analysis:
     needs:
@@ -90,6 +92,8 @@ jobs:
     steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
 
       - name: Install Java and Maven
         uses: actions/setup-java@v2
@@ -110,13 +114,6 @@ jobs:
 
       - name: Analyse code
         env:
-          SONAR_KEY: ${{ secrets.SONAR_KEY }}
-          SONAR_ORG: ${{ secrets.SONAR_ORG }}
-        run: |
-          mvn package sonar:sonar \
-            -Dsonar.host.url="https://sonarcloud.io" \
-            -Dsonar.organization=$SONAR_ORG \
-            -Dsonar.login=$SONAR_KEY \
-            -DskipTests \
-            -Dcheckstyle.skip \
-            -Dsonar.branch.name=${{ github.ref }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B sonar:sonar -DskipTests -Dcheckstyle.skip
