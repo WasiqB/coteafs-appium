@@ -8,6 +8,8 @@
 
 <div align="center">
 
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/WasiqB/coteafs-appium)
+
 [![Open Source Love](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)][home]
 [![Discord](https://img.shields.io/discord/771674310687326208?label=Discord&logo=Discord&style=for-the-badge)][discord]
 [![CircleCI](https://circleci.com/gh/WasiqB/coteafs-appium.svg?style=svg)][circleci]
@@ -76,7 +78,7 @@ server.
 <dependency>
     <groupId>com.github.wasiqb.coteafs</groupId>
     <artifactId>appium</artifactId>
-    <version>4.1.0</version>
+    <version>4.2.0</version>
 </dependency>
 ```
 
