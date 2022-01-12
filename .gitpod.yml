@@ -8,4 +8,5 @@ github:
     addComment: false
     addBadge: true
 tasks:
-  - init: sdk install java 17.0.1-oracle
+  - before: echo y | sdk install java 17.0.1-oracle
+    init: mvn clean install -DskipTests
