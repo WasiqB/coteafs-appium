@@ -28,8 +28,8 @@ jobs:
         with:
           url: https://api-cloud.browserstack.com/app-automate/upload
           method: POST
-          username: ${{ CLOUD_USER }}
-          password: ${{ CLOUD_KEY }}
+          username: $CLOUD_USER
+          password: $CLOUD_KEY
           data: '{ "custom_id": "AndroidApp" }'
           files: '{ "file": "${{ github.workspace }}/src/test/resources/apps/android/saucedemo.apk" }'
 
