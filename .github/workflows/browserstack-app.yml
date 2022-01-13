@@ -1,0 +1,54 @@
+name: "Upload app to BrowserStack"
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - release
+      - issue-*
+  schedule:
+    - cron: "0 21 * * 25"
+  workflow_dispatch:
+
+jobs:
+  upload-app:
+    name: "Upload App to BrowserStack"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
+      - name: Upload Android App
+        id: android_app_upload
+        uses: fjogeleit/http-request-action@master
+        env:
+          CLOUD_USER: ${{ secrets.CLOUD_USER }}
+          CLOUD_KEY: ${{ secrets.CLOUD_KEY }}
+        with:
+          url: https://api-cloud.browserstack.com/app-automate/upload
+          method: POST
+          username: ${{ CLOUD_USER }}
+          password: ${{ CLOUD_KEY }}
+          data: '{ "custom_id": "AndroidApp" }'
+          files: '{ "file": "${{ github.workspace }}/src/test/resources/apps/android/saucedemo.apk" }'
+
+      - name: Show Android upload response
+        run: echo ${{ steps.android_app_upload.outputs.response }}
+
+      - name: Upload iOS App
+        id: ios_app_upload
+        uses: fjogeleit/http-request-action@master
+        env:
+          CLOUD_USER: ${{ secrets.CLOUD_USER }}
+          CLOUD_KEY: ${{ secrets.CLOUD_KEY }}
+        with:
+          url: https://api-cloud.browserstack.com/app-automate/upload
+          method: POST
+          username: ${{ CLOUD_USER }}
+          password: ${{ CLOUD_KEY }}
+          data: '{ "custom_id": "IOSApp" }'
+          files: '{ "file": "${{ github.workspace }}/src/test/resources/apps/ios/saucedemo.ipa" }'
+
+      - name: Show iOS upload response
+        run: echo ${{ steps.ios_app_upload.outputs.response }}

@@ -86,7 +86,7 @@ devices:
     cloud_capabilities:
       os_version: 9.0
       device: Samsung Galaxy S10
-      app: ${env:APP}
+      app: AndroidApp
       project: Project Appium
       build: Build-1
       name: Test 1
@@ -104,7 +104,7 @@ devices:
     cloud_capabilities:
       os_version: 14
       device: iPhone 12 Pro Max
-      app: ${env:APP_IOS}
+      app: IOSApp
       project: Project Appium
       build: Build-1
       name: IOS_Test 1
