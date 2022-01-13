@@ -1,12 +1,6 @@
 name: "Upload app to BrowserStack"
 
 on:
-  push:
-    branches:
-      - master
-      - main
-      - release
-      - issue-*
   schedule:
     - cron: "0 21 25 * *"
   workflow_dispatch:
@@ -34,9 +28,6 @@ jobs:
           data: '{ "custom_id": "AndroidApp" }'
           files: '{ "file": "${{ github.workspace }}/src/test/resources/apps/android/saucedemo.apk" }'
 
-      - name: Show Android upload response
-        run: echo ${{ steps.android_app_upload.outputs.response }}
-
       - name: Upload iOS App
         id: ios_app_upload
         uses: fjogeleit/http-request-action@master
@@ -47,6 +38,3 @@ jobs:
           password: ${{ env.CLOUD_KEY }}
           data: '{ "custom_id": "IOSApp" }'
           files: '{ "file": "${{ github.workspace }}/src/test/resources/apps/ios/saucedemo.ipa" }'
-
-      - name: Show iOS upload response
-        run: echo ${{ steps.ios_app_upload.outputs.response }}
